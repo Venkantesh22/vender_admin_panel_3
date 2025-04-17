@@ -772,7 +772,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
     return SingleChildScrollView(
       child: Container(
         constraints: BoxConstraints(
-          maxHeight: Dimensions.screenHeight * 0.5,
+          maxHeight: ResponsiveLayout.isMobile(context)
+              ? Dimensions.screenHeight * 0.8
+              : Dimensions.screenHeight * 0.5,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
