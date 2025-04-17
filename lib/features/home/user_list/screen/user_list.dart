@@ -405,13 +405,11 @@ class _UserListState extends State<UserList> {
                     const Spacer(),
                     AddButton(
                       text: ResponsiveLayout.isMobile(context)
-                          ? "Appoint"
+                          ? "Appointment"
                           : "Add Appointment",
                       onTap: () {
                         Routes.instance.push(
                           widget:
-                              //  AccountCreateForm(),
-                              // SuperCategoryPage(),
                               AddNewAppointment(salonModel: widget.salonModel),
                           context: context,
                         );

@@ -172,7 +172,7 @@ class BookingProvider with ChangeNotifier {
     try {
       await _userBookingFB.updateAppointmentFB(
           userId, appointmentId, appointModel);
-      _bookinglist[index] = appointModel;
+      // _bookinglist[index] = appointModel;
       return true;
     } catch (e) {
       debugPrint("Error updating appointment: $e");

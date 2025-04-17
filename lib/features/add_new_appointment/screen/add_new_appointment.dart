@@ -474,7 +474,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                                         // Detail of appointment
                                         //! Appointment Details
                                         if (_appointmentDateController != null)
-                                          priceSection(
+                                          AppointDetailsSummer(
                                               bookingProvider,
                                               serviceDurationInMinutes,
                                               context),
@@ -1143,7 +1143,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
     );
   }
 
-  Container priceSection(
+  Container AppointDetailsSummer(
     BookingProvider bookingProvider,
     int serviceDurationInMinutes,
     BuildContext context,
@@ -1181,20 +1181,12 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
               children: [
                 Text(
                   'Appointment Date',
-                  style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.90,
-                  ),
+                  style: appointSummTextSyle(),
                 ),
                 Spacer(),
                 Text(
                   _appointmentDateController.text,
-                  style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1,
-                  ),
+                  style: appointSummTextSyle(),
                 ),
               ],
             ),
@@ -1203,20 +1195,12 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
               children: [
                 Text(
                   'Appointment Duration',
-                  style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.90,
-                  ),
+                  style: appointSummTextSyle(),
                 ),
                 const Spacer(),
                 Text(
                   bookingProvider.getServiceBookingDuration,
-                  style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 1,
-                  ),
+                  style: appointSummTextSyle(),
                 ),
               ],
             ),
@@ -1225,20 +1209,12 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
               children: [
                 Text(
                   'Appointment Start Time',
-                  style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.90,
-                  ),
+                  style: appointSummTextSyle(),
                 ),
                 const Spacer(),
                 Text(
                   '$_selectedTimeSlot',
-                  style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.90,
-                  ),
+                  style: appointSummTextSyle(),
                 ),
               ],
             ),
@@ -1247,11 +1223,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
               children: [
                 Text(
                   'Appointment End Time',
-                  style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.90,
-                  ),
+                  style: appointSummTextSyle(),
                 ),
                 const Spacer(),
                 Text(
@@ -1260,11 +1232,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                           Duration(minutes: serviceDurationInMinutes),
                         ),
                   ),
-                  style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.90,
-                  ),
+                  style: appointSummTextSyle(),
                 ),
               ],
             ),
@@ -1291,19 +1259,11 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                         GlobalVariable.GstInclusive
                     ? Text(
                         'SubTotal include GST ${_samaySalonSettingModel!.gstPer.toString()}%',
-                        style: TextStyle(
-                          fontSize: Dimensions.dimenisonNo14,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 0.90,
-                        ),
+                        style: appointSummTextSyle(),
                       )
                     : Text(
                         'SubTotal',
-                        style: TextStyle(
-                          fontSize: Dimensions.dimenisonNo14,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 0.90,
-                        ),
+                        style: appointSummTextSyle(),
                       ),
                 const Spacer(),
                 Icon(
@@ -1312,11 +1272,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                 ),
                 Text(
                   bookingProvider.getSubTotal.toString(),
-                  style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.90,
-                  ),
+                  style: appointSummTextSyle(),
                 ),
               ],
             ),
@@ -1327,21 +1283,12 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                     children: [
                       Text(
                         'item Discount ${bookingProvider.getDiscountInPer!.round().toString()}%',
-                        style: TextStyle(
-                          fontSize: Dimensions.dimenisonNo14,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: 0.90,
-                        ),
+                        style: appointSummTextSyle(),
                       ),
                       const Spacer(),
                       Text(
                         "-₹${bookingProvider.getDiscountAmount.toString()}",
-                        style: TextStyle(
-                          fontSize: Dimensions.dimenisonNo14,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.green,
-                          letterSpacing: 0.90,
-                        ),
+                        style: appointSummTextSyle(),
                       ),
                     ],
                   )
@@ -1356,21 +1303,12 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                       children: [
                         Text(
                           'Extra Discount ${bookingProvider.getExtraDiscountInPer!.round().toString()}%',
-                          style: TextStyle(
-                            fontSize: Dimensions.dimenisonNo14,
-                            fontWeight: FontWeight.w500,
-                            letterSpacing: 0.90,
-                          ),
+                          style: appointSummTextSyle(),
                         ),
                         const Spacer(),
                         Text(
                           "-₹${bookingProvider.getExtraDiscountAmount.toString()}",
-                          style: TextStyle(
-                            fontSize: Dimensions.dimenisonNo14,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.green,
-                            letterSpacing: 0.90,
-                          ),
+                          style: appointSummTextSyle(),
                         ),
                       ],
                     ),
@@ -1381,21 +1319,13 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
               children: [
                 Text(
                   'Net',
-                  style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.90,
-                  ),
+                  style: appointSummTextSyle(),
                 ),
                 const Spacer(),
                 Text(
                   // "₹${}",
                   "₹${bookingProvider.getNetPrice!.toStringAsFixed(2)}",
-                  style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.90,
-                  ),
+                  style: appointSummTextSyle(),
                 ),
               ],
             ),
@@ -1410,11 +1340,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                         children: [
                           Text(
                             'GST 18% (SGST & CGST)',
-                            style: TextStyle(
-                              fontSize: Dimensions.dimenisonNo14,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 0.90,
-                            ),
+                            style: appointSummTextSyle(),
                           ),
                           const Spacer(),
                           Icon(
@@ -1423,11 +1349,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                           ),
                           Text(
                             bookingProvider.getCalGSTAmount.toStringAsFixed(2),
-                            style: TextStyle(
-                              fontSize: Dimensions.dimenisonNo14,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 0.90,
-                            ),
+                            style: appointSummTextSyle(),
                           ),
                         ],
                       )
@@ -1439,11 +1361,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
               children: [
                 Text(
                   'Platform fee',
-                  style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.90,
-                  ),
+                  style: appointSummTextSyle(),
                 ),
                 const Spacer(),
                 Icon(
@@ -1452,11 +1370,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                 ),
                 Text(
                   _samaySalonSettingModel!.platformFee,
-                  style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.90,
-                  ),
+                  style: appointSummTextSyle(),
                 ),
               ],
             ),
@@ -1465,11 +1379,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
               children: [
                 Text(
                   'Total',
-                  style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.90,
-                  ),
+                  style: appointSummTextSyle(),
                 ),
                 const Spacer(),
                 Icon(
@@ -1481,11 +1391,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                   //     ?
                   bookingProvider.getCalFinalAmountWithGST!.round().toString(),
                   // : bookingProvider.getfinalTotal.round().toString(),
-                  style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.90,
-                  ),
+                  style: appointSummTextSyle(),
                 ),
               ],
             ),
@@ -1499,6 +1405,14 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
           ],
         ],
       ),
+    );
+  }
+
+  TextStyle appointSummTextSyle() {
+    return TextStyle(
+      fontSize: Dimensions.dimenisonNo14,
+      fontWeight: FontWeight.w500,
+      letterSpacing: 0.90,
     );
   }
 

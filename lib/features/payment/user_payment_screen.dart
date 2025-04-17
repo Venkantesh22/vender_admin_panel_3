@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/features/home/user_info_sidebar/widget/price_text.dart';
 import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
@@ -170,6 +171,7 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BillPaymentAppBar(),
+      backgroundColor: AppColor.whileColor,
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
@@ -177,13 +179,22 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                 child: Container(
                   color: AppColor.whileColor,
                   constraints: BoxConstraints(
-                    maxWidth: Dimensions.screenWidth / 1.5,
-                    maxHeight: Dimensions.screenHeight * 0.9,
+                    maxWidth: ResponsiveLayout.isMobile(context)
+                        ? Dimensions.screenHeightM
+                        : Dimensions.screenWidth / 1.5,
+                    // maxHeight: ResponsiveLayout.isMobile(context)
+                    //     ? Dimensions.screenHeight
+                    //     : Dimensions.screenHeight * 0.9,
                   ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.dimenisonNo16,
-                    vertical: Dimensions.dimenisonNo10,
-                  ),
+                  padding: ResponsiveLayout.isMobile(context)
+                      ? EdgeInsets.symmetric(
+                          horizontal: Dimensions.dimenisonNo10,
+                          vertical: Dimensions.dimenisonNo10,
+                        )
+                      : EdgeInsets.symmetric(
+                          horizontal: Dimensions.dimenisonNo16,
+                          vertical: Dimensions.dimenisonNo10,
+                        ),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
@@ -260,7 +271,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
         SizedBox(height: Dimensions.dimenisonNo10),
         const Divider(),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo20),
+          padding: ResponsiveLayout.isMobile(context)
+              ? EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo5)
+              : EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -278,7 +291,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
 
   Padding pricreInfor() {
     return Padding(
-      padding: EdgeInsets.all(Dimensions.dimenisonNo16),
+      padding: ResponsiveLayout.isMobile(context)
+          ? EdgeInsets.zero
+          : EdgeInsets.all(Dimensions.dimenisonNo16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -286,7 +301,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
             'Price Details',
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimenisonNo14
+                  : Dimensions.dimenisonNo18,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.0,
             ),
@@ -296,7 +313,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
           ),
           // Price Details Section
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo10),
+            padding: ResponsiveLayout.isMobile(context)
+                ? EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo5)
+                : EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo10),
             child: Column(
               children: [
                 Padding(
@@ -307,7 +326,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                         'Price',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: Dimensions.dimenisonNo14,
+                          fontSize: ResponsiveLayout.isMobile(context)
+                              ? Dimensions.dimenisonNo12
+                              : Dimensions.dimenisonNo14,
                           fontWeight: FontWeight.w400,
                           letterSpacing: 0.90,
                         ),
@@ -317,8 +338,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                         '(services ${widget.appointModel.services.length})',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: Dimensions.dimenisonNo14,
-                          // fontWeight: FontWeight.w500,
+                          fontSize: ResponsiveLayout.isMobile(context)
+                              ? Dimensions.dimenisonNo12
+                              : Dimensions.dimenisonNo14,
                           letterSpacing: 0.90,
                         ),
                       ),
@@ -331,7 +353,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                         widget.appointModel.subtatal.toString(),
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: Dimensions.dimenisonNo14,
+                          fontSize: ResponsiveLayout.isMobile(context)
+                              ? Dimensions.dimenisonNo12
+                              : Dimensions.dimenisonNo14,
                           fontWeight: FontWeight.w400,
                           letterSpacing: 0.90,
                         ),
@@ -350,7 +374,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                             Text(
                               'item Discount ${widget.appointModel.discountInPer!.round().toString()}%',
                               style: TextStyle(
-                                fontSize: Dimensions.dimenisonNo14,
+                                fontSize: ResponsiveLayout.isMobile(context)
+                                    ? Dimensions.dimenisonNo12
+                                    : Dimensions.dimenisonNo14,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: 0.90,
                               ),
@@ -359,7 +385,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                             Text(
                               "-₹${widget.appointModel.discountAmount!.round().toString()}",
                               style: TextStyle(
-                                fontSize: Dimensions.dimenisonNo14,
+                                fontSize: ResponsiveLayout.isMobile(context)
+                                    ? Dimensions.dimenisonNo12
+                                    : Dimensions.dimenisonNo14,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.green,
                                 letterSpacing: 0.90,
@@ -380,7 +408,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                     Text(
                       'Net',
                       style: TextStyle(
-                        fontSize: Dimensions.dimenisonNo14,
+                        fontSize: ResponsiveLayout.isMobile(context)
+                            ? Dimensions.dimenisonNo12
+                            : Dimensions.dimenisonNo14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.90,
                       ),
@@ -390,7 +420,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                       // "₹${}",
                       "₹${netPriceFun().toStringAsFixed(2)}",
                       style: TextStyle(
-                        fontSize: Dimensions.dimenisonNo14,
+                        fontSize: ResponsiveLayout.isMobile(context)
+                            ? Dimensions.dimenisonNo12
+                            : Dimensions.dimenisonNo14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.90,
                       ),
@@ -408,7 +440,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                                 'GST 18% (SGST & CGST)',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: Dimensions.dimenisonNo14,
+                                  fontSize: ResponsiveLayout.isMobile(context)
+                                      ? Dimensions.dimenisonNo12
+                                      : Dimensions.dimenisonNo14,
                                   // fontWeight: FontWeight.w500,
                                   letterSpacing: 0.90,
                                 ),
@@ -418,7 +452,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                                 "₹${calGSTInclustiveFun().toStringAsFixed(2)}",
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: Dimensions.dimenisonNo14,
+                                  fontSize: ResponsiveLayout.isMobile(context)
+                                      ? Dimensions.dimenisonNo12
+                                      : Dimensions.dimenisonNo14,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 0.90,
                                 ),
@@ -435,8 +471,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                       'Platform Fees',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: Dimensions.dimenisonNo14,
-                        // fontWeight: FontWeight.w500,
+                        fontSize: ResponsiveLayout.isMobile(context)
+                            ? Dimensions.dimenisonNo12
+                            : Dimensions.dimenisonNo14,
                         letterSpacing: 0.90,
                       ),
                     ),
@@ -449,7 +486,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                       widget.appointModel.platformFees.toString(),
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: Dimensions.dimenisonNo14,
+                        fontSize: ResponsiveLayout.isMobile(context)
+                            ? Dimensions.dimenisonNo12
+                            : Dimensions.dimenisonNo14,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 0.90,
                       ),
@@ -471,17 +510,19 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
         // Row for entering the extra discount percentage
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               "Extra Discount :",
               style: TextStyle(
-                fontSize: Dimensions.dimenisonNo14,
+                fontSize: ResponsiveLayout.isMobile(context)
+                    ? Dimensions.dimenisonNo12
+                    : Dimensions.dimenisonNo14,
                 fontWeight: FontWeight.w500,
               ),
             ),
             const Spacer(),
-            SizedBox(
-              width: Dimensions.dimenisonNo110,
+            Expanded(
               child: TextField(
                 controller: _extraDiscountInPer,
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
@@ -507,7 +548,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
             Text(
               "Extra Discount Amount:",
               style: TextStyle(
-                fontSize: Dimensions.dimenisonNo14,
+                fontSize: ResponsiveLayout.isMobile(context)
+                    ? Dimensions.dimenisonNo12
+                    : Dimensions.dimenisonNo14,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -518,7 +561,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                 "-₹${_extraDiscontAmountFun1().toStringAsFixed(2)}",
                 style: TextStyle(
                   color: Colors.green,
-                  fontSize: Dimensions.dimenisonNo14,
+                  fontSize: ResponsiveLayout.isMobile(context)
+                      ? Dimensions.dimenisonNo12
+                      : Dimensions.dimenisonNo14,
                   fontWeight: FontWeight.w400,
                   letterSpacing: 0.80,
                 ),
@@ -550,7 +595,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
           Text(
             "Final Total Amount :",
             style: TextStyle(
-              fontSize: Dimensions.dimenisonNo15,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? 13
+                  : Dimensions.dimenisonNo15,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -558,7 +605,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
           Text(
             "₹${finalTotalAmountFun().round()}",
             style: TextStyle(
-              fontSize: Dimensions.dimenisonNo16,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimenisonNo14
+                  : Dimensions.dimenisonNo16,
               fontWeight: FontWeight.bold,
               color: finalTotalAmountFun() < finalAmount
                   ? Colors.green
@@ -578,7 +627,9 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
         Text(
           'Payment Options',
           style: TextStyle(
-            fontSize: Dimensions.dimenisonNo20,
+            fontSize: ResponsiveLayout.isMobile(context)
+                ? Dimensions.dimenisonNo16
+                : Dimensions.dimenisonNo20,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -772,12 +823,6 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
               Provider.of<BookingProvider>(context, listen: false);
           AppProvider appProvider =
               Provider.of<AppProvider>(context, listen: false);
-          // ServiceProvider serviceProvider =
-          //     Provider.of<ServiceProvider>(context, listen: false);
-
-          // await serviceProvider
-          //     .fetchSettingPro(appProvider.getSalonInformation.id);
-          // _settingModel = serviceProvider.getSettingModel!;
 
           SalonModel _salonModle = await appProvider.getSalonInformation;
 // update TimeStamp List
@@ -792,12 +837,7 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
           _timeStampList.add(_timeStampModel);
 
 // Update Appointment Payment information
-          AppointModel _updataAppointModel =
-              //  _settingModel!
-              //             .gSTIsIncludingOrExcluding ==
-              //         GlobalVariable.GstInclusive
-              // ?
-              widget.appointModel.copyWith(
+          AppointModel _updataAppointModel = widget.appointModel.copyWith(
             extraDiscountInPer:
                 double.tryParse(_extraDiscountInPer.text.trim()) ?? 0.0,
             extraDiscountInAmount: _extraDiscontAmountFun1() ?? 0.0,

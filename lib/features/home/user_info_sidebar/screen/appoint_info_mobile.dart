@@ -367,8 +367,8 @@ class _UserInfoSideBarState extends State<AppointInFoMobile> {
                             ? 0.5
                             : 1.0,
                         child: IgnorePointer(
-                          ignoring: widget.appointModel.status == "pen",
-                          // ignoring: widget.appointModel.status == "Completed",
+                          // ignoring: widget.appointModel.status == "pen",
+                          ignoring: widget.appointModel.status != "Completed",
                           child: Container(
                             padding: EdgeInsets.symmetric(
                                 horizontal: Dimensions.dimenisonNo16),
@@ -377,11 +377,7 @@ class _UserInfoSideBarState extends State<AppointInFoMobile> {
                                 text: "CheckOut",
                                 ontap: () {
                                   Routes.instance.push(
-                                      widget:
-                                          // PaymentScreen(
-                                          //     index: widget.index,
-                                          //     appointModel: widget.appointModel),
-                                          UserSideBarPaymentScreen(
+                                      widget: UserSideBarPaymentScreen(
                                         appointModel: widget.appointModel,
                                         index: widget.index,
                                       ),
