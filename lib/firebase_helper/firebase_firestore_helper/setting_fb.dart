@@ -221,8 +221,13 @@ class SettingFb {
   }
 
   //Save of setting to Firebase
-  Future<SettingModel> saveSettingToFB(String salonId, String diffbtwTimetap,
-      int dayForBooking, String gstNo, BuildContext context) async {
+  Future<SettingModel> saveSettingToFB(
+    String salonId,
+    String diffbtwTimetap,
+    int dayForBooking,
+    String gstNo,
+    BuildContext context,
+  ) async {
     try {
       String? adminUid = FirebaseAuth.instance.currentUser?.uid;
 
@@ -235,12 +240,13 @@ class SettingFb {
           .doc();
 
       SettingModel settingModel = SettingModel(
-          id: reference.id,
-          adminId: adminUid!,
-          salonId: salonId,
-          diffbtwTimetap: diffbtwTimetap,
-          dayForBooking: dayForBooking,
-          gstNo: gstNo);
+        id: reference.id,
+        adminId: adminUid!,
+        salonId: salonId,
+        diffbtwTimetap: diffbtwTimetap,
+        dayForBooking: dayForBooking,
+        gstNo: gstNo,
+      );
 
       await reference.set(settingModel.toJson());
       print("Setting save Successfully ");

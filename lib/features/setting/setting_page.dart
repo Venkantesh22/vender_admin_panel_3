@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/features/Account_Create_Form/screen/form_weektime_screen.dart';
 import 'package:samay_admin_plan/features/custom_appbar/screen/custom_appbar.dart';
@@ -16,6 +17,8 @@ import 'package:samay_admin_plan/features/setting/social_media/social_media.dart
 import 'package:samay_admin_plan/features/setting/support/support_page.dart';
 import 'package:samay_admin_plan/features/setting/vender_profile/screen/vender_page.dart';
 import 'package:samay_admin_plan/features/setting/week_time_edit/week_time_edit.dart';
+import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/setting_fb.dart';
+import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/features/drawer/setting_drawer.dart';
 
@@ -35,6 +38,43 @@ class _SettingsPageState extends State<SettingsPage> {
 
   int _selectedIndex = 0;
   bool _isLoading = false;
+
+  getData() async {
+    final appProvider = Provider.of<AppProvider>(context, listen: false);
+
+    if (appProvider.getSalonInformation.isSettingAdd == false) {
+      setState(() {
+        _isLoading = true;
+      });
+      // Save new settings
+      try {
+        debugPrint("Saving new settings...");
+        await SettingFb.instance.saveSettingToFB(
+          appProvider.getSalonInformation.id,
+          GlobalVariable.diffbtwTimetap,
+          GlobalVariable.dayForBooking,
+          "",
+          context,
+        );
+
+        // Update the salon information to mark settings as added
+        SalonModel updatedSalon = appProvider.getSalonInformation.copyWith(
+          isSettingAdd: true,
+        );
+        await appProvider.updateSalonInfoFirebase(context, updatedSalon);
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
 
   final List<String> _menuTitles = [
     'Salon Profile',

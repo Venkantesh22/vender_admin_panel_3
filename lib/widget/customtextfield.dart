@@ -128,7 +128,9 @@ class _FormCustomTextFieldState extends State<FormCustomTextField> {
         SizedBox(
           //salon description textbox has. max line.
 
-          height: widget.maxline! < 2 ? Dimensions.dimenisonNo30 : null,
+          height: ResponsiveLayout.isDesktop(context)
+              ? Dimensions.dimenisonNo30
+              : Dimensions.dimenisonNo40,
           child: TextFormField(
             readOnly: widget.readOnly,
             maxLines: widget.maxline,

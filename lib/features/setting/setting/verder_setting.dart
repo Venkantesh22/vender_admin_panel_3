@@ -7,6 +7,7 @@ import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/features/setting/widget/heading_text_of_page.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/setting_fb.dart';
+import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart';
 import 'package:samay_admin_plan/models/salon_setting_model/salon_setting_model.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
@@ -28,6 +29,7 @@ class _VerderSettingState extends State<VerderSetting> {
   final TextEditingController gstController = TextEditingController();
 
   bool _isLoading = false;
+  bool hasSettingSave = false;
   SettingModel? _settingModel;
   // Add a variable for GST price type selection.
   // It can be either "Inclusive" or "Exclusive". Default to "Inclusive".
@@ -41,34 +43,39 @@ class _VerderSettingState extends State<VerderSetting> {
   }
 
   Future<void> getData() async {
-    setState(() {
-      _isLoading = true;
-    });
+    final appProvider = Provider.of<AppProvider>(context, listen: false);
 
-    try {
-      final appProvider = Provider.of<AppProvider>(context, listen: false);
-      final serviceProvider =
-          Provider.of<ServiceProvider>(context, listen: false);
-
-      await serviceProvider.fetchSettingPro(appProvider.getSalonInformation.id);
-      _settingModel = serviceProvider.getSettingModel;
-
-      timeController.text = _settingModel?.diffbtwTimetap ?? "";
-      dayController.text = _settingModel?.dayForBooking.toString() ?? "";
-      gstController.text = _settingModel?.gstNo ?? "";
-      // If the setting model already has GST inclusion info, use it:
-      if (_settingModel?.gSTIsIncludingOrExcluding != null) {
-        _gstType = _settingModel!.gSTIsIncludingOrExcluding!;
-      }
-      if (_settingModel?.serviceAt != null) {
-        _serviceAt = _settingModel!.serviceAt;
-      }
-    } catch (e) {
-      print("Error fetching data: $e");
-    } finally {
+    if (appProvider.getSalonInformation.isSettingAdd) {
       setState(() {
-        _isLoading = false;
+        _isLoading = true;
       });
+
+      try {
+        hasSettingSave = true;
+        final serviceProvider =
+            Provider.of<ServiceProvider>(context, listen: false);
+
+        await serviceProvider
+            .fetchSettingPro(appProvider.getSalonInformation.id);
+        _settingModel = serviceProvider.getSettingModel;
+
+        timeController.text = _settingModel?.diffbtwTimetap ?? "";
+        dayController.text = _settingModel?.dayForBooking.toString() ?? "";
+        gstController.text = _settingModel?.gstNo ?? "";
+        // If the setting model already has GST inclusion info, use it:
+        if (_settingModel?.gSTIsIncludingOrExcluding != null) {
+          _gstType = _settingModel!.gSTIsIncludingOrExcluding!;
+        }
+        if (_settingModel?.serviceAt != null) {
+          _serviceAt = _settingModel!.serviceAt;
+        }
+      } catch (e) {
+        print("Error fetching data: $e");
+      } finally {
+        setState(() {
+          _isLoading = false;
+        });
+      }
     }
   }
 
@@ -185,7 +192,7 @@ class _VerderSettingState extends State<VerderSetting> {
                         const SizedBox(height: 50),
                         CustomAuthButton(
                           text:
-                              serviceProvider.getSettingModel?.id?.isNotEmpty ??
+                              serviceProvider.getSettingModel?.id.isNotEmpty ??
                                       false
                                   ? "Update"
                                   : "Save",
@@ -195,11 +202,13 @@ class _VerderSettingState extends State<VerderSetting> {
                             try {
                               final salonId =
                                   appProvider.getSalonInformation.id;
+
+                              // Debugging: Log the value of isSettingAdd
+                              debugPrint(
+                                  "isSettingAdd: ${appProvider.getSalonInformation.isSettingAdd}");
+
                               String _saveGstType =
-                                  gstController.text.isEmpty ||
-                                          gstController.text == null
-                                      ? ""
-                                      : _gstType;
+                                  gstController.text.isEmpty ? "" : _gstType;
 
                               final updatedSetting =
                                   serviceProvider.getSettingModel!.copyWith(
@@ -212,11 +221,16 @@ class _VerderSettingState extends State<VerderSetting> {
                                 serviceAt: _serviceAt,
                               );
 
+                              // Update existing settings
+                              debugPrint("Updating settings...");
                               await SettingFb.instance.updateSettingFB(
                                 updatedSetting,
                                 salonId,
                                 serviceProvider.getSettingModel!.id,
                               );
+
+                              // Refresh salon information
+                              await appProvider.getSalonInfoFirebase();
 
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(

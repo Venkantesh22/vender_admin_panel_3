@@ -5,6 +5,7 @@ import 'package:samay_admin_plan/features/home/screen/accountBanned/account_bann
 import 'package:samay_admin_plan/features/home/screen/accountNotValidate/account_not_validate.dart';
 import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/firebase_firestore.dart';
+import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/setting_fb.dart';
 import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/booking_provider.dart';
@@ -48,14 +49,20 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
       await appProvider.getSalonInfoFirebase();
       _salonModel = appProvider.getSalonInformation;
       await appProvider.callBackFunction();
-      await serviceProvider.fetchSettingPro(appProvider.getSalonInformation.id);
       await serviceProvider
           .callBackFunction(appProvider.getSalonInformation.id);
-      await bookingProvider.fetchSettingPro(appProvider.getSalonInformation.id);
       await calenderProvider.setToday(_today);
+
       await bookingProvider.setSamaySalonSetting();
       settingProvider
           .callbackSettingProvider(appProvider.getSalonInformation.id);
+
+      if (appProvider.getSalonInformation.isSettingAdd == true) {
+        await serviceProvider
+            .fetchSettingPro(appProvider.getSalonInformation.id);
+        await bookingProvider
+            .fetchSettingPro(appProvider.getSalonInformation.id);
+      }
 
       if (FirebaseAuth.instance.currentUser == null) {
         throw Exception("User is not authenticated.");
