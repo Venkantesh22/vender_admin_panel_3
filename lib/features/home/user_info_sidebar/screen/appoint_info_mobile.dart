@@ -337,6 +337,13 @@ class _UserInfoSideBarState extends State<AppointInFoMobile> {
                         title: "Service At.",
                         infoText: widget.appointModel.serviceAt,
                       ),
+                      widget.appointModel.serviceAt ==
+                              GlobalVariable.serviceAtHome
+                          ? userInfoColumn(
+                              title: "Address",
+                              infoText: widget.appointModel.serviceAddress!,
+                            )
+                          : SizedBox(),
                       Divider(thickness: Dimensions.dimenisonNo5),
                       //Service List
                       servicerLIst(),

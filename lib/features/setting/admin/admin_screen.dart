@@ -107,12 +107,7 @@ class _AdminPageState extends State<AdminPage> {
                   width: ResponsiveLayout.isDesktop(context)
                       ? Dimensions.screenWidth / 1.5
                       : null,
-                  // padding: EdgeInsets.symmetric(
-                  //     horizontal: Dimensions.dimenisonNo30,
-                  //     vertical: Dimensions.dimenisonNo20),
-                  // // color: Colors.green,
-                  // color: Colors.white,
-                  // width: Dimensions.screenWidth / 1.5,
+
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [

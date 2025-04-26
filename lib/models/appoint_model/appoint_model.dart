@@ -29,6 +29,7 @@ class AppointModel {
   final double netPrice; // New field
   final String gstIsIncludingOrExcluding; // New field
   final String serviceAt; // New field
+  final String? serviceAddress;
   double? discountInPer;
   double? discountAmount;
   double? extraDiscountInPer;
@@ -61,6 +62,7 @@ class AppointModel {
     required this.netPrice, // New field
     required this.gstIsIncludingOrExcluding, // New field
     required this.serviceAt, // New field
+    required this.serviceAddress, // New field
     this.discountInPer = 0.0,
     this.discountAmount,
     this.extraDiscountInPer = 0.0,
@@ -106,6 +108,8 @@ class AppointModel {
       gstIsIncludingOrExcluding:
           json['gstIsIncludingOrExcluding'] ?? 'including', // New field
       serviceAt: json['serviceAt'] ?? 'Salon', // New field with default value
+      serviceAddress: json['serviceAddress'] ??
+          'No Address', // New field with default value
       discountInPer: (json['discountInPer'] ?? 0.0 as num?)?.toDouble(),
       discountAmount: (json['discountAmount'] ?? 0.0 as num?)?.toDouble(),
       extraDiscountInPer:
@@ -144,6 +148,7 @@ class AppointModel {
       'netPrice': netPrice, // New field
       'gstIsIncludingOrExcluding': gstIsIncludingOrExcluding, // New field
       'serviceAt': serviceAt, // New field
+      'serviceAddress': serviceAddress, // New field
       'discountInPer': discountInPer,
       'discountAmount': discountAmount,
       'extraDiscountInPer': extraDiscountInPer,
@@ -174,6 +179,7 @@ class AppointModel {
     double? netPrice, // New field
     String? gstIsIncludingOrExcluding, // New field
     String? serviceAt, // New field
+    String? serviceAddress, // New field
     double? discountInPer,
     double? discountAmount,
     double? extraDiscountInPer,
@@ -207,6 +213,7 @@ class AppointModel {
       gstIsIncludingOrExcluding: gstIsIncludingOrExcluding ??
           this.gstIsIncludingOrExcluding, // New field
       serviceAt: serviceAt ?? this.serviceAt, // New field
+      serviceAddress: serviceAddress ?? this.serviceAddress, // New field
       discountInPer: discountInPer ?? this.discountInPer,
       discountAmount: discountAmount ?? this.discountAmount,
       extraDiscountInPer: extraDiscountInPer ?? this.extraDiscountInPer,

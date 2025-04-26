@@ -30,6 +30,7 @@ class userInfoColumn extends StatelessWidget {
                 bottom: Dimensions.dimenisonNo10),
             child: Text(
               infoText,
+              overflow: TextOverflow.clip,
               style: TextStyle(
                 color: Color(0xFF1F1616),
                 fontSize: Dimensions.dimenisonNo14,

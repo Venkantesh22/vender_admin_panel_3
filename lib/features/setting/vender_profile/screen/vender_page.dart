@@ -7,9 +7,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
+import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/constants/router.dart';
 import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart';
 import 'package:samay_admin_plan/features/setting/vender_profile/widget/time_pick_f_venderpage.dart';
+import 'package:samay_admin_plan/features/setting/widget/heading_text_of_page.dart';
 import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
@@ -174,26 +176,33 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                 color: AppColor.bgForAdminCreateSec,
                 child: Center(
                   child: Container(
+                    margin: ResponsiveLayout.isMobile(context)
+                        ? EdgeInsets.symmetric(
+                            horizontal: Dimensions.dimenisonNo12,
+                          )
+                        : ResponsiveLayout.isTablet(context)
+                            ? EdgeInsets.symmetric(
+                                horizontal: Dimensions.dimenisonNo60,
+                              )
+                            : null,
                     padding: EdgeInsets.symmetric(
-                        horizontal: Dimensions.dimenisonNo30,
+                        horizontal: ResponsiveLayout.isMobile(context)
+                            ? Dimensions.dimenisonNo10
+                            : Dimensions.dimenisonNo30,
                         vertical: Dimensions.dimenisonNo20),
                     // color: Colors.green,
                     color: Colors.white,
-                    width: Dimensions.screenWidth / 1.5,
+                    width: ResponsiveLayout.isDesktop(context)
+                        ? Dimensions.screenWidth / 1.5
+                        : null,
+
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Center(
-                          child: Text(
+                          child: headingTextOFPage(
+                            context,
                             'Saloon Profile Details',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: Dimensions.dimenisonNo36,
-                              fontWeight: FontWeight.w500,
-                              height: 0,
-                              letterSpacing: 0.15,
-                            ),
                           ),
                         ),
                         Padding(
@@ -319,18 +328,6 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                           ),
                         ),
                         SizedBox(height: Dimensions.dimenisonNo5),
-                        Text(
-                          "The address is updated; it does not show here. You can see it in the app. If you want to change it, do it here.",
-                          overflow: TextOverflow.clip,
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: Dimensions.dimenisonNo12,
-                            fontFamily: GoogleFonts.roboto().fontFamily,
-                            fontWeight: FontWeight.w400,
-                            letterSpacing: 0.40,
-                          ),
-                        ),
-                        SizedBox(height: Dimensions.dimenisonNo5),
                         DropdownButtonFormField<String>(
                           hint: Text(
                             'Select ${GlobalVariable.salon} Type',
@@ -376,6 +373,18 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                           maxline: 2,
                         ),
                         SizedBox(height: Dimensions.dimenisonNo20),
+                        Text(
+                          "The address is updated; it does not show here. You can see it in the app. If you want to change it, do it here.",
+                          overflow: TextOverflow.clip,
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: Dimensions.dimenisonNo12,
+                            fontFamily: GoogleFonts.roboto().fontFamily,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.40,
+                          ),
+                        ),
+                        SizedBox(height: Dimensions.dimenisonNo5),
                         Row(children: [
                           Expanded(
                             child: CSCPickerPlus(

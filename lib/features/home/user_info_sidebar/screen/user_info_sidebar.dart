@@ -116,278 +116,282 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
       }
     }
 
-    return isLoading
-        ? const Center(child: CircularProgressIndicator())
-        : SingleChildScrollView(
-            child: Container(
-              decoration: const BoxDecoration(
-                border: Border(
-                  left: BorderSide(
-                    width: 2.0,
-                    color: Colors.black,
-                  ),
-                ),
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    } else {
+      return SingleChildScrollView(
+        child: Container(
+          decoration: const BoxDecoration(
+            border: Border(
+              left: BorderSide(
+                width: 2.0,
+                color: Colors.black,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: Dimensions.dimenisonNo16,
-                      right: Dimensions.dimenisonNo16,
-                      top: Dimensions.dimenisonNo18,
-                    ),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  left: Dimensions.dimenisonNo16,
+                  right: Dimensions.dimenisonNo16,
+                  top: Dimensions.dimenisonNo18,
+                ),
 
 //! heading bar of Appointment
 
-                    child: Row(
-                      children: [
-                        Text(
-                          'Appointment',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: Dimensions.dimenisonNo18,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 4,
-                        ),
-                        widget.appointModel.status == "(Cancel)"
-                            ? const SizedBox()
-                            : widget.appointModel.isUpdate
-                                ? const StateText(status: "(Update)")
-                                : const SizedBox(),
-                        if (widget.appointModel.status == "(Cancel)")
-                          StateText(status: widget.appointModel.status),
-                        const Spacer(),
-                        widget.appointModel.status == "Bill Generate"
-                            ? Row(
-                                children: [
-                                  IconButton(
-                                      onPressed: () async {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => BillPdfPage(
-                                              appointModel: widget.appointModel,
-                                              salonModel: salonModel,
-                                              settingModel: _settingModel,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      icon: const Icon(
-                                        Icons.download,
-                                        color: Colors.green,
-                                      )),
-                                  SizedBox(
-                                    width: Dimensions.dimenisonNo20,
-                                  )
-                                ],
-                              )
-                            :
-
-                            // edit Button
-                            Row(
-                                children: [
-                                  editAppointButton(activateDeleteAndEditButton,
-                                      context, userModel),
-                                  SizedBox(width: Dimensions.dimenisonNo5),
-                                  // cancel Button
-                                  cancelAppointButton(
-                                      activateDeleteAndEditButton,
-                                      context,
-                                      userModel),
-                                ],
-                              ),
-                      ],
+                child: Row(
+                  children: [
+                    Text(
+                      'Appointment',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: Dimensions.dimenisonNo18,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  ),
-                  Divider(thickness: Dimensions.dimenisonNo5),
-//! Appointment State
-                  RowOfStates(
-                    index: widget.index,
-                    appointModel: widget.appointModel,
-                    salonModel: salonModel,
-                    userModel: userModel,
-                  ),
-
-                  const Divider(),
-
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: Dimensions.dimenisonNo16,
+                    const SizedBox(
+                      width: 4,
                     ),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: Colors.green[100],
-                          backgroundImage: NetworkImage(
-                            userModel.image,
-                          ),
-                          radius: Dimensions.dimenisonNo20,
-                        ),
-                        SizedBox(width: Dimensions.dimenisonNo10),
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    widget.appointModel.status == "(Cancel)"
+                        ? const SizedBox()
+                        : widget.appointModel.isUpdate
+                            ? const StateText(status: "(Update)")
+                            : const SizedBox(),
+                    if (widget.appointModel.status == "(Cancel)")
+                      StateText(status: widget.appointModel.status),
+                    const Spacer(),
+                    widget.appointModel.status == "Bill Generate"
+                        ? Row(
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    userModel.name,
-                                    style: TextStyle(
-                                      overflow: TextOverflow.clip,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: Dimensions.dimenisonNo16,
-                                    ),
-                                  ),
-                                  Text(
-                                    "M.no ${userModel.phone}",
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w500,
-                                      fontSize: Dimensions.dimenisonNo14,
-                                    ),
-                                  ),
-                                ],
+                              IconButton(
+                                  onPressed: () async {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => BillPdfPage(
+                                          appointModel: widget.appointModel,
+                                          salonModel: salonModel,
+                                          settingModel: _settingModel,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  icon: const Icon(
+                                    Icons.download,
+                                    color: Colors.green,
+                                  )),
+                              SizedBox(
+                                width: Dimensions.dimenisonNo20,
+                              )
+                            ],
+                          )
+                        :
+
+                        // edit Button
+                        Row(
+                            children: [
+                              editAppointButton(activateDeleteAndEditButton,
+                                  context, userModel),
+                              SizedBox(width: Dimensions.dimenisonNo5),
+                              // cancel Button
+                              cancelAppointButton(activateDeleteAndEditButton,
+                                  context, userModel),
+                            ],
+                          ),
+                  ],
+                ),
+              ),
+              Divider(thickness: Dimensions.dimenisonNo5),
+//! Appointment State
+              RowOfStates(
+                index: widget.index,
+                appointModel: widget.appointModel,
+                salonModel: salonModel,
+                userModel: userModel,
+              ),
+
+              const Divider(),
+
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: Dimensions.dimenisonNo16,
+                ),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      backgroundColor: Colors.green[100],
+                      backgroundImage: NetworkImage(
+                        userModel.image,
+                      ),
+                      radius: Dimensions.dimenisonNo20,
+                    ),
+                    SizedBox(width: Dimensions.dimenisonNo10),
+                    Expanded(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                userModel.name,
+                                style: TextStyle(
+                                  overflow: TextOverflow.clip,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: Dimensions.dimenisonNo16,
+                                ),
                               ),
-                              CustomIconButton(
-                                icon: FontAwesomeIcons.whatsapp,
-                                ontap: () {
-                                  _openWhatsApp(
-                                      "${GlobalVariable.indiaCode}${widget.appointModel.userModel.phone.toString()}");
-                                },
-                                iconSize: Dimensions.dimenisonNo30,
+                              Text(
+                                "M.no ${userModel.phone}",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: Dimensions.dimenisonNo14,
+                                ),
                               ),
                             ],
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Divider(),
-                  Padding(
-                    padding: EdgeInsets.only(left: Dimensions.dimenisonNo16),
-                    child: Center(
-                      child: Text(
-                        'Appointment Information',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: Dimensions.dimenisonNo18,
-                          fontWeight: FontWeight.w600,
-                        ),
+                          CustomIconButton(
+                            icon: FontAwesomeIcons.whatsapp,
+                            ontap: () {
+                              _openWhatsApp(
+                                  "${GlobalVariable.indiaCode}${widget.appointModel.userModel.phone.toString()}");
+                            },
+                            iconSize: Dimensions.dimenisonNo30,
+                          ),
+                        ],
                       ),
                     ),
+                  ],
+                ),
+              ),
+              Divider(),
+              Padding(
+                padding: EdgeInsets.only(left: Dimensions.dimenisonNo16),
+                child: Center(
+                  child: Text(
+                    'Appointment Information',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: Dimensions.dimenisonNo18,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                  SizedBox(height: Dimensions.dimenisonNo16),
+                ),
+              ),
+              SizedBox(height: Dimensions.dimenisonNo16),
 
-                  Padding(
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Appointment Time",
+                      style: TextStyle(
+                        // color: Colors.black.withOpacity(0.699999988079071),
+                        fontSize: Dimensions.dimenisonNo15,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    Padding(
+                        padding: EdgeInsets.only(
+                            top: Dimensions.dimenisonNo5,
+                            left: Dimensions.dimenisonNo5,
+                            bottom: Dimensions.dimenisonNo10),
+                        child: Text(
+                          "${DateFormat('hh:mm a').format(widget.appointModel.serviceStartTime)} To ${DateFormat('hh:mm a').format(widget.appointModel.serviceEndTime)} (${appointDuration.inHours}h : ${appointDuration.inMinutes % 60}m)",
+                          style: TextStyle(
+                            color: Color(0xFF1F1616),
+                            fontSize: Dimensions.dimenisonNo14,
+                            fontWeight: FontWeight.w400,
+                            letterSpacing: 0.90,
+                          ),
+                        )),
+                  ],
+                ),
+              ),
+              UserInfoDateTimeColumn(
+                title: "Appointment Date",
+                time: widget.appointModel.serviceDate,
+                isTime: false,
+              ),
+              userInfoColumn(
+                title: "Appointment No.",
+                infoText: ' 000${widget.appointModel.appointmentNo.toString()}',
+              ),
+              userInfoColumn(
+                title: "Service At.",
+                infoText: widget.appointModel.serviceAt,
+              ),
+              widget.appointModel.serviceAt == GlobalVariable.serviceAtHome
+                  ? userInfoColumn(
+                      title: "Address",
+                      infoText: widget.appointModel.serviceAddress!,
+                    )
+                  : SizedBox(),
+              Divider(thickness: Dimensions.dimenisonNo5),
+              //Service List
+              servicerLIst(),
+              SizedBox(height: Dimensions.dimenisonNo10),
+
+              const Divider(),
+              widget.appointModel.userNote.length >= 2
+                  ? userInfoColumn(
+                      title: "Client Note",
+                      infoText: widget.appointModel.userNote)
+                  : const userInfoColumn(
+                      title: "Client Note", infoText: "No user note"),
+              //payment section
+              SizedBox(height: Dimensions.dimenisonNo10),
+
+              const Divider(thickness: 3),
+
+              // Price Details Section
+
+              pricreInfor(),
+              SizedBox(height: Dimensions.dimenisonNo10),
+
+              const Divider(thickness: 3),
+              appointBookingInfor(userModel),
+              SizedBox(height: Dimensions.dimenisonNo20),
+              Opacity(
+                opacity: widget.appointModel.status != "Completed" ? 0.5 : 1.0,
+                child: IgnorePointer(
+                  ignoring: widget.appointModel.status == "pen",
+                  // ignoring: widget.appointModel.status == "Completed",
+                  child: Container(
                     padding: EdgeInsets.symmetric(
                         horizontal: Dimensions.dimenisonNo16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Appointment Time",
-                          style: TextStyle(
-                            // color: Colors.black.withOpacity(0.699999988079071),
-                            fontSize: Dimensions.dimenisonNo15,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        Padding(
-                            padding: EdgeInsets.only(
-                                top: Dimensions.dimenisonNo5,
-                                left: Dimensions.dimenisonNo5,
-                                bottom: Dimensions.dimenisonNo10),
-                            child: Text(
-                              "${DateFormat('hh:mm a').format(widget.appointModel.serviceStartTime)} To ${DateFormat('hh:mm a').format(widget.appointModel.serviceEndTime)} (${appointDuration.inHours}h : ${appointDuration.inMinutes % 60}m)",
-                              style: TextStyle(
-                                color: Color(0xFF1F1616),
-                                fontSize: Dimensions.dimenisonNo14,
-                                fontWeight: FontWeight.w400,
-                                letterSpacing: 0.90,
+                    width: double.infinity,
+                    child: CustomButtom(
+                        text: "CheckOut",
+                        ontap: () {
+                          Routes.instance.push(
+                              widget:
+                                  // PaymentScreen(
+                                  //     index: widget.index,
+                                  //     appointModel: widget.appointModel),
+                                  UserSideBarPaymentScreen(
+                                appointModel: widget.appointModel,
+                                index: widget.index,
                               ),
-                            )),
-                      ],
-                    ),
+                              context: context);
+                        },
+                        buttonColor: AppColor.buttonColor),
                   ),
-                  UserInfoDateTimeColumn(
-                    title: "Appointment Date",
-                    time: widget.appointModel.serviceDate,
-                    isTime: false,
-                  ),
-                  userInfoColumn(
-                    title: "Appointment No.",
-                    infoText:
-                        ' 000${widget.appointModel.appointmentNo.toString()}',
-                  ),
-                  userInfoColumn(
-                    title: "Service At.",
-                    infoText: widget.appointModel.serviceAt,
-                  ),
-                  Divider(thickness: Dimensions.dimenisonNo5),
-                  //Service List
-                  servicerLIst(),
-                  SizedBox(height: Dimensions.dimenisonNo10),
-
-                  const Divider(),
-                  widget.appointModel.userNote.length >= 2
-                      ? userInfoColumn(
-                          title: "Client Note",
-                          infoText: widget.appointModel.userNote)
-                      : const userInfoColumn(
-                          title: "Client Note", infoText: "No user note"),
-                  //payment section
-                  SizedBox(height: Dimensions.dimenisonNo10),
-
-                  const Divider(thickness: 3),
-
-                  // Price Details Section
-
-                  pricreInfor(),
-                  SizedBox(height: Dimensions.dimenisonNo10),
-
-                  const Divider(thickness: 3),
-                  appointBookingInfor(userModel),
-                  SizedBox(height: Dimensions.dimenisonNo20),
-                  Opacity(
-                    opacity:
-                        widget.appointModel.status != "Completed" ? 0.5 : 1.0,
-                    child: IgnorePointer(
-                      ignoring: widget.appointModel.status == "pen",
-                      // ignoring: widget.appointModel.status == "Completed",
-                      child: Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: Dimensions.dimenisonNo16),
-                        width: double.infinity,
-                        child: CustomButtom(
-                            text: "CheckOut",
-                            ontap: () {
-                              Routes.instance.push(
-                                  widget:
-                                      // PaymentScreen(
-                                      //     index: widget.index,
-                                      //     appointModel: widget.appointModel),
-                                      UserSideBarPaymentScreen(
-                                    appointModel: widget.appointModel,
-                                    index: widget.index,
-                                  ),
-                                  context: context);
-                            },
-                            buttonColor: AppColor.buttonColor),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: Dimensions.dimenisonNo20,
-                  ),
-                ],
+                ),
               ),
-            ),
-          );
+              SizedBox(
+                height: Dimensions.dimenisonNo20,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   Opacity editAppointButton(bool activateDeleteAndEditButton,
