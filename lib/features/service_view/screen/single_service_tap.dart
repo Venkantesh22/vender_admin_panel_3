@@ -173,7 +173,7 @@ class SingleServiceTap extends StatelessWidget {
           const SizedBox(height: 8),
           // Service description
           Text(
-            serviceModel.description,
+            serviceModel.description!,
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
             style: TextStyle(
@@ -296,7 +296,7 @@ class SingleServiceTap extends StatelessWidget {
             const Divider(),
             // Service description
             Text(
-              serviceModel.description,
+              serviceModel.description!,
               overflow: TextOverflow.clip,
               style: TextStyle(
                 color: Colors.black,

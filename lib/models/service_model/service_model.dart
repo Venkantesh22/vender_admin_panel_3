@@ -8,7 +8,7 @@ class ServiceModel {
   final String serviceCode;
   final double price;
   final int serviceDurationMin; // Total duration in minutes
-  final String description;
+  final String? description; // Made nullable
   final String
       serviceFor; // New: Service For (e.g., "Male", "Female", or "Both")
   double? discountInPer; // Discount percentage (nullable)
@@ -25,7 +25,7 @@ class ServiceModel {
     required this.serviceCode,
     required this.price,
     required this.serviceDurationMin,
-    required this.description,
+    this.description,
     required this.serviceFor, // New field added to constructor
     this.discountInPer = 0.0,
     this.discountAmount = 0.0,

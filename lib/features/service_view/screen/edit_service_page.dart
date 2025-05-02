@@ -292,12 +292,12 @@ class _EditServicePageState extends State<EditServicePage> {
                     try {
                       showLoaderDialog(context);
                       bool isVaildated = addNewServiceVaildation(
-                          _serviceController.text.trim(),
-                          _serviceCodeController.text.trim(),
-                          _priceController.text.trim(),
-                          _hoursController.text.trim(),
-                          _minController.text.trim(),
-                          _descriptionController.text.trim());
+                        _serviceController.text.trim(),
+                        _serviceCodeController.text.trim(),
+                        _priceController.text.trim(),
+                        _hoursController.text.trim(),
+                        _minController.text.trim(),
+                      );
 
                       if (isVaildated) {
                         Duration? _serviceDurationMin = Duration(
@@ -309,9 +309,7 @@ class _EditServicePageState extends State<EditServicePage> {
                           serviceCode: _serviceCodeController.text.trim(),
                           price: double.parse(_priceController.text.trim()),
                           serviceDurationMin: _serviceDurationMin.inMinutes,
-                          // hours: double.parse(_hoursController.text.trim()),
-                          // minutes: double.parse(_minController.text.trim()),
-                          description: _descriptionController.text.trim(),
+                          description: _descriptionController.text.trim() ?? "",
                         );
 
                         serviceProvider.updateSingleServicePro(

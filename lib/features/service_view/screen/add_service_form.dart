@@ -299,7 +299,6 @@ class _AddServiceFormState extends State<AddServiceForm> {
                       _priceController.text,
                       _hoursController.text,
                       _minController.text,
-                      _descriptionController.text,
                     );
 
                     if (!isValidated) {
@@ -330,7 +329,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                       discountAmount,
                       int.parse(_hoursController.text.trim()),
                       int.parse(_minController.text.trim()),
-                      _descriptionController.text.trim(),
+                      _descriptionController.text.trim() ?? "",
                       _serviceFor!,
                     );
 

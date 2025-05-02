@@ -169,7 +169,7 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
               ),
               SizedBox(height: Dimensions.dimenisonNo10),
               Text(
-                widget.serviceModel.description,
+                widget.serviceModel.description! ?? "",
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   color: Colors.black,

@@ -427,20 +427,7 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                         FormCustomTextField(
                             controller: _pincode, title: "Pincode"),
                         SizedBox(height: Dimensions.dimenisonNo20),
-                        CustomAuthButton(
-                            text: "Check",
-                            ontap: () {
-                              String timeOfDayToString(TimeOfDay timeOfDay) {
-                                return '${timeOfDay.hour.toString().padLeft(2, '0')}:${timeOfDay.minute.toString().padLeft(2, '0')}';
-                              }
-
-                              print(
-                                  "Open time ${timeOfDayToString(openTimeUpdate)} ");
-                              print(
-                                  "Closer time ${timeOfDayToString(closeTimeUpdate)} ");
-                              print(
-                                  "${GlobalVariable.timeOfDayToDateTimeAM(openTimeUpdate)} To ${GlobalVariable.timeOfDayToDateTimeAM(closeTimeUpdate)}");
-                            }),
+                       
                         CustomAuthButton(
                           text: "Update",
                           ontap: () async {

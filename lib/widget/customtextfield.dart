@@ -77,7 +77,7 @@ class FormCustomTextField extends StatefulWidget {
     super.key,
     required this.controller,
     this.requiredField = true,
-    this.maxline = 1,
+    this.maxline,
     required this.title,
     this.readOnly = false,
     this.hintText,
@@ -128,12 +128,14 @@ class _FormCustomTextFieldState extends State<FormCustomTextField> {
         SizedBox(
           //salon description textbox has. max line.
 
-          height: ResponsiveLayout.isDesktop(context)
-              ? Dimensions.dimenisonNo30
-              : Dimensions.dimenisonNo40,
+          height: widget.maxline == null
+              ? ResponsiveLayout.isDesktop(context)
+                  ? Dimensions.dimenisonNo30
+                  : Dimensions.dimenisonNo40
+              : null,
           child: TextFormField(
             readOnly: widget.readOnly,
-            maxLines: widget.maxline,
+            maxLines: widget.maxline ?? 1,
             cursorHeight: Dimensions.dimenisonNo16,
             style: TextStyle(
                 fontSize: Dimensions.dimenisonNo12,

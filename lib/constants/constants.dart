@@ -485,7 +485,6 @@ bool addNewServiceVaildation(
   final String price,
   final String hours,
   final String minutes,
-  final String description,
 ) {
   final double? min = double.tryParse(minutes);
   final double? hr = double.tryParse(minutes);
@@ -495,8 +494,7 @@ bool addNewServiceVaildation(
       serviceCode.isEmpty &&
       price.isEmpty &&
       hours.isEmpty &&
-      minutes.isEmpty &&
-      description.isEmpty) {
+      minutes.isEmpty) {
     showMessage("All Fields are empty");
     return false;
   } else if (servicesName.isEmpty) {
@@ -525,9 +523,6 @@ bool addNewServiceVaildation(
     return false;
   } else if (min == null || min < 0 || min > 59) {
     showMessage("Enter a correct minute.");
-    return false;
-  } else if (description.isEmpty) {
-    showMessage("Enter a Service description");
     return false;
   } else {
     return true;
