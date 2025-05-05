@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/features/Account_Create_Form/screen/form_weektime_screen.dart';
+import 'package:samay_admin_plan/features/custom_appbar/screen/appbar_ban_vali_page.dart';
 import 'package:samay_admin_plan/features/custom_appbar/screen/custom_appbar.dart';
 import 'package:samay_admin_plan/features/setting/ForgetPassword/forget_password_page.dart';
 import 'package:samay_admin_plan/features/setting/about/about_us_page.dart';
@@ -124,7 +125,9 @@ class _SettingsPageState extends State<SettingsPage> {
     ];
 
     return Scaffold(
-      appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
+      appBar: appProvider.getSalonInformation.isAccountValidBySamay
+          ? CustomAppBar(scaffoldKey: _scaffoldKey)
+          : const AppBarForBanValiPage(),
       key: _scaffoldKey,
       drawer: ResponsiveLayout.isMoAndTab(context)
           ? SettingDrawer(

@@ -1,7 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:typed_data';
-
+import 'package:bcrypt/bcrypt.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -19,15 +19,58 @@ class FirebaseAuthHelper {
   Stream<User?> get getAuthChange => _auth.authStateChanges();
 
   Future<bool> login(
-      String email, String password, BuildContext context) async {
+    String email,
+    String password,
+    BuildContext context,
+  ) async {
     try {
+      // Show loading spinner
       showLoaderDialog(context);
+
+      // 1) Sign in with FirebaseAuth
       await _auth.signInWithEmailAndPassword(email: email, password: password);
+
+      // 2) Fetch the admin document from Firestore
+      final uid = _auth.currentUser!.uid;
+      final docSnapshot = await _firestore.collection("admins").doc(uid).get();
+      final data = docSnapshot.data();
+      if (data == null) {
+        Navigator.of(context, rootNavigator: true).pop();
+        showMessage("User record not found");
+        return false;
+      }
+
+      // Extract the stored bcrypt hash and updateBy field
+      final String storedHash = data['password'] as String? ?? "";
+      // Assuming your timestamp is nested under a 'timeStamp' map
+      final String updatedBy =
+          (data['timeStamp']?['updateBy'] as String?) ?? "";
+
+      // 3) Pop the loader before any further checks
       Navigator.of(context, rootNavigator: true).pop();
+
+      // 4) Check the updateBy checkpoint
+      if (updatedBy != "vender") {
+        showMessage("Invalid Emirate password");
+        return false;
+      }
+
+      // 5) Verify the bcrypt hash
+      final bool isMatch = BCrypt.checkpw(password, storedHash);
+      if (!isMatch) {
+        showMessage("Invalid credentials");
+        return false;
+      }
+
+      // All checks passed
       return true;
-    } on FirebaseAuthException catch (error) {
+    } on FirebaseAuthException catch (err) {
       Navigator.of(context, rootNavigator: true).pop();
-      showMessage(error.code.toString());
+      showMessage(err.code);
+      return false;
+    } catch (e) {
+      Navigator.of(context, rootNavigator: true).pop();
+      showMessage(e.toString());
       return false;
     }
   }
@@ -43,21 +86,24 @@ class FirebaseAuthHelper {
     try {
       showLoaderDialog(context);
 
-      // Create admin account
+      // 1) Create account in FirebaseAuth
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
 
-      // Upload image to storage
-      String uidOfCreateUser = userCredential.user!.uid;
+      String uid = userCredential.user!.uid;
 
-      TimeStampModel _timeStampModel = TimeStampModel(
-          id: uidOfCreateUser,
-          dateAndTime: GlobalVariable.today,
-          updateBy: "vender");
+      // 2) Hash the password with bcrypt
+      //    gensalt’s default cost is 10 which is fine for most apps.
+      final String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
-      // No Plan is add
-      SamayMembership samayMembership = SamayMembership(
-        id: uidOfCreateUser,
+      // 3) Prepare timestamp & membership as before
+      TimeStampModel timestamp = TimeStampModel(
+        id: uid,
+        dateAndTime: GlobalVariable.today,
+        updateBy: "vender",
+      );
+      SamayMembership membership = SamayMembership(
+        id: uid,
         name: "NO",
         description: "NO",
         price: 0.0,
@@ -65,44 +111,37 @@ class FirebaseAuthHelper {
         isActive: false,
       );
 
-      final adminData = AdminModel(
-        id: uidOfCreateUser,
+      // 4) Build AdminModel with the hashed password
+      final admin = AdminModel(
+        id: uid,
         name: name,
         email: email,
         number: int.parse(number),
-        password: password,
-        timeStampModel: _timeStampModel,
-        samayMembershipModel: samayMembership,
-        // isSalonProfileCreate: false,
+        password: hashedPassword, // ← hashed!
+        timeStampModel: timestamp,
+        samayMembershipModel: membership,
       );
 
-      String? uploadImageUrl =
-          await FirebaseStorageHelper.instance.uploadAdminProfileImageToStorage(
-        adminData.name,
-        adminData.id,
-        selectedImage,
-      );
+      // 5) Upload profile image
+      final imageUrl = await FirebaseStorageHelper.instance
+          .uploadAdminProfileImageToStorage(name, uid, selectedImage);
+      admin.image = imageUrl!;
 
-      await _auth.currentUser?.updateDisplayName(adminData.name);
-      await _auth.currentUser?.updatePhotoURL(uploadImageUrl);
+      // 6) Update FirebaseAuth profile (displayName & photoURL)
+      await _auth.currentUser?.updateDisplayName(name);
+      await _auth.currentUser?.updatePhotoURL(imageUrl);
 
-      // Save admin data to Firestore
-      adminData.image = uploadImageUrl!; // Make sure image URL is included
-      await _firestore
-          .collection("admins")
-          .doc(adminData.id)
-          .set(adminData.toJson());
+      // 7) Save admin doc to Firestore
+      await _firestore.collection("admins").doc(uid).set(admin.toJson());
 
-      // Navigator.of(context, rootNavigator: true).pop();
-      return true;
-    } on FirebaseAuthException catch (error) {
       Navigator.of(context, rootNavigator: true).pop();
-      debugPrint(error.code.toString());
-      showMessage(error.code.toString());
+      return true;
+    } on FirebaseAuthException catch (err) {
+      Navigator.of(context, rootNavigator: true).pop();
+      showMessage(err.code);
       return false;
     } catch (e) {
       Navigator.of(context, rootNavigator: true).pop();
-      debugPrint(e.toString());
       showMessage(e.toString());
       return false;
     }

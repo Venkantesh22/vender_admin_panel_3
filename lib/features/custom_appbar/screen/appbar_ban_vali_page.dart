@@ -3,8 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
+import 'package:samay_admin_plan/constants/router.dart';
 import 'package:samay_admin_plan/features/custom_appbar/widget/appbar_item.dart';
+import 'package:samay_admin_plan/features/setting/setting_page.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
 import 'package:samay_admin_plan/utility/dimenison.dart';
@@ -70,22 +73,26 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
               height: Dimensions.dimenisonNo40,
               decoration: const BoxDecoration(color: Colors.white),
             ),
-            SizedBox(width: Dimensions.dimenisonNo20),
-            Appbaritem(
-              text: "Calendar",
-              ontap: () {
-                // Routes.instance
-                //     .push(widget: const HomeScreen(), context: context);
-              },
-            ),
+            // SizedBox(width: Dimensions.dimenisonNo20),
+            // Appbaritem(
+            //   text: "Calendar",
+            //   ontap: () {
+            //     showBottonMessage(
+            //         "Please wait for your account to be validated.", context);
+            //     // Routes.instance
+            //     //     .push(widget: const HomeScreen(), context: context);
+            //   },
+            // ),
 
-            SizedBox(width: Dimensions.dimenisonNo20),
-            Appbaritem(
-              text: "Services",
-              ontap: () {
-                // Routes.instance.push(widget: ServicesPages(), context: context);
-              },
-            ),
+            // SizedBox(width: Dimensions.dimenisonNo20),
+            // Appbaritem(
+            //   text: "Services",
+            //   ontap: () {
+            //     showBottonMessage(
+            //         "Please wait for your account to be validated.", context);
+            //     // Routes.instance.push(widget: ServicesPages(), context: context);
+            //   },
+            // ),
             const Spacer(),
             SizedBox(width: Dimensions.dimenisonNo20),
             Container(
@@ -96,8 +103,8 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
               child: IconButton(
                 icon: const Icon(Icons.settings_outlined, color: Colors.black),
                 onPressed: () {
-                  // Routes.instance
-                  //     .push(widget: SettingsPage(), context: context);
+                  Routes.instance
+                      .push(widget: SettingsPage(), context: context);
                 },
               ),
             ),
