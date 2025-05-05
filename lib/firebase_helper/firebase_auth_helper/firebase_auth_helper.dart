@@ -63,6 +63,7 @@ class FirebaseAuthHelper {
       }
 
       // All checks passed
+      Navigator.of(context, rootNavigator: true).pop();
       return true;
     } on FirebaseAuthException catch (err) {
       Navigator.of(context, rootNavigator: true).pop();
