@@ -60,6 +60,7 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
                 children: [
                   Text(
                     appProvider.getAdminInformation.name,
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: Dimensions.dimenisonNo14,

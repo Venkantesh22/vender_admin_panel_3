@@ -3,10 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
+import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/constants/router.dart';
-import 'package:samay_admin_plan/features/custom_appbar/widget/appbar_item.dart';
 import 'package:samay_admin_plan/features/setting/setting_page.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
@@ -14,7 +13,9 @@ import 'package:samay_admin_plan/utility/dimenison.dart';
 
 class AppBarForBanValiPage extends StatefulWidget
     implements PreferredSizeWidget {
-  const AppBarForBanValiPage({super.key});
+  final GlobalKey<ScaffoldState> scaffoldKey;
+
+  const AppBarForBanValiPage({super.key, required this.scaffoldKey});
 
   @override
   State<AppBarForBanValiPage> createState() => _AppBarForBanValiPageState();
@@ -34,6 +35,13 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
           .shrink(); // Return empty widget if data is not available
     }
 
+    return ResponsiveLayout(
+        mobile:
+            mobileVaildatePageAppBar(context, appProvider, widget.scaffoldKey),
+        desktop: webVaildatePageAppBar(context, appProvider));
+  }
+
+  AppBar webVaildatePageAppBar(BuildContext context, AppProvider appProvider) {
     return AppBar(
       backgroundColor: AppColor.mainColor,
       automaticallyImplyLeading: false,
@@ -50,14 +58,6 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
                 ? Image.asset(
                     GlobalVariable.samayLogo,
                     height: Dimensions.dimenisonNo40,
-                    // fit: BoxFit.cover,
-                    // loadingBuilder: (context, child, progress) {
-                    //   return progress == null
-                    //       ? child
-                    //       : const Center(
-                    //           child: CircularProgressIndicator(),
-                    //         );
-                    // },
                     errorBuilder: (context, error, stackTrace) => Icon(
                       Icons.broken_image, // User icon in case of error
                       size: Dimensions
@@ -165,6 +165,116 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
           ],
         ),
       ),
+    );
+  }
+
+  AppBar mobileVaildatePageAppBar(BuildContext context, AppProvider appProvider,
+      GlobalKey<ScaffoldState> scaffoldKey) {
+    return AppBar(
+      backgroundColor: AppColor.mainColor,
+      automaticallyImplyLeading: false,
+      elevation: 0,
+      leading: IconButton(
+        icon: GlobalVariable.samayLogo.isNotEmpty
+            ? Image.asset(
+                GlobalVariable.samayLogo,
+                height: Dimensions.dimenisonNo30,
+                errorBuilder: (context, error, stackTrace) => Icon(
+                  Icons.broken_image,
+                  size: Dimensions.dimenisonNo30,
+                  color: Colors.grey,
+                ),
+              )
+            : const CircularProgressIndicator(),
+        onPressed: () {
+          scaffoldKey.currentState?.openDrawer();
+        },
+      ),
+      actions: [
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: 4),
+          child: Row(
+            children: [
+              Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: IconButton(
+                  icon:
+                      const Icon(Icons.settings_outlined, color: Colors.black),
+                  onPressed: () {
+                    Routes.instance
+                        .push(widget: SettingsPage(), context: context);
+                  },
+                ),
+              ),
+              SizedBox(width: Dimensions.dimenisonNo20),
+              Container(
+                width: 3,
+                height: Dimensions.dimenisonNo40,
+                decoration: const BoxDecoration(color: Colors.white),
+              ),
+              // SizedBox(width: Dimensions.dimenisonNo16),
+              Container(
+                padding: EdgeInsets.all(6),
+
+                clipBehavior: Clip.antiAlias,
+                width: Dimensions.dimenisonNo50 * 2, // Diameter of the circle
+                height: Dimensions.dimenisonNo50 * 2, // Diameter of the circle
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      appProvider.getAdminInformation.image ??
+                          'https://via.placeholder.com/150',
+                    ),
+                    fit: BoxFit.cover, // Ensures the image fits the circle
+                    onError: (exception, stackTrace) {
+                      // Handle image loading error here
+                      print("Image load error: $exception");
+                    },
+                  ),
+                ),
+              ),
+
+              SizedBox(
+                width: Dimensions.screenWidthM / 3,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      appProvider.getAdminInformation.name,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: Dimensions.dimenisonNo14,
+                        fontFamily: GoogleFonts.roboto().fontFamily,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 2,
+                    ),
+                    Text(
+                      'Admin',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: Dimensions.dimenisonNo12,
+                        fontFamily: GoogleFonts.roboto().fontFamily,
+                        fontWeight: FontWeight.w400,
+                        height: 0,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(width: Dimensions.dimenisonNo12),
+      ],
     );
   }
 }

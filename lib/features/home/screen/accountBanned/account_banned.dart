@@ -7,10 +7,12 @@ class AccountBanPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
     return Scaffold(
-      appBar: const PreferredSize(
+      appBar: PreferredSize(
         preferredSize: Size.fromHeight(60.0),
-        child: AppBarForBanValiPage(),
+        child: AppBarForBanValiPage(scaffoldKey: _scaffoldKey),
       ),
       body: Center(
         child: Padding(

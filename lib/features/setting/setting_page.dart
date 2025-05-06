@@ -127,7 +127,7 @@ class _SettingsPageState extends State<SettingsPage> {
     return Scaffold(
       appBar: appProvider.getSalonInformation.isAccountValidBySamay
           ? CustomAppBar(scaffoldKey: _scaffoldKey)
-          : const AppBarForBanValiPage(),
+          : AppBarForBanValiPage(scaffoldKey: _scaffoldKey),
       key: _scaffoldKey,
       drawer: ResponsiveLayout.isMoAndTab(context)
           ? SettingDrawer(
