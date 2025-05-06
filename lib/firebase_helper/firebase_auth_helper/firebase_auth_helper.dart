@@ -24,7 +24,7 @@ class FirebaseAuthHelper {
     BuildContext context,
   ) async {
     try {
-      // Show loading spinner
+      // Show a loading indicator
       showLoaderDialog(context);
 
       // 1) Sign in with FirebaseAuth
@@ -34,44 +34,47 @@ class FirebaseAuthHelper {
       final uid = _auth.currentUser!.uid;
       final docSnapshot = await _firestore.collection("admins").doc(uid).get();
       final data = docSnapshot.data();
+
+      // Close the loader as soon as we have the data
+      Navigator.of(context, rootNavigator: true).pop();
+
       if (data == null) {
-        Navigator.of(context, rootNavigator: true).pop();
-        showMessage("User record not found");
+        showBottonMessageError("User record not found", context);
         return false;
       }
 
-      // Extract the stored bcrypt hash and updateBy field
+      // 3) Extract the stored bcrypt hash and updateBy field
       final String storedHash = data['password'] as String? ?? "";
-      // Assuming your timestamp is nested under a 'timeStamp' map
+      // Note: your field is named "timeStampModel" in the document
       final String updatedBy =
-          (data['timeStamp']?['updateBy'] as String?) ?? "";
-
-      // 3) Pop the loader before any further checks
-      Navigator.of(context, rootNavigator: true).pop();
+          (data['timeStampModel']?['updateBy'] as String?) ?? "";
 
       // 4) Check the updateBy checkpoint
-      if (updatedBy != "vender") {
-        showMessage("Invalid Emirate password");
+      if (updatedBy != "vendor") {
+        showBottonMessageError(
+          "Invalid vendor login information. Please check your credentials.",
+          context,
+        );
         return false;
       }
 
       // 5) Verify the bcrypt hash
       final bool isMatch = BCrypt.checkpw(password, storedHash);
       if (!isMatch) {
-        showMessage("Invalid credentials");
+        showBottonMessageError("Invalid credentials", context);
         return false;
       }
 
       // All checks passed
-      Navigator.of(context, rootNavigator: true).pop();
       return true;
     } on FirebaseAuthException catch (err) {
+      // Close loader if still open
       Navigator.of(context, rootNavigator: true).pop();
-      showMessage(err.code);
+      showBottonMessageError(err.code, context);
       return false;
     } catch (e) {
       Navigator.of(context, rootNavigator: true).pop();
-      showMessage(e.toString());
+      showBottonMessageError(e.toString(), context);
       return false;
     }
   }
@@ -101,7 +104,7 @@ class FirebaseAuthHelper {
       TimeStampModel timestamp = TimeStampModel(
         id: uid,
         dateAndTime: GlobalVariable.today,
-        updateBy: "vender",
+        updateBy: "vendor",
       );
       SamayMembership membership = SamayMembership(
         id: uid,

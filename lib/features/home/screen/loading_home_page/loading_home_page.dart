@@ -116,6 +116,7 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
                   // return AddNewAppointment(salonModel: _salonModel!);
                   return HomeScreen(date: DateTime.now());
                 } else {
+                  // to stop the loading dialog
                   return const AccountNotValidatePage();
                 }
               },

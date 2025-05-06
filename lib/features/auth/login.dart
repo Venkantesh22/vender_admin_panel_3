@@ -36,8 +36,9 @@ class _LoginScreenState extends State<LoginScreen> {
             : ResponsiveLayout(
                 mobile: logMobileWidget(
                     context, _emailController, _passwordController),
-                desktop: logWebWidget(
-                    context, _emailController, _passwordController),
+                desktop: LogWebWidget(
+                    emailController: _emailController,
+                    passwordController: _passwordController),
               ));
   }
 }
