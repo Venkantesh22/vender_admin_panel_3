@@ -86,8 +86,10 @@ Drawer cateDrawer(
                           categoryModel.id,
                       onTap: () {
                         serviceProvider.selectCategory(categoryModel);
-                        Navigator.of(context).pop(); // Close the drawer
-
+                        // Add animation for closing the drawer
+                        Future.delayed(const Duration(milliseconds: 200), () {
+                          Navigator.of(context).pop(); // Close the drawer
+                        });
                         Navigator.of(context).pushNamed(
                           '/services_list',
                         );
