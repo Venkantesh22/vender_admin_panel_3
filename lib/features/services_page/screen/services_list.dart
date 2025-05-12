@@ -233,16 +233,28 @@ class _ServicesListState extends State<ServicesList> {
               if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return const Center(child: Text('No Service found'));
               }
+
+              // Convert serviceCode to int and sort the list
+              List<ServiceModel> sortedData = List.from(snapshot.data!);
+              sortedData.sort((a, b) {
+                int serviceCodeA = int.tryParse(a.serviceCode) ??
+                    0; // Default to 0 if parsing fails
+                int serviceCodeB = int.tryParse(b.serviceCode) ??
+                    0; // Default to 0 if parsing fails
+                return serviceCodeA.compareTo(serviceCodeB);
+              });
+
               return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    ServiceModel serviceModel = snapshot.data![index];
-                    return SingleServiceTap(
-                      serviceModel: serviceModel,
-                      categoryModel: selectedCategory,
-                      index: index,
-                    );
-                  });
+                itemCount: sortedData.length,
+                itemBuilder: (context, index) {
+                  ServiceModel serviceModel = sortedData[index];
+                  return SingleServiceTap(
+                    serviceModel: serviceModel,
+                    categoryModel: selectedCategory,
+                    index: index,
+                  );
+                },
+              );
             },
           )),
         ],

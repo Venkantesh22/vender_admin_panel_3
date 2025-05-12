@@ -98,17 +98,37 @@ class SingleServiceTap extends StatelessWidget {
         children: [
           // Header row with service title and action menu
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Expanded(
-                child: Text(
-                  serviceModel.servicesName,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: Dimensions.dimenisonNo18,
-                    fontFamily: GoogleFonts.roboto().fontFamily,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.15,
-                  ),
+                child: Column(
+                  crossAxisAlignment:
+                      CrossAxisAlignment.start, // Align to the left
+                  children: [
+                    Text(
+                      serviceModel.servicesName,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: Dimensions.dimenisonNo18,
+                        fontFamily: GoogleFonts.roboto().fontFamily,
+                        fontWeight: FontWeight.w500,
+                        letterSpacing: 0.15,
+                      ),
+                    ),
+                    SizedBox(
+                      height: Dimensions.dimenisonNo5,
+                    ),
+                    Text(
+                      'Service code: ${serviceModel.serviceCode}',
+                      style: TextStyle(
+                        color: const Color.fromARGB(255, 124, 118, 118),
+                        fontSize: Dimensions.dimenisonNo12,
+                        fontFamily: GoogleFonts.roboto().fontFamily,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                  ],
                 ),
               ),
               PopupMenuButton<int>(
@@ -123,20 +143,20 @@ class SingleServiceTap extends StatelessWidget {
                   }
                 },
                 itemBuilder: (context) => [
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 0,
                     child: Row(
-                      children: const [
+                      children: [
                         Icon(Icons.edit_square, color: Colors.black),
                         SizedBox(width: 8),
                         Text("Edit"),
                       ],
                     ),
                   ),
-                  PopupMenuItem(
+                  const PopupMenuItem(
                     value: 1,
                     child: Row(
-                      children: const [
+                      children: [
                         Icon(Icons.delete, color: Colors.red),
                         SizedBox(width: 8),
                         Text("Delete"),
@@ -172,18 +192,20 @@ class SingleServiceTap extends StatelessWidget {
           ),
           const SizedBox(height: 8),
           // Service description
-          Text(
-            serviceModel.description!,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: Dimensions.dimenisonNo12,
-              fontFamily: GoogleFonts.roboto().fontFamily,
-              fontWeight: FontWeight.w400,
-              letterSpacing: 0.15,
-            ),
-          ),
+          serviceModel.description == null || serviceModel.description!.isEmpty
+              ? const SizedBox()
+              : Text(
+                  serviceModel.description!,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: Dimensions.dimenisonNo12,
+                    fontFamily: GoogleFonts.roboto().fontFamily,
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: 0.15,
+                  ),
+                ),
         ],
       ),
     );
@@ -206,7 +228,7 @@ class SingleServiceTap extends StatelessWidget {
           horizontal: Dimensions.dimenisonNo10,
           vertical: Dimensions.dimenisonNo10,
         ),
-        height: Dimensions.dimenisonNo200,
+        // height: Dimensions.dimenisonNo200,
         decoration: ShapeDecoration(
           color: AppColor.bgForAdminCreateSec,
           shape: RoundedRectangleBorder(
@@ -234,20 +256,20 @@ class SingleServiceTap extends StatelessWidget {
                     }
                   },
                   itemBuilder: (context) => [
-                    PopupMenuItem(
+                    const PopupMenuItem(
                       value: 0,
                       child: Row(
-                        children: const [
+                        children: [
                           Icon(Icons.edit_square, color: Colors.black),
                           SizedBox(width: 8),
                           Text("Edit"),
                         ],
                       ),
                     ),
-                    PopupMenuItem(
+                    const PopupMenuItem(
                       value: 1,
                       child: Row(
-                        children: const [
+                        children: [
                           Icon(Icons.delete, color: Colors.red),
                           SizedBox(width: 8),
                           Text("Delete"),
@@ -270,7 +292,9 @@ class SingleServiceTap extends StatelessWidget {
                 ),
                 SizedBox(width: Dimensions.dimenisonNo10),
                 Text(
-                  "${serviceDuration.inHours}h: ${serviceDuration.inMinutes % 60}min",
+                  "${serviceDuration.inHours}h: ${{
+                    serviceDuration.inMinutes % 60
+                  }.toString().padLeft(2, '0')}min",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: Dimensions.dimenisonNo16,
@@ -280,6 +304,7 @@ class SingleServiceTap extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: Dimensions.dimenisonNo20),
+
                 // Service For information
                 Text(
                   "Service for: ${serviceModel.serviceFor}",
@@ -293,19 +318,25 @@ class SingleServiceTap extends StatelessWidget {
                 ),
               ],
             ),
-            const Divider(),
+            serviceModel.description == null ||
+                    serviceModel.description!.isEmpty
+                ? const SizedBox()
+                : const Divider(),
             // Service description
-            Text(
-              serviceModel.description!,
-              overflow: TextOverflow.clip,
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: Dimensions.dimenisonNo12,
-                fontFamily: GoogleFonts.roboto().fontFamily,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 0.15,
-              ),
-            )
+            serviceModel.description == null ||
+                    serviceModel.description!.isEmpty
+                ? const SizedBox()
+                : Text(
+                    serviceModel.description!,
+                    overflow: TextOverflow.clip,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: Dimensions.dimenisonNo12,
+                      fontFamily: GoogleFonts.roboto().fontFamily,
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: 0.15,
+                    ),
+                  )
           ],
         ),
       ),

@@ -295,13 +295,15 @@ class _EditServicePageState extends State<EditServicePage> {
                         _serviceController.text.trim(),
                         _serviceCodeController.text.trim(),
                         _priceController.text.trim(),
-                        _hoursController.text.trim(),
+                        // _hoursController.text.trim(),
                         _minController.text.trim(),
                       );
+                      int hours = int.tryParse(_hoursController.text) ??
+                          0; // Default to 0 if null or invalid
 
                       if (isVaildated) {
                         Duration? _serviceDurationMin = Duration(
-                            hours: int.parse(_hoursController.text.trim()),
+                            hours: hours,
                             minutes: int.parse(_minController.text.trim()));
                         ServiceModel serviceModel =
                             widget.serviceModel.copyWith(

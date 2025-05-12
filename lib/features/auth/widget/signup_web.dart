@@ -122,28 +122,42 @@ Center signUpWebWidget(
                 SizedBox(height: Dimensions.dimenisonNo10),
 
                 CustomAuthButton(
-                  text: "SingUp",
+                  text: "Sign Up",
                   ontap: () async {
-                    bool isVaildated = signUpVaildation(
-                        emailController.text,
-                        passwordController.text,
-                        nameController.text,
-                        mobileController.text);
+                    // 1️⃣ Check image first
+                    if (selectedImage == null || selectedImage.isEmpty) {
+                      showBottonMessageError(
+                          "Please select a profile image", context);
+                      return;
+                    }
 
-                    if (isVaildated) {
-                      bool isLogined = await FirebaseAuthHelper.instance.signUp(
-                          nameController.text.trim(),
-                          mobileController.text.trim(),
-                          emailController.text.trim(),
-                          passwordController.text.trim(),
-                          selectedImage!,
-                          context);
+                    // 2️⃣ Now validate inputs (passing non-null image)
+                    bool isValidated = signUpVaildation(
+                      emailController.text.trim(),
+                      passwordController.text.trim(),
+                      nameController.text.trim(),
+                      mobileController.text.trim(),
+                      selectedImage,
+                    );
+                    if (!isValidated) {
+                      // assume signUpValidation shows its own errors
+                      return;
+                    }
 
-                      if (isLogined) {
-                        Routes.instance.pushAndRemoveUntil(
-                            widget: const AccountCreateForm(),
-                            context: context);
-                      }
+                    // 3️⃣ Attempt signup
+                    bool isSignedUp = await FirebaseAuthHelper.instance.signUp(
+                      nameController.text.trim(),
+                      mobileController.text.trim(),
+                      emailController.text.trim(),
+                      passwordController.text.trim(),
+                      selectedImage,
+                      context,
+                    );
+                    if (isSignedUp) {
+                      Routes.instance.pushAndRemoveUntil(
+                        widget: const AccountCreateForm(),
+                        context: context,
+                      );
                     }
                   },
                 ),

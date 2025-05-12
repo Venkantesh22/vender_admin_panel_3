@@ -198,6 +198,7 @@ class _UserListState extends State<UserList> {
                     ),
                     Text(
                       widget.salonModel.name ?? 'Salon Name',
+                      overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: Dimensions.dimenisonNo16),

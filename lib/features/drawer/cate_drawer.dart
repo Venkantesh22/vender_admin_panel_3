@@ -86,6 +86,8 @@ Drawer cateDrawer(
                           categoryModel.id,
                       onTap: () {
                         serviceProvider.selectCategory(categoryModel);
+                        Navigator.of(context).pop(); // Close the drawer
+
                         Navigator.of(context).pushNamed(
                           '/services_list',
                         );

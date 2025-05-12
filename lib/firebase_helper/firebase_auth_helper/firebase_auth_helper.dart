@@ -24,9 +24,6 @@ class FirebaseAuthHelper {
     BuildContext context,
   ) async {
     try {
-      // Show a loading indicator
-      showLoaderDialog(context);
-
       // 1) Sign in with FirebaseAuth
       await _auth.signInWithEmailAndPassword(email: email, password: password);
 
@@ -34,9 +31,6 @@ class FirebaseAuthHelper {
       final uid = _auth.currentUser!.uid;
       final docSnapshot = await _firestore.collection("admins").doc(uid).get();
       final data = docSnapshot.data();
-
-      // Close the loader as soon as we have the data
-      Navigator.of(context, rootNavigator: true).pop();
 
       if (data == null) {
         showBottonMessageError("User record not found", context);
@@ -70,11 +64,9 @@ class FirebaseAuthHelper {
       return true;
     } on FirebaseAuthException catch (err) {
       // Close loader if still open
-      Navigator.of(context, rootNavigator: true).pop();
       showBottonMessageError(err.code, context);
       return false;
     } catch (e) {
-      Navigator.of(context, rootNavigator: true).pop();
       showBottonMessageError(e.toString(), context);
       return false;
     }

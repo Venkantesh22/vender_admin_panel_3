@@ -139,6 +139,31 @@ StatefulBuilder logMobileWidget(
                   ),
                 ),
               ),
+              SizedBox(height: Dimensions.dimenisonNo20),
+              Text(
+                'Main hu Samay, mere Sath chalo.!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: Dimensions.dimenisonNo20,
+                  fontFamily: GoogleFonts.inknutAntiqua().fontFamily,
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: 0.15,
+                ),
+              ),
+              SizedBox(height: Dimensions.dimenisonNo20),
+              GlobalVariable.samayCartoon.isNotEmpty
+                  ? Image.asset(
+                      GlobalVariable.samayCartoon,
+                      height: Dimensions.dimenisonNo200,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Icon(
+                        Icons.broken_image,
+                        size: Dimensions.dimenisonNo60,
+                        color: Colors.grey,
+                      ),
+                    )
+                  : const Center(child: CircularProgressIndicator()),
             ],
           ),
         ),

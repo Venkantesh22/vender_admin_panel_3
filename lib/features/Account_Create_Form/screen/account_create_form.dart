@@ -19,6 +19,7 @@ import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
 import 'package:samay_admin_plan/utility/dimenison.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
+import 'package:samay_admin_plan/widget/customauthbutton_loading.dart';
 import 'package:samay_admin_plan/widget/customtextfield.dart';
 
 class AccountCreateForm extends StatefulWidget {
@@ -50,6 +51,7 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
   String? stateValue = "";
   String? cityValue = "";
 
+  bool _loadingSave = false;
   //! For DropDownList
   String? _selectedSalonType;
   final List<String> _salonTypeOptions = [
@@ -65,7 +67,7 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
         await FilePicker.platform.pickFiles(type: FileType.image);
     if (chosenImageFile != null) {
       setState(() {
-        selectedImage = chosenImageFile.files.single.bytes;
+        selectedImage = chosenImageFile.files.single.bytes!;
       });
     }
   }
@@ -92,7 +94,15 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
     AppProvider appProvider,
   ) async {
     try {
-      await appProvider.getAdminInfoFirebase();
+      setState(() {
+        _loadingSave = true;
+      });
+      if (selectedImage == null || selectedImage!.isEmpty) {
+        showBottonMessageError("Please select a  Salon profile image", context);
+        return;
+      }
+
+      // await appProvider.getAdminInfoFirebase();
       bool _isVaildated = formCreateAccountVaildation(
         _salonName.text,
         _email.text,
@@ -113,9 +123,13 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
         _linked.text,
         selectedImage!,
       );
+      // if (!_isVaildated) {
+      //   // assume signUpValidation shows its own errors
+      //   return;
+      // }
 
       if (_isVaildated) {
-        appProvider.addsalonInfoForm(
+        await appProvider.addsalonInfoForm(
             selectedImage!,
             _salonName.text.trim(),
             _email.text.trim(),
@@ -135,7 +149,7 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
             _googleMap.text.trim(),
             _linked.text.trim(),
             context);
-        showMessage("Salon profile is created...");
+        // showMessage("Salon profile is created...");
         print("Salon profile is created...");
         showMessage("Salon is successfully created");
         showMessage("Please login to your salon account");
@@ -150,6 +164,10 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
     } catch (e) {
       print('Salon is not create or an error occurred : $e');
       showMessage('Salon is not create or an error occurred $e');
+    } finally {
+      setState(() {
+        _loadingSave = false;
+      });
     }
   }
 
@@ -472,17 +490,46 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                 //       print("state $stateValue");
                 //       print("city $cityValue");
                 //     }),
-                CustomAuthButton(
-                  text: "Save",
-                  ontap: () => save(
-                    appProvider,
-                  ),
-                ),
+                saveButton(appProvider, context)
+
+                // CustomAuthButton(
+                //   text: "Save",
+                //   ontap: () => save(
+                //     appProvider,
+                //   ),
+                // ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  CustomAuthButtonLoading saveButton(
+      AppProvider appProvider, BuildContext context) {
+    return CustomAuthButtonLoading(
+      ontap: _loadingSave
+          ? () {}
+          : () => save(
+                appProvider,
+              ),
+      title: _loadingSave
+          ? const CircularProgressIndicator(
+              color: Colors.white,
+            )
+          : Text(
+              "save",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: ResponsiveLayout.isMoAndTab(context)
+                    ? Dimensions.dimenisonNo12
+                    : Dimensions.dimenisonNo16,
+                fontFamily: GoogleFonts.roboto().fontFamily,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 1.25,
+              ),
+            ),
     );
   }
 
@@ -727,12 +774,7 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
               ],
             ),
             SizedBox(height: Dimensions.dimenisonNo20),
-            CustomAuthButton(
-              text: "Save",
-              ontap: () => save(
-                appProvider,
-              ),
-            ),
+            saveButton(appProvider, context)
           ],
         ),
       ),

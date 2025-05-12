@@ -91,7 +91,7 @@ class AppProvider with ChangeNotifier {
   }
 
   // Add a Salon infor to firebase
-  void addsalonInfoForm(
+  Future<void> addsalonInfoForm(
       Uint8List image,
       String salonName,
       String email,

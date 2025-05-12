@@ -255,8 +255,17 @@ bool loginVaildation(String email, String password) {
 
 // SignUp Text Field Validation.
 bool signUpVaildation(
-    String email, String password, String name, String phone) {
-  if (email.isEmpty && password.isEmpty && name.isEmpty && phone.isEmpty) {
+  String email,
+  String password,
+  String name,
+  String phone,
+  Uint8List image,
+) {
+  if (email.isEmpty &&
+      password.isEmpty &&
+      name.isEmpty &&
+      phone.isEmpty &&
+      image.isEmpty) {
     showMessage("All Fields are empty");
     return false;
   } else if (name.isEmpty) {
@@ -281,6 +290,9 @@ bool signUpVaildation(
     return false;
   } else if (password.isEmpty) {
     showMessage("Password is Empty");
+    return false;
+  } else if (image.isEmpty) {
+    showMessage("Profile image is not selected");
     return false;
   } else {
     return true;
@@ -483,7 +495,7 @@ bool addNewServiceVaildation(
   final String servicesName,
   final String serviceCode,
   final String price,
-  final String hours,
+  // final String hours,
   final String minutes,
 ) {
   final double? min = double.tryParse(minutes);
@@ -493,7 +505,7 @@ bool addNewServiceVaildation(
   if (servicesName.isEmpty &&
       serviceCode.isEmpty &&
       price.isEmpty &&
-      hours.isEmpty &&
+      // hours.isEmpty &&
       minutes.isEmpty) {
     showMessage("All Fields are empty");
     return false;
@@ -512,12 +524,13 @@ bool addNewServiceVaildation(
   } else if (pr == null || pr < 0) {
     showMessage("Enter a Price");
     return false;
-  } else if (hours.isEmpty) {
-    showMessage("Enter a Hours");
-    return false;
-  } else if (hr == null || hr < 0) {
-    showMessage("Enter a correct hours.");
-    return false;
+    // }
+    //  else if (hours.isEmpty) {
+    //   showMessage("Enter a Hours");
+    //   return false;
+    // } else if (hr == null || hr < 0) {
+    //   showMessage("Enter a correct hours.");
+    //   return false;
   } else if (minutes.isEmpty) {
     showMessage("Enter a Minutes");
     return false;
