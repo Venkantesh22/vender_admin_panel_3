@@ -114,8 +114,8 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
                 if (salonInfo.isAccountBanBySamay) {
                   return const AccountBanPage();
                 } else if (salonInfo.isAccountValidBySamay) {
-                  return DirectBillingScreen(salonModel: _salonModel!);
-                  // return HomeScreen(date: DateTime.now());
+                  // return DirectBillingScreen(salonModel: _salonModel!);
+                  return HomeScreen(date: DateTime.now());
                 } else {
                   // to stop the loading dialog
                   return const AccountNotValidatePage();
