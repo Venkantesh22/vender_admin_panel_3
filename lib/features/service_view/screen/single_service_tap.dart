@@ -284,7 +284,9 @@ class SingleServiceTap extends StatelessWidget {
             // Price and duration row
             Row(
               children: [
-                PriceRow(serviceModel: serviceModel),
+                SizedBox(
+                    width: Dimensions.dimenisonNo200,
+                    child: PriceRow(serviceModel: serviceModel)),
                 SizedBox(width: Dimensions.dimenisonNo20),
                 Icon(
                   Icons.watch_later_outlined,
@@ -292,9 +294,7 @@ class SingleServiceTap extends StatelessWidget {
                 ),
                 SizedBox(width: Dimensions.dimenisonNo10),
                 Text(
-                  "${serviceDuration.inHours}h: ${{
-                    serviceDuration.inMinutes % 60
-                  }.toString().padLeft(2, '0')}min",
+                  "${serviceDuration.inHours}h: ${(serviceDuration.inMinutes % 60).toString().padLeft(2, '0')}min",
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: Dimensions.dimenisonNo16,

@@ -79,4 +79,14 @@ class GlobalVariable {
   static String serviceAtSalon = "Salon";
   static String serviceAtHome = "Home";
   static String serviceAtBoth = "Both";
+
+  // Appointment Status
+  static String pendingAppointState = "Pending";
+  static String confirmedAppointState = "Confirmed";
+  static String completedAppointState = "Completed";
+  static String cancelAppointState = "(Cancel)";
+  static String inProccesAppointState = "InProcces";
+  static String checkInAppointState = "Check-In";
+  static String billGenerateAppointState = "Bill Generate";
+  static String updateAppointState = "(Update)";
 }

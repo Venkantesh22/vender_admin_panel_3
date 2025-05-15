@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/router.dart';
+import 'package:samay_admin_plan/features/Direct%20Billing/screen/direct_billing.dart';
 import 'package:samay_admin_plan/features/custom_appbar/widget/appbar_item.dart';
 import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart';
 import 'package:samay_admin_plan/features/reports_Section/report_dashboard/report_dashboard.dart';
@@ -78,6 +80,24 @@ AppBar webAppBar(BuildContext context, AppProvider appProvider) {
             },
           ),
           const Spacer(),
+          Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
+            child: IconButton(
+              icon:
+                  const Icon(FontAwesomeIcons.fileInvoice, color: Colors.black),
+              onPressed: () {
+                Routes.instance.push(
+                  widget: DirectBillingScreen(
+                      salonModel: appProvider.getSalonInformation),
+                  context: context,
+                );
+                // Handle invoice button press
+              },
+            ),
+          ),
           SizedBox(width: Dimensions.dimenisonNo20),
           Container(
             decoration: const BoxDecoration(

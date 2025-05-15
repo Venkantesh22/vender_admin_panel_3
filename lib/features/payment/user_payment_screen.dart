@@ -530,7 +530,7 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
                   labelText: "Discount",
-                  errorText: _validateDiscountInput(),
+                  errorText: validateDiscountInput(_extraDiscountInPer.text),
                   errorStyle: TextStyle(fontSize: Dimensions.dimenisonNo12),
                 ),
                 onChanged: (value) {
@@ -576,16 +576,16 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
     );
   }
 
-  String? _validateDiscountInput() {
-    final value = double.tryParse(_extraDiscountInPer.text);
-    if (value == null && _extraDiscountInPer.text.isNotEmpty) {
-      return 'Invalid number';
-    }
-    if (value != null && (value < 0 || value > 100)) {
-      return '0-100% only';
-    }
-    return null;
-  }
+  // String? _validateDiscountInput() {
+  //   final value = double.tryParse(_extraDiscountInPer.text);
+  //   if (value == null && _extraDiscountInPer.text.isNotEmpty) {
+  //     return 'Invalid number';
+  //   }
+  //   if (value != null && (value < 0 || value > 100)) {
+  //     return '0-100% only';
+  //   }
+  //   return null;
+  // }
 
   Widget _buildFinalAmountRow() {
     return Padding(

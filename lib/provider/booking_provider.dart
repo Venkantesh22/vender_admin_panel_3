@@ -200,6 +200,12 @@ class BookingProvider with ChangeNotifier {
   /// Calculates the subtotal, discount, GST, and final total.
   void calculateSubTotal() {
     try {
+      double totalExtraDicAMT =
+          _extraDiscountAmount! + _extraDiscountInPer! ?? 0.0;
+      print(
+          "Total Extra Discount Amount: $_extraDiscountAmount + $_extraDiscountInPer");
+      print("Total Extra Discount Amount: $totalExtraDicAMT");
+
       if (_settingModel!.gSTIsIncludingOrExcluding ==
           GlobalVariable.GstExclusive) {
         //! Calculate GST for "Exclusive"
@@ -223,7 +229,8 @@ class BookingProvider with ChangeNotifier {
         // Calculate final total without GST.
         double platformFee =
             double.tryParse(getSamaySalonSettingModel.platformFee) ?? 0.0;
-        _finalTotal = (_subTotal + platformFee) - _discountAmount!;
+        _finalTotal =
+            (_subTotal + platformFee) - _discountAmount! - totalExtraDicAMT;
         print("Final Total (without GST): $_finalTotal");
 
         // Calculate GST if applicable.
@@ -231,7 +238,9 @@ class BookingProvider with ChangeNotifier {
             ? (_salonGstPer! / 100) * (_subTotal - _discountAmount!)
             : 0.0;
         double finalAmountWithGST =
-            ((_subTotal + _calGstAmount) - _discountAmount!) + platformFee;
+            (((_subTotal + _calGstAmount) - _discountAmount!) -
+                    totalExtraDicAMT) +
+                platformFee;
         _calFinalAmountWithGST = finalAmountWithGST;
 
         print("Final Total (without GST): $_calFinalAmountWithGST");
@@ -267,7 +276,7 @@ class BookingProvider with ChangeNotifier {
             : 0.0;
 
         double finalAmountWithGST =
-            (_subTotal - _discountAmount!) + platformFee;
+            ((_subTotal - _discountAmount!) - totalExtraDicAMT) + platformFee;
         _calFinalAmountWithGST = finalAmountWithGST;
         print("Final Total (with GST) Inclusive: $_calFinalAmountWithGST");
         calNetPirce();
@@ -362,6 +371,37 @@ class BookingProvider with ChangeNotifier {
   void selectAppoint(AppointModel appointValue) {
     _appointModel = appointValue;
     print("select Appoint ${_appointModel!.appointmentNo.toString()}");
+    notifyListeners();
+  }
+
+  // Set discount percentage and amount
+
+  void setDiscountINPer(double discount) {
+    _extraDiscountInPer = discount;
+    notifyListeners();
+  }
+
+  // Set discount amount
+  void setDiscountAmount(double discount) {
+    _extraDiscountAmount = discount;
+    notifyListeners();
+  }
+
+  void setAllZero() {
+    _discountInPer = 0.0;
+    _subTotal = 0.0;
+    _finalTotal = 0.0;
+    _netPrice = 0.0;
+    _calGstAmount = 0.0;
+    _discountInPer = 0.0;
+    _discountAmount = 0.0;
+    _extraDiscountAmount = 0.0;
+    _extraDiscountInPer = 0.0;
+    _salonGstPer = 0.0;
+    _watchList.clear();
+    _bookinglist.clear();
+    _calFinalAmountWithGST = 0.0;
+    _serviceBookingDuration = "0h 0m";
     notifyListeners();
   }
 }

@@ -1,12 +1,12 @@
+// ignore_for_file: unnecessary_null_comparison, no_leading_underscores_for_local_identifiers
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart';
-import 'package:samay_admin_plan/models/salon_setting_model/salon_setting_model.dart';
 import 'package:samay_admin_plan/models/save_date/save_appointment_date.dart';
 import 'package:samay_admin_plan/models/service_model/service_model.dart';
 import 'package:samay_admin_plan/models/timestamp_model/timestamp_model.dart';
@@ -155,33 +155,33 @@ class UserBookingFB {
 
 // Save new Appointment
   Future<bool> saveAppointmentManual(
-      List<ServiceModel> listOfServices,
-      UserModel userModel,
-      int appointmentNo,
-      double totalPrice,
-      double subtatal,
-      double platformFees,
-      String payment,
-      int serviceDuration,
-      DateTime serviceDate,
-      DateTime serviceStartTime,
-      DateTime serviceEndTime,
-      String userNote,
-      String vendorId,
-      String gstNo,
-      double gstAmount,
-      double discountInPer,
-      double discountAmount,
-      double extraDiscountInPer,
-      double extraDiscountInAmount,
-      double netPrice,
-      String gstIsIncludingOrExcluding,
-      BuildContext context) async {
+      {required final List<ServiceModel> listOfServices,
+      required UserModel userModel,
+      required int appointmentNo,
+      required double totalPrice,
+      required double subtatal,
+      required double platformFees,
+      required String payment,
+      required int serviceDuration,
+      required DateTime serviceDate,
+      required DateTime serviceStartTime,
+      required DateTime serviceEndTime,
+      required String userNote,
+      required String vendorId,
+      required String gstNo,
+      required double gstAmount,
+      required double discountInPer,
+      required double discountAmount,
+      required double extraDiscountInPer,
+      required double extraDiscountInAmount,
+      required double netPrice,
+      required String gstIsIncludingOrExcluding,
+      required String status,
+      required BuildContext context}) async {
     try {
       AppProvider appProvider =
           Provider.of<AppProvider>(context, listen: false);
       String? adminUid = _auth.currentUser?.uid;
-      // final List<TimeDateModel> timeDateList = [];
       final List<TimeStampModel> _timeStampList = [];
 
       if (listOfServices == null) {
@@ -232,7 +232,139 @@ class UserBookingFB {
         "appointmentNo": appointmentNo,
         "userModel": userModel.toJson(), // Convert SalonModel to JSON
         "services": listOfServices.map((e) => e.toJson()).toList(),
-        "status": "Pending",
+        "status": status,
+        "totalPrice": totalPrice,
+        "platformFees": platformFees,
+        "subtatal": subtatal,
+        "payment": payment,
+        "gstNo": gstNo,
+        "gstAmount": gstAmount,
+        "discountInPer": discountInPer,
+        "discountAmount": discountAmount,
+        "extraDiscountInPer": extraDiscountInPer,
+        "extraDiscountInAmount": extraDiscountInAmount,
+        "serviceDuration": serviceDuration,
+        "serviceDate": serviceDate,
+        "serviceStartTime": serviceStartTime,
+        "serviceEndTime": serviceEndTime,
+        "userNote": userNote,
+        "timeStampList": _timeStampList.map((e) => e.toJson()).toList(),
+        "isUpdate": false,
+        "isMadual": true,
+        "netPrice": netPrice,
+        "gstIsIncludingOrExcluding": gstIsIncludingOrExcluding,
+      });
+
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+// Quick Generate Billing
+  Future<bool> quickGenerateBilling(
+      {required final List<ServiceModel> listOfServices,
+      required UserModel userModel,
+      required int appointmentNo,
+      required double totalPrice,
+      required double subtatal,
+      required double platformFees,
+      required String payment,
+      required int serviceDuration,
+      required DateTime serviceDate,
+      required DateTime serviceStartTime,
+      required DateTime serviceEndTime,
+      required String userNote,
+      required String vendorId,
+      required String gstNo,
+      required double gstAmount,
+      required double discountInPer,
+      required double discountAmount,
+      required double extraDiscountInPer,
+      required double extraDiscountInAmount,
+      required double netPrice,
+      required String gstIsIncludingOrExcluding,
+      required String status,
+      required String transactionId,
+      required BuildContext context}) async {
+    // List<ServiceModel> listOfServices,
+    // UserModel userModel,
+    // int appointmentNo,
+    // double totalPrice,
+    // double subtatal,
+    // double platformFees,
+    // String payment,
+    // int serviceDuration,
+    // DateTime serviceDate,
+    // DateTime serviceStartTime,
+    // DateTime serviceEndTime,
+    // String userNote,
+    // String vendorId,
+    // String gstNo,
+    // double gstAmount,
+    // double discountInPer,
+    // double discountAmount,
+    // double extraDiscountInPer,
+    // double extraDiscountInAmount,
+    // double netPrice,
+    // String gstIsIncludingOrExcluding,
+    // String status,
+    // BuildContext context) async {
+    try {
+      AppProvider appProvider =
+          Provider.of<AppProvider>(context, listen: false);
+      String? adminUid = _auth.currentUser?.uid;
+      final List<TimeStampModel> _timeStampList = [];
+
+      if (listOfServices == null) {
+        Navigator.of(context, rootNavigator: true)
+            .pop(); // Dismiss any loading dialog
+        showMessage("Error: User Service is not available.");
+        return false;
+      }
+      if (userModel == null) {
+        Navigator.of(context, rootNavigator: true)
+            .pop(); // Dismiss any loading dialog
+        showMessage("Error: User Model is not available.");
+        return false;
+      }
+
+      if (vendorId == null) {
+        Navigator.of(context, rootNavigator: true)
+            .pop(); // Dismiss any loading dialog
+        showMessage("Error: Salon information is not available.");
+        return false;
+      }
+
+      DocumentReference documentReference = _firebaseFirestore
+          .collection("UserOrder")
+          .doc(userModel.id)
+          .collection('order')
+          .doc();
+      DocumentReference documentReferenceTime = _firebaseFirestore
+          .collection("UserOrder")
+          .doc(userModel.id)
+          .collection('order')
+          .doc();
+
+      //Add TimeDate list
+      TimeStampModel _timeStampModel = TimeStampModel(
+          id: documentReferenceTime.id,
+          dateAndTime: GlobalVariable.today,
+          updateBy:
+              "${appProvider.getSalonInformation.name} (Create a Appointment)");
+
+      _timeStampList.add(_timeStampModel);
+
+      documentReference.set({
+        "orderId": documentReference.id,
+        "userId": userModel.id,
+        "vendorId": vendorId,
+        "adminId": adminUid,
+        "appointmentNo": appointmentNo,
+        "userModel": userModel.toJson(), // Convert SalonModel to JSON
+        "services": listOfServices.map((e) => e.toJson()).toList(),
+        "status": status,
         "totalPrice": totalPrice,
         "platformFees": platformFees,
         "subtatal": subtatal,

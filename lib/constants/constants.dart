@@ -635,3 +635,16 @@ bool minValidation(
     return true;
   }
 }
+
+String? validateDiscountInput(
+  String extraDiscountInPer,
+) {
+  final value = double.tryParse(extraDiscountInPer);
+  if (value == null && extraDiscountInPer.isNotEmpty) {
+    return 'Invalid number';
+  }
+  if (value != null && (value < 0)) {
+    return 'Discount cannot be negative';
+  }
+  return null;
+}

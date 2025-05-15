@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/router.dart';
+import 'package:samay_admin_plan/features/Direct%20Billing/screen/direct_billing.dart';
 import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart';
 import 'package:samay_admin_plan/features/reports_Section/report_dashboard/report_dashboard.dart';
 import 'package:samay_admin_plan/features/service_view/screen/super_category.dart';
@@ -14,6 +16,7 @@ import 'package:samay_admin_plan/utility/dimenison.dart';
 class MobileDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AppProvider appProvider = Provider.of<AppProvider>(context);
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -49,15 +52,6 @@ class MobileDrawer extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                // Text(
-                //   'Admin',
-                //   style: TextStyle(
-                //     color: Colors.white,
-                //     fontSize: Dimensions.dimenisonNo14,
-                //     fontFamily: GoogleFonts.roboto().fontFamily,
-                //     fontWeight: FontWeight.w400,
-                //   ),
-                // ),
               ],
             ),
           ),
@@ -100,6 +94,17 @@ class MobileDrawer extends StatelessWidget {
             onTap: () {
               Routes.instance.push(
                 widget: SettingsPage(),
+                context: context,
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(FontAwesomeIcons.fileInvoice),
+            title: const Text("Quick Billing"),
+            onTap: () {
+              Routes.instance.push(
+                widget: DirectBillingScreen(
+                    salonModel: appProvider.getSalonInformation),
                 context: context,
               );
             },

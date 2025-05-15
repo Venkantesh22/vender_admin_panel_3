@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/features/popup/add_new_category.dart';
 import 'package:samay_admin_plan/features/services_page/widget/category_button.dart';
 import 'package:samay_admin_plan/models/category_model/category_model.dart';
@@ -87,9 +88,11 @@ Drawer cateDrawer(
                       onTap: () {
                         serviceProvider.selectCategory(categoryModel);
                         // Add animation for closing the drawer
-                        Future.delayed(const Duration(milliseconds: 200), () {
-                          Navigator.of(context).pop(); // Close the drawer
-                        });
+                        if (ResponsiveLayout.isMobile(context)) {
+                          Future.delayed(const Duration(milliseconds: 200), () {
+                            Navigator.of(context).pop(); // Close the drawer
+                          });
+                        }
                         Navigator.of(context).pushNamed(
                           '/services_list',
                         );

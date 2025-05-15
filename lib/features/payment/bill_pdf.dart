@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -534,21 +535,32 @@ class BillPdfPage extends StatelessWidget {
               try {
                 SettingProvider _settingProvider =
                     Provider.of<SettingProvider>(context, listen: false);
-                final pdfBytes = await _generatePdf(PdfPageFormat.a4);
+
+                // Ensure message has a default value if null
                 String message = _settingProvider
-                        .getMessageModel!.wMasForbillPFD ??
+                        .getMessageModel?.wMasForbillPFD ??
                     "Thank you for using the Samay service. Please visit us again!";
 
-                final String number =
-                    "${GlobalVariable.indiaCode}${appointModel.userModel.phone}";
+                // Ensure number is not null
+                final String? userPhone = appointModel.userModel.phone;
+                if (userPhone == null || userPhone.isEmpty) {
+                  showMessage("User phone number is not available.");
+                  return;
+                }
+                final String number = "${GlobalVariable.indiaCode}$userPhone";
+
+                // Generate the PDF
+                final pdfBytes = await _generatePdf(PdfPageFormat.a4);
+
                 if (kIsWeb) {
-                  // On web, use Printing.sharePdf (this opens the native share dialog)
+                  // Web platform: Use Printing.sharePdf and WhatsApp Web
                   await Printing.sharePdf(
                     bytes: pdfBytes,
                     filename:
                         'invoice_${appointModel.userModel.name} ${GlobalVariable.getCurrentDate()}.pdf',
                   );
-                  // Then launch WhatsApp Web with a pre-filled message
+
+                  // Launch WhatsApp Web with a pre-filled message
                   final whatsappUrl = Uri.parse(
                       'https://wa.me/$number/?text=${Uri.encodeComponent(message)}');
                   if (await canLaunchUrl(whatsappUrl)) {
@@ -556,15 +568,41 @@ class BillPdfPage extends StatelessWidget {
                   } else {
                     showMessage("WhatsApp not available.");
                   }
-                } else {
-                  // Mobile branch (not used on web)
+                } else if (Platform.isAndroid || Platform.isIOS) {
+                  // Mobile platforms: Save and share the PDF
                   final directory = await getTemporaryDirectory();
                   final file = File(
                       '${directory.path}/invoice_${appointModel.orderId}.pdf');
                   await file.writeAsBytes(pdfBytes);
+
+                  // Share the PDF file
                   await Share.shareXFiles([XFile(file.path)], text: message);
+
+                  // Launch WhatsApp with a pre-filled message
                   final whatsappUrl = Uri.parse(
-                      'whatsapp://$number/send?text=${Uri.encodeComponent(message)}');
+                      'whatsapp://send?phone=$number&text=${Uri.encodeComponent(message)}');
+                  if (await canLaunchUrl(whatsappUrl)) {
+                    await launchUrl(whatsappUrl);
+                  } else {
+                    showMessage("WhatsApp not available.");
+                  }
+                } else if (Platform.isWindows ||
+                    Platform.isMacOS ||
+                    Platform.isLinux) {
+                  // Desktop platforms: Save the PDF and open it
+                  final directory = await getDownloadsDirectory();
+                  final file = File(
+                      '${directory?.path}/invoice_${appointModel.orderId}.pdf');
+                  await file.writeAsBytes(pdfBytes);
+
+                  // Open the PDF file
+                  if (await file.exists()) {
+                    await OpenFile.open(file.path);
+                  }
+
+                  // Launch WhatsApp Web with a pre-filled message
+                  final whatsappUrl = Uri.parse(
+                      'https://wa.me/$number/?text=${Uri.encodeComponent(message)}');
                   if (await canLaunchUrl(whatsappUrl)) {
                     await launchUrl(whatsappUrl);
                   } else {
@@ -576,6 +614,68 @@ class BillPdfPage extends StatelessWidget {
                 print("Error sharing invoice: $e");
               }
             },
+            // onPressed: () async {
+            //   try {
+            //     SettingProvider _settingProvider =
+            //         Provider.of<SettingProvider>(context, listen: false);
+
+            //     // Ensure message has a default value if null
+            //     String message = _settingProvider
+            //             .getMessageModel?.wMasForbillPFD ??
+            //         "Thank you for using the Samay service. Please visit us again!";
+
+            //     // Ensure number is not null
+            //     final String? userPhone = appointModel.userModel.phone;
+            //     if (userPhone == null || userPhone.isEmpty) {
+            //       showMessage("User phone number is not available.");
+            //       return;
+            //     }
+            //     final String number = "${GlobalVariable.indiaCode}$userPhone";
+
+            //     // Generate the PDF
+            //     final pdfBytes = await _generatePdf(PdfPageFormat.a4);
+
+            //     if (kIsWeb) {
+            //       // On web, use Printing.sharePdf (this opens the native share dialog)
+            //       await Printing.sharePdf(
+            //         bytes: pdfBytes,
+            //         filename:
+            //             'invoice_${appointModel.userModel.name} ${GlobalVariable.getCurrentDate()}.pdf',
+            //       );
+
+            //       // Launch WhatsApp Web with a pre-filled message
+            //       final whatsappUrl = Uri.parse(
+            //           'https://wa.me/$number/?text=${Uri.encodeComponent(message)}');
+            //       if (await canLaunchUrl(whatsappUrl)) {
+            //         await launchUrl(whatsappUrl);
+            //       } else {
+            //         showMessage("WhatsApp not available.");
+            //       }
+            //     } else {
+            //       // Mobile branch
+            //       final directory = await getTemporaryDirectory();
+            //       final file = File(
+            //           '${directory.path}/invoice_${appointModel.orderId}.pdf');
+            //       await file.writeAsBytes(pdfBytes);
+
+            //       // Share the PDF file
+            //       await Share.shareXFiles([XFile(file.path)], text: message);
+
+            //       // Launch WhatsApp with a pre-filled message
+            //       final whatsappUrl = Uri.parse(
+            //           'whatsapp://send?phone=$number&text=${Uri.encodeComponent(message)}');
+            //       if (await canLaunchUrl(whatsappUrl)) {
+            //         await launchUrl(whatsappUrl);
+            //       } else {
+            //         showMessage("WhatsApp not available.");
+            //       }
+            //     }
+            //   } catch (e) {
+            //     showMessage("Error sharing invoice: $e");
+            //     print("Error sharing invoice: $e");
+            //   }
+            // },
+
             icon: FaIcon(
               FontAwesomeIcons.whatsapp,
               size: Dimensions.dimenisonNo24,
