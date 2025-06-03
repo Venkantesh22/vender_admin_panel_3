@@ -4,7 +4,6 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
-import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/samay_fb.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_storage_helper/firebase_storage_helper.dart';
 import 'package:samay_admin_plan/models/admin_model/admin_models.dart';
 import 'package:samay_admin_plan/models/image_model/image_model.dart';
@@ -159,45 +158,54 @@ class AppProvider with ChangeNotifier {
     BuildContext context,
     SalonModel salonModel, {
     Uint8List? image,
+    Uint8List? imageLogo,
   }) async {
-    if (image == null) {
-      // showLoaderDialog(context);
+    showLoaderDialog(context);
+    try {
+      imageLogo != null
+          ? print("Logo is provider")
+          : print("Logo is not  provider");
 
       _salonModel = salonModel;
+
+      // Update main image if provided
+      if (image != null) {
+        String? uploadImageUrl =
+            await FirebaseStorageHelper.instance.uploadSalonImageToStorage(
+          "${salonModel.id}image",
+          "${GlobalVariable.salon}${salonModel.id}Image",
+          image,
+        );
+        salonModel.image = uploadImageUrl;
+      }
+
+      // Update logo image if provided
+      if (imageLogo != null) {
+        String? uploadLogoUrl =
+            await FirebaseStorageHelper.instance.uploadSalonLogImageToStorage(
+          "${salonModel.id}log",
+          "${GlobalVariable.salon}${salonModel.id}Image",
+          imageLogo!,
+        );
+        salonModel.logImage = uploadLogoUrl;
+      }
+
+      // Update Firestore with the latest salonModel
       await FirebaseFirestore.instance
           .collection("admins")
           .doc(_adminModel!.id)
           .collection('salon')
           .doc(_salonModel!.id)
           .set(_salonModel!.toJson());
-      // Navigator.of(context, rootNavigator: true).pop();
-      // Navigator.of(context).pop();
+
+      Navigator.of(context, rootNavigator: true).pop(); // Close loader
       showMessage("Successfully updated ${GlobalVariable.salon} profile");
-      print(
-          " ########################Salon update ###############################################################");
       notifyListeners();
       return true;
-    } else {
-      showLoaderDialog(context);
-      _salonModel = salonModel;
-      String? uploadImageUrl = await FirebaseStorageHelper.instance
-          .uploadSalonImageToStorage(
-              salonModel.id,
-              "${GlobalVariable.salon}${salonModel.name}${salonModel.id}images",
-              image);
-      salonModel.image = uploadImageUrl;
-      await FirebaseFirestore.instance
-          .collection("admins")
-          .doc(_adminModel!.id)
-          .collection('salon')
-          .doc(_salonModel!.id)
-          .set(_salonModel!.toJson());
-      Navigator.of(context, rootNavigator: true).pop();
-      // Navigator.of(context).pop();
-      notifyListeners();
-
-      // showMessage("Successfully updated ${GlobalVariable.salon} profile");
-      return true;
+    } catch (e) {
+      Navigator.of(context, rootNavigator: true).pop(); // Ensure loader closes
+      showMessage("Failed to update profile: $e");
+      return false;
     }
   }
 

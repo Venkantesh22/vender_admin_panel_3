@@ -131,11 +131,11 @@ class _EditCategoryPopupState extends State<EditCategoryPopup> {
                     Navigator.of(context, rootNavigator: true).pop();
                     Navigator.of(context, rootNavigator: true).pop();
 
-                    showInforAlertDialog(
-                      context,
-                      "Successfully Edited the Category",
-                      "Category is edited successfully. Reload the page to see changes.",
-                    );
+                    // showInforAlertDialog(
+                    //   context,
+                    //   "Successfully Edited the Category",
+                    //   "Category is edited successfully. Reload the page to see changes.",
+                    // );
                   }
                 } catch (e) {
                   Navigator.of(context, rootNavigator: true).pop();

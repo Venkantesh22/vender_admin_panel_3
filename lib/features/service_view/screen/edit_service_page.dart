@@ -324,6 +324,9 @@ class _EditServicePageState extends State<EditServicePage> {
                           "Successfully updated ${widget.serviceModel.servicesName} service");
                     } catch (e) {
                       showMessage("Error not updated  service");
+                    } finally {
+                      Navigator.of(context, rootNavigator: true).pop();
+                      Navigator.of(context).pop();
                     }
                   },
                 ),

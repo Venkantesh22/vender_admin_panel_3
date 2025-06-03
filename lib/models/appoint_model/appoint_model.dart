@@ -33,6 +33,7 @@ class AppointModel {
   double? discountInPer;
   double? discountAmount;
   double? extraDiscountInPer;
+  double? extraDiscountInPerAMT;
   double? extraDiscountInAmount;
   String? transactionId;
   String? billingId; // New variable
@@ -64,10 +65,11 @@ class AppointModel {
     required this.netPrice,
     required this.gstIsIncludingOrExcluding,
     required this.serviceAt,
-    required this.serviceAddress,
+    this.serviceAddress = "No Address Defined",
     this.discountInPer = 0.0,
     this.discountAmount,
     this.extraDiscountInPer = 0.0,
+    this.extraDiscountInPerAMT = 0.0,
     this.extraDiscountInAmount = 0.0,
     this.transactionId,
     this.billingId,
@@ -112,11 +114,13 @@ class AppointModel {
       gstIsIncludingOrExcluding:
           json['gstIsIncludingOrExcluding'] ?? 'including',
       serviceAt: json['serviceAt'] ?? 'Salon',
-      serviceAddress: json['serviceAddress'] ?? 'No Address',
+      serviceAddress: json['serviceAddress'] ?? 'No Address fromJSAN',
       discountInPer: (json['discountInPer'] ?? 0.0 as num?)?.toDouble(),
       discountAmount: (json['discountAmount'] ?? 0.0 as num?)?.toDouble(),
       extraDiscountInPer:
           (json['extraDiscountInPer'] ?? 0.0 as num?)?.toDouble(),
+      extraDiscountInPerAMT:
+          (json['extraDiscountInPerAMT'] ?? 0.0 as num?)?.toDouble(),
       extraDiscountInAmount:
           (json['extraDiscountInAmount'] ?? 0.0 as num?)?.toDouble(),
       transactionId: json['transactionId'],
@@ -157,6 +161,7 @@ class AppointModel {
       'discountInPer': discountInPer,
       'discountAmount': discountAmount,
       'extraDiscountInPer': extraDiscountInPer,
+      'extraDiscountInPerAMT': extraDiscountInPerAMT,
       'extraDiscountInAmount': extraDiscountInAmount,
       'transactionId': transactionId,
       'billingId': billingId,
@@ -190,6 +195,7 @@ class AppointModel {
     double? discountInPer,
     double? discountAmount,
     double? extraDiscountInPer,
+    double? extraDiscountInPerAMT,
     double? extraDiscountInAmount,
     String? transactionId,
     String? billingId,
@@ -226,6 +232,8 @@ class AppointModel {
       discountInPer: discountInPer ?? this.discountInPer,
       discountAmount: discountAmount ?? this.discountAmount,
       extraDiscountInPer: extraDiscountInPer ?? this.extraDiscountInPer,
+      extraDiscountInPerAMT:
+          extraDiscountInPerAMT ?? this.extraDiscountInPerAMT,
       extraDiscountInAmount:
           extraDiscountInAmount ?? this.extraDiscountInAmount,
       transactionId: transactionId ?? this.transactionId,

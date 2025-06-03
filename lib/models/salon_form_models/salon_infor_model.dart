@@ -23,6 +23,7 @@ class SalonModel {
     this.googleMap,
     this.linked,
     this.image,
+    this.logImage,
     this.monday,
     this.tuesday,
     this.wednesday,
@@ -57,6 +58,7 @@ class SalonModel {
   String? googleMap;
   String? linked;
   String? image;
+  String? logImage;
   String? monday;
   String? tuesday;
   String? wednesday;
@@ -96,6 +98,7 @@ class SalonModel {
       googleMap: json["googleMap"],
       linked: json["linked"],
       image: json["image"],
+      logImage: json["logImage"],
       monday: json['monday'],
       tuesday: json['tuesday'],
       wednesday: json['wednesday'],
@@ -134,6 +137,7 @@ class SalonModel {
         "googleMap": googleMap,
         "linked": linked,
         "image": image,
+        "logImage": logImage,
         'monday': monday,
         'tuesday': tuesday,
         'wednesday': wednesday,
@@ -170,6 +174,7 @@ class SalonModel {
     String? googleMap,
     String? linked,
     String? image,
+    String? logImage,
     String? monday,
     String? tuesday,
     String? wednesday,
@@ -205,6 +210,7 @@ class SalonModel {
       googleMap: googleMap ?? this.googleMap,
       linked: linked ?? this.linked,
       image: image ?? this.image,
+      logImage: logImage ?? this.logImage,
       monday: monday ?? this.monday,
       tuesday: tuesday ?? this.tuesday,
       wednesday: wednesday ?? this.wednesday,

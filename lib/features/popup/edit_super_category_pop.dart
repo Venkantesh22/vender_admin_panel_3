@@ -132,12 +132,6 @@ class _EditSuperCategoryPopupState extends State<EditSuperCategoryPopup> {
 
                     Navigator.of(context, rootNavigator: true).pop();
                     Navigator.of(context, rootNavigator: true).pop();
-
-                    showInforAlertDialog(
-                      context,
-                      "Successfully Edited the Super-Category",
-                      "Super Category is edited successfully. Reload the page to see changes.",
-                    );
                   }
                 } catch (e) {
                   Navigator.of(context, rootNavigator: true).pop();

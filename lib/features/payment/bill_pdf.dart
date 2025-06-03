@@ -21,17 +21,20 @@ import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart
 import 'package:samay_admin_plan/models/salon_setting_model/salon_setting_model.dart';
 import 'package:samay_admin_plan/utility/color.dart';
 import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:http/http.dart' as http;
 
 class BillPdfPage extends StatelessWidget {
   final AppointModel appointModel;
   final SalonModel salonModel;
   final SettingModel settingModel;
+  final String? vendorLogo;
 
   const BillPdfPage({
     super.key,
     required this.appointModel,
     required this.salonModel,
     required this.settingModel,
+    this.vendorLogo,
   });
 
   Future<pw.Font> _loadCustomFont() async {
@@ -56,10 +59,33 @@ class BillPdfPage extends StatelessWidget {
     }
   }
 
+  Future<pw.MemoryImage?> _loadVendorLogoImage() async {
+    try {
+      if (vendorLogo == null || vendorLogo!.isEmpty) {
+        return null;
+      }
+      if (vendorLogo!.startsWith('http')) {
+        final response = await http.get(Uri.parse(vendorLogo!));
+        if (response.statusCode == 200) {
+          return pw.MemoryImage(response.bodyBytes);
+        } else {
+          return null;
+        }
+      } else {
+        final logoVendorBytes = await rootBundle.load(vendorLogo!);
+        return pw.MemoryImage(logoVendorBytes.buffer.asUint8List());
+      }
+    } catch (e) {
+      print("Error loading vendor logo image: $e");
+      return null;
+    }
+  }
+
   Future<Uint8List> _generatePdf(PdfPageFormat format) async {
     try {
       final customFont = await _loadCustomFont();
       final logoImage = await _loadLogoImage();
+      final vendorLogoImage = await _loadVendorLogoImage();
       final String taxAmt = (appointModel.gstAmount / 2).toStringAsFixed(2);
       final bool isTaxShow =
           (settingModel.gstNo != null && settingModel.gstNo.length >= 10);
@@ -81,21 +107,28 @@ class BillPdfPage extends StatelessWidget {
           pageFormat: format,
           build: (pw.Context context) {
             return pw.Padding(
-              padding: pw.EdgeInsets.all(Dimensions.dimenisonNo12),
+              padding: pw.EdgeInsets.all(Dimensions.dimenisonNo8),
               child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
-                  _buildInvoiceTitle(customFont),
-                  pw.SizedBox(height: Dimensions.dimenisonNo16),
-                  _buildHeaderSection(logoImage, customFont),
-                  pw.SizedBox(height: Dimensions.dimenisonNo16),
-                  pw.Divider(),
-                  _buildClientInvoiceDetails(customFont),
-                  pw.SizedBox(height: Dimensions.dimenisonNo16),
-                  _buildServiceTable(serviceRows, customFont),
-                  pw.SizedBox(height: Dimensions.dimenisonNo16),
-                  _buildTaxAndTotalsSection(taxAmt, customFont, isTaxShow),
-                  pw.SizedBox(height: Dimensions.dimenisonNo50),
-                  _buildFooter(customFont),
+                  pw.Column(
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      _buildTopLogo(logoImage, customFont),
+                      _buildInvoiceTitle(customFont),
+                      pw.SizedBox(height: Dimensions.dimenisonNo16),
+                      _buildHeaderSection(vendorLogoImage, customFont),
+                      pw.SizedBox(height: Dimensions.dimenisonNo16),
+                      pw.Divider(),
+                      _buildClientInvoiceDetails(customFont),
+                      pw.SizedBox(height: Dimensions.dimenisonNo16),
+                      _buildServiceTable(serviceRows, customFont),
+                      pw.SizedBox(height: Dimensions.dimenisonNo16),
+                      _buildTaxAndTotalsSection(taxAmt, customFont, isTaxShow),
+                      pw.SizedBox(height: Dimensions.dimenisonNo50),
+                      _buildFooter(customFont),
+                    ],
+                  ),
                 ],
               ),
             );
@@ -107,6 +140,28 @@ class BillPdfPage extends StatelessWidget {
       print("Error generating PDF: $e");
       rethrow;
     }
+  }
+
+  pw.Widget _buildTopLogo(pw.MemoryImage? logoImage, pw.Font customFont) {
+    return pw.Column(
+      children: [
+        pw.Container(
+          alignment: pw.Alignment.topLeft,
+          decoration: pw.BoxDecoration(
+              borderRadius: pw.BorderRadius.circular(Dimensions.dimenisonNo18)),
+          width: Dimensions.dimenisonNo40,
+          height: Dimensions.dimenisonNo40,
+          child: pw.Image(logoImage!, fit: pw.BoxFit.cover),
+        ),
+        pw.Text(
+          "Power by Samay",
+          style: pw.TextStyle(
+            fontSize: Dimensions.dimenisonNo5,
+            font: customFont,
+          ),
+        ),
+      ],
+    );
   }
 
   pw.Widget _buildInvoiceTitle(pw.Font customFont) {
@@ -122,29 +177,31 @@ class BillPdfPage extends StatelessWidget {
     );
   }
 
-  pw.Widget _buildHeaderSection(pw.MemoryImage logoImage, pw.Font customFont) {
+  pw.Widget _buildHeaderSection(
+      pw.MemoryImage? vendorLogoImage, pw.Font customFont) {
     return pw.Row(
       mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
       children: [
-        pw.Column(
-          children: [
-            pw.Container(
-              decoration: pw.BoxDecoration(
-                  borderRadius:
-                      pw.BorderRadius.circular(Dimensions.dimenisonNo18)),
-              width: Dimensions.dimenisonNo60,
-              height: Dimensions.dimenisonNo60,
-              child: pw.Image(logoImage, fit: pw.BoxFit.cover),
-            ),
-            pw.Text(
-              "Power by Samay",
-              style: pw.TextStyle(
-                fontSize: Dimensions.dimenisonNo5,
-                font: customFont,
-              ),
-            ),
-          ],
-        ),
+        vendorLogoImage != null
+            ? pw.Column(
+                children: [
+                  pw.Container(
+                    width: Dimensions.dimenisonNo40,
+                    height: Dimensions.dimenisonNo40,
+                    child: pw.ClipOval(
+                      child: pw.Image(vendorLogoImage, fit: pw.BoxFit.cover),
+                    ),
+                  ),
+                  pw.Text(
+                    "Power by Samay",
+                    style: pw.TextStyle(
+                      fontSize: Dimensions.dimenisonNo5,
+                      font: customFont,
+                    ),
+                  ),
+                ],
+              )
+            : pw.SizedBox(),
         pw.SizedBox(
           width: Dimensions.dimenisonNo200,
           child: pw.Column(
@@ -225,7 +282,7 @@ class BillPdfPage extends StatelessWidget {
               ),
             ),
             pw.Text(
-              "Date: ${appointModel.serviceDate}",
+              "Date: ${GlobalVariable.getCurrentDate()} ${GlobalVariable.getCurrentTime()}",
               style: pw.TextStyle(
                 fontSize: Dimensions.dimenisonNo8,
                 fontWeight: pw.FontWeight.bold,
@@ -268,6 +325,10 @@ class BillPdfPage extends StatelessWidget {
 
   pw.Widget _buildTaxAndTotalsSection(
       String taxAmt, pw.Font customFont, bool isTaxShow) {
+    final bool hasFlat = (appointModel.extraDiscountInAmount != null &&
+        appointModel.extraDiscountInAmount != 0.0);
+    final bool hasPer = (appointModel.extraDiscountInPerAMT != null &&
+        appointModel.extraDiscountInPerAMT != 0.0);
     return pw.Row(
       crossAxisAlignment: pw.CrossAxisAlignment.start,
       mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
@@ -367,8 +428,7 @@ class BillPdfPage extends StatelessWidget {
                       ),
                     )
                   : pw.SizedBox(),
-              (appointModel.extraDiscountInPer != null &&
-                      appointModel.extraDiscountInPer != 0.0)
+              (hasFlat || hasPer)
                   ? pw.Padding(
                       padding: pw.EdgeInsets.symmetric(
                           vertical: Dimensions.dimenisonNo5),
@@ -376,17 +436,23 @@ class BillPdfPage extends StatelessWidget {
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
                           pw.Text(
-                              "EXTRA DISCOUNT ${appointModel.extraDiscountInPer!.round().toString()}%",
-                              style: pw.TextStyle(
-                                fontSize: Dimensions.dimenisonNo10,
-                                font: customFont,
-                              )),
+                            (hasFlat && hasPer)
+                                ? "FLAT DISCOUNT"
+                                : hasFlat
+                                    ? "FLAT DISCOUNT"
+                                    : "EXTRA DISCOUNT ${appointModel.extraDiscountInPer ?? 0} %",
+                            style: pw.TextStyle(
+                              fontSize: Dimensions.dimenisonNo10,
+                              font: customFont,
+                            ),
+                          ),
                           pw.Text(
-                              "-₹${appointModel.extraDiscountInAmount?.toStringAsFixed(2) ?? '0.00'}",
-                              style: pw.TextStyle(
-                                fontSize: Dimensions.dimenisonNo10,
-                                font: customFont,
-                              )),
+                            "-₹${((appointModel.extraDiscountInPerAMT ?? 0.0) + (appointModel.extraDiscountInAmount ?? 0.0)).toStringAsFixed(2)}",
+                            style: pw.TextStyle(
+                              fontSize: Dimensions.dimenisonNo10,
+                              font: customFont,
+                            ),
+                          ),
                         ],
                       ),
                     )
@@ -614,68 +680,6 @@ class BillPdfPage extends StatelessWidget {
                 print("Error sharing invoice: $e");
               }
             },
-            // onPressed: () async {
-            //   try {
-            //     SettingProvider _settingProvider =
-            //         Provider.of<SettingProvider>(context, listen: false);
-
-            //     // Ensure message has a default value if null
-            //     String message = _settingProvider
-            //             .getMessageModel?.wMasForbillPFD ??
-            //         "Thank you for using the Samay service. Please visit us again!";
-
-            //     // Ensure number is not null
-            //     final String? userPhone = appointModel.userModel.phone;
-            //     if (userPhone == null || userPhone.isEmpty) {
-            //       showMessage("User phone number is not available.");
-            //       return;
-            //     }
-            //     final String number = "${GlobalVariable.indiaCode}$userPhone";
-
-            //     // Generate the PDF
-            //     final pdfBytes = await _generatePdf(PdfPageFormat.a4);
-
-            //     if (kIsWeb) {
-            //       // On web, use Printing.sharePdf (this opens the native share dialog)
-            //       await Printing.sharePdf(
-            //         bytes: pdfBytes,
-            //         filename:
-            //             'invoice_${appointModel.userModel.name} ${GlobalVariable.getCurrentDate()}.pdf',
-            //       );
-
-            //       // Launch WhatsApp Web with a pre-filled message
-            //       final whatsappUrl = Uri.parse(
-            //           'https://wa.me/$number/?text=${Uri.encodeComponent(message)}');
-            //       if (await canLaunchUrl(whatsappUrl)) {
-            //         await launchUrl(whatsappUrl);
-            //       } else {
-            //         showMessage("WhatsApp not available.");
-            //       }
-            //     } else {
-            //       // Mobile branch
-            //       final directory = await getTemporaryDirectory();
-            //       final file = File(
-            //           '${directory.path}/invoice_${appointModel.orderId}.pdf');
-            //       await file.writeAsBytes(pdfBytes);
-
-            //       // Share the PDF file
-            //       await Share.shareXFiles([XFile(file.path)], text: message);
-
-            //       // Launch WhatsApp with a pre-filled message
-            //       final whatsappUrl = Uri.parse(
-            //           'whatsapp://send?phone=$number&text=${Uri.encodeComponent(message)}');
-            //       if (await canLaunchUrl(whatsappUrl)) {
-            //         await launchUrl(whatsappUrl);
-            //       } else {
-            //         showMessage("WhatsApp not available.");
-            //       }
-            //     }
-            //   } catch (e) {
-            //     showMessage("Error sharing invoice: $e");
-            //     print("Error sharing invoice: $e");
-            //   }
-            // },
-
             icon: FaIcon(
               FontAwesomeIcons.whatsapp,
               size: Dimensions.dimenisonNo24,

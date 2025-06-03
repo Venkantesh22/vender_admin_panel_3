@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/router.dart';
+import 'package:samay_admin_plan/features/Direct%20Billing/screen/edit_direct_billing.dart';
 import 'package:samay_admin_plan/features/edit_appointment/screen/edit_appointment.dart';
 import 'package:samay_admin_plan/features/home/user_info_sidebar/widget/infor.dart';
 import 'package:samay_admin_plan/features/home/user_info_sidebar/widget/infor_text_timedate.dart';
@@ -47,7 +48,8 @@ class UserInfoSideBar extends StatefulWidget {
 
 class _UserInfoSideBarState extends State<UserInfoSideBar> {
   bool isLoading = false;
-  // double extroDiscountAmount = 0.0;
+  // double _extraDiscountAmountLocal = 0.0;
+  // double _extraDiscountPerLocal = 0.0;
 
   late SalonModel salonModel;
   late SettingModel _settingModel;
@@ -65,23 +67,32 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
     ServiceProvider serviceProvider =
         Provider.of<ServiceProvider>(context, listen: false);
     AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
+    BookingProvider bookingProvider =
+        Provider.of<BookingProvider>(context, listen: false);
+    bookingProvider.getWatchList.clear();
     salonModel = appProvider.getSalonInformation;
 
     await serviceProvider.fetchSettingPro(salonModel.id);
     _settingModel = serviceProvider.getSettingModel!;
+
+    // _extraDiscountAmountLocal = widget.appointModel.extraDiscountInAmount! +
+    //     widget.appointModel.extraDiscountInPer!;
+
+    // _extraDiscountPerLocal =
+    //     (_extraDiscountAmountLocal / widget.appointModel.subtatal) * 100;
 
     setState(() {
       isLoading = false;
     });
   }
 
-  double get _netPriceFun {
-    double _net = (widget.appointModel.subtatal -
-            widget.appointModel.discountAmount! -
-            widget.appointModel.extraDiscountInAmount!) /
-        1.18;
-    return _net;
-  }
+  // double get _netPriceFun {
+  //   double _net = (widget.appointModel.subtatal -
+  //           widget.appointModel.discountAmount! -
+  //           widget.appointModel.extraDiscountInAmount!) /
+  //       1.18;
+  //   return _net;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -141,67 +152,8 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
 
 //! heading bar of Appointment
 
-                child: Row(
-                  children: [
-                    Text(
-                      'Appointment',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: Dimensions.dimenisonNo18,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                    const SizedBox(
-                      width: 4,
-                    ),
-                    widget.appointModel.status == "(Cancel)"
-                        ? const SizedBox()
-                        : widget.appointModel.isUpdate
-                            ? const StateText(status: "(Update)")
-                            : const SizedBox(),
-                    if (widget.appointModel.status == "(Cancel)")
-                      StateText(status: widget.appointModel.status),
-                    const Spacer(),
-                    widget.appointModel.status == "Bill Generate"
-                        ? Row(
-                            children: [
-                              IconButton(
-                                  onPressed: () async {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => BillPdfPage(
-                                          appointModel: widget.appointModel,
-                                          salonModel: salonModel,
-                                          settingModel: _settingModel,
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                  icon: const Icon(
-                                    Icons.download,
-                                    color: Colors.green,
-                                  )),
-                              SizedBox(
-                                width: Dimensions.dimenisonNo20,
-                              )
-                            ],
-                          )
-                        :
-
-                        // edit Button
-                        Row(
-                            children: [
-                              editAppointButton(activateDeleteAndEditButton,
-                                  context, userModel),
-                              SizedBox(width: Dimensions.dimenisonNo5),
-                              // cancel Button
-                              cancelAppointButton(activateDeleteAndEditButton,
-                                  context, userModel),
-                            ],
-                          ),
-                  ],
-                ),
+                child: appointHeadingPart(
+                    activateDeleteAndEditButton, context, userModel),
               ),
               Divider(thickness: Dimensions.dimenisonNo5),
 //! Appointment State
@@ -358,10 +310,11 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
               appointBookingInfor(userModel),
               SizedBox(height: Dimensions.dimenisonNo20),
               Opacity(
-                opacity: widget.appointModel.status != "Completed" ? 0.5 : 1.0,
+                // opacity: widget.appointModel.status != "Completed" ? 0.5 : 1.0,
+                opacity: widget.appointModel.status == "Pen" ? 0.5 : 1.0,
                 child: IgnorePointer(
-                  ignoring: widget.appointModel.status == "pen",
-                  // ignoring: widget.appointModel.status == "Completed",
+                  // ignoring: widget.appointModel.status != "Completed",
+                  ignoring: widget.appointModel.status == "Pen",
                   child: Container(
                     padding: EdgeInsets.symmetric(
                         horizontal: Dimensions.dimenisonNo16),
@@ -370,11 +323,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                         text: "CheckOut",
                         ontap: () {
                           Routes.instance.push(
-                              widget:
-                                  // PaymentScreen(
-                                  //     index: widget.index,
-                                  //     appointModel: widget.appointModel),
-                                  UserSideBarPaymentScreen(
+                              widget: UserSideBarPaymentScreen(
                                 appointModel: widget.appointModel,
                                 index: widget.index,
                               ),
@@ -394,98 +343,152 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
     }
   }
 
-  Opacity editAppointButton(bool activateDeleteAndEditButton,
-      BuildContext context, UserModel userModel) {
-    return Opacity(
-      opacity: activateDeleteAndEditButton ? 0.5 : 1.0,
-      // opacity: widget.appointModel.status == "(Cancel)" ? 0.5 : 1.0,
-      child: IgnorePointer(
-        ignoring: activateDeleteAndEditButton,
-        // ignoring: widget.appointModel.status == "(Cancel)",
-        child: IconButton(
-          onPressed: () {
-            BookingProvider bookingProvider =
-                Provider.of<BookingProvider>(context, listen: false);
-            bookingProvider.getWatchList.clear();
-            bookingProvider.getWatchList.addAll(widget.appointModel.services);
+  Row appointHeadingPart(bool activateDeleteAndEditButton, BuildContext context,
+      UserModel userModel) {
+    final status = widget.appointModel.status ?? "";
+    final isCancelled = status == "(Cancel)";
+    final isUpdated = widget.appointModel.isUpdate == true;
+    final isBillGenerated = status == "Bill Generate";
 
-            activateDeleteAndEditButton
-                ? showInforAlertDialog(
-                    context,
-                    "Appointments cannot be edited ",
-                    "Appointment is ${widget.appointModel.status} you cannot edited it",
-                  )
-                : Routes.instance.push(
-                    widget: EditAppointment(
-                      index: widget.index,
-                      appintModel: widget.appointModel,
-                      userModel: userModel,
-                      salonModel: salonModel,
-                    ),
-                    context: context);
-          },
-          icon: const Icon(
-            Icons.edit_square,
+    return Row(
+      children: [
+        Text(
+          'Appointment',
+          style: TextStyle(
             color: Colors.black,
+            fontSize: Dimensions.dimenisonNo18,
+            fontWeight: FontWeight.w500,
           ),
         ),
+        const SizedBox(width: 4),
+        if (!isCancelled && isUpdated) const StateText(status: "(Update)"),
+        Expanded(
+          child: Align(
+            alignment:
+                isCancelled ? Alignment.centerRight : Alignment.centerLeft,
+            child: isCancelled
+                ? StateText(status: status)
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      editAppointButton(
+                          activateDeleteAndEditButton, context, userModel),
+                      SizedBox(width: Dimensions.dimenisonNo5),
+                      cancelAppointButton(
+                          activateDeleteAndEditButton, context, userModel),
+                      if (isBillGenerated)
+                        IconButton(
+                          onPressed: () async {
+                            try {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BillPdfPage(
+                                    appointModel: widget.appointModel,
+                                    salonModel: salonModel,
+                                    settingModel: _settingModel,
+                                  ),
+                                ),
+                              );
+                            } catch (e) {
+                              showMessage("Error opening bill PDF: $e");
+                            }
+                          },
+                          icon: const Icon(
+                            Icons.download,
+                            color: Colors.green,
+                          ),
+                        ),
+                      SizedBox(width: Dimensions.dimenisonNo12),
+                    ],
+                  ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget editAppointButton(
+    bool activateDeleteAndEditButton,
+    BuildContext context,
+    UserModel userModel,
+  ) {
+    return IconButton(
+      onPressed: () {
+        BookingProvider bookingProvider =
+            Provider.of<BookingProvider>(context, listen: false);
+        bookingProvider.getWatchList.clear();
+        bookingProvider.getWatchList.addAll(widget.appointModel.services);
+
+        widget.appointModel.status == GlobalVariable.billGenerateAppointState
+            ? Routes.instance.push(
+                widget: EditDirectBillingScreen(
+                  salonModel: salonModel,
+                  appointModel: widget.appointModel,
+                  userModel: userModel,
+                ),
+                context: context)
+            : Routes.instance.push(
+                widget: EditAppointment(
+                  index: widget.index,
+                  appintModel: widget.appointModel,
+                  userModel: userModel,
+                  salonModel: salonModel,
+                ),
+                context: context);
+      },
+      icon: const Icon(
+        Icons.edit_square,
+        color: Colors.black,
       ),
     );
   }
 
-  Opacity cancelAppointButton(bool activateDeleteAndEditButton,
+  Widget cancelAppointButton(bool activateDeleteAndEditButton,
       BuildContext context, UserModel userModel) {
-    return Opacity(
-      opacity: activateDeleteAndEditButton ? 0.5 : 1.0,
-      child: IgnorePointer(
-        ignoring: activateDeleteAndEditButton,
-        child: IconButton(
-          onPressed: () {
-            activateDeleteAndEditButton
-                ? showInforAlertDialog(
-                    context,
-                    "Appointment cannot be cancelled ",
-                    "Appointment is ${widget.appointModel.status} you cannot cancel it",
-                  )
-                : showDeleteAlertDialog(context, "Cancel Appointment",
-                    "Do you want Cancel Appointment", () {
-                    try {
-                      showLoaderDialog(context);
-                      //create emptye list of timeDateList and add currently time for update
-                      List<TimeStampModel> _timeStampList = [];
-                      _timeStampList.addAll(widget.appointModel.timeStampList);
-                      TimeStampModel _timeStampModel = TimeStampModel(
-                          id: widget.appointModel.orderId,
-                          dateAndTime: GlobalVariable.today,
-                          updateBy:
-                              "${userModel.name} (Appointment has been canceled.)");
-                      _timeStampList.add(_timeStampModel);
+    return IconButton(
+      onPressed: () {
+        // activateDeleteAndEditButton
+        //     ? showInforAlertDialog(
+        //         context,
+        //         "Appointment cannot be cancelled ",
+        //         "Appointment is ${widget.appointModel.status} you cannot cancel it",
+        //       )
+        //     :
+        showDeleteAlertDialog(
+            context, "Cancel Appointment", "Do you want Cancel Appointment",
+            () {
+          try {
+            showLoaderDialog(context);
+            //create emptye list of timeDateList and add currently time for update
+            List<TimeStampModel> _timeStampList = [];
+            _timeStampList.addAll(widget.appointModel.timeStampList);
+            TimeStampModel _timeStampModel = TimeStampModel(
+                id: widget.appointModel.orderId,
+                dateAndTime: GlobalVariable.today,
+                updateBy: "${userModel.name} (Appointment has been canceled.)");
+            _timeStampList.add(_timeStampModel);
 
-                      AppointModel orderUpdate = widget.appointModel.copyWith(
-                          status: "(Cancel)", timeStampList: _timeStampList);
-                      BookingProvider bookingProvider =
-                          Provider.of<BookingProvider>(context, listen: false);
+            AppointModel orderUpdate = widget.appointModel
+                .copyWith(status: "(Cancel)", timeStampList: _timeStampList);
+            BookingProvider bookingProvider =
+                Provider.of<BookingProvider>(context, listen: false);
 
-                      bookingProvider.updateAppointment(
-                          widget.index,
-                          userModel.id,
-                          widget.appointModel.orderId,
-                          orderUpdate);
-                      Navigator.of(context, rootNavigator: true).pop();
-                      Navigator.of(context).pop();
-                      showMessage("Appointment has been cancelled ");
-                    } catch (e) {
-                      Navigator.of(context, rootNavigator: true).pop();
-                      showMessage("Error : Appointment is not cancelled ");
-                      print("Error : $e ");
-                    }
-                  });
-          },
-          icon: const Icon(
-            Icons.delete_forever_sharp,
-            color: Colors.red,
-          ),
-        ),
+            bookingProvider.updateAppointment(
+                userModel.id, widget.appointModel.orderId, orderUpdate);
+            Navigator.of(context, rootNavigator: true).pop();
+            Navigator.of(context).pop();
+            showMessage("Appointment has been cancelled ");
+          } catch (e) {
+            Navigator.of(context, rootNavigator: true).pop();
+            showMessage("Error : Appointment is not cancelled ");
+            print("Error : $e ");
+          }
+        });
+      },
+      icon: const Icon(
+        Icons.delete_forever_sharp,
+        color: Colors.red,
       ),
     );
   }
@@ -566,6 +569,10 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
   }
 
   Padding pricreInfor() {
+    final bool hasFlat = (widget.appointModel.extraDiscountInAmount != null &&
+        widget.appointModel.extraDiscountInAmount != 0.0);
+    final bool hasPer = (widget.appointModel.extraDiscountInPerAMT != null &&
+        widget.appointModel.extraDiscountInPerAMT != 0.0);
     return Padding(
       padding: EdgeInsets.all(Dimensions.dimenisonNo16),
       child: Column(
@@ -678,32 +685,39 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                     : const SizedBox(),
                 SizedBox(height: Dimensions.dimenisonNo10),
 // Extra Discount
-                widget.appointModel.extraDiscountInPer != 0.0
-                    ? Row(
-                        children: [
-                          Text(
-                            'Extra Discount ${widget.appointModel.extraDiscountInPer!.round().toString()}%',
-                            style: TextStyle(
-                              fontSize: Dimensions.dimenisonNo14,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 0.90,
+                (hasFlat || hasPer)
+                    ? Padding(
+                        padding:
+                            EdgeInsets.only(bottom: Dimensions.dimenisonNo10),
+                        child: Row(
+                          children: [
+                            Text(
+                              (hasFlat && hasPer)
+                                  ? "Flat Discount"
+                                  : hasFlat
+                                      ? "Flat Discount"
+                                      : "Extra Discount ${widget.appointModel.extraDiscountInPer ?? 0} %",
+                              style: TextStyle(
+                                fontSize: Dimensions.dimenisonNo14,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 0.90,
+                              ),
                             ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            "-₹${widget.appointModel.extraDiscountInAmount!.round().toString()}",
-                            style: TextStyle(
-                              fontSize: Dimensions.dimenisonNo14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.green,
-                              letterSpacing: 0.90,
+                            const Spacer(),
+                            Text(
+                              "-₹${((widget.appointModel.extraDiscountInPerAMT ?? 0.0) + (widget.appointModel.extraDiscountInAmount ?? 0.0)).toStringAsFixed(2)}",
+                              style: TextStyle(
+                                fontSize: Dimensions.dimenisonNo14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.green,
+                                letterSpacing: 0.90,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       )
                     : const SizedBox(),
 
-                SizedBox(height: Dimensions.dimenisonNo10),
                 Row(
                   children: [
                     Text(

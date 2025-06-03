@@ -7,6 +7,7 @@ import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/constants/router.dart';
 import 'package:samay_admin_plan/features/service_view/screen/edit_service_page.dart';
+import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/firebase_firestore.dart';
 import 'package:samay_admin_plan/models/category_model/category_model.dart';
 import 'package:samay_admin_plan/models/service_model/service_model.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
@@ -25,7 +26,6 @@ class SingleServiceTap extends StatelessWidget {
     required this.index,
   });
 
-  // Helper method to navigate to the EditServicePage.
   void _navigateToEditService(BuildContext context) {
     Routes.instance.push(
       widget: EditServicePage(
@@ -37,29 +37,39 @@ class SingleServiceTap extends StatelessWidget {
     );
   }
 
-  // Helper method to show a delete confirmation dialog.
-  void _confirmDelete(BuildContext context, ServiceProvider serviceProvider) {
+  // Improved delete confirmation with loader and safe context handling
+  void _confirmDelete(
+      BuildContext context, ServiceProvider serviceProvider) async {
     showDeleteAlertDialog(
       context,
       "Delete Service",
-      "Do you want to delete ${serviceModel.servicesName} Service",
+      "Do you want to delete ${serviceModel.servicesName} service?",
       () async {
+        showLoaderDialog(context); // Show loading dialog
         try {
-          // Show loader while deleting.
-          showLoaderDialog(context);
-          await serviceProvider.deletelSingleServicePro(serviceModel);
-          // Dismiss the loader and dialog.
-          if (Navigator.of(context, rootNavigator: true).canPop()) {
-            Navigator.of(context, rootNavigator: true).pop();
-          }
+          // await FirebaseFirestoreHelper.instance
+          //     .deleteServiceFirebase(serviceModel);
+          serviceProvider.deletelSingleServicePro(serviceModel);
           Navigator.of(context, rootNavigator: true).pop();
-          showMessage("Successfully deleted ${serviceModel.servicesName}");
-        } catch (e) {
+
+          // Close loading dialog
           if (Navigator.of(context, rootNavigator: true).canPop()) {
             Navigator.of(context, rootNavigator: true).pop();
           }
-          showMessage(
-              "Error deleting ${serviceModel.servicesName}: ${e.toString()}");
+
+          showBottonMessage(
+            "Successfully deleted ${serviceModel.servicesName}",
+            context,
+          );
+        } catch (e) {
+          // Close loading dialog
+          if (Navigator.of(context, rootNavigator: true).canPop()) {
+            Navigator.of(context, rootNavigator: true).pop();
+          }
+          showBottonMessageError(
+            "Error deleting ${serviceModel.servicesName}: ${e.toString()}",
+            context,
+          );
         }
       },
     );
@@ -71,7 +81,6 @@ class SingleServiceTap extends StatelessWidget {
     Duration serviceDuration =
         Duration(minutes: serviceModel.serviceDurationMin);
 
-    // Use different widgets for mobile and larger screens
     return ResponsiveLayout.isMobile(context)
         ? singleServiceMobileWidget(context, serviceProvider, serviceDuration)
         : singleServiceWebWidget(context, serviceProvider, serviceDuration);
@@ -103,8 +112,7 @@ class SingleServiceTap extends StatelessWidget {
             children: [
               Expanded(
                 child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start, // Align to the left
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       serviceModel.servicesName,
@@ -116,9 +124,7 @@ class SingleServiceTap extends StatelessWidget {
                         letterSpacing: 0.15,
                       ),
                     ),
-                    SizedBox(
-                      height: Dimensions.dimenisonNo5,
-                    ),
+                    SizedBox(height: Dimensions.dimenisonNo5),
                     Text(
                       'Service code: ${serviceModel.serviceCode}',
                       style: TextStyle(
@@ -135,10 +141,8 @@ class SingleServiceTap extends StatelessWidget {
                 icon: const Icon(Icons.more_vert, color: Colors.black),
                 onSelected: (value) {
                   if (value == 0) {
-                    // Edit Service
                     _navigateToEditService(context);
                   } else if (value == 1) {
-                    // Delete Service
                     _confirmDelete(context, serviceProvider);
                   }
                 },
@@ -228,7 +232,6 @@ class SingleServiceTap extends StatelessWidget {
           horizontal: Dimensions.dimenisonNo10,
           vertical: Dimensions.dimenisonNo10,
         ),
-        // height: Dimensions.dimenisonNo200,
         decoration: ShapeDecoration(
           color: AppColor.bgForAdminCreateSec,
           shape: RoundedRectangleBorder(
@@ -248,10 +251,8 @@ class SingleServiceTap extends StatelessWidget {
                   icon: const Icon(Icons.more_vert, color: Colors.black),
                   onSelected: (value) {
                     if (value == 0) {
-                      // Edit Service
                       _navigateToEditService(context);
                     } else if (value == 1) {
-                      // Delete Service
                       _confirmDelete(context, serviceProvider);
                     }
                   },
@@ -304,8 +305,6 @@ class SingleServiceTap extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: Dimensions.dimenisonNo20),
-
-                // Service For information
                 Text(
                   "Service for: ${serviceModel.serviceFor}",
                   style: TextStyle(
@@ -322,7 +321,6 @@ class SingleServiceTap extends StatelessWidget {
                     serviceModel.description!.isEmpty
                 ? const SizedBox()
                 : const Divider(),
-            // Service description
             serviceModel.description == null ||
                     serviceModel.description!.isEmpty
                 ? const SizedBox()
@@ -343,7 +341,6 @@ class SingleServiceTap extends StatelessWidget {
     );
   }
 
-  /// Helper widget to build the service title and service code details.
   Widget _buildServiceInfo() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

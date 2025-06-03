@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/features/popup/edit_super_category_pop.dart';
+import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/firebase_firestore.dart';
 import 'package:samay_admin_plan/models/super_cate/super_cate.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
@@ -156,10 +157,11 @@ class _SuperCateImageState extends State<SuperCateImage> {
                         () async {
                           try {
                             showLoaderDialog(context);
-                            await serviceProvider.deleteSingleSuperCategoryPro(
-                                widget.superCategoryModel);
-
-                            Navigator.of(context, rootNavigator: true).pop();
+                            // await serviceProvider.deleteSingleSuperCategoryPro(
+                            //     widget.superCategoryModel);
+                            bool val = await FirebaseFirestoreHelper.instance
+                                .deleteSingleSuperCategoryFb(
+                                    widget.superCategoryModel);
 
                             await serviceProvider.getSuperCategoryListPro(
                                 appProvider.getSalonInformation.id);
@@ -169,15 +171,20 @@ class _SuperCateImageState extends State<SuperCateImage> {
                                   serviceProvider.getCategoryList[0]);
                             }
 
-                            Navigator.of(context).pop();
+                            Navigator.of(context, rootNavigator: true)
+                                .pop(); // Close loader/dialog
+                            Navigator.of(context, rootNavigator: true)
+                                .pop(); // Close loader/dialog
                             showBottonMessage(
-                                "Successfully deleted ${widget.superCategoryModel.superCategoryName}",
-                                context);
+                              "Successfully deleted ${widget.superCategoryModel.superCategoryName}",
+                              context,
+                            );
                           } catch (e) {
-                            Navigator.of(context).pop();
+                            Navigator.of(context, rootNavigator: true).pop();
                             showBottonMessageError(
-                                "Error deleting ${widget.superCategoryModel.superCategoryName}",
-                                context);
+                              "Error deleting ${widget.superCategoryModel.superCategoryName}",
+                              context,
+                            );
                           }
                         },
                       );
@@ -204,14 +211,7 @@ class _SuperCateImageState extends State<SuperCateImage> {
                             ],
                           ),
                         ),
-                      ])
-
-              // IconButton(
-              //   onPressed: () =>
-              //       deleteSuperCategory(serviceProvider, appProvider),
-              //   icon: const Icon(Icons.delete, color: Colors.red),
-              // ),
-              ),
+                      ])),
 
           // Category name
           Align(

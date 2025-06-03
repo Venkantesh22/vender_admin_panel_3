@@ -22,6 +22,9 @@ class GlobalVariable {
   static String customerGmail = "helpquickjet@gmail.com";
   static String diffbtwTimetap = "30";
   static int dayForBooking = 10;
+  static double salonGST0_18 = 0.18;
+  static double salonGST18Per = 18;
+  static double salonGST1_18 = 1.18;
 
   // Function to get current date and time in a formatted string
   static String getCurrentDate() {
@@ -52,6 +55,11 @@ class GlobalVariable {
     String _formatted = DateFormat("dd MMM yyyy").format(_date);
     DateTime _FormateDate = DateFormat("dd MMM yyyy").parse(_formatted);
     return _FormateDate;
+  }
+
+  static String DateTimeDateToString(DateTime _date) {
+    String _formatted = DateFormat("dd MMM yyyy").format(_date);
+    return _formatted;
   }
 
   // Asstes,

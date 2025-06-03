@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/features/Direct%20Billing/screen/direct_billing.dart';
+import 'package:samay_admin_plan/features/add_new_appointment/screen/add_new_appointment.dart';
 import 'package:samay_admin_plan/features/home/screen/accountBanned/account_banned.dart';
 import 'package:samay_admin_plan/features/home/screen/accountNotValidate/account_not_validate.dart';
 import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart';
@@ -115,6 +116,7 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
                   return const AccountBanPage();
                 } else if (salonInfo.isAccountValidBySamay) {
                   // return DirectBillingScreen(salonModel: _salonModel!);
+                  // return AddNewAppointment(salonModel: _salonModel!);
                   return HomeScreen(date: DateTime.now());
                 } else {
                   // to stop the loading dialog

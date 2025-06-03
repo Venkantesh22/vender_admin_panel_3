@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import 'package:samay_admin_plan/constants/custom_chip.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/models/service_model/service_model.dart';
 import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
 import 'package:samay_admin_plan/utility/dimenison.dart';
 import 'package:samay_admin_plan/widget/custom_button.dart';
-import 'package:samay_admin_plan/widget/dotted_line.dart';
-import 'package:samay_admin_plan/widget/pricerow.dart';
 
 class SingleServiceTapAppoint extends StatefulWidget {
   final ServiceModel serviceModel;

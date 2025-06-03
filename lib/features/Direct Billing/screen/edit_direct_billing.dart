@@ -1,5 +1,3 @@
-/// ignore_for_file: unused_local_variable, unnecessary_null_comparison, prefer_final_fields
-
 // ignore_for_file: use_build_context_synchronously, prefer_final_fields
 
 import 'package:flutter/material.dart';
@@ -17,8 +15,6 @@ import 'package:samay_admin_plan/features/add_new_appointment/widget/single_serv
 import 'package:samay_admin_plan/features/add_new_appointment/widget/time_tap.dart';
 import 'package:samay_admin_plan/features/custom_appbar/screen/custom_appbar.dart';
 import 'package:samay_admin_plan/features/drawer/drawer.dart';
-import 'package:samay_admin_plan/features/payment/bill_pdf.dart';
-import 'package:samay_admin_plan/features/payment/user_payment_screen.dart';
 import 'package:samay_admin_plan/features/payment/user_payment_screen_qb.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/samay_fb.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/setting_fb.dart';
@@ -40,18 +36,24 @@ import 'package:samay_admin_plan/widget/customauthbutton.dart';
 import 'package:samay_admin_plan/widget/customtextfield.dart';
 import 'package:upi_payment_qrcode_generator/upi_payment_qrcode_generator.dart';
 
-class DirectBillingScreen extends StatefulWidget {
+class EditDirectBillingScreen extends StatefulWidget {
   final SalonModel salonModel;
-  const DirectBillingScreen({
+  final AppointModel appointModel;
+  final UserModel userModel;
+
+  const EditDirectBillingScreen({
     super.key,
     required this.salonModel,
+    required this.appointModel,
+    required this.userModel,
   });
 
   @override
-  State<DirectBillingScreen> createState() => _DirectBillingScreenState();
+  State<EditDirectBillingScreen> createState() =>
+      _EditDirectBillingScreenState();
 }
 
-class _DirectBillingScreenState extends State<DirectBillingScreen> {
+class _EditDirectBillingScreenState extends State<EditDirectBillingScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   DateTime _time = DateTime.now();
@@ -77,6 +79,7 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
   late VenderPaymentDetailsModel? _venderPaymentDetailsModel;
   UPIDetails? upiDetails;
   double _netPriceLocal = 0.0;
+  double _exteraDiscountInAmount = 0.0;
 
   @override
   void dispose() {
@@ -105,6 +108,8 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
   bool _isLoading = false;
   bool _showExtraDiscount = false;
 
+  final List<TimeStampModel> _timeStampList = [];
+
   int _timediff = 30;
   int appointmentNO = 0;
   bool isGSTAvaible = false;
@@ -124,20 +129,9 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
     setState(() {});
   }
 
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      getData();
-      _initializeTimes();
-      updateDate();
-    });
-  }
-
   void updateDate() {
     Provider.of<BookingProvider>(context, listen: false)
-        .updateSelectedDate(_time);
-    print("Initial Date :- ${_time}");
+        .updateSelectedDate(widget.appointModel.serviceDate);
   }
 
   getData() async {
@@ -169,7 +163,6 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
 
       List<ServiceModel> fetchedServices = await UserBookingFB.instance
           .getAllServicesFromCategories(appProvider.getSalonInformation.id);
-      bookingProvider.getWatchList.clear();
       _samaySalonSettingModel = await SamayFB.instance.fetchSalonSettingData();
 
       // GlobalVariable.salonPlatformFee = _samaySalonSettingModel!.platformFee;
@@ -328,7 +321,8 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
 
     final discountPercentage = double.tryParse(_extraDiscountInPer.text) ?? 0.0;
     final validPercentage = discountPercentage.clamp(0.0, 100.0);
-    double discountAmount = (validPercentage / 100) * _netPriceLocal!;
+
+    double discountAmount = (validPercentage / 100) * _netPriceLocal;
 
     return discountAmount;
   }
@@ -337,7 +331,77 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
     BookingProvider _bookingProvider =
         Provider.of<BookingProvider>(context, listen: false);
     final cashReceived = double.tryParse(_cashReceivedController.text) ?? 0.0;
-    return cashReceived - _bookingProvider.getCalFinalAmountWithGST!;
+    //!---------------------------------------
+
+    return cashReceived;
+    // return cashReceived - _bookingProvider.getCalFinalAmountWithGST!;
+  }
+
+  //!----------------------Update all Date  to Provider -------------------------
+
+  void updateDataToProvider() {
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+
+      BookingProvider bookingProvider =
+          Provider.of<BookingProvider>(context, listen: false);
+
+      bookingProvider.setAllZero();
+      //!---------------------------------------
+
+      // bookingProvider.setAppointEditAllData(widget.appointModel);
+      bookingProvider.getWatchList.clear();
+      bookingProvider.getWatchList.addAll(widget.appointModel.services);
+      print(
+          "Watch List in Edit Direct Billing ${bookingProvider.getWatchList.length}");
+
+      bookingProvider.calculateTotalBookingDuration();
+      bookingProvider.calculateSubTotal();
+
+      _nameController.text = widget.appointModel.userModel.name;
+      _appointmentDateController.text =
+          GlobalVariable.DateTimeDateToString(widget.appointModel.serviceDate);
+      appointmentNO = widget.appointModel.appointmentNo;
+      _mobileController.text = widget.appointModel.userModel.phone;
+      _userNote.text = widget.appointModel.userNote;
+      _timeStampList.addAll(widget.appointModel.timeStampList);
+//!---------------------------------------
+      // bookingProvider.setAppointEditAllData(widget.appointModel);
+
+      _extraDiscountInDirectAmount.text =
+          widget.appointModel.extraDiscountInAmount.toString();
+
+      widget.appointModel.extraDiscountInAmount == 0.0
+          ? setState(() {
+              _showExtraDiscount = false;
+              _netPriceLocal = widget.appointModel.netPrice +
+                  widget.appointModel.extraDiscountInAmount!;
+            })
+          : setState(() {
+              _showExtraDiscount = true;
+              _netPriceLocal = widget.appointModel.netPrice +
+                  widget.appointModel.extraDiscountInAmount!;
+            });
+    } catch (e) {
+      print("Error in Setting data to provider $e");
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getData();
+      _initializeTimes();
+      updateDate();
+      updateDataToProvider();
+    });
   }
 
   @override
@@ -391,7 +455,7 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
                           Padding(
                             padding: EdgeInsets.all(Dimensions.dimenisonNo16),
                             child: Text(
-                              " Quick Billing ",
+                              "Edit Quick Billing ",
                               style: TextStyle(
                                 fontSize: Dimensions.dimenisonNo20,
                                 fontWeight: FontWeight.w600,
@@ -478,6 +542,10 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
                                           ServiceModel servicelist =
                                               bookingProvider
                                                   .getWatchList[index];
+                                          // _netPriceLocal =
+                                          //     bookingProvider.getNetPrice! ??
+                                          //         0.0;
+
                                           return SizedBox(
                                             width: ResponsiveLayout.isMobile(
                                                     context)
@@ -756,6 +824,9 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
                                       itemBuilder: (context, index) {
                                         ServiceModel serviceModel =
                                             serchServiceList[index];
+                                        _netPriceLocal =
+                                            bookingProvider.getNetPrice! ?? 0.0;
+
                                         return
                                             // !isSearched()
 
@@ -794,15 +865,27 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
                     runSpacing: Dimensions.dimenisonNo5,
                     alignment: WrapAlignment.start, // Align items to the left
                     children: [
-                      textBoxOfForm("First Name", _nameController),
+                      textBoxOfForm(
+                        "First Name",
+                        _nameController,
+                        readOnly: true,
+                      ),
 
                       //! User last Name textbox
 
-                      textBoxOfForm("Last Name", _lastNameController),
+                      textBoxOfForm(
+                        "Last Name",
+                        _lastNameController,
+                        readOnly: true,
+                      ),
 
                       //! select Date text box
                       selectAppointDateTextBox(),
-                      textBoxOfForm("Mobile No", _mobileController),
+                      textBoxOfForm(
+                        "Mobile No",
+                        _mobileController,
+                        readOnly: true,
+                      ),
 
                       //! select Staff Name textbox
                       staffIdSelectTextBox(),
@@ -875,13 +958,21 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
-                      textBoxOfForm("First Name", _nameController),
+                      textBoxOfForm(
+                        "First Name",
+                        _nameController,
+                        readOnly: true,
+                      ),
                       SizedBox(
                         width: Dimensions.dimenisonNo30,
                       ),
                       //! User last Name textbox
 
-                      textBoxOfForm("Last Name", _lastNameController),
+                      textBoxOfForm(
+                        "Last Name",
+                        _lastNameController,
+                        readOnly: true,
+                      ),
 
                       SizedBox(
                         width: Dimensions.dimenisonNo30,
@@ -902,7 +993,11 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
                       ),
                       //! mobile text box
 
-                      textBoxOfForm("Mobile No", _mobileController),
+                      textBoxOfForm(
+                        "Mobile No",
+                        _mobileController,
+                        readOnly: true,
+                      ),
 
                       SizedBox(
                         width: Dimensions.dimenisonNo30,
@@ -921,8 +1016,9 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
 
   SizedBox textBoxOfForm(
     String title,
-    TextEditingController controller,
-  ) {
+    TextEditingController controller, {
+    bool readOnly = false,
+  }) {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
       width: Dimensions.dimenisonNo250,
@@ -930,6 +1026,7 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
         requiredField: false,
         controller: controller,
         title: title,
+        readOnly: readOnly,
       ),
     );
   }
@@ -1092,6 +1189,8 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
   }
 
   SizedBox serviceServiceTextBox() {
+    BookingProvider bookingProvider =
+        Provider.of<BookingProvider>(context, listen: false);
     return SizedBox(
       height: Dimensions.dimenisonNo70,
       width: Dimensions.dimenisonNo250,
@@ -1121,6 +1220,7 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
                 if (ResponsiveLayout.isDesktop(context) ||
                     ResponsiveLayout.isTablet(context)) {
                   _showServiceList = true;
+                  _netPriceLocal = bookingProvider.getNetPrice! ?? 0.0;
                 }
               },
               onTap: () {
@@ -1460,7 +1560,6 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
               ],
             ),
             SizedBox(height: Dimensions.dimenisonNo20),
-            // _buildPaymentOptionsSection(bookingProvider),
 
             //! Save Button
             //! Save Button
@@ -1538,7 +1637,7 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
         TimeStampModel _timeStampModel = TimeStampModel(
             id: widget.salonModel.id,
             dateAndTime: GlobalVariable.today,
-            updateBy: "${widget.salonModel.name} (Create a Appointment)");
+            updateBy: "${widget.salonModel.name} (update Bill)");
         //! user full name
         String fullName =
             "${_nameController.text.trim()} ${_lastNameController.text.trim()}";
@@ -1554,145 +1653,334 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
             timeStampModel: _timeStampModel);
         // get Book appointment time
 
-        bool _isVaildater = addNewAppointmentVaildation(_nameController.text,
-            _lastNameController.text, _mobileController.text);
         Navigator.of(context, rootNavigator: true).pop();
-        if (_isVaildater) {
+
+        showLoaderDialog(context);
+
+        _timeStampList.add(_timeStampModel);
+        AppointModel updateAppointModel = widget.appointModel.copyWith(
+          services: bookingProvider.getWatchList,
+          subtatal: bookingProvider.getSubTotal,
+          totalPrice: bookingProvider.getFinalPayableAMT!,
+          netPrice: bookingProvider.getNetPrice!,
+          gstAmount: _settingModel!.gstNo.length == 15
+              ? _settingModel!.gSTIsIncludingOrExcluding ==
+                      GlobalVariable.GstExclusive
+                  ? bookingProvider.getExcludingGSTAMT!
+                  : bookingProvider.getIncludingGSTAMT!
+              : 0.0,
+          payment: "PAP (Pay At Place)",
+          discountInPer: bookingProvider.getDiscountInPer!,
+          discountAmount: bookingProvider.getDiscountAmount,
+          serviceDuration: bookingProvider.getAppointDuration!.inMinutes,
+          serviceDate: bookingProvider.getAppointSelectedDate,
+          serviceStartTime: bookingProvider.getAppointStartTime,
+          serviceEndTime: bookingProvider.getAppointEndTime,
+          userNote: _userNote.text.trim(),
+          timeStampList: _timeStampList,
+          isUpdate: true,
+        );
+        bool value = await UserBookingFB.instance.updateAppointmentFB(
+          widget.userModel.id,
+          widget.appointModel.orderId,
+          updateAppointModel,
+        );
+
+        print(" ${_samaySalonSettingModel!.platformFee} platformFee");
+
+        await UserBookingFB.instance.updateDateFB(
+          widget.appointModel.serviceDate,
+          widget.appointModel.serviceDate,
+          widget.appointModel.adminId,
+          widget.appointModel.vendorId,
+        );
+        Navigator.of(context, rootNavigator: true).pop();
+
+        showMessage("Successfull add the appointment");
+
+        if (value) {
           showLoaderDialog(context);
-          //get appointmentNo by add 1
-          appointmentNO = await SamayFB.instance.incrementSalonAppointmentNo();
-
-          // Save appointment or Billing
-          String? appointID =
-              // ignore: use_build_context_synchronously
-              await UserBookingFB.instance.saveAppointmentForQuicKBill(
-            listOfServices: bookingProvider.getWatchList,
-            userModel: userInfo,
-            appointmentNo: appointmentNO,
-            totalPrice: bookingProvider.getFinalPayableAMT!,
-            subtatal: bookingProvider.getSubTotal,
-            platformFees: double.parse(_samaySalonSettingModel!.platformFee),
-            payment: "PAP (Pay At Place)",
-            serviceDuration: bookingProvider.getAppointDuration!.inMinutes,
-            serviceDate: bookingProvider.getAppointSelectedDate,
-            serviceStartTime: bookingProvider.getAppointStartTime,
-            serviceEndTime: bookingProvider.getAppointEndTime,
-            userNote: _userNote.text.isEmpty ? " " : _userNote.text.trim(),
-            vendorId: widget.salonModel.id,
-            gstNo: _settingModel!.gstNo,
-            gstAmount: _settingModel!.gstNo.length == 15
-                ? _settingModel!.gSTIsIncludingOrExcluding ==
-                        GlobalVariable.GstExclusive
-                    ? bookingProvider.getExcludingGSTAMT!
-                    : bookingProvider.getIncludingGSTAMT!
-                : 0.0,
-            discountInPer: bookingProvider.getDiscountInPer!,
-            discountAmount: bookingProvider.getDiscountAmount!,
-            extraDiscountInPer: 0.0, // not calculate extr Discount
-            extraDiscountInAmount: 0.0,
-            netPrice: bookingProvider.getNetPrice!,
-            gstIsIncludingOrExcluding:
-                _settingModel!.gSTIsIncludingOrExcluding!,
-            status: GlobalVariable.billGenerateAppointState,
-            context: context,
-          );
-
-          print(" ${_samaySalonSettingModel!.platformFee} platformFee");
-
-          UserBookingFB.instance.saveDateFB(
-              bookingProvider.getAppointSelectedDate,
-              GlobalVariable.today,
-              widget.salonModel.adminId,
-              widget.salonModel.id);
-          Navigator.of(context, rootNavigator: true).pop();
-
-          showMessage("Successfull add the appointment");
-
-          if (appointID!.isNotEmpty || appointID != null) {
-            showLoaderDialog(context);
-            Future.delayed(
-              const Duration(seconds: 1),
-              () {
-                showDialog(
-                  context: context,
-                  barrierDismissible: false,
-                  builder: (context) {
-                    return AlertDialog(
-                      content: SizedBox(
-                        height: Dimensions.dimenisonNo250,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SizedBox(
-                              height: Dimensions.dimenisonNo12,
-                            ),
-                            Icon(
-                              FontAwesomeIcons.solidHourglassHalf,
-                              size: Dimensions.dimenisonNo40,
-                              color: AppColor.buttonColor,
-                            ),
-                            SizedBox(
-                              height: Dimensions.dimenisonNo20,
-                            ),
-                            Text(
-                              'Appointment Book Successfull',
-                              style: TextStyle(
-                                fontSize: Dimensions.dimenisonNo16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                            SizedBox(
-                              height: Dimensions.dimenisonNo16,
-                            ),
-                            Text(
-                              '     Your booking has been processed!\nDetails of appointment are included below',
-                              style: TextStyle(
-                                fontSize: Dimensions.dimenisonNo12,
-                                fontWeight: FontWeight.w400,
-                              ),
-                            ),
-                            SizedBox(
-                              height: Dimensions.dimenisonNo20,
-                            ),
-                            Text(
-                              'Appointment No : $appointmentNO',
-                              style: TextStyle(
-                                fontSize: Dimensions.dimenisonNo14,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Routes.instance.push(
-                                widget: UserSideBarPaymentScreenForQB(
-                                  appointID: appointID,
-                                  userId: _mobileController.text.trim(),
-                                ),
-                                context: context);
-                          },
-                          child: Text(
-                            'OK',
+          Future.delayed(
+            const Duration(seconds: 1),
+            () {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (context) {
+                  return AlertDialog(
+                    content: SizedBox(
+                      height: Dimensions.dimenisonNo250,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: Dimensions.dimenisonNo12,
+                          ),
+                          Icon(
+                            FontAwesomeIcons.solidHourglassHalf,
+                            size: Dimensions.dimenisonNo40,
+                            color: AppColor.buttonColor,
+                          ),
+                          SizedBox(
+                            height: Dimensions.dimenisonNo20,
+                          ),
+                          Text(
+                            'Appointment Book Successfull',
                             style: TextStyle(
-                              color: Colors.black,
-                              fontSize: Dimensions.dimenisonNo18,
+                              fontSize: Dimensions.dimenisonNo16,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
+                          SizedBox(
+                            height: Dimensions.dimenisonNo16,
+                          ),
+                          Text(
+                            '     Your booking has been processed!\nDetails of appointment are included below',
+                            style: TextStyle(
+                              fontSize: Dimensions.dimenisonNo12,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                          SizedBox(
+                            height: Dimensions.dimenisonNo20,
+                          ),
+                          Text(
+                            'Appointment No : $appointmentNO',
+                            style: TextStyle(
+                              fontSize: Dimensions.dimenisonNo14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Routes.instance.push(
+                              widget: UserSideBarPaymentScreenForQB(
+                                appointID: widget.appointModel.orderId,
+                                userId: _mobileController.text.trim(),
+                              ),
+                              context: context);
+                        },
+                        child: Text(
+                          'OK',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: Dimensions.dimenisonNo18,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
-                      ],
-                    );
-                  },
-                );
-              },
-            );
-            Navigator.of(context, rootNavigator: true).pop();
-          }
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          );
+          Navigator.of(context, rootNavigator: true).pop();
         }
       },
+    );
+  }
+
+// Extra Discount Input Row
+
+  Widget _buildDiscountInputRow(BookingProvider bookingProvider) {
+    return Column(
+      children: [
+        // Row for entering the extra discount percentage
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "Extra Discount :",
+              style: TextStyle(
+                fontSize: ResponsiveLayout.isMobile(context)
+                    ? Dimensions.dimenisonNo12
+                    : Dimensions.dimenisonNo14,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            const Spacer(),
+            Expanded(
+              child: TextField(
+                controller: _extraDiscountInPer,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                textAlign: TextAlign.end,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: "Percentage %",
+                  errorText: validateDiscountInput(_extraDiscountInPer.text),
+                  errorStyle: TextStyle(fontSize: Dimensions.dimenisonNo12),
+                ),
+                onChanged: (value) {
+                  double _discountAmount = _extraDiscontAmountPer() ?? 0.0;
+                  // double _discountPer = double.tryParse(value) ?? 0.0;
+                  // bookingProvider.setExtraDiscountInPer(_discountPer);
+                  bookingProvider.setExtraDiscountInPerAmount(_discountAmount);
+                  bookingProvider.calculateSubTotal();
+                  setState(() {});
+                },
+              ),
+            ),
+            SizedBox(
+              width: Dimensions.dimenisonNo10,
+            ),
+            Expanded(
+              child: TextField(
+                controller: _extraDiscountInDirectAmount,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                textAlign: TextAlign.end,
+                decoration: InputDecoration(
+                  border: const OutlineInputBorder(),
+                  labelText: "Rupess ₹",
+                  errorText:
+                      validateDiscountInput(_extraDiscountInDirectAmount.text),
+                  errorStyle: TextStyle(fontSize: Dimensions.dimenisonNo12),
+                ),
+                onChanged: (value) {
+                  double _discount = double.tryParse(value) ?? 0.0;
+                  bookingProvider.setExtraDiscountAmount(_discount);
+                  bookingProvider.calculateSubTotal();
+
+                  setState(() {});
+                },
+              ),
+            ),
+            // SizedBox(width: Dimensions.dimenisonNo8),
+            // SizedBox(
+            //   width: Dimensions.dimenisonNo100,
+            //   child: CustomAuthButton(
+            //       text: "Apply",
+            //       ontap: () {
+            //         setState(() {
+            //           _netPriceLocal = bookingProvider.getNetPrice! ?? 0.0;
+            //         });
+            //         double _discountAmount = _extraDiscontAmountPer() ?? 0.0;
+            //         // double _discountPer = double.tryParse(value) ?? 0.0;
+            //         // bookingProvider.setExtraDiscountInPer(_discountPer);
+            //         bookingProvider
+            //             .setExtraDiscountInPerAmount(_discountAmount);
+            //         bookingProvider.calculateSubTotal();
+            //         setState(() {});
+            //       }),
+            // )
+          ],
+        ),
+        SizedBox(height: Dimensions.dimenisonNo8),
+        // Row for displaying calculated extra discount amount
+
+        _extraDiscountInPer.text == null || _extraDiscountInPer.text.isEmpty
+            ? const SizedBox()
+            : Padding(
+                padding: EdgeInsets.only(bottom: Dimensions.dimenisonNo10),
+                child: Row(
+                  children: [
+                    Text(
+                      "Extra Discount Percentage Amount:",
+                      style: TextStyle(
+                        fontSize: ResponsiveLayout.isMobile(context)
+                            ? Dimensions.dimenisonNo12
+                            : Dimensions.dimenisonNo14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.green,
+                      ),
+                    ),
+                    const Spacer(),
+                    SizedBox(
+                      width: Dimensions.dimenisonNo110,
+                      child: Text(
+                        // "-₹${bookingProvider.getExtraDiscountInPer!.toStringAsFixed(2)}",
+                        "-₹${_extraDiscontAmountPer().toStringAsFixed(2)}",
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontSize: ResponsiveLayout.isMobile(context)
+                              ? Dimensions.dimenisonNo12
+                              : Dimensions.dimenisonNo14,
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: 0.80,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+        _extraDiscountInDirectAmount.text == null ||
+                _extraDiscountInDirectAmount.text.isEmpty
+            ? const SizedBox()
+            : Row(
+                children: [
+                  Text(
+                    "Extra Discount Amount:",
+                    style: TextStyle(
+                      fontSize: ResponsiveLayout.isMobile(context)
+                          ? Dimensions.dimenisonNo12
+                          : Dimensions.dimenisonNo14,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.green,
+                    ),
+                  ),
+                  const Spacer(),
+                  SizedBox(
+                    width: Dimensions.dimenisonNo110,
+                    child: Text(
+                      // "-₹${_extraDiscontDirectAmount().toStringAsFixed(2)}",
+                      "-₹${_extraDiscountInDirectAmount.text}",
+                      style: TextStyle(
+                        color: Colors.green,
+                        fontSize: ResponsiveLayout.isMobile(context)
+                            ? Dimensions.dimenisonNo12
+                            : Dimensions.dimenisonNo14,
+                        fontWeight: FontWeight.w400,
+                        letterSpacing: 0.80,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+        SizedBox(height: Dimensions.dimenisonNo10),
+      ],
+    );
+  }
+
+// Payment Options Section
+  Widget _buildPaymentOptionsSection(BookingProvider bookingProvider) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Payment Options',
+          style: TextStyle(
+            fontSize: ResponsiveLayout.isMobile(context)
+                ? Dimensions.dimenisonNo16
+                : Dimensions.dimenisonNo20,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        SizedBox(height: Dimensions.dimenisonNo12),
+        Container(
+          padding: EdgeInsets.all(Dimensions.dimenisonNo8),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(Dimensions.dimenisonNo12),
+            border: Border.all(width: 1.6, color: Colors.black),
+          ),
+          child: _buildPaymentMethodSelector(bookingProvider),
+        ),
+        SizedBox(height: Dimensions.dimenisonNo12),
+        Text(
+          "Note: Online payments coming soon. Currently only cash payments available.",
+          style: TextStyle(
+            color: Colors.red,
+            fontSize: Dimensions.dimenisonNo12,
+          ),
+          softWrap: true,
+        ),
+      ],
     );
   }
 

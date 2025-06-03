@@ -42,6 +42,23 @@ class FirebaseStorageHelper {
     }
   }
 
+  Future<String?> uploadSalonLogImageToStorage(
+      String imageName, String folderName, Uint8List selectedImage) async {
+    try {
+      Reference imageRef =
+          _storage.ref("Salon_Images/$folderName/$imageName.jpg");
+      UploadTask task = imageRef.putData(
+          selectedImage, SettableMetadata(contentType: 'image/jpeg'));
+      TaskSnapshot snapshot = await task;
+      String imageUrl = await snapshot.ref.getDownloadURL();
+      return imageUrl;
+    } catch (e) {
+      showMessage("Error uploading image: ${e.toString()}");
+      print("Error uploading image: $e");
+      return null;
+    }
+  }
+
   // update admin Profile Image
   Future<String?> updateAdminImage(
       Uint8List newImagePath, String oldImageUrl, AdminModel adminModel) async {

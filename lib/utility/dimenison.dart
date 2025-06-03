@@ -20,6 +20,8 @@ class Dimensions {
     screenHeightM = MediaQuery.of(context).size.height;
   }
 
+  static double dimenisonNo4 =
+      screenWidth <= 550 ? screenHeightM / 188.5 : screenWidth / 308;
   static double dimenisonNo5 =
       screenWidth <= 550 ? screenHeightM / 150.8 : screenWidth / 246.4;
   static double dimenisonNo8 =
@@ -28,12 +30,17 @@ class Dimensions {
       screenWidth <= 550 ? screenHeightM / 75.4 : screenWidth / 123.2;
   static double dimenisonNo12 =
       screenWidth <= 550 ? screenHeightM / 62.833 : screenWidth / 102.666;
+  static double dimenisonNo13 = screenWidth <= 550
+      ? screenHeightM / 58.615384615
+      : screenWidth / 96.6153846;
   static double dimenisonNo14 =
       screenWidth <= 550 ? screenHeightM / 53.85714 : screenWidth / 88.00;
   static double dimenisonNo15 =
       screenWidth <= 550 ? screenHeightM / 50.266 : screenWidth / 82.133;
   static double dimenisonNo16 =
       screenWidth <= 550 ? screenHeightM / 47.125 : screenWidth / 77;
+  static double dimenisonNo17 =
+      screenWidth <= 550 ? screenHeightM / 43.88235 : screenWidth / 72.23529;
   static double dimenisonNo18 =
       screenWidth <= 550 ? screenHeightM / 41.88 : screenWidth / 68.44;
   static double dimenisonNo18_5 = screenWidth <= 550
@@ -55,6 +62,8 @@ class Dimensions {
       screenWidth <= 550 ? screenHeightM / 21.54285 : screenWidth / 35.2;
   static double dimenisonNo36 =
       screenWidth <= 550 ? screenHeightM / 20.944 : screenWidth / 34.222;
+  static double dimenisonNo38 =
+      screenWidth <= 550 ? screenHeightM / 19.8421 : screenWidth / 32.42105;
   static double dimenisonNo40 =
       screenWidth <= 550 ? screenHeightM / 18.85 : screenWidth / 30.8;
   static double dimenisonNo45 =

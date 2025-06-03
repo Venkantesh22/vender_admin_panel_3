@@ -99,13 +99,16 @@ Widget userBookingMobileWidget(
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            userModel?.name ?? 'Unknown User',
-                            style: TextStyle(
-                              overflow: TextOverflow.ellipsis,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: Dimensions.dimenisonNo16,
+                          SizedBox(
+                            width: Dimensions.dimenisonNo100,
+                            child: Text(
+                              userModel?.name ?? 'Unknown User',
+                              style: TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: Dimensions.dimenisonNo16,
+                              ),
                             ),
                           ),
                           SizedBox(height: Dimensions.dimenisonNo8),

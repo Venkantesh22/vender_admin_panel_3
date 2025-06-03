@@ -105,20 +105,27 @@ class ServiceProvider extends ChangeNotifier {
       SuperCategoryModel superCategoryModel) async {
     await FirebaseFirestoreHelper.instance
         .updateSingleSuperCategoryFirebase(superCategoryModel);
-    var isRemove = _superCategoryList.remove(superCategoryModel);
-    if (isRemove) {
-      _superCategoryList.add(superCategoryModel);
+
+    // Find the index and update the item
+    int index = _superCategoryList
+        .indexWhere((element) => element.id == superCategoryModel.id);
+    if (index != -1) {
+      _superCategoryList[index] = superCategoryModel;
     }
+
     notifyListeners();
   }
 
   //Delete singleCategory
+  // This funtcion give error "DartError: Unexpected null value."
   Future<void> deleteSingleSuperCategoryPro(
       SuperCategoryModel supercateoryModel) async {
     bool val = await FirebaseFirestoreHelper.instance
         .deleteSingleSuperCategoryFb(supercateoryModel);
     if (val) {
-      _superCategoryList.remove(supercateoryModel);
+      _superCategoryList.removeWhere(
+        (element) => element.id == supercateoryModel.id,
+      );
     }
     notifyListeners();
   }
@@ -199,7 +206,8 @@ class ServiceProvider extends ChangeNotifier {
     bool val = await FirebaseFirestoreHelper.instance
         .deleteServiceFirebase(serviceModel);
     if (val) {
-      _servicesList.remove(serviceModel);
+      _servicesList.removeWhere((element) => element.id == serviceModel.id);
+      notifyListeners();
     }
   }
 
@@ -221,10 +229,13 @@ class ServiceProvider extends ChangeNotifier {
   void updateSingleCategoryPro(CategoryModel categoryModel) async {
     await FirebaseFirestoreHelper.instance
         .updateSingleCategoryFirebase(categoryModel);
-    var isRemove = _categoryList.remove(categoryModel);
-    if (isRemove) {
-      _categoryList.add(categoryModel);
+    // Find the index and update the item
+    int index =
+        _categoryList.indexWhere((element) => element.id == categoryModel.id);
+    if (index != -1) {
+      _categoryList[index] = categoryModel;
     }
+
     notifyListeners();
   }
 

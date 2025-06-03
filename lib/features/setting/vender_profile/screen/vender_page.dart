@@ -1,3 +1,5 @@
+// ignore_for_file: unrelated_type_equality_checks
+
 import 'dart:typed_data';
 import 'package:csc_picker_plus/csc_picker_plus.dart';
 import 'package:file_picker/file_picker.dart';
@@ -17,6 +19,7 @@ import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
 import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/get_avatar_bg_color.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
 import 'package:samay_admin_plan/widget/customtextfield.dart';
 
@@ -52,6 +55,7 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
   bool _isLoading = false;
   bool isupdate = false;
   bool isImageChange = false;
+  bool islogChange = false;
 
   //! For DropDownList
   String? _selectedSalonType;
@@ -62,13 +66,14 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
   ];
 
   Uint8List? selectedImage;
+  Uint8List? selectedlog;
 
-  chooseImages() async {
+  chooseImages(Uint8List? imageValue) async {
     FilePickerResult? chosenImageFile =
         await FilePicker.platform.pickFiles(type: FileType.image);
     if (chosenImageFile != null) {
       setState(() {
-        selectedImage = chosenImageFile.files.single.bytes;
+        imageValue = chosenImageFile.files.single.bytes;
       });
     }
     isImageChange = true;
@@ -154,7 +159,6 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
     _whatApp.dispose();
     _descrition.dispose();
     _address.dispose();
-
     _pincode.dispose();
     _openTime.dispose();
     _closeTime.dispose();
@@ -168,7 +172,7 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
 
     return Scaffold(
       body: _isLoading
-          ? CircularProgressIndicator()
+          ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               scrollDirection: Axis.vertical,
               child: Container(
@@ -210,75 +214,7 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                               vertical: Dimensions.dimenisonNo10),
                           child: Divider(),
                         ),
-                        Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Upload ${GlobalVariable.salon} Images ',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: Dimensions.dimenisonNo18,
-                                  fontFamily: GoogleFonts.roboto().fontFamily,
-                                  fontWeight: FontWeight.w500,
-                                  letterSpacing: 0.15,
-                                ),
-                              ),
-                              TextSpan(
-                                text: '*',
-                                style: TextStyle(
-                                  color: const Color(0xFFFC0000),
-                                  fontSize: Dimensions.dimenisonNo18,
-                                  fontFamily: GoogleFonts.roboto().fontFamily,
-                                  fontWeight: FontWeight.w500,
-                                  height: 0,
-                                  letterSpacing: 0.15,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: Dimensions.dimenisonNo10),
-                        selectedImage == null
-                            ? InkWell(
-                                onTap: chooseImages,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                          Dimensions.dimenisonNo20)),
-                                  width: Dimensions.dimenisonNo300,
-                                  height: Dimensions.dimenisonNo200,
-                                  clipBehavior: Clip.antiAlias,
-                                  child:
-                                      appProvider.getSalonInformation.image !=
-                                              null
-                                          ? Image.network(
-                                              appProvider
-                                                  .getSalonInformation.image!,
-                                              fit: BoxFit.cover,
-                                            )
-                                          : Icon(
-                                              Icons.image,
-                                              size: Dimensions.dimenisonNo200,
-                                            ),
-                                ),
-                              )
-                            : InkWell(
-                                onTap: chooseImages,
-                                child: Container(
-                                  margin: EdgeInsets.only(
-                                      left: Dimensions.dimenisonNo20),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(
-                                          Dimensions.dimenisonNo20)),
-                                  width: Dimensions.dimenisonNo300,
-                                  height: Dimensions.dimenisonNo200,
-                                  clipBehavior: Clip.antiAlias,
-                                  child: Image.memory(
-                                    selectedImage!,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
+                        imageAndLogPart(appProvider),
                         SizedBox(height: Dimensions.dimenisonNo10),
                         FormCustomTextField(
                           controller: _salonName,
@@ -385,49 +321,58 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                           ),
                         ),
                         SizedBox(height: Dimensions.dimenisonNo5),
-                        Row(children: [
-                          Expanded(
-                            child: CSCPickerPlus(
-                              layout: Layout.horizontal,
-                              flagState: CountryFlag.DISABLE,
-                              defaultCountry: CscCountry.India,
-                              onCountryChanged: (c) =>
-                                  setState(() => countryValue = c),
-                              onStateChanged: (s) =>
-                                  setState(() => stateValue = s!),
-                              onCityChanged: (c) =>
-                                  setState(() => cityValue = c!),
-                              countrySearchPlaceholder: "Country",
-                              stateSearchPlaceholder: "State",
-                              citySearchPlaceholder: "City",
-                              countryDropdownLabel: countryValue!,
-                              // ⬇ Safe fallback instead of force-unwrap
-                              stateDropdownLabel: stateValue!,
-                              cityDropdownLabel: cityValue!,
-                              dropdownDialogRadius: Dimensions.dimenisonNo12,
-                              searchBarRadius: Dimensions.dimenisonNo30,
-                              dropdownDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                    Dimensions.dimenisonNo10),
-                                color: Colors.white,
-                                border:
-                                    Border.all(color: Colors.black, width: 1),
-                              ),
-                              disabledDropdownDecoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(
-                                    Dimensions.dimenisonNo10),
-                                color: Colors.grey.shade300,
-                                border:
-                                    Border.all(color: Colors.black, width: 1),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: CSCPickerPlus(
+                                layout: Layout.horizontal,
+                                flagState: CountryFlag.DISABLE,
+                                defaultCountry: CscCountry.India,
+                                onCountryChanged: (c) =>
+                                    setState(() => countryValue = c),
+                                onStateChanged: (s) =>
+                                    setState(() => stateValue = s ?? ''),
+                                onCityChanged: (c) =>
+                                    setState(() => cityValue = c ?? ''),
+                                countrySearchPlaceholder: "Country",
+                                stateSearchPlaceholder: "State",
+                                citySearchPlaceholder: "City",
+                                countryDropdownLabel: countryValue != null &&
+                                        countryValue!.isNotEmpty
+                                    ? countryValue!
+                                    : "India",
+                                stateDropdownLabel:
+                                    stateValue != null && stateValue!.isNotEmpty
+                                        ? stateValue!
+                                        : "Select State",
+                                cityDropdownLabel:
+                                    cityValue != null && cityValue!.isNotEmpty
+                                        ? cityValue!
+                                        : "Select City",
+                                dropdownDialogRadius: Dimensions.dimenisonNo12,
+                                searchBarRadius: Dimensions.dimenisonNo30,
+                                dropdownDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.dimenisonNo10),
+                                  color: Colors.white,
+                                  border:
+                                      Border.all(color: Colors.black, width: 1),
+                                ),
+                                disabledDropdownDecoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.dimenisonNo10),
+                                  color: Colors.grey.shade300,
+                                  border:
+                                      Border.all(color: Colors.black, width: 1),
+                                ),
                               ),
                             ),
-                          ),
-                        ]),
+                          ],
+                        ),
                         SizedBox(height: Dimensions.dimenisonNo12),
                         FormCustomTextField(
                             controller: _pincode, title: "Pincode"),
                         SizedBox(height: Dimensions.dimenisonNo20),
-                       
                         CustomAuthButton(
                           text: "Update",
                           ontap: () async {
@@ -547,16 +492,39 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                                         : "${GlobalVariable.timeOfDayToDateTimeAM(openTimeUpdate)} To ${GlobalVariable.timeOfDayToDateTimeAM(closeTimeUpdate)}",
                               );
 
-                              isImageChange
-                                  ? isupdate =
-                                      await appProvider.updateSalonInfoFirebase(
-                                          context, salonModelUpdate,
-                                          image: selectedImage)
-                                  : isupdate =
-                                      await appProvider.updateSalonInfoFirebase(
-                                      context,
-                                      salonModelUpdate,
-                                    );
+                              if (isImageChange && islogChange) {
+                                // Both image and logo changed
+                                isupdate =
+                                    await appProvider.updateSalonInfoFirebase(
+                                  context,
+                                  salonModelUpdate,
+                                  image: selectedImage,
+                                  imageLogo: selectedlog,
+                                );
+                              } else if (isImageChange) {
+                                // Only image changed
+                                isupdate =
+                                    await appProvider.updateSalonInfoFirebase(
+                                  context,
+                                  salonModelUpdate,
+                                  image: selectedImage,
+                                );
+                              } else if (islogChange) {
+                                // Only logo changed
+                                isupdate =
+                                    await appProvider.updateSalonInfoFirebase(
+                                  context,
+                                  salonModelUpdate,
+                                  imageLogo: selectedlog,
+                                );
+                              } else {
+                                // No image or logo changed, just update other info
+                                isupdate =
+                                    await appProvider.updateSalonInfoFirebase(
+                                  context,
+                                  salonModelUpdate,
+                                );
+                              }
 
                               showMessage("Salon Update Successfully add");
                               print("Salon ID ${GlobalVariable.salonID}");
@@ -586,6 +554,147 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                 ),
               ),
             ),
+    );
+  }
+
+//! Image and log part
+  Column imageAndLogPart(AppProvider appProvider) {
+    return Column(
+      children: [
+        textboxHeading('Upload ${GlobalVariable.salon} Images ', true),
+        SizedBox(height: Dimensions.dimenisonNo10),
+        Stack(
+          children: [
+            // Main Salon Image
+            InkWell(
+              onTap: () async {
+                FilePickerResult? chosenImageFile =
+                    await FilePicker.platform.pickFiles(type: FileType.image);
+                if (chosenImageFile != null) {
+                  setState(() {
+                    selectedImage = chosenImageFile.files.single.bytes;
+                    isImageChange = true;
+                  });
+                }
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.dimenisonNo20),
+                ),
+                width: Dimensions.dimenisonNo300,
+                height: Dimensions.dimenisonNo200,
+                clipBehavior: Clip.antiAlias,
+                child: selectedImage != null
+                    ? Image.memory(selectedImage!, fit: BoxFit.cover)
+                    : (appProvider.getSalonInformation.image != null &&
+                            appProvider.getSalonInformation.image!.isNotEmpty)
+                        ? Image.network(
+                            appProvider.getSalonInformation.image!,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) =>
+                                Center(
+                              child: Icon(
+                                Icons.image,
+                                size: Dimensions.dimenisonNo200,
+                              ),
+                            ),
+                          )
+                        : Center(
+                            child: Icon(
+                              Icons.image,
+                              size: Dimensions.dimenisonNo200,
+                            ),
+                          ),
+              ),
+            ),
+            // Salon Logo (bottom left)
+            Positioned(
+              bottom: 8,
+              left: 8,
+              child: InkWell(
+                onTap: () async {
+                  FilePickerResult? chosenLogoFile =
+                      await FilePicker.platform.pickFiles(type: FileType.image);
+                  if (chosenLogoFile != null) {
+                    setState(() {
+                      selectedlog = chosenLogoFile.files.single.bytes;
+                      islogChange = true;
+                    });
+                  }
+                },
+                child: CircleAvatar(
+                  radius: Dimensions.dimenisonNo40,
+                  backgroundColor: Colors.white,
+                  child: selectedlog != null
+                      ? CircleAvatar(
+                          radius: Dimensions.dimenisonNo38,
+                          backgroundImage: MemoryImage(selectedlog!),
+                        )
+                      : (appProvider.getSalonInformation.logImage != null &&
+                              appProvider
+                                  .getSalonInformation.logImage!.isNotEmpty)
+                          ? CircleAvatar(
+                              radius: Dimensions.dimenisonNo38,
+                              backgroundColor: getAvatarBgColor(
+                                  appProvider.getSalonInformation.name),
+                              backgroundImage: NetworkImage(
+                                  appProvider.getSalonInformation.logImage!),
+                              onBackgroundImageError: (_, __) {},
+                            )
+                          : CircleAvatar(
+                              radius: Dimensions.dimenisonNo38,
+                              backgroundColor: getAvatarBgColor(
+                                  appProvider.getSalonInformation.name),
+                              child: Text(
+                                (appProvider
+                                        .getSalonInformation.name.isNotEmpty)
+                                    ? appProvider.getSalonInformation.name[0]
+                                        .toUpperCase()
+                                    : '',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: Dimensions.dimenisonNo28,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Text textboxHeading(String heading, bool isRequired) {
+    return Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(
+            text: heading,
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: Dimensions.dimenisonNo18,
+              fontFamily: GoogleFonts.roboto().fontFamily,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.15,
+            ),
+          ),
+          TextSpan(
+            text: isRequired ? '*' : '',
+            style: TextStyle(
+              color: const Color(0xFFFC0000),
+              fontSize: Dimensions.dimenisonNo18,
+              fontFamily: GoogleFonts.roboto().fontFamily,
+              fontWeight: FontWeight.w500,
+              height: 0,
+              letterSpacing: 0.15,
+            ),
+          ),
+        ],
+      ),
     );
   }
 

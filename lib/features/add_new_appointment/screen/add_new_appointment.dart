@@ -1,6 +1,6 @@
 /// ignore_for_file: unused_local_variable, unnecessary_null_comparison, prefer_final_fields
 
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, prefer_final_fields
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -60,6 +60,17 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
   TextEditingController _mobileController = TextEditingController();
   TextEditingController _userNote = TextEditingController();
 
+  void dispose() {
+    _nameController.dispose();
+    _lastNameController.dispose();
+    _appointmentDateController.dispose();
+    _appointmentTimeController.dispose();
+    _serviceController.dispose();
+    _mobileController.dispose();
+    _userNote.dispose();
+    super.dispose();
+  }
+
   List<ServiceModel> serchServiceList = [];
   List<ServiceModel> allServiceList = [];
   List<ServiceModel> selectService = [];
@@ -93,8 +104,18 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
     // TODO: implement initState
 
     super.initState();
-    getData();
-    _initializeTimes();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      getData();
+      _initializeTimes();
+      updateDate();
+    });
+  }
+
+  void updateDate() {
+    Provider.of<BookingProvider>(context, listen: false)
+        .updateSelectedDate(_time);
+    print("Initial Date :- ${_time}");
   }
 
   getData() async {
@@ -475,11 +496,14 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                                             height: Dimensions.dimenisonNo12),
                                         // Detail of appointment
                                         //! Appointment Details
-                                        if (_appointmentDateController != null)
-                                          AppointDetailsSummer(
-                                              bookingProvider,
-                                              serviceDurationInMinutes,
-                                              context),
+
+                                        AppointDetailsSummer(bookingProvider,
+                                            serviceDurationInMinutes, context),
+                                        // if (_appointmentDateController != null)
+                                        //   AppointDetailsSummer(
+                                        //       bookingProvider,
+                                        //       serviceDurationInMinutes,
+                                        //       context),
                                       ],
                                     ),
                                   ),
@@ -667,10 +691,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                                       .dimenisonNo90, // Default for larger screens
                               child: Container(
                                 width: Dimensions.dimenisonNo500,
-                                constraints: const BoxConstraints(
-                                    // maxHeight:
-                                    //     320, // Set a max height to make it scrollable
-                                    ),
+                                constraints: const BoxConstraints(),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFFFFFFF),
                                   borderRadius: BorderRadius.circular(
@@ -1169,149 +1190,187 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
               color: Colors.white,
             ),
             SizedBox(height: Dimensions.dimenisonNo10),
-            Row(
-              children: [
-                _settingModel!.gSTIsIncludingOrExcluding ==
-                        GlobalVariable.GstInclusive
-                    ? Text(
-                        'SubTotal include GST ${_samaySalonSettingModel!.gstPer.toString()}%',
-                        style: appointSummTextSyle(),
-                      )
-                    : Text(
-                        'SubTotal',
-                        style: appointSummTextSyle(),
-                      ),
-                const Spacer(),
-                Icon(
-                  Icons.currency_rupee,
-                  size: Dimensions.dimenisonNo16,
-                ),
-                Text(
-                  bookingProvider.getSubTotal.toString(),
-                  style: appointSummTextSyle(),
-                ),
-              ],
-            ),
-            SizedBox(height: Dimensions.dimenisonNo10),
 
-            bookingProvider.getDiscountInPer != 0.0
-                ? Row(
-                    children: [
-                      Text(
-                        'item Discount ${bookingProvider.getDiscountInPer!.round().toString()}%',
-                        style: appointSummTextSyle(),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // SubTotal
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        _settingModel!.gSTIsIncludingOrExcluding ==
+                                GlobalVariable.GstInclusive
+                            ? 'Subtotal (incl. GST ${_samaySalonSettingModel!.gstPer.toString()} %) '
+                            : 'SubTotal',
+                        style: appointSummaryTextStyle(context),
                       ),
-                      const Spacer(),
+                    ),
+                    Icon(Icons.currency_rupee, size: Dimensions.dimenisonNo16),
+                    Text(
+                      bookingProvider.getSubTotal.toString(),
+                      style: appointSummaryTextStyle(context, bold: true),
+                    ),
+                  ],
+                ),
+                lineOfGrey(),
+
+                // Item Discount
+                if (bookingProvider.getDiscountInPer != 0.0) ...[
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'Item Discount ${bookingProvider.getDiscountInPer!.round()}%',
+                          style: appointSummaryTextStyle(context,
+                              color: Colors.green),
+                        ),
+                      ),
                       Text(
                         "-₹${bookingProvider.getDiscountAmount.toString()}",
-                        style: appointSummTextSyle(),
+                        style: appointSummaryTextStyle(context,
+                            color: Colors.green, bold: true),
                       ),
                     ],
-                  )
-                : const SizedBox(),
-            SizedBox(height: Dimensions.dimenisonNo10),
+                  ),
+                  lineOfGrey(),
+                ],
 
-            // Extra Discount
-            bookingProvider.getExtraDiscountAmount != 0.0
-                ? Padding(
-                    padding: EdgeInsets.only(bottom: Dimensions.dimenisonNo10),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Extra Discount ${bookingProvider.getExtraDiscountInPer!.round().toString()}%',
-                          style: appointSummTextSyle(),
-                        ),
-                        const Spacer(),
-                        Text(
-                          "-₹${bookingProvider.getExtraDiscountAmount.toString()}",
-                          style: appointSummTextSyle(),
-                        ),
-                      ],
-                    ),
-                  )
-                : const SizedBox(),
-            // SizedBox(height: ),
-            Row(
-              children: [
-                Text(
-                  'Net',
-                  style: appointSummTextSyle(),
-                ),
-                const Spacer(),
-                Text(
-                  // "₹${}",
-                  "₹${bookingProvider.getNetPrice!.toStringAsFixed(2)}",
-                  style: appointSummTextSyle(),
-                ),
-              ],
-            ),
-            SizedBox(height: Dimensions.dimenisonNo10),
-
-            // Add GST Price
-            _settingModel!.gstNo.length == 15
-                ? Column(
+                // Extra Discount
+                if (bookingProvider.getExtraDiscountAmount != 0.0) ...[
+                  Row(
                     children: [
-                      SizedBox(height: Dimensions.dimenisonNo10),
-                      Row(
-                        children: [
-                          Text(
-                            'GST 18% (SGST & CGST)',
-                            style: appointSummTextSyle(),
-                          ),
-                          const Spacer(),
-                          Icon(
-                            Icons.currency_rupee,
-                            size: Dimensions.dimenisonNo16,
-                          ),
-                          Text(
-                            bookingProvider.getCalGSTAmount.toStringAsFixed(2),
-                            style: appointSummTextSyle(),
-                          ),
-                        ],
-                      )
+                      Expanded(
+                        child: Text(
+                          'Extra Discount ',
+                          // 'Extra Discount ${bookingProvider.getExtraDiscountInPer!.round()}%',
+                          style: appointSummaryTextStyle(context,
+                              color: Colors.blueGrey),
+                        ),
+                      ),
+                      Text(
+                        "-₹${bookingProvider.getExtraDiscountAmount.toString()}",
+                        style: appointSummaryTextStyle(context,
+                            color: Colors.blueGrey, bold: true),
+                      ),
                     ],
-                  )
-                : SizedBox(),
-            SizedBox(height: Dimensions.dimenisonNo10),
-            Row(
-              children: [
-                Text(
-                  'Platform fee',
-                  style: appointSummTextSyle(),
+                  ),
+                  lineOfGrey(),
+                ],
+
+                // Net Price
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        _settingModel!.gSTIsIncludingOrExcluding ==
+                                GlobalVariable.GstInclusive
+                            ? 'Net Price (incl. GST)'
+                            : 'Net Price',
+                        style: appointSummaryTextStyle(context),
+                      ),
+                    ),
+                    Text(
+                      "₹${bookingProvider.getNetPrice!.toStringAsFixed(2)}",
+                      style: appointSummaryTextStyle(context, bold: true),
+                    ),
+                  ],
                 ),
-                const Spacer(),
-                Icon(
-                  Icons.currency_rupee,
-                  size: Dimensions.dimenisonNo16,
+                lineOfGrey(),
+
+                // Platform Fee
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        _settingModel!.gSTIsIncludingOrExcluding ==
+                                GlobalVariable.GstInclusive
+                            ? 'Platform fee (incl. GST)'
+                            : 'Platform fee',
+                        style: appointSummaryTextStyle(context),
+                      ),
+                    ),
+                    Icon(Icons.currency_rupee, size: Dimensions.dimenisonNo16),
+                    Text(
+                      _samaySalonSettingModel!.platformFee,
+                      style: appointSummaryTextStyle(context, bold: true),
+                    ),
+                  ],
                 ),
-                Text(
-                  _samaySalonSettingModel!.platformFee,
-                  style: appointSummTextSyle(),
+                lineOfGrey(),
+
+                // Taxable Amount
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        _settingModel!.gSTIsIncludingOrExcluding == null ||
+                                _settingModel!
+                                    .gSTIsIncludingOrExcluding!.isEmpty
+                            ? "Total Amount"
+                            : 'Taxable Amount',
+                        style: appointSummaryTextStyle(context),
+                      ),
+                    ),
+                    Icon(Icons.currency_rupee, size: Dimensions.dimenisonNo16),
+                    Text(
+                      bookingProvider.getTaxAbleAmount!
+                          .round()
+                          .toStringAsFixed(2),
+                      style: appointSummaryTextStyle(context, bold: true),
+                    ),
+                  ],
                 ),
+                lineOfGrey(),
+
+                // GST
+                if (_settingModel!.gstNo.length == 15) ...[
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'GST 18% (SGST & CGST)',
+                          style: appointSummaryTextStyle(context),
+                        ),
+                      ),
+                      Icon(Icons.currency_rupee,
+                          size: Dimensions.dimenisonNo16),
+                      Text(
+                        _settingModel!.gSTIsIncludingOrExcluding ==
+                                GlobalVariable.GstExclusive
+                            ? bookingProvider.getExcludingGSTAMT!
+                                .toStringAsFixed(2)
+                            : bookingProvider.getIncludingGSTAMT!
+                                .toStringAsFixed(2),
+                        style: appointSummaryTextStyle(context, bold: true),
+                      ),
+                    ],
+                  ),
+                  lineOfGrey(),
+                ],
+
+                // Final Payable Amount
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Final Payable amount',
+                        style: appointSummaryTextStyle(context, bold: true),
+                      ),
+                    ),
+                    Icon(Icons.currency_rupee,
+                        size: Dimensions.dimenisonNo18,
+                        color: Colors.green.shade700),
+                    Text(
+                      bookingProvider.getFinalPayableAMT!.round().toString(),
+                      style: appointSummaryTextStyle(context,
+                          color: Colors.green.shade700, bold: true),
+                    ),
+                  ],
+                ),
+                lineOfGrey(),
               ],
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
-            Row(
-              children: [
-                Text(
-                  'Total',
-                  style: appointSummTextSyle(),
-                ),
-                const Spacer(),
-                Icon(
-                  Icons.currency_rupee,
-                  size: Dimensions.dimenisonNo16,
-                ),
-                Text(
-                  // _settingModel!.gstNo.length == 15
-                  //     ?
-                  bookingProvider.getCalFinalAmountWithGST!.round().toString(),
-                  // : bookingProvider.getfinalTotal.round().toString(),
-                  style: appointSummTextSyle(),
-                ),
-              ],
-            ),
-            SizedBox(height: Dimensions.dimenisonNo16),
 
             //! Save Button
             //! Save Button
@@ -1324,11 +1383,40 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
     );
   }
 
+  Widget lineOfGrey() {
+    return const Padding(
+      padding: EdgeInsets.symmetric(vertical: 2),
+      child: Divider(
+        thickness: 0.5,
+        color: Colors.grey,
+      ),
+    );
+  }
+
   TextStyle appointSummTextSyle() {
     return TextStyle(
       fontSize: Dimensions.dimenisonNo14,
       fontWeight: FontWeight.w500,
       letterSpacing: 0.90,
+    );
+  }
+
+  TextStyle appointSummaryTextStyle(BuildContext context,
+      {Color? color, bool bold = false}) {
+    double fontSize;
+    if (ResponsiveLayout.isMobile(context)) {
+      fontSize = Dimensions.dimenisonNo13;
+    } else if (ResponsiveLayout.isTablet(context)) {
+      fontSize = Dimensions.dimenisonNo15;
+    } else {
+      fontSize = Dimensions.dimenisonNo17;
+    }
+    return TextStyle(
+      fontSize: fontSize,
+      fontWeight: bold ? FontWeight.w700 : FontWeight.w500,
+      color: color ?? Colors.black87,
+      letterSpacing: 0.5,
+      fontFamily: GoogleFonts.roboto().fontFamily,
     );
   }
 
@@ -1380,8 +1468,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
             listOfServices: bookingProvider.getWatchList,
             userModel: userInfo,
             appointmentNo: appointmentNO,
-
-            totalPrice: bookingProvider.getCalFinalAmountWithGST!,
+            totalPrice: bookingProvider.getFinalPayableAMT!,
             subtatal: bookingProvider.getSubTotal,
             platformFees: double.parse(_samaySalonSettingModel!.platformFee),
             payment: "PAP (Pay At Place)",
@@ -1393,18 +1480,19 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
             vendorId: widget.salonModel.id,
             gstNo: _settingModel!.gstNo,
             gstAmount: _settingModel!.gstNo.length == 15
-                ? bookingProvider.getCalGSTAmount
+                ? _settingModel!.gSTIsIncludingOrExcluding ==
+                        GlobalVariable.GstExclusive
+                    ? bookingProvider.getExcludingGSTAMT!
+                    : bookingProvider.getIncludingGSTAMT!
                 : 0.0,
             discountInPer: bookingProvider.getDiscountInPer!,
             discountAmount: bookingProvider.getDiscountAmount!,
-            extraDiscountInPer: bookingProvider
-                .getExtraDiscountInPer!, // not calculate extr Discount
-            extraDiscountInAmount: bookingProvider.getExtraDiscountAmount!,
+            extraDiscountInPer: 0.0, // not calculate extr Discount
+            extraDiscountInAmount: 0.0,
             netPrice: bookingProvider.getNetPrice!,
             gstIsIncludingOrExcluding:
                 _settingModel!.gSTIsIncludingOrExcluding!,
-            // extraDiscountInPer,
-            // extraDiscountInAmount,
+
             status: GlobalVariable.pendingAppointState,
             context: context,
           );

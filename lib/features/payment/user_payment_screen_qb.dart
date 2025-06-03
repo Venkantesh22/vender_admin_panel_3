@@ -10,6 +10,7 @@ import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/features/payment/bill_pdf.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/samay_fb.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/setting_fb.dart';
+import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/user_order_fb.dart';
 import 'package:samay_admin_plan/models/appoint_model/appoint_model.dart';
 import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart';
 import 'package:samay_admin_plan/models/salon_setting_model/salon_setting_model.dart';
@@ -24,22 +25,23 @@ import 'package:samay_admin_plan/utility/dimenison.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
 import 'package:upi_payment_qrcode_generator/upi_payment_qrcode_generator.dart';
 
-class UserSideBarPaymentScreen extends StatefulWidget {
-  final int? index;
-  final AppointModel? appointModel;
+class UserSideBarPaymentScreenForQB extends StatefulWidget {
+  final String? appointID;
+  final String? userId;
 
-  const UserSideBarPaymentScreen({
+  const UserSideBarPaymentScreenForQB({
     super.key,
-    this.appointModel,
-    this.index,
+    this.appointID,
+    this.userId,
   });
 
   @override
-  State<UserSideBarPaymentScreen> createState() =>
-      _UserSideBarPaymentScreenState();
+  State<UserSideBarPaymentScreenForQB> createState() =>
+      _UserSideBarPaymentScreenForQBState();
 }
 
-class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
+class _UserSideBarPaymentScreenForQBState
+    extends State<UserSideBarPaymentScreenForQB> {
   bool isExtroDiscountApply = false;
   bool _isLoading = false;
 
@@ -51,6 +53,8 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
 
   double finalAmount = 0.0;
   double gstAmount = 0.0;
+  double _extraDiscountInPerAMTLoc = 0.0;
+  // double _extraDiscountAMTLoc = 0.0;
 
   final List<String> _paymentOptions = ["Cash", "QR", "Custom"];
   String _selectedPaymentMethod = "Cash";
@@ -70,23 +74,27 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
     return cashReceived - bookingProvider.getFinalPayableAMT!;
   }
 
-  // double _calTaxableAmount() {}
   void calBill() {
     BookingProvider bookingProvider =
         Provider.of<BookingProvider>(context, listen: false);
     bookingProvider.getWatchList.clear();
-    bookingProvider.addServiceListToWatchList(widget.appointModel!.services);
+    bookingProvider.setAllZero();
+
+    bookingProvider.addServiceListToWatchList(_appointModel.services);
+    _extraDiscontAmountFun1();
+    bookingProvider.setExtraDiscountInPerAmount(_extraDiscountInPerAMTLoc);
+    bookingProvider.setExtraDiscountAmount(
+        double.tryParse(_extraDiscountInDirectAmount.text) ?? 0.0);
     bookingProvider.calculateSubTotal();
   }
 
 // Cal Extra Discount Fun
-  double _extraDiscontAmountFun1() {
+  void _extraDiscontAmountFun1() {
     final discountPercentage = double.tryParse(_extraDiscountInPer.text) ?? 0.0;
     final validPercentage = discountPercentage.clamp(0.0, 100.0);
     final double _formDiscAMT =
         _appointModel.subtatal - _appointModel.discountAmount!;
-    double _discountAmount = (validPercentage / 100) * _formDiscAMT;
-    return _discountAmount;
+    _extraDiscountInPerAMTLoc = (validPercentage / 100) * _formDiscAMT;
   }
 
   @override
@@ -105,47 +113,66 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
   }
 
   void getData() async {
-    setState(() {
-      _isLoading = true;
-    });
-    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
-    _venderPaymentDetailsModel = await SettingFb.instance
-        .fetchVenderPaymentFB(appProvider.getSalonInformation.id);
+    try {
+      setState(() {
+        _isLoading = true;
+      });
+      AppProvider appProvider =
+          Provider.of<AppProvider>(context, listen: false);
+      _venderPaymentDetailsModel = await SettingFb.instance
+          .fetchVenderPaymentFB(appProvider.getSalonInformation.id);
 
-    ServiceProvider serviceProvider =
-        Provider.of<ServiceProvider>(context, listen: false);
+      ServiceProvider serviceProvider =
+          Provider.of<ServiceProvider>(context, listen: false);
 
-    await serviceProvider.fetchSettingPro(appProvider.getSalonInformation.id);
-    _samaySalonSettingModel = await SamayFB.instance.fetchSalonSettingData();
+      await serviceProvider.fetchSettingPro(appProvider.getSalonInformation.id);
+      _samaySalonSettingModel = await SamayFB.instance.fetchSalonSettingData();
 
-    _settingModel = serviceProvider.getSettingModel!;
+      _settingModel = serviceProvider.getSettingModel!;
 
-    // Fix: Only fetch by ID if appointModel is null and appointID is not null or empty
+      _appointModel = await UserBookingFB.instance
+          .getSingleApointByIdFB(widget.userId!, widget.appointID!);
 
-    _appointModel = widget.appointModel!;
+      print("Appointment fetched: ${_appointModel.orderId}");
 
-    showMessage("No appointment data provided.");
-    setState(() {
-      _isLoading = false;
-    });
+      _cashReceivedController.text = "0.0";
+      _extraDiscountInPer.text = "0.0";
+      _transactionIdController.text = "0";
+      finalAmount = _appointModel.totalPrice;
+      gstAmount = _appointModel.gstAmount;
 
-    _cashReceivedController.text = "0.0";
-    _extraDiscountInPer.text = "0.0";
-    _transactionIdController.text = "0";
-    finalAmount = _appointModel.totalPrice;
-    gstAmount = _appointModel.gstAmount;
-    calBill();
+      if (_appointModel.extraDiscountInAmount != 0.0 ||
+          _appointModel.extraDiscountInPerAMT != 0.0 ||
+          _appointModel.extraDiscountInAmount != null ||
+          _appointModel.extraDiscountInPerAMT != null) {
+        isExtroDiscountApply = true;
+        _extraDiscountInPerAMTLoc = _appointModel.extraDiscountInPerAMT ?? 0.0;
+      } else {
+        isExtroDiscountApply = false;
+      }
 
-    setState(() {
-      _isLoading = false;
-    });
+      if (isExtroDiscountApply) {
+        _extraDiscountInPer.text =
+            _appointModel.extraDiscountInPer!.toStringAsFixed(2);
+        _extraDiscountInDirectAmount.text =
+            _appointModel.extraDiscountInAmount!.toStringAsFixed(2);
+      }
+
+      calBill();
+    } catch (e) {
+      print("Error in funtion GetDate $e");
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     BookingProvider bookingProvider = Provider.of<BookingProvider>(context);
     // Show loading if still fetching or _appointModel is not loaded
-    if (_isLoading || (_appointModel == null && widget.appointModel == null)) {
+    if (_isLoading || (_appointModel == null && _appointModel == null)) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
       );
@@ -182,7 +209,7 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                       children: [
                         _buildPaymentDetailsSection(bookingProvider),
                         SizedBox(height: Dimensions.dimenisonNo20),
-                        _buildPaymentOptionsSection(),
+                        _buildPaymentOptionsSection(bookingProvider),
                         billButtom(),
                       ],
                     ),
@@ -247,7 +274,7 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
       children: [
         CustomText(
           firstText: "Payment Method:",
-          lastText: widget.appointModel!.payment,
+          lastText: _appointModel.payment,
         ),
         SizedBox(height: Dimensions.dimenisonNo10),
         const Divider(),
@@ -318,7 +345,7 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                       ),
                       SizedBox(width: Dimensions.dimenisonNo5),
                       Text(
-                        '(services ${widget.appointModel!.services.length})',
+                        '(services ${_appointModel.services.length})',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: ResponsiveLayout.isMobile(context)
@@ -348,7 +375,7 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                 ),
 
 // Item Discount
-                widget.appointModel!.discountInPer != 0.0
+                _appointModel.discountInPer != 0.0
                     ? Padding(
                         padding:
                             EdgeInsets.only(bottom: Dimensions.dimenisonNo10),
@@ -389,7 +416,7 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                 Row(
                   children: [
                     Text(
-                      widget.appointModel!.gstIsIncludingOrExcluding ==
+                      _appointModel.gstIsIncludingOrExcluding ==
                               GlobalVariable.GstInclusive
                           ? 'Net Price (incl. GST)'
                           : 'Net Price',
@@ -485,7 +512,7 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                 ),
                 SizedBox(height: Dimensions.dimenisonNo10),
                 // GST Price
-                widget.appointModel!.gstAmount != 0.0
+                _appointModel.gstAmount != 0.0
                     ? Column(
                         children: [
                           Row(
@@ -570,7 +597,6 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                 onChanged: (value) {
                   double _discount = double.tryParse(value) ?? 0.0;
                   bookingProvider.setExtraDiscountAmount(_discount);
-
                   bookingProvider.calculateSubTotal();
                   setState(() {});
                 },
@@ -589,8 +615,10 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                   errorStyle: TextStyle(fontSize: Dimensions.dimenisonNo12),
                 ),
                 onChanged: (value) {
-                  double _discount = _extraDiscontAmountFun1();
-                  bookingProvider.setExtraDiscountInPerAmount(_discount);
+                  _extraDiscontAmountFun1();
+                  double _discountPercentage = _extraDiscountInPerAMTLoc;
+                  bookingProvider
+                      .setExtraDiscountInPerAmount(_discountPercentage);
                   bookingProvider.calculateSubTotal();
 
                   setState(() {});
@@ -617,7 +645,7 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
             SizedBox(
               width: Dimensions.dimenisonNo110,
               child: Text(
-                "-₹${_extraDiscontAmountFun1().toStringAsFixed(2)}",
+                "-₹${_extraDiscountInPerAMTLoc.toStringAsFixed(2)}",
                 style: TextStyle(
                   color: Colors.green,
                   fontSize: ResponsiveLayout.isMobile(context)
@@ -650,7 +678,6 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                   SizedBox(
                     width: Dimensions.dimenisonNo110,
                     child: Text(
-                      // "-₹${_extraDiscontDirectAmount().toStringAsFixed(2)}",
                       "-₹${_extraDiscountInDirectAmount.text}",
                       style: TextStyle(
                         color: Colors.green,
@@ -701,7 +728,7 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
     );
   }
 
-  Widget _buildPaymentOptionsSection() {
+  Widget _buildPaymentOptionsSection(BookingProvider bookingProvider) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -722,7 +749,7 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
             borderRadius: BorderRadius.circular(Dimensions.dimenisonNo12),
             border: Border.all(width: 1.6, color: Colors.black),
           ),
-          child: _buildPaymentMethodSelector(),
+          child: _buildPaymentMethodSelector(bookingProvider),
         ),
         SizedBox(height: Dimensions.dimenisonNo12),
         Text(
@@ -737,10 +764,7 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
     );
   }
 
-  Widget _buildPaymentMethodSelector() {
-    BookingProvider bookingProvider =
-        Provider.of<BookingProvider>(context, listen: false);
-
+  Widget _buildPaymentMethodSelector(BookingProvider bookingProvider) {
     return Container(
       constraints: BoxConstraints(maxHeight: Dimensions.screenHeight * 0.4),
       child: Row(
@@ -765,7 +789,7 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
                         _venderPaymentDetailsModel!.upiID.isNotEmpty) {
                       upiDetails = UPIDetails(
                         upiID: _venderPaymentDetailsModel!.upiID,
-                        payeeName: widget.appointModel!.userModel.name,
+                        payeeName: _appointModel.userModel.name,
                         amount: bookingProvider.getFinalPayableAMT!,
                         transactionNote:
                             "Thank you for booking services on Samay.",
@@ -933,10 +957,10 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
           SalonModel _salonModle = await appProvider.getSalonInformation;
 // update TimeStamp List
           List<TimeStampModel> _timeStampList = [];
-          _timeStampList.addAll(widget.appointModel!.timeStampList);
+          _timeStampList.addAll(_appointModel.timeStampList);
 
           TimeStampModel _timeStampModel = TimeStampModel(
-              id: widget.appointModel!.orderId,
+              id: _appointModel.orderId,
               dateAndTime: GlobalVariable.today,
               updateBy:
                   "${appProvider.getSalonInformation.name} Bill Generate");
@@ -957,19 +981,21 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
           print("Extra Discount in %: $_extraDiscountInPerLocal");
 
 // Update Appointment Payment information
-          AppointModel _updataAppointModel = widget.appointModel!.copyWith(
+          AppointModel _updataAppointModel = _appointModel.copyWith(
             extraDiscountInPer: _extraDiscountInPerLocal ?? 0.0,
-            extraDiscountInPerAMT: _extraDiscontAmountFun1(),
+            extraDiscountInPerAMT: _extraDiscountInPerAMTLoc,
             extraDiscountInAmount: _extraDiscountInAmountLocal ?? 0.0,
             transactionId: _transactionIdController.text.trim().isNotEmpty
                 ? _transactionIdController.text.trim()
                 : "00",
+            // gstAmount: calGSTInclustiveFun(),
             gstAmount: _settingModel!.gstNo.length == 15
                 ? _settingModel!.gSTIsIncludingOrExcluding ==
                         GlobalVariable.GstExclusive
                     ? _bookingProvider.getExcludingGSTAMT!
                     : _bookingProvider.getIncludingGSTAMT!
                 : 0.0,
+
             totalPrice: _bookingProvider.getFinalPayableAMT!,
             netPrice: _bookingProvider.getNetPrice!,
             status: "Bill Generate",
@@ -981,14 +1007,14 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
               "Extra Discount in update %: ${_updataAppointModel.extraDiscountInPer}");
 
           bool _isUpdate = await _bookingProvider.updateAppointment(
-            widget.appointModel!.userModel.id,
-            widget.appointModel!.orderId,
+            _appointModel.userModel.id,
+            _appointModel.orderId,
             _updataAppointModel,
           );
 
           Navigator.pop(context);
           print(
-              "salon Id ${widget.appointModel!.vendorId}   ,${appProvider.getSalonInformation.id}");
+              "salon Id ${_appointModel.vendorId}   ,${appProvider.getSalonInformation.id}");
 
           if (_isUpdate) {
             Navigator.push(

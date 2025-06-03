@@ -39,10 +39,18 @@ class _CustomCalendarState extends State<CustomCalendar> {
   @override
   void initState() {
     super.initState();
-    _selectedDate = widget.initialDate;
-    _findClosedDays();
-    getAppointmentList();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _findClosedDays();
+      getAppointmentList();
+      // updateDate();
+    });
   }
+
+  // void updateDate() {
+  //   Provider.of<BookingProvider>(context, listen: false)
+  //       .updateSelectedDate(_selectedDate);
+  //   print("Initial Date :- ${widget.initialDate}");
+  // }
 
   // Find the salon's closed days based on the model
   void _findClosedDays() {
@@ -87,6 +95,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
 
   // Fetch appointments and parse dates into _appointmentDates
   Future<void> getAppointmentList() async {
+    _selectedDate = widget.initialDate;
     ServiceProvider serviceProvider =
         Provider.of<ServiceProvider>(context, listen: false);
     await serviceProvider.fetchAppointmentDatePro(
@@ -150,7 +159,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
                 });
                 // Update provider state
                 Provider.of<BookingProvider>(context, listen: false)
-                    .updateSelectedDate(selectedDay);
+                    .updateSelectedDate(_selectedDate);
               }
             },
             calendarBuilders: CalendarBuilders(

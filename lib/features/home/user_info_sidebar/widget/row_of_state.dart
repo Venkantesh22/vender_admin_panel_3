@@ -89,7 +89,6 @@ class RowOfStates extends StatelessWidget {
                             timeStampList: timeStampList,
                           );
                           bookingProvider.updateAppointment(
-                            index,
                             userModel.id,
                             appointModel.orderId,
                             orderUpdate,
@@ -192,7 +191,6 @@ class RowOfStates extends StatelessWidget {
                                 status: "Check-In",
                                 timeStampList: timeStampList);
                             bookingProvider.updateAppointment(
-                              index,
                               userModel.id,
                               appointModel.orderId,
                               orderUpdate,
@@ -277,7 +275,6 @@ class RowOfStates extends StatelessWidget {
                                     timeStampList: timeStampList,
                                   );
                                   bookingProvider.updateAppointment(
-                                    index,
                                     userModel.id,
                                     appointModel.orderId,
                                     orderUpdate,
@@ -380,7 +377,6 @@ class RowOfStates extends StatelessWidget {
                                             status: "Completed",
                                             timeStampList: timeStampList);
                                     bookingProvider.updateAppointment(
-                                      index,
                                       userModel.id,
                                       appointModel.orderId,
                                       orderUpdate,

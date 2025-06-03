@@ -374,8 +374,8 @@ class _UserInfoSideBarState extends State<AppointInFoMobile> {
                             ? 0.5
                             : 1.0,
                         child: IgnorePointer(
-                          // ignoring: widget.appointModel.status == "pen",
-                          ignoring: widget.appointModel.status != "Completed",
+                          ignoring: widget.appointModel.status == "pen",
+                          // ignoring: widget.appointModel.status != "Completed",
                           child: Container(
                             padding: EdgeInsets.symmetric(
                                 horizontal: Dimensions.dimenisonNo16),
@@ -477,11 +477,8 @@ class _UserInfoSideBarState extends State<AppointInFoMobile> {
                       BookingProvider bookingProvider =
                           Provider.of<BookingProvider>(context, listen: false);
 
-                      bookingProvider.updateAppointment(
-                          widget.index,
-                          userModel.id,
-                          widget.appointModel.orderId,
-                          orderUpdate);
+                      bookingProvider.updateAppointment(userModel.id,
+                          widget.appointModel.orderId, orderUpdate);
                       Navigator.of(context, rootNavigator: true).pop();
                       Navigator.of(context).pop();
                       showMessage("Appointment has been cancelled ");

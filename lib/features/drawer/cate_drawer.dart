@@ -79,8 +79,15 @@ Drawer cateDrawer(
                 return ListView.builder(
                   itemCount: serviceProvider.getCategoryList.length,
                   itemBuilder: (context, index) {
-                    CategoryModel categoryModel =
-                        serviceProvider.getCategoryList[index];
+                    // Sort categories by name (A-Z)
+                    List<CategoryModel> sortedCategories =
+                        List.from(serviceProvider.getCategoryList)
+                          ..sort((a, b) => a.categoryName
+                              .toLowerCase()
+                              .compareTo(b.categoryName.toLowerCase()));
+
+                    CategoryModel categoryModel = sortedCategories[index];
+
                     return CatergryButton(
                       text: categoryModel.categoryName,
                       isSelected: serviceProvider.selectedCategory?.id ==

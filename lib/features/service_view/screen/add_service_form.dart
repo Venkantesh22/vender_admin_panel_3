@@ -9,14 +9,15 @@ import 'package:samay_admin_plan/provider/service_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
 import 'package:samay_admin_plan/utility/dimenison.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
+import 'package:samay_admin_plan/widget/customauthbutton_loading.dart';
 import 'package:samay_admin_plan/widget/customtextfield.dart';
 
 class AddServiceForm extends StatefulWidget {
   final CategoryModel categoryModel;
   const AddServiceForm({
-    Key? key,
+    super.key,
     required this.categoryModel,
-  }) : super(key: key);
+  });
 
   @override
   State<AddServiceForm> createState() => _AddServiceFormState();
@@ -39,6 +40,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
   // Dropdown options for "service for"
   final List<String> _serviceForList = ["Male", "Female", "Both"];
   String? _serviceFor;
+  bool _loadingSave = false; // Loader state for save button
 
   double discountAmount = 0.0;
 
@@ -286,6 +288,128 @@ class _AddServiceFormState extends State<AddServiceForm> {
               ),
               SizedBox(height: Dimensions.dimenisonNo10),
               // Save Button with error handling and loader management
+              // CustomAuthButtonLoading(
+              //   title: _loadingSave
+              //       ? const CircularProgressIndicator(
+              //           color: Colors.white,
+              //         )
+              //       : Text(
+              //           "save",
+              //           style: TextStyle(
+              //             color: Colors.white,
+              //             fontSize: ResponsiveLayout.isMoAndTab(context)
+              //                 ? Dimensions.dimenisonNo12
+              //                 : Dimensions.dimenisonNo16,
+              //             fontFamily: GoogleFonts.roboto().fontFamily,
+              //             fontWeight: FontWeight.w500,
+              //             letterSpacing: 1.25,
+              //           ),
+              //         ),
+              //   ontap: _loadingSave
+              //       ? () {}
+              //       : () async {
+              //           // Show loader dialog
+
+              //           try {
+              //              setState(() {
+              //               _loadingSave = true;
+              //             });
+              //             // Validate form fields
+              //             bool isValidated = addNewServiceVaildation(
+              //               _serviceController.text,
+              //               _serviceCodeController.text,
+              //               _priceController.text,
+              //               _minController.text,
+              //             );
+
+              //             if (!isValidated) {
+              //               showMessage(
+              //                   "Please fill all required fields correctly.");
+              //               return;
+              //             }
+
+              //             // Parse and validate numeric fields
+              //             double? originalPrice =
+              //                 double.tryParse(_originalPriceController.text);
+              //             double? discountPercentage =
+              //                 double.tryParse(_discountInPer.text);
+              //             double? finalPrice =
+              //                 double.tryParse(_priceController.text);
+              //             int hours = int.tryParse(_hoursController.text) ??
+              //                 0; // Default to 0 if null or invalid
+              //             int? minutes = int.tryParse(_minController.text);
+
+              //             if (originalPrice == null ||
+              //                 discountPercentage == null ||
+              //                 finalPrice == null) {
+              //               showMessage(
+              //                   "Please enter valid numeric values for price and discount.");
+              //               return;
+              //             }
+
+              //             if (minutes == null) {
+              //               showMessage(
+              //                   "Please enter valid numeric values for time duration.");
+              //               return;
+              //             }
+
+              //             discountAmountFun();
+
+              //             // Retrieve provider data
+              //             final appProvider =
+              //                 Provider.of<AppProvider>(context, listen: false);
+              //             final serviceProvider = Provider.of<ServiceProvider>(
+              //                 context,
+              //                 listen: false);
+
+              //             // Add new service via provider method
+              //             await serviceProvider.addSingleServicePro(
+              //               appProvider.getAdminInformation.id,
+              //               appProvider.getSalonInformation.id,
+              //               widget.categoryModel.id,
+              //               widget.categoryModel.categoryName,
+              //               serviceProvider
+              //                   .getSelectSuperCategoryModel!.superCategoryName,
+              //               _serviceController.text.trim(),
+              //               _serviceCodeController.text.trim(),
+              //               finalPrice,
+              //               originalPrice,
+              //               discountPercentage,
+              //               discountAmount,
+              //               hours,
+              //               minutes,
+              //               _descriptionController.text.trim(),
+              //               _serviceFor!,
+              //             );
+
+              //             // Update category status if required
+              //             if (widget.categoryModel.haveData == false) {
+              //               final updatedCategory =
+              //                   widget.categoryModel.copyWith(haveData: true);
+              //               serviceProvider
+              //                   .updateSingleCategoryPro(updatedCategory);
+              //               final updateSuperCate = serviceProvider
+              //                   .getSelectSuperCategoryModel!
+              //                   .copyWith(haveData: true);
+              //               serviceProvider
+              //                   .updateSingleSuperCategoryPro(updateSuperCate);
+              //             }
+
+              //             // Show success message and close form
+              //             showMessage("New Service added Successfully");
+              //             Navigator.of(context).pop(); // Close the form screen
+              //           } catch (e) {
+              //             debugPrint("Error adding service: ${e.toString()}");
+              //             showMessage("Error adding service: ${e.toString()}");
+              //           } finally {
+              //             // Ensure loader dialog is dismissed
+              //             if (Navigator.of(context, rootNavigator: true)
+              //                 .canPop()) {
+              //               Navigator.of(context, rootNavigator: true).pop();
+              //             }
+              //           }
+              //         },
+              // ),
               CustomAuthButton(
                 text: "Save",
                 ontap: () async {
@@ -383,78 +507,6 @@ class _AddServiceFormState extends State<AddServiceForm> {
                   }
                 },
               ),
-              // CustomAuthButton(
-              //   text: "Save",
-              //   ontap: () async {
-              //     // Show loader dialog
-              //     showLoaderDialog(context);
-              //     try {
-              //       // Validate form fields
-              //       bool isValidated = addNewServiceVaildation(
-              //         _serviceController.text,
-              //         _serviceCodeController.text,
-              //         _priceController.text,
-              //         _minController.text,
-              //       );
-
-              //       if (!isValidated) {
-              //         showMessage("Please fill all required fields correctly.");
-              //         return;
-              //       }
-              //       discountAmountFun();
-
-              //       // Retrieve provider data
-              //       final appProvider =
-              //           Provider.of<AppProvider>(context, listen: false);
-              //       final serviceProvider =
-              //           Provider.of<ServiceProvider>(context, listen: false);
-
-              //       // Add new service via provider method
-              //       await serviceProvider.addSingleServicePro(
-              //         appProvider.getAdminInformation.id,
-              //         appProvider.getSalonInformation.id,
-              //         widget.categoryModel.id,
-              //         widget.categoryModel.categoryName,
-              //         serviceProvider
-              //             .getSelectSuperCategoryModel!.superCategoryName,
-              //         _serviceController.text.trim(),
-              //         _serviceCodeController.text.trim(),
-              //         double.parse(_priceController.text.trim()),
-              //         double.parse(_originalPriceController.text.trim()),
-              //         double.parse(_discountInPer.text.trim()),
-              //         discountAmount,
-              //         int.parse(_hoursController.text.trim()) ?? 0,
-              //         int.parse(_minController.text.trim()),
-              //         _descriptionController.text.trim() ?? "",
-              //         _serviceFor!,
-              //       );
-
-              //       // Update category status if required
-              //       if (widget.categoryModel.haveData == false) {
-              //         final updatedCategory =
-              //             widget.categoryModel.copyWith(haveData: true);
-              //         serviceProvider.updateSingleCategoryPro(updatedCategory);
-              //         final updateSuperCate = serviceProvider
-              //             .getSelectSuperCategoryModel!
-              //             .copyWith(haveData: true);
-              //         serviceProvider
-              //             .updateSingleSuperCategoryPro(updateSuperCate);
-              //       }
-
-              //       // Show success message and close form
-              //       showMessage("New Service added Successfully");
-              //       Navigator.of(context).pop(); // Close the form screen
-              //     } catch (e) {
-              //       debugPrint("Error adding service: ${e.toString()}");
-              //       showMessage("Error adding service: ${e.toString()}");
-              //     } finally {
-              //       // Ensure loader dialog is dismissed
-              //       if (Navigator.of(context, rootNavigator: true).canPop()) {
-              //         Navigator.of(context, rootNavigator: true).pop();
-              //       }
-              //     }
-              //   },
-              // ),
             ],
           ),
         ),

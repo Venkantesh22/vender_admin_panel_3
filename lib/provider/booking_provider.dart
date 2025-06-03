@@ -42,9 +42,7 @@ class BookingProvider with ChangeNotifier {
   String get getServiceBookingDuration => _serviceBookingDuration;
 
   double _subTotal = 0.0;
-  double _finalTotal = 0.0;
   double get getSubTotal => _subTotal;
-  // double get getfinalTotal => _finalTotal;
 
   // GST calculation.
   double _calGstAmount = 0.0;
@@ -66,11 +64,23 @@ class BookingProvider with ChangeNotifier {
   double? _extraDiscountAmount = 0.0;
   double? get getExtraDiscountAmount => _extraDiscountAmount;
 
-  double? _extraDiscountInPer = 0.0;
-  double? get getExtraDiscountInPer => _extraDiscountInPer;
+  double? _extraDiscountInPerAmount = 0.0;
+  double? get getExtraDiscountInPerAmount => _extraDiscountInPerAmount;
 
   double? _netPrice = 0.0;
   double? get getNetPrice => _netPrice;
+
+  double? _taxAbleAmount = 0.0;
+  double? get getTaxAbleAmount => _taxAbleAmount;
+
+  double? _excludingGSTAMT = 0.0;
+  double? get getExcludingGSTAMT => _excludingGSTAMT;
+
+  double? _includingGSTAMT = 0.0;
+  double? get getIncludingGSTAMT => _includingGSTAMT;
+
+  double? _finalPayableAMT = 0.0;
+  double? get getFinalPayableAMT => _finalPayableAMT;
 
   // Salon settings.
   SamaySalonSettingModel? _samaySalonSettingModel;
@@ -142,6 +152,12 @@ class BookingProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  /// Adds a service to the watch list.
+  void addServiceListToWatchList(List<ServiceModel> serviceModelList) {
+    _watchList.addAll(serviceModelList);
+    notifyListeners();
+  }
+
   /// Removes a service from the watch list.
   void removeServiceToWatchList(ServiceModel serviceModel) {
     _watchList.remove(serviceModel);
@@ -167,12 +183,17 @@ class BookingProvider with ChangeNotifier {
   }
 
   /// Updates an appointment in the booking list.
-  Future<bool> updateAppointment(int index, String userId, appointmentId,
-      AppointModel appointModel) async {
+  Future<bool> updateAppointment(
+    String userId,
+    appointmentId,
+    AppointModel appointModel,
+  ) async {
     try {
       await _userBookingFB.updateAppointmentFB(
-          userId, appointmentId, appointModel);
-      // _bookinglist[index] = appointModel;
+        userId,
+        appointmentId,
+        appointModel,
+      );
       return true;
     } catch (e) {
       debugPrint("Error updating appointment: $e");
@@ -200,12 +221,6 @@ class BookingProvider with ChangeNotifier {
   /// Calculates the subtotal, discount, GST, and final total.
   void calculateSubTotal() {
     try {
-      double totalExtraDicAMT =
-          _extraDiscountAmount! + _extraDiscountInPer! ?? 0.0;
-      print(
-          "Total Extra Discount Amount: $_extraDiscountAmount + $_extraDiscountInPer");
-      print("Total Extra Discount Amount: $totalExtraDicAMT");
-
       if (_settingModel!.gSTIsIncludingOrExcluding ==
           GlobalVariable.GstExclusive) {
         //! Calculate GST for "Exclusive"
@@ -224,28 +239,27 @@ class BookingProvider with ChangeNotifier {
         // Calculate discount percentage based on subtotal.
         _discountInPer =
             calculateDiscountPercentage(_subTotal, _discountAmount!);
-        print("Discount Percentage: $_discountInPer");
+        // print("Discount Percentage: $_discountInPer");
+
+        calNetPirce();
+        // calTotalExtraDicPer();
 
         // Calculate final total without GST.
         double platformFee =
             double.tryParse(getSamaySalonSettingModel.platformFee) ?? 0.0;
-        _finalTotal =
-            (_subTotal + platformFee) - _discountAmount! - totalExtraDicAMT;
-        print("Final Total (without GST): $_finalTotal");
+
+        _taxAbleAmount = _netPrice! + platformFee;
+        print("Taxable Amount: $_taxAbleAmount");
 
         // Calculate GST if applicable.
-        _calGstAmount = _isGSTApply
-            ? (_salonGstPer! / 100) * (_subTotal - _discountAmount!)
-            : 0.0;
-        double finalAmountWithGST =
-            (((_subTotal + _calGstAmount) - _discountAmount!) -
-                    totalExtraDicAMT) +
-                platformFee;
-        _calFinalAmountWithGST = finalAmountWithGST;
+        _excludingGSTAMT = GlobalVariable.salonGST0_18 * _taxAbleAmount!;
+        print(
+            "Excluding GST Amount (${GlobalVariable.salonGST0_18 * _taxAbleAmount!}):  $_excludingGSTAMT");
 
-        print("Final Total (without GST): $_calFinalAmountWithGST");
-        calNetPirce();
-      } else {
+        _finalPayableAMT = _taxAbleAmount! + _excludingGSTAMT!;
+        print("Final Payable Amount: $_finalPayableAMT");
+      } else if (_settingModel!.gSTIsIncludingOrExcluding ==
+          GlobalVariable.GstInclusive) {
         print("Calculate GST for incl pro----------");
         // _isGSTApply = true;
 
@@ -266,20 +280,46 @@ class BookingProvider with ChangeNotifier {
         // Calculate final total without GST.
         double platformFee =
             double.tryParse(getSamaySalonSettingModel.platformFee) ?? 0.0;
+        calNetPirce();
+
+        print("incl NetPRice $_netPrice");
 
         // Calculate GST if applicable.
-        double _calSubTotalBeforGSTAdd =
-            ((_subTotal - _discountAmount!) / 1.18);
+        _taxAbleAmount =
+            (_netPrice! + platformFee) / GlobalVariable.salonGST1_18;
 
-        _calGstAmount = _isGSTApply
-            ? (_subTotal - _discountAmount!) - _calSubTotalBeforGSTAdd
-            : 0.0;
+        _includingGSTAMT = (_netPrice! + platformFee) - _taxAbleAmount!;
+        _finalPayableAMT = _taxAbleAmount! + _includingGSTAMT!;
 
-        double finalAmountWithGST =
-            ((_subTotal - _discountAmount!) - totalExtraDicAMT) + platformFee;
-        _calFinalAmountWithGST = finalAmountWithGST;
-        print("Final Total (with GST) Inclusive: $_calFinalAmountWithGST");
+        print("Final Total (with GST) Inclusive: $_finalPayableAMT");
+
+        // calTotalExtraDicPer();
+      } else {
+        print("Calculate without GST pro----------");
+        // _isGSTApply = true;
+
+        _subTotal =
+            _watchList.fold(0.0, (sum, item) => sum + item.originalPrice!);
+        print("Subtotal withoutGST: $_subTotal");
+
+        _discountAmount = _watchList.fold(0.0, (sum, item) {
+          return sum! + (item.discountAmount ?? 0.0);
+        });
+        print("Discount Amount  withoutGST : $_discountAmount");
+
+        // Calculate discount percentage based on subtotal.
+        _discountInPer =
+            calculateDiscountPercentage(_subTotal, _discountAmount!);
+        print("Discount Percentage withoutGST: $_discountInPer");
+
+        double platformFee =
+            double.tryParse(getSamaySalonSettingModel.platformFee) ?? 0.0;
         calNetPirce();
+        print("incl NetPRice withoutGST $_netPrice");
+
+        _taxAbleAmount = _netPrice! + platformFee;
+
+        _finalPayableAMT = _taxAbleAmount!;
       }
 
       notifyListeners();
@@ -298,13 +338,23 @@ class BookingProvider with ChangeNotifier {
   void calNetPirce() {
     if (_settingModel!.gSTIsIncludingOrExcluding ==
         GlobalVariable.GstExclusive) {
-      _netPrice = _subTotal - _discountAmount! - _extraDiscountAmount!;
+      _netPrice = _subTotal -
+          _discountAmount! -
+          _extraDiscountAmount! -
+          _extraDiscountInPerAmount!;
     } else if (_settingModel!.gSTIsIncludingOrExcluding ==
         GlobalVariable.GstInclusive) {
-      _netPrice = (_subTotal - _discountAmount! - _extraDiscountAmount!) / 1.18;
+      _netPrice = _subTotal -
+          _discountAmount! -
+          _extraDiscountAmount! -
+          _extraDiscountInPerAmount!;
     } else {
-      _netPrice = (_subTotal - _discountAmount! - _extraDiscountAmount!);
+      _netPrice = (_subTotal -
+          _discountAmount! -
+          _extraDiscountAmount! -
+          _extraDiscountInPerAmount!);
     }
+    notifyListeners();
   }
 
   // ----------------- Utility Methods -----------------
@@ -374,34 +424,44 @@ class BookingProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // Set discount percentage and amount
-
-  void setDiscountINPer(double discount) {
-    _extraDiscountInPer = discount;
+  void setExtraDiscountInPerAmount(double discount) {
+    _extraDiscountInPerAmount = discount;
+    print(
+        " --------------------Extra Discount per: Amount $_extraDiscountInPerAmount");
     notifyListeners();
   }
 
-  // Set discount amount
-  void setDiscountAmount(double discount) {
+  // Set Extra discount amount
+  void setExtraDiscountAmount(double discount) {
     _extraDiscountAmount = discount;
+    print(" -------------Extra Discount Amount: $_extraDiscountAmount");
     notifyListeners();
   }
 
   void setAllZero() {
     _discountInPer = 0.0;
     _subTotal = 0.0;
-    _finalTotal = 0.0;
+    _taxAbleAmount = 0.0;
     _netPrice = 0.0;
     _calGstAmount = 0.0;
     _discountInPer = 0.0;
     _discountAmount = 0.0;
     _extraDiscountAmount = 0.0;
-    _extraDiscountInPer = 0.0;
+    _extraDiscountInPerAmount = 0.0;
     _salonGstPer = 0.0;
     _watchList.clear();
     _bookinglist.clear();
-    _calFinalAmountWithGST = 0.0;
+
     _serviceBookingDuration = "0h 0m";
+    notifyListeners();
+  }
+
+  void setAppointEditAllData(
+    AppointModel appointModel,
+  ) {
+    _netPrice = appointModel.netPrice;
+    _calFinalAmountWithGST = appointModel.totalPrice;
+
     notifyListeners();
   }
 }
