@@ -17,13 +17,10 @@ import 'package:samay_admin_plan/features/add_new_appointment/widget/single_serv
 import 'package:samay_admin_plan/features/add_new_appointment/widget/time_tap.dart';
 import 'package:samay_admin_plan/features/custom_appbar/screen/custom_appbar.dart';
 import 'package:samay_admin_plan/features/drawer/drawer.dart';
-import 'package:samay_admin_plan/features/payment/bill_pdf.dart';
-import 'package:samay_admin_plan/features/payment/user_payment_screen.dart';
 import 'package:samay_admin_plan/features/payment/user_payment_screen_qb.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/samay_fb.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/setting_fb.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/user_order_fb.dart';
-import 'package:samay_admin_plan/models/appoint_model/appoint_model.dart';
 import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart';
 import 'package:samay_admin_plan/models/salon_setting_model/salon_setting_model.dart';
 import 'package:samay_admin_plan/models/samay_salon_settng_model/samay_salon_setting.dart';
