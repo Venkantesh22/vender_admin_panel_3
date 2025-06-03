@@ -462,55 +462,11 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
                                         : EdgeInsets.symmetric(
                                             horizontal:
                                                 Dimensions.dimenisonNo12),
-                                    child: Wrap(
-                                      spacing: Dimensions
-                                          .dimenisonNo12, // Horizontal space between items
-                                      runSpacing: Dimensions
-                                          .dimenisonNo12, // Vertical space between rows
-                                      alignment: WrapAlignment.center,
-                                      runAlignment: WrapAlignment.start,
-                                      children: List.generate(
-                                        bookingProvider.getWatchList.length,
-                                        (index) {
-                                          ServiceModel servicelist =
-                                              bookingProvider
-                                                  .getWatchList[index];
-                                          return SizedBox(
-                                            width: ResponsiveLayout.isMobile(
-                                                    context)
-                                                ? Dimensions.dimenisonNo210
-                                                : Dimensions.dimenisonNo300,
-                                            child: SingleServiceTapDeleteIcon(
-                                              serviceModel: servicelist,
-                                              onTap: () {
-                                                try {
-                                                  showLoaderDialog(context);
-                                                  setState(() {
-                                                    bookingProvider
-                                                        .removeServiceToWatchList(
-                                                            servicelist);
-
-                                                    bookingProvider
-                                                        .calculateTotalBookingDuration();
-                                                    bookingProvider
-                                                        .calculateSubTotal();
-                                                  });
-
-                                                  Navigator.of(context,
-                                                          rootNavigator: true)
-                                                      .pop();
-                                                  showMessage(
-                                                      'Service is removed from Watch List');
-                                                } catch (e) {
-                                                  showMessage(
-                                                      'Error occurred while removing service from Watch List: ${e.toString()}');
-                                                }
-                                              },
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
+                                    child: ResponsiveLayout.isMobile(context)
+                                        ? selectServiceListMobile(
+                                            context, bookingProvider)
+                                        : selectServiceListWeb(
+                                            bookingProvider, context),
                                   ),
                                   SizedBox(height: Dimensions.dimenisonNo12),
                                   //! TextBox for user note
@@ -768,6 +724,91 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Wrap selectServiceListWeb(
+      BookingProvider bookingProvider, BuildContext context) {
+    return Wrap(
+      spacing: Dimensions.dimenisonNo12, // Horizontal space between items
+      runSpacing: Dimensions.dimenisonNo12, // Vertical space between rows
+      alignment: WrapAlignment.center,
+      runAlignment: WrapAlignment.start,
+      children: List.generate(
+        bookingProvider.getWatchList.length,
+        (index) {
+          ServiceModel servicelist = bookingProvider.getWatchList[index];
+          return SizedBox(
+            width: ResponsiveLayout.isMobile(context)
+                ? Dimensions.dimenisonNo210
+                : Dimensions.dimenisonNo300,
+            child: SingleServiceTapDeleteIcon(
+              serviceModel: servicelist,
+              onTap: () {
+                try {
+                  showLoaderDialog(context);
+                  setState(() {
+                    bookingProvider.removeServiceToWatchList(servicelist);
+
+                    bookingProvider.calculateTotalBookingDuration();
+                    bookingProvider.calculateSubTotal();
+                  });
+
+                  Navigator.of(context, rootNavigator: true).pop();
+                  showMessage('Service is removed from Watch List');
+                } catch (e) {
+                  showMessage(
+                      'Error occurred while removing service from Watch List: ${e.toString()}');
+                }
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  SizedBox selectServiceListMobile(
+      BuildContext context, BookingProvider bookingProvider) {
+    return SizedBox(
+      height: ResponsiveLayout.isMobile(context)
+          ? Dimensions.dimenisonNo250
+          : Dimensions.dimenisonNo350, // Adjust height as needed
+      child: ListView.builder(
+        itemCount: bookingProvider.getWatchList.length,
+        itemBuilder: (context, index) {
+          ServiceModel servicelist = bookingProvider.getWatchList[index];
+          return Padding(
+            padding: EdgeInsets.only(
+              bottom: Dimensions.dimenisonNo12,
+              right: Dimensions.dimenisonNo12,
+            ),
+            child: SizedBox(
+              width: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimenisonNo210
+                  : Dimensions.dimenisonNo300,
+              child: SingleServiceTapDeleteIcon(
+                serviceModel: servicelist,
+                onTap: () {
+                  try {
+                    showLoaderDialog(context);
+                    setState(() {
+                      bookingProvider.removeServiceToWatchList(servicelist);
+                      bookingProvider.calculateTotalBookingDuration();
+                      bookingProvider.calculateSubTotal();
+                    });
+                    Navigator.of(context, rootNavigator: true).pop();
+                    showMessage('Service is removed from Watch List');
+                  } catch (e) {
+                    showMessage(
+                        'Error occurred while removing service from Watch List: ${e.toString()}');
+                  }
+                },
+              ),
+            ),
+          );
+        },
       ),
     );
   }
