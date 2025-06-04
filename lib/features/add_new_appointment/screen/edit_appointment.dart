@@ -361,180 +361,168 @@ class _EditAppointmentState extends State<EditAppointment> {
                     children: [
                       Stack(
                         children: [
-                          SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding:
-                                      EdgeInsets.all(Dimensions.dimenisonNo16),
-                                  child: Text(
-                                    "Update Appointment",
-                                    style: TextStyle(
-                                      fontSize: Dimensions.dimenisonNo20,
-                                      fontWeight: FontWeight.w600,
-                                    ),
+                          Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    EdgeInsets.all(Dimensions.dimenisonNo16),
+                                child: Text(
+                                  "Update Appointment",
+                                  style: TextStyle(
+                                    fontSize: Dimensions.dimenisonNo20,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                                // Container to User TextBox
-                                _formOfAppoint(),
-                                //! Genarate List of Service which in Watch list
-                                GestureDetector(
-                                  onTap: () {
-                                    if (_showCalender ||
-                                        _showServiceList ||
-                                        _showTimeContaine == true) {
-                                      setState(() {
-                                        _showCalender = false;
-                                        _showServiceList = false;
-                                        _showTimeContaine = false;
-                                      });
-                                    }
-                                  },
-                                  child: Padding(
-                                    padding: ResponsiveLayout.isMobile(context)
-                                        ? EdgeInsets.symmetric(
-                                            horizontal:
-                                                Dimensions.dimenisonNo12,
-                                            vertical: Dimensions.dimenisonNo12)
-                                        : EdgeInsets.symmetric(
-                                            horizontal:
-                                                Dimensions.dimenisonNo18,
-                                            vertical: Dimensions.dimenisonNo12),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(
-                                              "Select Serivce",
-                                              style: TextStyle(
-                                                fontSize: ResponsiveLayout
-                                                        .isMobile(context)
-                                                    ? Dimensions.dimenisonNo14
-                                                    : Dimensions.dimenisonNo18,
-                                                fontWeight:
-                                                    ResponsiveLayout.isMobile(
-                                                            context)
-                                                        ? FontWeight.bold
-                                                        : FontWeight.w600,
-                                              ),
-                                            ),
-                                            const Spacer(),
-                                            Text(
-                                              "Service Duration ${bookingProvider.getServiceBookingDuration}",
-                                              style: TextStyle(
-                                                fontSize: ResponsiveLayout
-                                                        .isMobile(context)
-                                                    ? Dimensions.dimenisonNo14
-                                                    : Dimensions.dimenisonNo18,
-                                                fontWeight:
-                                                    ResponsiveLayout.isMobile(
-                                                            context)
-                                                        ? FontWeight.bold
-                                                        : FontWeight.w600,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: Dimensions.dimenisonNo10,
-                                        ),
-                                        Padding(
-                                          padding:
-                                              ResponsiveLayout.isMobile(context)
-                                                  ? EdgeInsets.zero
-                                                  : EdgeInsets.symmetric(
-                                                      horizontal: Dimensions
-                                                          .dimenisonNo12),
-                                          child: Wrap(
-                                            spacing: Dimensions
-                                                .dimenisonNo12, // Horizontal space between items
-                                            runSpacing: Dimensions
-                                                .dimenisonNo12, // Vertical space between rows
-                                            alignment: WrapAlignment.center,
-                                            runAlignment: WrapAlignment.start,
-                                            children: List.generate(
-                                              bookingProvider
-                                                  .getWatchList.length,
-                                              (index) {
-                                                ServiceModel servicelist =
-                                                    bookingProvider
-                                                        .getWatchList[index];
-                                                return SizedBox(
-                                                  width:
-                                                      ResponsiveLayout.isMobile(
-                                                              context)
-                                                          ? Dimensions
-                                                              .dimenisonNo210
-                                                          : Dimensions
-                                                              .dimenisonNo300,
-                                                  child:
-                                                      SingleServiceTapDeleteIcon(
-                                                    serviceModel: servicelist,
-                                                    onTap: () {
-                                                      try {
-                                                        showLoaderDialog(
-                                                            context);
-                                                        setState(() {
-                                                          bookingProvider
-                                                              .removeServiceToWatchList(
-                                                                  servicelist);
-
-                                                          bookingProvider
-                                                              .calculateTotalBookingDuration();
-                                                          bookingProvider
-                                                              .calculateSubTotal();
-                                                        });
-
-                                                        Navigator.of(context,
-                                                                rootNavigator:
-                                                                    true)
-                                                            .pop();
-                                                        showMessage(
-                                                            'Service is removed from Watch List');
-                                                      } catch (e) {
-                                                        showMessage(
-                                                            'Error occurred while removing service from Watch List: ${e.toString()}');
-                                                      }
-                                                    },
-                                                  ),
-                                                );
-                                              },
+                              ),
+                              // Container to User TextBox
+                              _formOfAppoint(),
+                              //! Genarate List of Service which in Watch list
+                              GestureDetector(
+                                onTap: () {
+                                  if (_showCalender ||
+                                      _showServiceList ||
+                                      _showTimeContaine == true) {
+                                    setState(() {
+                                      _showCalender = false;
+                                      _showServiceList = false;
+                                      _showTimeContaine = false;
+                                    });
+                                  }
+                                },
+                                child: Padding(
+                                  padding: ResponsiveLayout.isMobile(context)
+                                      ? EdgeInsets.symmetric(
+                                          horizontal: Dimensions.dimenisonNo12,
+                                          vertical: Dimensions.dimenisonNo12)
+                                      : EdgeInsets.symmetric(
+                                          horizontal: Dimensions.dimenisonNo18,
+                                          vertical: Dimensions.dimenisonNo12),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text(
+                                            "Select Serivce",
+                                            style: TextStyle(
+                                              fontSize: ResponsiveLayout
+                                                      .isMobile(context)
+                                                  ? Dimensions.dimenisonNo14
+                                                  : Dimensions.dimenisonNo18,
+                                              fontWeight:
+                                                  ResponsiveLayout.isMobile(
+                                                          context)
+                                                      ? FontWeight.bold
+                                                      : FontWeight.w600,
                                             ),
                                           ),
-                                        ),
-                                        SizedBox(
-                                            height: Dimensions.dimenisonNo12),
-                                        //! TextBox for user note
-                                        SizedBox(
-                                          width: Dimensions.screenWidth,
-                                          child: FormCustomTextField(
-                                            requiredField: false,
-                                            controller: _userNote,
-                                            title: "User Note",
-                                            maxline: 2,
-                                            hintText:
-                                                "Instruction of for appointment",
+                                          const Spacer(),
+                                          Text(
+                                            "Service Duration ${bookingProvider.getServiceBookingDuration}",
+                                            style: TextStyle(
+                                              fontSize: ResponsiveLayout
+                                                      .isMobile(context)
+                                                  ? Dimensions.dimenisonNo14
+                                                  : Dimensions.dimenisonNo18,
+                                              fontWeight:
+                                                  ResponsiveLayout.isMobile(
+                                                          context)
+                                                      ? FontWeight.bold
+                                                      : FontWeight.w600,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: Dimensions.dimenisonNo10,
+                                      ),
+                                      Padding(
+                                        padding:
+                                            ResponsiveLayout.isMobile(context)
+                                                ? EdgeInsets.zero
+                                                : EdgeInsets.symmetric(
+                                                    horizontal: Dimensions
+                                                        .dimenisonNo12),
+                                        child: Wrap(
+                                          spacing: Dimensions
+                                              .dimenisonNo12, // Horizontal space between items
+                                          runSpacing: Dimensions
+                                              .dimenisonNo12, // Vertical space between rows
+                                          alignment: WrapAlignment.center,
+                                          runAlignment: WrapAlignment.start,
+                                          children: List.generate(
+                                            bookingProvider.getWatchList.length,
+                                            (index) {
+                                              ServiceModel servicelist =
+                                                  bookingProvider
+                                                      .getWatchList[index];
+                                              return SizedBox(
+                                                width: ResponsiveLayout
+                                                        .isMobile(context)
+                                                    ? Dimensions.dimenisonNo210
+                                                    : Dimensions.dimenisonNo300,
+                                                child:
+                                                    SingleServiceTapDeleteIcon(
+                                                  serviceModel: servicelist,
+                                                  onTap: () {
+                                                    try {
+                                                      showLoaderDialog(context);
+                                                      setState(() {
+                                                        bookingProvider
+                                                            .removeServiceToWatchList(
+                                                                servicelist);
+
+                                                        bookingProvider
+                                                            .calculateTotalBookingDuration();
+                                                        bookingProvider
+                                                            .calculateSubTotal();
+                                                      });
+
+                                                      Navigator.of(context,
+                                                              rootNavigator:
+                                                                  true)
+                                                          .pop();
+                                                      showMessage(
+                                                          'Service is removed from Watch List');
+                                                    } catch (e) {
+                                                      showMessage(
+                                                          'Error occurred while removing service from Watch List: ${e.toString()}');
+                                                    }
+                                                  },
+                                                ),
+                                              );
+                                            },
                                           ),
                                         ),
-                                        SizedBox(
-                                            height: Dimensions.dimenisonNo12),
-                                        // Detail of appointment
-                                        //! Appointment Details
-                                        if (_appointmentDateController != null)
-                                          AppointDetailsSummer(
-                                              bookingProvider,
-                                              serviceDurationInMinutes,
-                                              context),
-                                      ],
-                                    ),
+                                      ),
+                                      SizedBox(
+                                          height: Dimensions.dimenisonNo12),
+                                      //! TextBox for user note
+                                      SizedBox(
+                                        width: Dimensions.screenWidth,
+                                        child: FormCustomTextField(
+                                          requiredField: false,
+                                          controller: _userNote,
+                                          title: "User Note",
+                                          maxline: 2,
+                                          hintText:
+                                              "Instruction of for appointment",
+                                        ),
+                                      ),
+                                      SizedBox(
+                                          height: Dimensions.dimenisonNo12),
+                                      // Detail of appointment
+                                      //! Appointment Details
+                                      if (_appointmentDateController != null)
+                                        AppointDetailsSummer(bookingProvider,
+                                            serviceDurationInMinutes, context),
+                                    ],
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                           if (_showTimeContaine)
                             Positioned(

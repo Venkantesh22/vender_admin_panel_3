@@ -33,6 +33,7 @@ class _EditServicePageState extends State<EditServicePage> {
   @override
   void initState() {
     super.initState();
+    getData();
     _serviceFor = widget.serviceModel.serviceFor;
   }
 
