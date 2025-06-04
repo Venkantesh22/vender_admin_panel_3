@@ -22,45 +22,145 @@ StatefulBuilder logMobileWidget(
   return StatefulBuilder(
     builder: (BuildContext context, StateSetter setState) {
       return Center(
-        child: Container(
-          margin: EdgeInsets.all(Dimensions.dimenisonNo20),
-          padding: EdgeInsets.all(Dimensions.dimenisonNo16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(Dimensions.dimenisonNo10),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 2,
-                blurRadius: 5,
-                offset: const Offset(0, 3), // Shadow position
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Admin Login',
-                style: TextStyle(
-                  color: AppColor.createText,
-                  fontSize: Dimensions.dimenisonNo24,
-                  fontFamily: GoogleFonts.roboto().fontFamily,
-                  fontWeight: FontWeight.w700,
+        child: SingleChildScrollView(
+          child: Container(
+            margin: EdgeInsets.all(Dimensions.dimenisonNo20),
+            padding: EdgeInsets.all(Dimensions.dimenisonNo16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(Dimensions.dimenisonNo10),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: const Offset(0, 3), // Shadow position
                 ),
-              ),
-              SizedBox(height: Dimensions.dimenisonNo20),
-              Container(
-                height: Dimensions.dimenisonNo80,
-                width: Dimensions.dimenisonNo80,
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Dimensions.dimenisonNo18),
+              ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Admin Login',
+                  style: TextStyle(
+                    color: AppColor.createText,
+                    fontSize: Dimensions.dimenisonNo24,
+                    fontFamily: GoogleFonts.roboto().fontFamily,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-                child: GlobalVariable.samayLogo.isNotEmpty
+                SizedBox(height: Dimensions.dimenisonNo20),
+                Container(
+                  height: Dimensions.dimenisonNo80,
+                  width: Dimensions.dimenisonNo80,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius:
+                        BorderRadius.circular(Dimensions.dimenisonNo18),
+                  ),
+                  child: GlobalVariable.samayLogo.isNotEmpty
+                      ? Image.asset(
+                          GlobalVariable.samayLogo,
+                          height: Dimensions.dimenisonNo40,
+                          errorBuilder: (context, error, stackTrace) => Icon(
+                            Icons.broken_image,
+                            size: Dimensions.dimenisonNo60,
+                            color: Colors.grey,
+                          ),
+                        )
+                      : const Center(child: CircularProgressIndicator()),
+                ),
+                SizedBox(height: Dimensions.dimenisonNo20),
+                CustomTextField(
+                  controller: emailController,
+                  obscureForPassword: false,
+                  keyboardType: TextInputType.emailAddress,
+                  label: "Email",
+                ),
+                SizedBox(height: Dimensions.dimenisonNo10),
+                CustomTextField(
+                  controller: passwordController,
+                  obscureForPassword: true,
+                  keyboardType: TextInputType.text,
+                  label: "Password",
+                ),
+                SizedBox(height: Dimensions.dimenisonNo20),
+                _isLoading
+                    ? const CircularProgressIndicator() // Show loading indicator
+                    : CustomAuthButton(
+                        text: "Login",
+                        ontap: () async {
+                          setState(() {
+                            _isLoading = true; // Start loading
+                          });
+
+                          bool isValidated = loginVaildation(
+                            emailController.text,
+                            passwordController.text,
+                          );
+
+                          if (isValidated) {
+                            bool isLoggedIn =
+                                await FirebaseAuthHelper.instance.login(
+                              emailController.text.trim(),
+                              passwordController.text.trim(),
+                              context,
+                            );
+                            if (isLoggedIn) {
+                              Routes.instance.pushAndRemoveUntil(
+                                widget: LoadingHomePage(),
+                                context: context,
+                              );
+                            }
+                          }
+
+                          setState(() {
+                            _isLoading = false; // Stop loading
+                          });
+                        },
+                      ),
+                SizedBox(height: Dimensions.dimenisonNo12),
+                Text("Version 1.0.0.2"),
+                SizedBox(height: Dimensions.dimenisonNo12),
+                InkWell(
+                  onTap: () {
+                    Routes.instance.push(
+                      widget: const SingupScreen(),
+                      context: context,
+                    );
+                  },
+                  child: Text(
+                    'Not registered yet?',
+                    textAlign: TextAlign.end,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: Dimensions.dimenisonNo16,
+                      fontFamily: GoogleFonts.roboto().fontFamily,
+                      fontWeight: FontWeight.w500,
+                      decoration: TextDecoration.underline,
+                      letterSpacing: 0.15,
+                    ),
+                  ),
+                ),
+                SizedBox(height: Dimensions.dimenisonNo20),
+                Text(
+                  'Main hu Samay, mere Sath chalo.!',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: Dimensions.dimenisonNo20,
+                    fontFamily: GoogleFonts.inknutAntiqua().fontFamily,
+                    fontWeight: FontWeight.w400,
+                    letterSpacing: 0.15,
+                  ),
+                ),
+                SizedBox(height: Dimensions.dimenisonNo20),
+                GlobalVariable.samayCartoon.isNotEmpty
                     ? Image.asset(
-                        GlobalVariable.samayLogo,
-                        height: Dimensions.dimenisonNo40,
+                        GlobalVariable.samayCartoon,
+                        height: Dimensions.dimenisonNo200,
+                        fit: BoxFit.cover,
                         errorBuilder: (context, error, stackTrace) => Icon(
                           Icons.broken_image,
                           size: Dimensions.dimenisonNo60,
@@ -68,103 +168,8 @@ StatefulBuilder logMobileWidget(
                         ),
                       )
                     : const Center(child: CircularProgressIndicator()),
-              ),
-              SizedBox(height: Dimensions.dimenisonNo20),
-              CustomTextField(
-                controller: emailController,
-                obscureForPassword: false,
-                keyboardType: TextInputType.emailAddress,
-                label: "Email",
-              ),
-              SizedBox(height: Dimensions.dimenisonNo10),
-              CustomTextField(
-                controller: passwordController,
-                obscureForPassword: true,
-                keyboardType: TextInputType.text,
-                label: "Password",
-              ),
-              SizedBox(height: Dimensions.dimenisonNo20),
-              _isLoading
-                  ? const CircularProgressIndicator() // Show loading indicator
-                  : CustomAuthButton(
-                      text: "Login",
-                      ontap: () async {
-                        setState(() {
-                          _isLoading = true; // Start loading
-                        });
-
-                        bool isValidated = loginVaildation(
-                          emailController.text,
-                          passwordController.text,
-                        );
-
-                        if (isValidated) {
-                          bool isLoggedIn =
-                              await FirebaseAuthHelper.instance.login(
-                            emailController.text.trim(),
-                            passwordController.text.trim(),
-                            context,
-                          );
-                          if (isLoggedIn) {
-                            Routes.instance.pushAndRemoveUntil(
-                              widget: LoadingHomePage(),
-                              context: context,
-                            );
-                          }
-                        }
-
-                        setState(() {
-                          _isLoading = false; // Stop loading
-                        });
-                      },
-                    ),
-              SizedBox(height: Dimensions.dimenisonNo20),
-              InkWell(
-                onTap: () {
-                  Routes.instance.push(
-                    widget: const SingupScreen(),
-                    context: context,
-                  );
-                },
-                child: Text(
-                  'Not registered yet?',
-                  textAlign: TextAlign.end,
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: Dimensions.dimenisonNo16,
-                    fontFamily: GoogleFonts.roboto().fontFamily,
-                    fontWeight: FontWeight.w500,
-                    decoration: TextDecoration.underline,
-                    letterSpacing: 0.15,
-                  ),
-                ),
-              ),
-              SizedBox(height: Dimensions.dimenisonNo20),
-              Text(
-                'Main hu Samay, mere Sath chalo.!',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: Dimensions.dimenisonNo20,
-                  fontFamily: GoogleFonts.inknutAntiqua().fontFamily,
-                  fontWeight: FontWeight.w400,
-                  letterSpacing: 0.15,
-                ),
-              ),
-              SizedBox(height: Dimensions.dimenisonNo20),
-              GlobalVariable.samayCartoon.isNotEmpty
-                  ? Image.asset(
-                      GlobalVariable.samayCartoon,
-                      height: Dimensions.dimenisonNo200,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Icon(
-                        Icons.broken_image,
-                        size: Dimensions.dimenisonNo60,
-                        color: Colors.grey,
-                      ),
-                    )
-                  : const Center(child: CircularProgressIndicator()),
-            ],
+              ],
+            ),
           ),
         ),
       );

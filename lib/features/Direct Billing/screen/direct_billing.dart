@@ -362,140 +362,135 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
       ),
       drawer: MobileDrawer(),
       key: _scaffoldKey,
-      body: SingleChildScrollView(
-        padding: EdgeInsets.zero,
-        child: GestureDetector(
-          onTap: () {
-            if (_showCalender ||
-                _showServiceList ||
-                _showTimeContaine == true) {
-              setState(() {
-                _showCalender = false;
-                _showServiceList = false;
-                _showTimeContaine = false;
-              });
-            }
-          },
-          child: Column(
-            children: [
-              SizedBox(
-                height: Dimensions.screenHeight * 2,
-                child: Stack(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.zero,
+          child: GestureDetector(
+            onTap: () {
+              if (_showCalender ||
+                  _showServiceList ||
+                  _showTimeContaine == true) {
+                setState(() {
+                  _showCalender = false;
+                  _showServiceList = false;
+                  _showTimeContaine = false;
+                });
+              }
+            },
+            child: Column(
+              children: [
+                Stack(
                   children: [
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(Dimensions.dimenisonNo16),
-                            child: Text(
-                              " Quick Billing ",
-                              style: TextStyle(
-                                fontSize: Dimensions.dimenisonNo20,
-                                fontWeight: FontWeight.w600,
-                              ),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(Dimensions.dimenisonNo16),
+                          child: Text(
+                            " Quick Billing ",
+                            style: TextStyle(
+                              fontSize: Dimensions.dimenisonNo20,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                          // Container to User TextBox
-                          formOfAppoint(),
-                          //! Genarate List of Service which in Watch list
-                          GestureDetector(
-                            onTap: () {
-                              if (_showCalender ||
-                                  _showServiceList ||
-                                  _showTimeContaine == true) {
-                                setState(() {
-                                  _showCalender = false;
-                                  _showServiceList = false;
-                                  _showTimeContaine = false;
-                                });
-                              }
-                            },
-                            child: Padding(
-                              padding: ResponsiveLayout.isMobile(context)
-                                  ? EdgeInsets.symmetric(
-                                      horizontal: Dimensions.dimenisonNo12,
-                                      vertical: Dimensions.dimenisonNo12)
-                                  : EdgeInsets.symmetric(
-                                      horizontal: Dimensions.dimenisonNo18,
-                                      vertical: Dimensions.dimenisonNo12),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Select Serivce",
-                                        style: TextStyle(
-                                          fontSize:
-                                              ResponsiveLayout.isMobile(context)
-                                                  ? Dimensions.dimenisonNo14
-                                                  : Dimensions.dimenisonNo18,
-                                          fontWeight:
-                                              ResponsiveLayout.isMobile(context)
-                                                  ? FontWeight.bold
-                                                  : FontWeight.w600,
-                                        ),
+                        ),
+                        // Container to User TextBox
+                        formOfAppoint(),
+                        //! Genarate List of Service which in Watch list
+                        GestureDetector(
+                          onTap: () {
+                            if (_showCalender ||
+                                _showServiceList ||
+                                _showTimeContaine == true) {
+                              setState(() {
+                                _showCalender = false;
+                                _showServiceList = false;
+                                _showTimeContaine = false;
+                              });
+                            }
+                          },
+                          child: Padding(
+                            padding: ResponsiveLayout.isMobile(context)
+                                ? EdgeInsets.symmetric(
+                                    horizontal: Dimensions.dimenisonNo12,
+                                    vertical: Dimensions.dimenisonNo12)
+                                : EdgeInsets.symmetric(
+                                    horizontal: Dimensions.dimenisonNo18,
+                                    vertical: Dimensions.dimenisonNo12),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      "Select Service",
+                                      style: TextStyle(
+                                        fontSize:
+                                            ResponsiveLayout.isMobile(context)
+                                                ? Dimensions.dimenisonNo14
+                                                : Dimensions.dimenisonNo18,
+                                        fontWeight:
+                                            ResponsiveLayout.isMobile(context)
+                                                ? FontWeight.bold
+                                                : FontWeight.w600,
                                       ),
-                                      const Spacer(),
-                                      Text(
-                                        "Service Duration ${bookingProvider.getServiceBookingDuration}",
-                                        style: TextStyle(
-                                          fontSize:
-                                              ResponsiveLayout.isMobile(context)
-                                                  ? Dimensions.dimenisonNo14
-                                                  : Dimensions.dimenisonNo18,
-                                          fontWeight:
-                                              ResponsiveLayout.isMobile(context)
-                                                  ? FontWeight.bold
-                                                  : FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: Dimensions.dimenisonNo10,
-                                  ),
-                                  Padding(
-                                    padding: ResponsiveLayout.isMobile(context)
-                                        ? EdgeInsets.zero
-                                        : EdgeInsets.symmetric(
-                                            horizontal:
-                                                Dimensions.dimenisonNo12),
-                                    child: ResponsiveLayout.isMobile(context)
-                                        ? selectServiceListMobile(
-                                            context, bookingProvider)
-                                        : selectServiceListWeb(
-                                            bookingProvider, context),
-                                  ),
-                                  SizedBox(height: Dimensions.dimenisonNo12),
-                                  //! TextBox for user note
-                                  SizedBox(
-                                    width: Dimensions.screenWidth,
-                                    child: FormCustomTextField(
-                                      requiredField: false,
-                                      controller: _userNote,
-                                      title: "User Note",
-                                      maxline: 2,
-                                      hintText:
-                                          "Instruction of for appointment",
                                     ),
+                                    const Spacer(),
+                                    Text(
+                                      "Service Duration ${bookingProvider.getServiceBookingDuration}",
+                                      style: TextStyle(
+                                        fontSize:
+                                            ResponsiveLayout.isMobile(context)
+                                                ? Dimensions.dimenisonNo14
+                                                : Dimensions.dimenisonNo18,
+                                        fontWeight:
+                                            ResponsiveLayout.isMobile(context)
+                                                ? FontWeight.bold
+                                                : FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: Dimensions.dimenisonNo10,
+                                ),
+                                Padding(
+                                  padding: ResponsiveLayout.isMobile(context)
+                                      ? EdgeInsets.zero
+                                      : EdgeInsets.symmetric(
+                                          horizontal: Dimensions.dimenisonNo12),
+                                  child: ResponsiveLayout.isMobile(context)
+                                      ? selectServiceListMobile(
+                                          context, bookingProvider)
+                                      : selectServiceListWeb(
+                                          bookingProvider, context),
+                                ),
+                                SizedBox(height: Dimensions.dimenisonNo12),
+                                //! TextBox for user note
+                                SizedBox(
+                                  width: Dimensions.screenWidth,
+                                  child: FormCustomTextField(
+                                    requiredField: false,
+                                    controller: _userNote,
+                                    title: "User Note",
+                                    maxline: 2,
+                                    hintText: "Instruction of for appointment",
                                   ),
-                                  SizedBox(height: Dimensions.dimenisonNo12),
-                                  // Detail of appointment
-                                  //! Appointment Details
-                                  if (_appointmentDateController != null)
-                                    AppointDetailsSummer(
-                                        bookingProvider,
-                                        serviceDurationInMinutes,
-                                        appProvider,
-                                        context),
-                                ],
-                              ),
+                                ),
+                                SizedBox(height: Dimensions.dimenisonNo12),
+                                // Detail of appointment
+                                //! Appointment Details
+                                if (_appointmentDateController != null)
+                                  AppointDetailsSummer(
+                                      bookingProvider,
+                                      serviceDurationInMinutes,
+                                      appProvider,
+                                      context),
+                              ],
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                     if (_showTimeContaine)
                       Positioned(
@@ -705,6 +700,7 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
                                     )
                                   : ListView.builder(
                                       shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
                                       itemCount: serchServiceList.length,
                                       itemBuilder: (context, index) {
                                         ServiceModel serviceModel =
@@ -720,8 +716,8 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
                       ),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
