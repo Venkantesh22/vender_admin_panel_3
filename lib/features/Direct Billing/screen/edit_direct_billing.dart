@@ -1166,12 +1166,6 @@ class _EditDirectBillingScreenState extends State<EditDirectBillingScreen> {
                 ? null
                 : Dimensions.dimenisonNo250,
             child: TextFormField(
-              // onTap: () {
-              //   setState(() {
-              //     _showTimeContaine = !_showTimeContaine;
-              //     print("Time : $_showTimeContaine");
-              //   });
-              // },
               cursorHeight: Dimensions.dimenisonNo16,
               style: TextStyle(
                   fontSize: Dimensions.dimenisonNo12,

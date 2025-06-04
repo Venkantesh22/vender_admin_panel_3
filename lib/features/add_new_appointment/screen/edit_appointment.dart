@@ -342,25 +342,24 @@ class _EditAppointmentState extends State<EditAppointment> {
           ? const Center(
               child: CircularProgressIndicator(),
             )
-          : SingleChildScrollView(
-              padding: EdgeInsets.zero,
-              child: GestureDetector(
-                onTap: () {
-                  if (_showCalender ||
-                      _showServiceList ||
-                      _showTimeContaine == true) {
-                    setState(() {
-                      _showCalender = false;
-                      _showServiceList = false;
-                      _showTimeContaine = false;
-                    });
-                  }
-                },
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: Dimensions.screenHeight * 2,
-                      child: Stack(
+          : SafeArea(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.zero,
+                child: GestureDetector(
+                  onTap: () {
+                    if (_showCalender ||
+                        _showServiceList ||
+                        _showTimeContaine == true) {
+                      setState(() {
+                        _showCalender = false;
+                        _showServiceList = false;
+                        _showTimeContaine = false;
+                      });
+                    }
+                  },
+                  child: Column(
+                    children: [
+                      Stack(
                         children: [
                           SingleChildScrollView(
                             child: Column(
@@ -778,8 +777,8 @@ class _EditAppointmentState extends State<EditAppointment> {
                             ),
                         ],
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -1512,8 +1511,7 @@ class _EditAppointmentState extends State<EditAppointment> {
             .parse(_selectedTimeSlot!)
             .add(Duration(minutes: serviceDurationInMinutes));
 
-            bookingProvider.updateAppointEndTime(_endTime);
-     
+        bookingProvider.updateAppointEndTime(_endTime);
 
         // Create the time and date model
         TimeStampModel _timeStampModel = TimeStampModel(
@@ -1535,7 +1533,6 @@ class _EditAppointmentState extends State<EditAppointment> {
           appointmentDate.month,
           appointmentDate.day,
         );
-        
 
         // Declare the appointModel variable before using it
         AppointModel appointModel = widget.appintModel.copyWith(
