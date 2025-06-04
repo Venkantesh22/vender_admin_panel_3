@@ -121,7 +121,7 @@ StatefulBuilder logMobileWidget(
                         },
                       ),
                 SizedBox(height: Dimensions.dimenisonNo12),
-                Text("Version 1.0.0.2"),
+                Text("Version 1.0.0.3"),
                 SizedBox(height: Dimensions.dimenisonNo12),
                 InkWell(
                   onTap: () {
