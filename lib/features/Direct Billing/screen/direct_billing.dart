@@ -818,6 +818,7 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
       ),
       child: Center(
         child: ResponsiveLayout.isMobile(context)
+            //! for Moblie screen
             ? Column(
                 children: [
                   // User Name textbox
@@ -834,6 +835,7 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
 
                       //! select Date text box
                       selectAppointDateTextBox(),
+
                       textBoxOfForm("Mobile No", _mobileController),
 
                       //! select Staff Name textbox
@@ -901,6 +903,8 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
                   ),
                 ],
               )
+            //! for Table, Web screen
+
             : Column(
                 children: [
                   // User Name textbox
@@ -957,7 +961,8 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
   ) {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
+      width:
+          ResponsiveLayout.isMobile(context) ? null : Dimensions.dimenisonNo250,
       child: FormCustomTextField(
         requiredField: false,
         controller: controller,
@@ -966,10 +971,9 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
     );
   }
 
-  SizedBox selectAppointDateTextBox() {
+  Widget selectAppointDateTextBox() {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -977,7 +981,9 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
             "Appointment Date",
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimenisonNo14
+                  : Dimensions.dimenisonNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.90,
@@ -987,8 +993,12 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
             height: Dimensions.dimenisonNo5,
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo30,
-            width: Dimensions.dimenisonNo250,
+            height: ResponsiveLayout.isDesktop(context)
+                ? Dimensions.dimenisonNo30
+                : Dimensions.dimenisonNo40,
+            width: ResponsiveLayout.isMobile(context)
+                ? null
+                : Dimensions.dimenisonNo250,
             child: TextFormField(
               onTap: () {
                 setState(() {
@@ -1022,7 +1032,6 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
   SizedBox timeSelectTextBox() {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1030,7 +1039,9 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
             "Time",
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimenisonNo14
+                  : Dimensions.dimenisonNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.90,
@@ -1040,8 +1051,12 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
             height: Dimensions.dimenisonNo5,
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo30,
-            width: Dimensions.dimenisonNo250,
+            height: ResponsiveLayout.isDesktop(context)
+                ? Dimensions.dimenisonNo30
+                : Dimensions.dimenisonNo40,
+            width: ResponsiveLayout.isMobile(context)
+                ? null
+                : Dimensions.dimenisonNo250,
             child: TextFormField(
               onTap: () {
                 setState(() {
@@ -1074,7 +1089,6 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
   SizedBox staffIdSelectTextBox() {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1082,7 +1096,9 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
             "Staff Name",
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimenisonNo14
+                  : Dimensions.dimenisonNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.90,
@@ -1092,15 +1108,13 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
             height: Dimensions.dimenisonNo5,
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo30,
-            width: Dimensions.dimenisonNo250,
+            height: ResponsiveLayout.isDesktop(context)
+                ? Dimensions.dimenisonNo30
+                : Dimensions.dimenisonNo40,
+            width: ResponsiveLayout.isMobile(context)
+                ? null
+                : Dimensions.dimenisonNo250,
             child: TextFormField(
-              // onTap: () {
-              //   setState(() {
-              //     _showTimeContaine = !_showTimeContaine;
-              //     print("Time : $_showTimeContaine");
-              //   });
-              // },
               cursorHeight: Dimensions.dimenisonNo16,
               style: TextStyle(
                   fontSize: Dimensions.dimenisonNo12,
@@ -1126,7 +1140,6 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
   SizedBox serviceServiceTextBox() {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1134,7 +1147,9 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
             "Service",
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimenisonNo14
+                  : Dimensions.dimenisonNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.90,
@@ -1144,8 +1159,12 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
             height: Dimensions.dimenisonNo5,
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo30,
-            width: Dimensions.dimenisonNo250,
+            height: ResponsiveLayout.isDesktop(context)
+                ? Dimensions.dimenisonNo30
+                : Dimensions.dimenisonNo40,
+            width: ResponsiveLayout.isMobile(context)
+                ? null
+                : Dimensions.dimenisonNo250,
             child: TextFormField(
               onChanged: (String value) {
                 serchService(value);

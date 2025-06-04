@@ -445,399 +445,387 @@ class _EditDirectBillingScreenState extends State<EditDirectBillingScreen> {
           },
           child: Column(
             children: [
-              SizedBox(
-                height: Dimensions.screenHeight * 2,
-                child: Stack(
-                  children: [
-                    SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(Dimensions.dimenisonNo16),
-                            child: Text(
-                              "Edit Quick Billing ",
-                              style: TextStyle(
-                                fontSize: Dimensions.dimenisonNo20,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                          // Container to User TextBox
-                          formOfAppoint(),
-                          //! Genarate List of Service which in Watch list
-                          GestureDetector(
-                            onTap: () {
-                              if (_showCalender ||
-                                  _showServiceList ||
-                                  _showTimeContaine == true) {
-                                setState(() {
-                                  _showCalender = false;
-                                  _showServiceList = false;
-                                  _showTimeContaine = false;
-                                });
-                              }
-                            },
-                            child: Padding(
-                              padding: ResponsiveLayout.isMobile(context)
-                                  ? EdgeInsets.symmetric(
-                                      horizontal: Dimensions.dimenisonNo12,
-                                      vertical: Dimensions.dimenisonNo12)
-                                  : EdgeInsets.symmetric(
-                                      horizontal: Dimensions.dimenisonNo18,
-                                      vertical: Dimensions.dimenisonNo12),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Select Serivce",
-                                        style: TextStyle(
-                                          fontSize:
-                                              ResponsiveLayout.isMobile(context)
-                                                  ? Dimensions.dimenisonNo14
-                                                  : Dimensions.dimenisonNo18,
-                                          fontWeight:
-                                              ResponsiveLayout.isMobile(context)
-                                                  ? FontWeight.bold
-                                                  : FontWeight.w600,
-                                        ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        "Service Duration ${bookingProvider.getServiceBookingDuration}",
-                                        style: TextStyle(
-                                          fontSize:
-                                              ResponsiveLayout.isMobile(context)
-                                                  ? Dimensions.dimenisonNo14
-                                                  : Dimensions.dimenisonNo18,
-                                          fontWeight:
-                                              ResponsiveLayout.isMobile(context)
-                                                  ? FontWeight.bold
-                                                  : FontWeight.w600,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: Dimensions.dimenisonNo10,
-                                  ),
-                                  Padding(
-                                    padding: ResponsiveLayout.isMobile(context)
-                                        ? EdgeInsets.zero
-                                        : EdgeInsets.symmetric(
-                                            horizontal:
-                                                Dimensions.dimenisonNo12),
-                                    child: Wrap(
-                                      spacing: Dimensions
-                                          .dimenisonNo12, // Horizontal space between items
-                                      runSpacing: Dimensions
-                                          .dimenisonNo12, // Vertical space between rows
-                                      alignment: WrapAlignment.center,
-                                      runAlignment: WrapAlignment.start,
-                                      children: List.generate(
-                                        bookingProvider.getWatchList.length,
-                                        (index) {
-                                          ServiceModel servicelist =
-                                              bookingProvider
-                                                  .getWatchList[index];
-                                          // _netPriceLocal =
-                                          //     bookingProvider.getNetPrice! ??
-                                          //         0.0;
-
-                                          return SizedBox(
-                                            width: ResponsiveLayout.isMobile(
-                                                    context)
-                                                ? Dimensions.dimenisonNo210
-                                                : Dimensions.dimenisonNo300,
-                                            child: SingleServiceTapDeleteIcon(
-                                              serviceModel: servicelist,
-                                              onTap: () {
-                                                try {
-                                                  showLoaderDialog(context);
-                                                  setState(() {
-                                                    bookingProvider
-                                                        .removeServiceToWatchList(
-                                                            servicelist);
-
-                                                    bookingProvider
-                                                        .calculateTotalBookingDuration();
-                                                    bookingProvider
-                                                        .calculateSubTotal();
-                                                  });
-
-                                                  Navigator.of(context,
-                                                          rootNavigator: true)
-                                                      .pop();
-                                                  showMessage(
-                                                      'Service is removed from Watch List');
-                                                } catch (e) {
-                                                  showMessage(
-                                                      'Error occurred while removing service from Watch List: ${e.toString()}');
-                                                }
-                                              },
-                                            ),
-                                          );
-                                        },
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(height: Dimensions.dimenisonNo12),
-                                  //! TextBox for user note
-                                  SizedBox(
-                                    width: Dimensions.screenWidth,
-                                    child: FormCustomTextField(
-                                      requiredField: false,
-                                      controller: _userNote,
-                                      title: "User Note",
-                                      maxline: 2,
-                                      hintText:
-                                          "Instruction of for appointment",
-                                    ),
-                                  ),
-                                  SizedBox(height: Dimensions.dimenisonNo12),
-                                  // Detail of appointment
-                                  //! Appointment Details
-                                  if (_appointmentDateController != null)
-                                    AppointDetailsSummer(
-                                        bookingProvider,
-                                        serviceDurationInMinutes,
-                                        appProvider,
-                                        context),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    if (_showTimeContaine)
-                      Positioned(
-                        right: ResponsiveLayout.isMobile(context)
-                            ? Dimensions.dimenisonNo20 // Adjust for mobile
-                            : Dimensions
-                                .dimenisonNo360, // Default for larger screens
-                        top: ResponsiveLayout.isMobile(context)
-                            ? Dimensions.dimenisonNo150 // Adjust for mobile
-                            : Dimensions
-                                .dimenisonNo150, // Default for larger screens
-                        left: ResponsiveLayout.isMobile(context)
-                            ? Dimensions.dimenisonNo20 // Adjust for mobile
-                            : null, // Default for larger screens
-                        child: SingleChildScrollView(
-                          child: Container(
-                            padding: EdgeInsets.all(Dimensions.dimenisonNo12),
-
-                            width: ResponsiveLayout.isMobile(context)
-                                ? Dimensions
-                                    .dimenisonNo300 // Adjust width for mobile
-                                : Dimensions
-                                    .dimenisonNo500, // Default for larger screens
-                            constraints: BoxConstraints(
-                              maxHeight: ResponsiveLayout.isMobile(context)
-                                  ? Dimensions
-                                      .dimenisonNo400 // Adjust height for mobile
-                                  : Dimensions
-                                      .dimenisonNo500, // Default for larger screens
-                            ),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(
-                                  Dimensions.dimenisonNo10),
-                              border: Border.all(color: Colors.grey, width: 1),
-                            ),
-                            child: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  TimeSlot(
-                                    section: 'Morning',
-                                    timeSlots:
-                                        _categorizedTimeSlots['Morning'] ?? [],
-                                    selectedTimeSlot: _selectedTimeSlot,
-                                    serviceDurationInMinutes:
-                                        serviceDurationInMinutes,
-                                    endTime: _endTime,
-                                    onTimeSlotSelected: (selectedSlot) {
-                                      setState(() {
-                                        _selectedTimeSlot = selectedSlot;
-                                        _appointmentTimeController.text =
-                                            selectedSlot;
-                                      });
-                                    },
-                                  ),
-                                  TimeSlot(
-                                    section: 'Afternoon',
-                                    timeSlots:
-                                        _categorizedTimeSlots['Afternoon'] ??
-                                            [],
-                                    selectedTimeSlot: _selectedTimeSlot,
-                                    serviceDurationInMinutes:
-                                        serviceDurationInMinutes,
-                                    endTime: _endTime,
-                                    onTimeSlotSelected: (selectedSlot) {
-                                      setState(() {
-                                        _selectedTimeSlot = selectedSlot;
-                                        _appointmentTimeController.text =
-                                            selectedSlot;
-                                      });
-                                    },
-                                  ),
-                                  TimeSlot(
-                                    section: 'Evening',
-                                    timeSlots:
-                                        _categorizedTimeSlots['Evening'] ?? [],
-                                    selectedTimeSlot: _selectedTimeSlot,
-                                    serviceDurationInMinutes:
-                                        serviceDurationInMinutes,
-                                    endTime: _endTime,
-                                    onTimeSlotSelected: (selectedSlot) {
-                                      setState(() {
-                                        _selectedTimeSlot = selectedSlot;
-                                        _appointmentTimeController.text =
-                                            selectedSlot;
-                                      });
-                                    },
-                                  ),
-                                  TimeSlot(
-                                    section: 'Night',
-                                    timeSlots:
-                                        _categorizedTimeSlots['Night'] ?? [],
-                                    selectedTimeSlot: _selectedTimeSlot,
-                                    serviceDurationInMinutes:
-                                        serviceDurationInMinutes,
-                                    endTime: _endTime,
-                                    onTimeSlotSelected: (selectedSlot) {
-                                      setState(() {
-                                        _selectedTimeSlot = selectedSlot;
-                                        _appointmentTimeController.text =
-                                            selectedSlot;
-                                      });
-                                    },
-                                  ),
-                                  SizedBox(
-                                    height: Dimensions.dimenisonNo12,
-                                  ),
-                                ],
-                              ),
-                            ),
+              Stack(
+                children: [
+                  Column(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(Dimensions.dimenisonNo16),
+                        child: Text(
+                          "Edit Quick Billing ",
+                          style: TextStyle(
+                            fontSize: Dimensions.dimenisonNo20,
+                            fontWeight: FontWeight.w600,
                           ),
                         ),
                       ),
-                    if (_showCalender)
-                      Positioned(
-                        right: ResponsiveLayout.isMobile(context)
-                            ? Dimensions.dimenisonNo20 // Adjust for mobile
-                            : Dimensions
-                                .dimenisonNo360, // Default for larger screens
-                        top: ResponsiveLayout.isMobile(context)
-                            ? Dimensions.dimenisonNo150 // Adjust for mobile
-                            : Dimensions
-                                .dimenisonNo120, // Default for larger screens
-                        left: ResponsiveLayout.isMobile(context)
-                            ? Dimensions.dimenisonNo20 // Adjust for mobile
-                            : null, // Default for larger screens
-                        child: SizedBox(
-                          height: ResponsiveLayout.isMobile(context)
-                              ? Dimensions
-                                  .dimenisonNo400 // Adjust height for mobile
-                              : ResponsiveLayout.isTablet(context)
-                                  ? 400 // Adjust width for mobile
-                                  : Dimensions
-                                      .dimenisonNo450, // Default for larger screens
+                      // Container to User TextBox
+                      formOfAppoint(),
+                      //! Genarate List of Service which in Watch list
+                      GestureDetector(
+                        onTap: () {
+                          if (_showCalender ||
+                              _showServiceList ||
+                              _showTimeContaine == true) {
+                            setState(() {
+                              _showCalender = false;
+                              _showServiceList = false;
+                              _showTimeContaine = false;
+                            });
+                          }
+                        },
+                        child: Padding(
+                          padding: ResponsiveLayout.isMobile(context)
+                              ? EdgeInsets.symmetric(
+                                  horizontal: Dimensions.dimenisonNo12,
+                                  vertical: Dimensions.dimenisonNo12)
+                              : EdgeInsets.symmetric(
+                                  horizontal: Dimensions.dimenisonNo18,
+                                  vertical: Dimensions.dimenisonNo12),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    "Select Serivce",
+                                    style: TextStyle(
+                                      fontSize:
+                                          ResponsiveLayout.isMobile(context)
+                                              ? Dimensions.dimenisonNo14
+                                              : Dimensions.dimenisonNo18,
+                                      fontWeight:
+                                          ResponsiveLayout.isMobile(context)
+                                              ? FontWeight.bold
+                                              : FontWeight.w600,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    "Service Duration ${bookingProvider.getServiceBookingDuration}",
+                                    style: TextStyle(
+                                      fontSize:
+                                          ResponsiveLayout.isMobile(context)
+                                              ? Dimensions.dimenisonNo14
+                                              : Dimensions.dimenisonNo18,
+                                      fontWeight:
+                                          ResponsiveLayout.isMobile(context)
+                                              ? FontWeight.bold
+                                              : FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: Dimensions.dimenisonNo10,
+                              ),
+                              Padding(
+                                padding: ResponsiveLayout.isMobile(context)
+                                    ? EdgeInsets.zero
+                                    : EdgeInsets.symmetric(
+                                        horizontal: Dimensions.dimenisonNo12),
+                                child: Wrap(
+                                  spacing: Dimensions
+                                      .dimenisonNo12, // Horizontal space between items
+                                  runSpacing: Dimensions
+                                      .dimenisonNo12, // Vertical space between rows
+                                  alignment: WrapAlignment.center,
+                                  runAlignment: WrapAlignment.start,
+                                  children: List.generate(
+                                    bookingProvider.getWatchList.length,
+                                    (index) {
+                                      ServiceModel servicelist =
+                                          bookingProvider.getWatchList[index];
+
+                                      return SizedBox(
+                                        width:
+                                            ResponsiveLayout.isMobile(context)
+                                                ? Dimensions.dimenisonNo210
+                                                : Dimensions.dimenisonNo300,
+                                        child: SingleServiceTapDeleteIcon(
+                                          serviceModel: servicelist,
+                                          onTap: () {
+                                            try {
+                                              showLoaderDialog(context);
+                                              setState(() {
+                                                bookingProvider
+                                                    .removeServiceToWatchList(
+                                                        servicelist);
+
+                                                bookingProvider
+                                                    .calculateTotalBookingDuration();
+                                                bookingProvider
+                                                    .calculateSubTotal();
+                                              });
+
+                                              Navigator.of(context,
+                                                      rootNavigator: true)
+                                                  .pop();
+                                              showMessage(
+                                                  'Service is removed from Watch List');
+                                            } catch (e) {
+                                              showMessage(
+                                                  'Error occurred while removing service from Watch List: ${e.toString()}');
+                                            }
+                                          },
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: Dimensions.dimenisonNo12),
+                              //! TextBox for user note
+                              SizedBox(
+                                width: Dimensions.screenWidth,
+                                child: FormCustomTextField(
+                                  requiredField: false,
+                                  controller: _userNote,
+                                  title: "User Note",
+                                  maxline: 2,
+                                  hintText: "Instruction of for appointment",
+                                ),
+                              ),
+                              SizedBox(height: Dimensions.dimenisonNo12),
+                              // Detail of appointment
+                              //! Appointment Details
+                              if (_appointmentDateController != null)
+                                AppointDetailsSummer(
+                                    bookingProvider,
+                                    serviceDurationInMinutes,
+                                    appProvider,
+                                    context),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  if (_showTimeContaine)
+                    Positioned(
+                      right: ResponsiveLayout.isMobile(context)
+                          ? Dimensions.dimenisonNo20 // Adjust for mobile
+                          : Dimensions
+                              .dimenisonNo360, // Default for larger screens
+                      top: ResponsiveLayout.isMobile(context)
+                          ? Dimensions.dimenisonNo150 // Adjust for mobile
+                          : Dimensions
+                              .dimenisonNo150, // Default for larger screens
+                      left: ResponsiveLayout.isMobile(context)
+                          ? Dimensions.dimenisonNo20 // Adjust for mobile
+                          : null, // Default for larger screens
+                      child: SingleChildScrollView(
+                        child: Container(
+                          padding: EdgeInsets.all(Dimensions.dimenisonNo12),
+
                           width: ResponsiveLayout.isMobile(context)
                               ? Dimensions
                                   .dimenisonNo300 // Adjust width for mobile
-                              : ResponsiveLayout.isTablet(context)
-                                  ? 600 // Adjust width for mobile
-                                  : Dimensions
-                                      .dimenisonNo360, // Default for larger screens
-                          child: CustomCalendar(
-                            salonModel: widget.salonModel,
-                            controller: _appointmentDateController,
-                            initialDate: _time,
-                            onDateChanged: (selectedDate) {},
-                          ),
-                        ),
-                      ),
-                    if (_showServiceList)
-                      Positioned(
-                        right: ResponsiveLayout.isMobile(context)
-                            ? Dimensions.dimenisonNo20 // Adjust for mobile
-                            : null,
-
-                        //     .dimenisonNo360, // Default for larger screens
-                        top: ResponsiveLayout.isMobile(context)
-                            ? Dimensions.dimenisonNo200 // Adjust for mobile
-                            : Dimensions
-                                .dimenisonNo210, // Default for larger screens
-                        left: ResponsiveLayout.isMobile(context)
-                            ? Dimensions.dimenisonNo20 // Adjust for mobile
-                            : Dimensions
-                                .dimenisonNo90, // Default for larger screens
-                        child: Container(
-                          width: Dimensions.dimenisonNo500,
-                          constraints: const BoxConstraints(
-                            maxHeight:
-                                320, // Set a max height to make it scrollable
+                              : Dimensions
+                                  .dimenisonNo500, // Default for larger screens
+                          constraints: BoxConstraints(
+                            maxHeight: ResponsiveLayout.isMobile(context)
+                                ? Dimensions
+                                    .dimenisonNo400 // Adjust height for mobile
+                                : Dimensions
+                                    .dimenisonNo500, // Default for larger screens
                           ),
                           decoration: BoxDecoration(
-                            color: const Color(0xFFFFFFFF),
+                            color: Colors.white,
                             borderRadius:
                                 BorderRadius.circular(Dimensions.dimenisonNo10),
+                            border: Border.all(color: Colors.grey, width: 1),
                           ),
-                          child: _serviceController.text.isNotEmpty &&
-                                  serchServiceList.isEmpty
-                              ? Padding(
-                                  padding: EdgeInsets.only(
-                                    top: Dimensions.dimenisonNo12,
-                                    left: Dimensions.dimenisonNo16,
-                                    bottom: Dimensions.dimenisonNo12,
-                                  ),
-                                  child: Text(
-                                    "No service found",
-                                    style: TextStyle(
-                                        fontSize: Dimensions.dimenisonNo14,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                )
-                              : serchServiceList.contains(
-                                          // ignore: iterable_contains_unrelated_type
-                                          _serviceController.text) ||
-                                      _serviceController.text.isEmpty
-                                  ? Padding(
-                                      padding: EdgeInsets.only(
-                                        top: Dimensions.dimenisonNo12,
-                                        left: Dimensions.dimenisonNo16,
-                                        bottom: Dimensions.dimenisonNo12,
-                                      ),
-                                      child: Text(
-                                        "Enter a Service name or Code",
-                                        style: TextStyle(
-                                            fontSize: Dimensions.dimenisonNo14,
-                                            fontWeight: FontWeight.w600),
-                                      ),
-                                    )
-                                  : ListView.builder(
-                                      shrinkWrap: true,
-                                      itemCount: serchServiceList.length,
-                                      itemBuilder: (context, index) {
-                                        ServiceModel serviceModel =
-                                            serchServiceList[index];
-                                        _netPriceLocal =
-                                            bookingProvider.getNetPrice! ?? 0.0;
-
-                                        return
-                                            // !isSearched()
-
-                                            SingleServiceTapAppoint(
-                                                serviceModel: serviceModel);
-                                      },
-                                    ),
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                TimeSlot(
+                                  section: 'Morning',
+                                  timeSlots:
+                                      _categorizedTimeSlots['Morning'] ?? [],
+                                  selectedTimeSlot: _selectedTimeSlot,
+                                  serviceDurationInMinutes:
+                                      serviceDurationInMinutes,
+                                  endTime: _endTime,
+                                  onTimeSlotSelected: (selectedSlot) {
+                                    setState(() {
+                                      _selectedTimeSlot = selectedSlot;
+                                      _appointmentTimeController.text =
+                                          selectedSlot;
+                                    });
+                                  },
+                                ),
+                                TimeSlot(
+                                  section: 'Afternoon',
+                                  timeSlots:
+                                      _categorizedTimeSlots['Afternoon'] ?? [],
+                                  selectedTimeSlot: _selectedTimeSlot,
+                                  serviceDurationInMinutes:
+                                      serviceDurationInMinutes,
+                                  endTime: _endTime,
+                                  onTimeSlotSelected: (selectedSlot) {
+                                    setState(() {
+                                      _selectedTimeSlot = selectedSlot;
+                                      _appointmentTimeController.text =
+                                          selectedSlot;
+                                    });
+                                  },
+                                ),
+                                TimeSlot(
+                                  section: 'Evening',
+                                  timeSlots:
+                                      _categorizedTimeSlots['Evening'] ?? [],
+                                  selectedTimeSlot: _selectedTimeSlot,
+                                  serviceDurationInMinutes:
+                                      serviceDurationInMinutes,
+                                  endTime: _endTime,
+                                  onTimeSlotSelected: (selectedSlot) {
+                                    setState(() {
+                                      _selectedTimeSlot = selectedSlot;
+                                      _appointmentTimeController.text =
+                                          selectedSlot;
+                                    });
+                                  },
+                                ),
+                                TimeSlot(
+                                  section: 'Night',
+                                  timeSlots:
+                                      _categorizedTimeSlots['Night'] ?? [],
+                                  selectedTimeSlot: _selectedTimeSlot,
+                                  serviceDurationInMinutes:
+                                      serviceDurationInMinutes,
+                                  endTime: _endTime,
+                                  onTimeSlotSelected: (selectedSlot) {
+                                    setState(() {
+                                      _selectedTimeSlot = selectedSlot;
+                                      _appointmentTimeController.text =
+                                          selectedSlot;
+                                    });
+                                  },
+                                ),
+                                SizedBox(
+                                  height: Dimensions.dimenisonNo12,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                  ],
-                ),
+                    ),
+                  if (_showCalender)
+                    Positioned(
+                      right: ResponsiveLayout.isMobile(context)
+                          ? Dimensions.dimenisonNo20 // Adjust for mobile
+                          : Dimensions
+                              .dimenisonNo360, // Default for larger screens
+                      top: ResponsiveLayout.isMobile(context)
+                          ? Dimensions.dimenisonNo150 // Adjust for mobile
+                          : Dimensions
+                              .dimenisonNo120, // Default for larger screens
+                      left: ResponsiveLayout.isMobile(context)
+                          ? Dimensions.dimenisonNo20 // Adjust for mobile
+                          : null, // Default for larger screens
+                      child: SizedBox(
+                        height: ResponsiveLayout.isMobile(context)
+                            ? Dimensions
+                                .dimenisonNo400 // Adjust height for mobile
+                            : ResponsiveLayout.isTablet(context)
+                                ? 400 // Adjust width for mobile
+                                : Dimensions
+                                    .dimenisonNo450, // Default for larger screens
+                        width: ResponsiveLayout.isMobile(context)
+                            ? Dimensions
+                                .dimenisonNo300 // Adjust width for mobile
+                            : ResponsiveLayout.isTablet(context)
+                                ? 600 // Adjust width for mobile
+                                : Dimensions
+                                    .dimenisonNo360, // Default for larger screens
+                        child: CustomCalendar(
+                          salonModel: widget.salonModel,
+                          controller: _appointmentDateController,
+                          initialDate: _time,
+                          onDateChanged: (selectedDate) {},
+                        ),
+                      ),
+                    ),
+                  if (_showServiceList)
+                    Positioned(
+                      right: ResponsiveLayout.isMobile(context)
+                          ? Dimensions.dimenisonNo20 // Adjust for mobile
+                          : null,
+
+                      //     .dimenisonNo360, // Default for larger screens
+                      top: ResponsiveLayout.isMobile(context)
+                          ? Dimensions.dimenisonNo200 // Adjust for mobile
+                          : Dimensions
+                              .dimenisonNo210, // Default for larger screens
+                      left: ResponsiveLayout.isMobile(context)
+                          ? Dimensions.dimenisonNo20 // Adjust for mobile
+                          : Dimensions
+                              .dimenisonNo90, // Default for larger screens
+                      child: Container(
+                        width: Dimensions.dimenisonNo500,
+                        constraints: const BoxConstraints(
+                          maxHeight:
+                              320, // Set a max height to make it scrollable
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFFFFFFF),
+                          borderRadius:
+                              BorderRadius.circular(Dimensions.dimenisonNo10),
+                        ),
+                        child: _serviceController.text.isNotEmpty &&
+                                serchServiceList.isEmpty
+                            ? Padding(
+                                padding: EdgeInsets.only(
+                                  top: Dimensions.dimenisonNo12,
+                                  left: Dimensions.dimenisonNo16,
+                                  bottom: Dimensions.dimenisonNo12,
+                                ),
+                                child: Text(
+                                  "No service found",
+                                  style: TextStyle(
+                                      fontSize: Dimensions.dimenisonNo14,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              )
+                            : serchServiceList.contains(
+                                        // ignore: iterable_contains_unrelated_type
+                                        _serviceController.text) ||
+                                    _serviceController.text.isEmpty
+                                ? Padding(
+                                    padding: EdgeInsets.only(
+                                      top: Dimensions.dimenisonNo12,
+                                      left: Dimensions.dimenisonNo16,
+                                      bottom: Dimensions.dimenisonNo12,
+                                    ),
+                                    child: Text(
+                                      "Enter a Service name or Code",
+                                      style: TextStyle(
+                                          fontSize: Dimensions.dimenisonNo14,
+                                          fontWeight: FontWeight.w600),
+                                    ),
+                                  )
+                                : ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: serchServiceList.length,
+                                    itemBuilder: (context, index) {
+                                      ServiceModel serviceModel =
+                                          serchServiceList[index];
+                                      _netPriceLocal =
+                                          bookingProvider.getNetPrice! ?? 0.0;
+
+                                      return
+                                          // !isSearched()
+
+                                          SingleServiceTapAppoint(
+                                              serviceModel: serviceModel);
+                                    },
+                                  ),
+                      ),
+                    ),
+                ],
               ),
             ],
           ),
@@ -857,6 +845,8 @@ class _EditDirectBillingScreenState extends State<EditDirectBillingScreen> {
       ),
       child: Center(
         child: ResponsiveLayout.isMobile(context)
+
+            //! Textbox for mobile screen
             ? Column(
                 children: [
                   // User Name textbox
@@ -1021,7 +1011,8 @@ class _EditDirectBillingScreenState extends State<EditDirectBillingScreen> {
   }) {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
+      width:
+          ResponsiveLayout.isMobile(context) ? null : Dimensions.dimenisonNo250,
       child: FormCustomTextField(
         requiredField: false,
         controller: controller,
@@ -1034,7 +1025,6 @@ class _EditDirectBillingScreenState extends State<EditDirectBillingScreen> {
   SizedBox selectAppointDateTextBox() {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1042,7 +1032,9 @@ class _EditDirectBillingScreenState extends State<EditDirectBillingScreen> {
             "Appointment Date",
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimenisonNo14
+                  : Dimensions.dimenisonNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.90,
@@ -1052,8 +1044,12 @@ class _EditDirectBillingScreenState extends State<EditDirectBillingScreen> {
             height: Dimensions.dimenisonNo5,
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo30,
-            width: Dimensions.dimenisonNo250,
+            height: ResponsiveLayout.isDesktop(context)
+                ? Dimensions.dimenisonNo30
+                : Dimensions.dimenisonNo40,
+            width: ResponsiveLayout.isMobile(context)
+                ? null
+                : Dimensions.dimenisonNo250,
             child: TextFormField(
               onTap: () {
                 setState(() {
@@ -1087,7 +1083,6 @@ class _EditDirectBillingScreenState extends State<EditDirectBillingScreen> {
   SizedBox timeSelectTextBox() {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1095,7 +1090,9 @@ class _EditDirectBillingScreenState extends State<EditDirectBillingScreen> {
             "Time",
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimenisonNo14
+                  : Dimensions.dimenisonNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.90,
@@ -1105,8 +1102,12 @@ class _EditDirectBillingScreenState extends State<EditDirectBillingScreen> {
             height: Dimensions.dimenisonNo5,
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo30,
-            width: Dimensions.dimenisonNo250,
+            height: ResponsiveLayout.isDesktop(context)
+                ? Dimensions.dimenisonNo30
+                : Dimensions.dimenisonNo40,
+            width: ResponsiveLayout.isMobile(context)
+                ? null
+                : Dimensions.dimenisonNo250,
             child: TextFormField(
               onTap: () {
                 setState(() {
@@ -1139,7 +1140,6 @@ class _EditDirectBillingScreenState extends State<EditDirectBillingScreen> {
   SizedBox staffIdSelectTextBox() {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1147,7 +1147,9 @@ class _EditDirectBillingScreenState extends State<EditDirectBillingScreen> {
             "Staff Name",
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimenisonNo14
+                  : Dimensions.dimenisonNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.90,
@@ -1157,8 +1159,12 @@ class _EditDirectBillingScreenState extends State<EditDirectBillingScreen> {
             height: Dimensions.dimenisonNo5,
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo30,
-            width: Dimensions.dimenisonNo250,
+            height: ResponsiveLayout.isDesktop(context)
+                ? Dimensions.dimenisonNo30
+                : Dimensions.dimenisonNo40,
+            width: ResponsiveLayout.isMobile(context)
+                ? null
+                : Dimensions.dimenisonNo250,
             child: TextFormField(
               // onTap: () {
               //   setState(() {
@@ -1193,7 +1199,6 @@ class _EditDirectBillingScreenState extends State<EditDirectBillingScreen> {
         Provider.of<BookingProvider>(context, listen: false);
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1201,7 +1206,9 @@ class _EditDirectBillingScreenState extends State<EditDirectBillingScreen> {
             "Service",
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimenisonNo14
+                  : Dimensions.dimenisonNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.90,
@@ -1211,8 +1218,12 @@ class _EditDirectBillingScreenState extends State<EditDirectBillingScreen> {
             height: Dimensions.dimenisonNo5,
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo30,
-            width: Dimensions.dimenisonNo250,
+            height: ResponsiveLayout.isDesktop(context)
+                ? Dimensions.dimenisonNo30
+                : Dimensions.dimenisonNo40,
+            width: ResponsiveLayout.isMobile(context)
+                ? null
+                : Dimensions.dimenisonNo250,
             child: TextFormField(
               onChanged: (String value) {
                 serchService(value);

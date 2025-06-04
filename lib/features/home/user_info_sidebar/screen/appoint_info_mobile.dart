@@ -4,9 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/router.dart';
+import 'package:samay_admin_plan/features/Direct%20Billing/screen/edit_direct_billing.dart';
 import 'package:samay_admin_plan/features/custom_appbar/screen/custom_appbar.dart';
 import 'package:samay_admin_plan/features/drawer/drawer.dart';
-import 'package:samay_admin_plan/features/edit_appointment/screen/edit_appointment.dart';
+import 'package:samay_admin_plan/features/add_new_appointment/screen/edit_appointment.dart';
 import 'package:samay_admin_plan/features/home/user_info_sidebar/widget/infor.dart';
 import 'package:samay_admin_plan/features/home/user_info_sidebar/widget/infor_text_timedate.dart';
 import 'package:samay_admin_plan/features/home/user_info_sidebar/widget/row_of_state.dart';
@@ -133,83 +134,8 @@ class _UserInfoSideBarState extends State<AppointInFoMobile> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: Dimensions.dimenisonNo16,
-                          right: Dimensions.dimenisonNo16,
-                          top: Dimensions.dimenisonNo18,
-                        ),
-
-                        //! heading bar of Appointment
-
-                        child: Row(
-                          children: [
-                            Text(
-                              'Appointment',
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: Dimensions.dimenisonNo18,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            widget.appointModel.status == "(Cancel)"
-                                ? const SizedBox()
-                                : widget.appointModel.isUpdate
-                                    ? const StateText(status: "(Update)")
-                                    : const SizedBox(),
-                            if (widget.appointModel.status == "(Cancel)")
-                              StateText(status: widget.appointModel.status),
-                            const Spacer(),
-                            widget.appointModel.status == "Bill Generate"
-                                ? Row(
-                                    children: [
-                                      IconButton(
-                                          onPressed: () async {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    BillPdfPage(
-                                                  appointModel:
-                                                      widget.appointModel,
-                                                  salonModel: salonModel,
-                                                  settingModel: _settingModel,
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          icon: const Icon(
-                                            Icons.download,
-                                            color: Colors.green,
-                                          )),
-                                      SizedBox(
-                                        width: Dimensions.dimenisonNo20,
-                                      )
-                                    ],
-                                  )
-                                :
-
-                                // edit Button
-                                Row(
-                                    children: [
-                                      editAppointButton(
-                                          activateDeleteAndEditButton,
-                                          context,
-                                          userModel),
-                                      SizedBox(width: Dimensions.dimenisonNo5),
-                                      // cancel Button
-                                      cancelAppointButton(
-                                          activateDeleteAndEditButton,
-                                          context,
-                                          userModel),
-                                    ],
-                                  ),
-                          ],
-                        ),
-                      ),
+                      apointHeadingPart(
+                          context, activateDeleteAndEditButton, userModel),
                       Divider(thickness: Dimensions.dimenisonNo5),
                       //! Appointment State
                       RowOfStates(
@@ -301,7 +227,6 @@ class _UserInfoSideBarState extends State<AppointInFoMobile> {
                             Text(
                               "Appointment Time",
                               style: TextStyle(
-                                // color: Colors.black.withOpacity(0.699999988079071),
                                 fontSize: Dimensions.dimenisonNo15,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -370,12 +295,12 @@ class _UserInfoSideBarState extends State<AppointInFoMobile> {
                       appointBookingInfor(userModel),
                       SizedBox(height: Dimensions.dimenisonNo20),
                       Opacity(
-                        opacity: widget.appointModel.status != "Completed"
-                            ? 0.5
-                            : 1.0,
+                        // opacity: widget.appointModel.status != "Completed" ? 0.5 : 1.0,
+                        opacity:
+                            widget.appointModel.status == "Pen" ? 0.5 : 1.0,
                         child: IgnorePointer(
-                          ignoring: widget.appointModel.status == "pen",
                           // ignoring: widget.appointModel.status != "Completed",
+                          ignoring: widget.appointModel.status == "Pen",
                           child: Container(
                             padding: EdgeInsets.symmetric(
                                 horizontal: Dimensions.dimenisonNo16),
@@ -405,95 +330,150 @@ class _UserInfoSideBarState extends State<AppointInFoMobile> {
     );
   }
 
-  Opacity editAppointButton(bool activateDeleteAndEditButton,
-      BuildContext context, UserModel userModel) {
-    return Opacity(
-      opacity: activateDeleteAndEditButton ? 0.5 : 1.0,
-      // opacity: widget.appointModel.status == "(Cancel)" ? 0.5 : 1.0,
-      child: IgnorePointer(
-        ignoring: activateDeleteAndEditButton,
-        // ignoring: widget.appointModel.status == "(Cancel)",
-        child: IconButton(
-          onPressed: () {
-            BookingProvider bookingProvider =
-                Provider.of<BookingProvider>(context, listen: false);
-            bookingProvider.getWatchList.clear();
-            bookingProvider.getWatchList.addAll(widget.appointModel.services);
+  Padding apointHeadingPart(BuildContext context,
+      bool activateDeleteAndEditButton, UserModel userModel) {
+    final status = widget.appointModel.status ?? "";
+    final isCancelled = status == "(Cancel)";
+    final isUpdated = widget.appointModel.isUpdate == true;
+    final isBillGenerated = status == "Bill Generate";
 
-            activateDeleteAndEditButton
-                ? showInforAlertDialog(
-                    context,
-                    "Appointments cannot be edited ",
-                    "Appointment is ${widget.appointModel.status} you cannot edited it",
-                  )
-                : Routes.instance.push(
-                    widget: EditAppointment(
-                      index: widget.index,
-                      appintModel: widget.appointModel,
-                      userModel: userModel,
-                      salonModel: salonModel,
-                    ),
-                    context: context);
-          },
-          icon: const Icon(
-            Icons.edit_square,
-            color: Colors.black,
+    return Padding(
+      padding: EdgeInsets.only(
+        left: Dimensions.dimenisonNo16,
+        right: Dimensions.dimenisonNo16,
+        top: Dimensions.dimenisonNo18,
+      ),
+
+      //! heading bar of Appointment
+
+      child: Row(
+        children: [
+          Text(
+            'Appointment',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: Dimensions.dimenisonNo18,
+              fontWeight: FontWeight.w500,
+            ),
           ),
-        ),
+          const SizedBox(
+            width: 4,
+          ),
+          if (!isCancelled && isUpdated) const StateText(status: "(Update)"),
+          Expanded(
+            child: Align(
+              alignment:
+                  isCancelled ? Alignment.centerRight : Alignment.centerLeft,
+              child: isCancelled
+                  ? StateText(status: status)
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        editAppointButton(context, userModel),
+                        SizedBox(width: Dimensions.dimenisonNo5),
+                        cancelAppointButton(context, userModel),
+                        if (isBillGenerated)
+                          IconButton(
+                            onPressed: () async {
+                              try {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => BillPdfPage(
+                                      appointModel: widget.appointModel,
+                                      salonModel: salonModel,
+                                      settingModel: _settingModel,
+                                    ),
+                                  ),
+                                );
+                              } catch (e) {
+                                showMessage("Error opening bill PDF: $e");
+                              }
+                            },
+                            icon: const Icon(
+                              Icons.download,
+                              color: Colors.green,
+                            ),
+                          ),
+                        SizedBox(width: Dimensions.dimenisonNo12),
+                      ],
+                    ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Opacity cancelAppointButton(bool activateDeleteAndEditButton,
-      BuildContext context, UserModel userModel) {
-    return Opacity(
-      opacity: activateDeleteAndEditButton ? 0.5 : 1.0,
-      child: IgnorePointer(
-        ignoring: activateDeleteAndEditButton,
-        child: IconButton(
-          onPressed: () {
-            activateDeleteAndEditButton
-                ? showInforAlertDialog(
-                    context,
-                    "Appointment cannot be cancelled ",
-                    "Appointment is ${widget.appointModel.status} you cannot cancel it",
-                  )
-                : showDeleteAlertDialog(context, "Cancel Appointment",
-                    "Do you want Cancel Appointment", () {
-                    try {
-                      showLoaderDialog(context);
-                      //create emptye list of timeDateList and add currently time for update
-                      List<TimeStampModel> _timeStampList = [];
-                      _timeStampList.addAll(widget.appointModel.timeStampList);
-                      TimeStampModel _timeStampModel = TimeStampModel(
-                          id: widget.appointModel.orderId,
-                          dateAndTime: GlobalVariable.today,
-                          updateBy:
-                              "${userModel.name} (Appointment has been canceled.)");
-                      _timeStampList.add(_timeStampModel);
+  Widget editAppointButton(BuildContext context, UserModel userModel) {
+    return IconButton(
+      onPressed: () {
+        BookingProvider bookingProvider =
+            Provider.of<BookingProvider>(context, listen: false);
+        bookingProvider.getWatchList.clear();
+        bookingProvider.getWatchList.addAll(widget.appointModel.services);
 
-                      AppointModel orderUpdate = widget.appointModel.copyWith(
-                          status: "(Cancel)", timeStampList: _timeStampList);
-                      BookingProvider bookingProvider =
-                          Provider.of<BookingProvider>(context, listen: false);
+        widget.appointModel.status == GlobalVariable.billGenerateAppointState
+            ? Routes.instance.push(
+                widget: EditDirectBillingScreen(
+                  salonModel: salonModel,
+                  appointModel: widget.appointModel,
+                  userModel: userModel,
+                ),
+                context: context)
+            : Routes.instance.push(
+                widget: EditAppointment(
+                  index: widget.index,
+                  appintModel: widget.appointModel,
+                  userModel: userModel,
+                  salonModel: salonModel,
+                ),
+                context: context);
+      },
+      icon: const Icon(
+        Icons.edit_square,
+        color: Colors.black,
+      ),
+    );
+  }
 
-                      bookingProvider.updateAppointment(userModel.id,
-                          widget.appointModel.orderId, orderUpdate);
-                      Navigator.of(context, rootNavigator: true).pop();
-                      Navigator.of(context).pop();
-                      showMessage("Appointment has been cancelled ");
-                    } catch (e) {
-                      Navigator.of(context, rootNavigator: true).pop();
-                      showMessage("Error : Appointment is not cancelled ");
-                      print("Error : $e ");
-                    }
-                  });
-          },
-          icon: const Icon(
-            Icons.delete_forever_sharp,
-            color: Colors.red,
-          ),
-        ),
+  Widget cancelAppointButton(BuildContext context, UserModel userModel) {
+    return IconButton(
+      onPressed: () {
+        showDeleteAlertDialog(
+            context, "Cancel Appointment", "Do you want Cancel Appointment",
+            () {
+          try {
+            showLoaderDialog(context);
+            //create emptye list of timeDateList and add currently time for update
+            List<TimeStampModel> _timeStampList = [];
+            _timeStampList.addAll(widget.appointModel.timeStampList);
+            TimeStampModel _timeStampModel = TimeStampModel(
+                id: widget.appointModel.orderId,
+                dateAndTime: GlobalVariable.today,
+                updateBy: "${userModel.name} (Appointment has been canceled.)");
+            _timeStampList.add(_timeStampModel);
+
+            AppointModel orderUpdate = widget.appointModel
+                .copyWith(status: "(Cancel)", timeStampList: _timeStampList);
+            BookingProvider bookingProvider =
+                Provider.of<BookingProvider>(context, listen: false);
+
+            bookingProvider.updateAppointment(
+                userModel.id, widget.appointModel.orderId, orderUpdate);
+            Navigator.of(context, rootNavigator: true).pop();
+            Navigator.of(context).pop();
+            showMessage("Appointment has been cancelled ");
+          } catch (e) {
+            Navigator.of(context, rootNavigator: true).pop();
+            showMessage("Error : Appointment is not cancelled ");
+            print("Error : $e ");
+          }
+        });
+      },
+      icon: const Icon(
+        Icons.delete_forever_sharp,
+        color: Colors.red,
       ),
     );
   }
@@ -685,33 +665,65 @@ class _UserInfoSideBarState extends State<AppointInFoMobile> {
                       )
                     : const SizedBox(),
                 SizedBox(height: Dimensions.dimenisonNo10),
-// Extra Discount
-                widget.appointModel.extraDiscountInPer != 0.0
-                    ? Row(
-                        children: [
-                          Text(
-                            'Extra Discount ${widget.appointModel.extraDiscountInPer!.round().toString()}%',
-                            style: TextStyle(
-                              fontSize: Dimensions.dimenisonNo14,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 0.90,
+// Extra Discount in per
+                widget.appointModel.extraDiscountInPerAMT != 0.0
+                    ? Padding(
+                        padding:
+                            EdgeInsets.only(bottom: Dimensions.dimenisonNo10),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Extra Discount ${widget.appointModel.extraDiscountInPer!.round().toString()}%',
+                              style: TextStyle(
+                                fontSize: Dimensions.dimenisonNo14,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 0.90,
+                              ),
                             ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            "-₹${widget.appointModel.extraDiscountInAmount!.round().toString()}",
-                            style: TextStyle(
-                              fontSize: Dimensions.dimenisonNo14,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.green,
-                              letterSpacing: 0.90,
+                            const Spacer(),
+                            Text(
+                              "-₹${widget.appointModel.extraDiscountInAmount!.round().toString()}",
+                              style: TextStyle(
+                                fontSize: Dimensions.dimenisonNo14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.green,
+                                letterSpacing: 0.90,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
+                      )
+                    : const SizedBox(),
+// Extra Discount in Flat Discount
+                widget.appointModel.extraDiscountInAmount != 0.0
+                    ? Padding(
+                        padding:
+                            EdgeInsets.only(bottom: Dimensions.dimenisonNo10),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Flat Discount',
+                              style: TextStyle(
+                                fontSize: Dimensions.dimenisonNo14,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 0.90,
+                              ),
+                            ),
+                            const Spacer(),
+                            Text(
+                              "-₹${widget.appointModel.extraDiscountInAmount!.round().toString()}",
+                              style: TextStyle(
+                                fontSize: Dimensions.dimenisonNo14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.green,
+                                letterSpacing: 0.90,
+                              ),
+                            ),
+                          ],
+                        ),
                       )
                     : const SizedBox(),
 
-                SizedBox(height: Dimensions.dimenisonNo10),
                 Row(
                   children: [
                     Text(

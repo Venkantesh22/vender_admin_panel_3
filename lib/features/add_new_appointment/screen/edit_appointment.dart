@@ -796,9 +796,11 @@ class _EditAppointmentState extends State<EditAppointment> {
       ),
       child: Center(
         child: ResponsiveLayout.isMobile(context)
+            // Textbox for screen screen size
+
             ? Column(
                 children: [
-                  // User Name textbox
+                  //! User Name textbox
                   Wrap(
                     spacing: Dimensions.dimenisonNo8,
                     runSpacing: Dimensions.dimenisonNo5,
@@ -877,6 +879,7 @@ class _EditAppointmentState extends State<EditAppointment> {
                   ),
                 ],
               )
+            //! Textbox for table and decktap screen size
             : Column(
                 children: [
                   // User Name textbox
@@ -928,7 +931,6 @@ class _EditAppointmentState extends State<EditAppointment> {
   SizedBox _timeSelectTextBox() {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -936,7 +938,9 @@ class _EditAppointmentState extends State<EditAppointment> {
             "Time",
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimenisonNo14
+                  : Dimensions.dimenisonNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.90,
@@ -946,8 +950,12 @@ class _EditAppointmentState extends State<EditAppointment> {
             height: Dimensions.dimenisonNo5,
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo30,
-            width: Dimensions.dimenisonNo250,
+            height: ResponsiveLayout.isDesktop(context)
+                ? Dimensions.dimenisonNo30
+                : Dimensions.dimenisonNo40,
+            width: ResponsiveLayout.isMobile(context)
+                ? null
+                : Dimensions.dimenisonNo250,
             child: TextFormField(
               onTap: () {
                 setState(() {
@@ -980,7 +988,8 @@ class _EditAppointmentState extends State<EditAppointment> {
   SizedBox _serviceServiceTextBox() {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
+      width:
+          ResponsiveLayout.isMobile(context) ? null : Dimensions.dimenisonNo250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -988,7 +997,9 @@ class _EditAppointmentState extends State<EditAppointment> {
             "Service",
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimenisonNo14
+                  : Dimensions.dimenisonNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.90,
@@ -998,8 +1009,12 @@ class _EditAppointmentState extends State<EditAppointment> {
             height: Dimensions.dimenisonNo5,
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo30,
-            width: Dimensions.dimenisonNo250,
+            height: ResponsiveLayout.isDesktop(context)
+                ? Dimensions.dimenisonNo30
+                : Dimensions.dimenisonNo40,
+            width: ResponsiveLayout.isMobile(context)
+                ? null
+                : Dimensions.dimenisonNo250,
             child: TextFormField(
               onChanged: (String value) {
                 serchService(value);
@@ -1042,7 +1057,8 @@ class _EditAppointmentState extends State<EditAppointment> {
   SizedBox _selectAppointDateTextBox() {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
+      width:
+          ResponsiveLayout.isMobile(context) ? null : Dimensions.dimenisonNo250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1050,7 +1066,9 @@ class _EditAppointmentState extends State<EditAppointment> {
             "Appointment Date",
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimenisonNo14
+                  : Dimensions.dimenisonNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.90,
@@ -1060,8 +1078,12 @@ class _EditAppointmentState extends State<EditAppointment> {
             height: Dimensions.dimenisonNo5,
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo30,
-            width: Dimensions.dimenisonNo250,
+            height: ResponsiveLayout.isDesktop(context)
+                ? Dimensions.dimenisonNo30
+                : Dimensions.dimenisonNo40,
+            width: ResponsiveLayout.isMobile(context)
+                ? null
+                : Dimensions.dimenisonNo250,
             child: TextFormField(
               onTap: () {
                 setState(() {
@@ -1098,7 +1120,8 @@ class _EditAppointmentState extends State<EditAppointment> {
   ) {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
+      width:
+          ResponsiveLayout.isMobile(context) ? null : Dimensions.dimenisonNo250,
       child: FormCustomTextField(
         requiredField: false,
         controller: controller,
@@ -1483,13 +1506,14 @@ class _EditAppointmentState extends State<EditAppointment> {
       text: "Update Appointment",
       ontap: () async {
         showLoaderDialog(context);
+// update appoint ent to BookingProvider
+        // // Calculating service end time.
+        DateTime _endTime = DateFormat('hh:mm a')
+            .parse(_selectedTimeSlot!)
+            .add(Duration(minutes: serviceDurationInMinutes));
 
-        // Calculating service end time.
-        _serviceEndTime = DateFormat('hh:mm a').format(
-          DateFormat('hh:mm a')
-              .parse(_selectedTimeSlot!)
-              .add(Duration(minutes: serviceDurationInMinutes)),
-        );
+            bookingProvider.updateAppointEndTime(_endTime);
+     
 
         // Create the time and date model
         TimeStampModel _timeStampModel = TimeStampModel(
@@ -1511,28 +1535,7 @@ class _EditAppointmentState extends State<EditAppointment> {
           appointmentDate.month,
           appointmentDate.day,
         );
-        //! Convert Date to save fb
-        // Get the trimmed input time
-        String _inputStartime = _appointmentTimeController.text.trim();
-        String _inputEndtime = _serviceEndTime!;
-        // Parse the input time string into a DateTime object
-        DateTime _parsedStartime = _timeFormat12hr.parse(_inputStartime);
-        DateTime _parsedEndtime = _timeFormat12hr.parse(_inputEndtime);
-        // Combine today's date with the parsed time
-        DateTime _appointStartTime = DateTime(
-          appointmentDate.year,
-          appointmentDate.month,
-          appointmentDate.day,
-          _parsedStartime.hour,
-          _parsedStartime.minute,
-        );
-        DateTime _appointEndTime = DateTime(
-          appointmentDate.year,
-          appointmentDate.month,
-          appointmentDate.day,
-          _parsedEndtime.hour,
-          _parsedEndtime.minute,
-        );
+        
 
         // Declare the appointModel variable before using it
         AppointModel appointModel = widget.appintModel.copyWith(

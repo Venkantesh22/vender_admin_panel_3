@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/router.dart';
 import 'package:samay_admin_plan/features/Direct%20Billing/screen/edit_direct_billing.dart';
-import 'package:samay_admin_plan/features/edit_appointment/screen/edit_appointment.dart';
+import 'package:samay_admin_plan/features/add_new_appointment/screen/edit_appointment.dart';
 import 'package:samay_admin_plan/features/home/user_info_sidebar/widget/infor.dart';
 import 'package:samay_admin_plan/features/home/user_info_sidebar/widget/infor_text_timedate.dart';
 import 'package:samay_admin_plan/features/home/user_info_sidebar/widget/row_of_state.dart';
@@ -48,8 +48,6 @@ class UserInfoSideBar extends StatefulWidget {
 
 class _UserInfoSideBarState extends State<UserInfoSideBar> {
   bool isLoading = false;
-  // double _extraDiscountAmountLocal = 0.0;
-  // double _extraDiscountPerLocal = 0.0;
 
   late SalonModel salonModel;
   late SettingModel _settingModel;
@@ -75,47 +73,16 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
     await serviceProvider.fetchSettingPro(salonModel.id);
     _settingModel = serviceProvider.getSettingModel!;
 
-    // _extraDiscountAmountLocal = widget.appointModel.extraDiscountInAmount! +
-    //     widget.appointModel.extraDiscountInPer!;
-
-    // _extraDiscountPerLocal =
-    //     (_extraDiscountAmountLocal / widget.appointModel.subtatal) * 100;
-
     setState(() {
       isLoading = false;
     });
   }
-
-  // double get _netPriceFun {
-  //   double _net = (widget.appointModel.subtatal -
-  //           widget.appointModel.discountAmount! -
-  //           widget.appointModel.extraDiscountInAmount!) /
-  //       1.18;
-  //   return _net;
-  // }
 
   @override
   Widget build(BuildContext context) {
     Duration? appointDuration =
         Duration(minutes: widget.appointModel.serviceDuration);
     UserModel userModel = widget.user;
-    bool activateDeleteAndEditButton = false;
-    if (widget.appointModel.status == "(Cancel)" ||
-        widget.appointModel.status == "Completed" ||
-        widget.appointModel.status == "Bill Generate") {
-      activateDeleteAndEditButton = true;
-    } else {
-      activateDeleteAndEditButton = false;
-    }
-    // // Method to launch the dialer with the phone number
-    // void _launchDialer(String phoneNumber) async {
-    //   try {
-    //     Uri dialNumber = Uri(scheme: "tel", path: phoneNumber);
-    //     await launchUrl(dialNumber);
-    //   } catch (e) {
-    //     showMessage('Could not launch Mobile $e');
-    //   }
-    // }
 
     // Method to open WhatsApp with the phone number
     Future<void> _openWhatsApp(String phoneNumber) async {
@@ -152,8 +119,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
 
 //! heading bar of Appointment
 
-                child: appointHeadingPart(
-                    activateDeleteAndEditButton, context, userModel),
+                child: appointHeadingPart(context, userModel),
               ),
               Divider(thickness: Dimensions.dimenisonNo5),
 //! Appointment State
@@ -343,8 +309,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
     }
   }
 
-  Row appointHeadingPart(bool activateDeleteAndEditButton, BuildContext context,
-      UserModel userModel) {
+  Row appointHeadingPart(BuildContext context, UserModel userModel) {
     final status = widget.appointModel.status ?? "";
     final isCancelled = status == "(Cancel)";
     final isUpdated = widget.appointModel.isUpdate == true;
@@ -371,11 +336,9 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      editAppointButton(
-                          activateDeleteAndEditButton, context, userModel),
+                      editAppointButton(context, userModel),
                       SizedBox(width: Dimensions.dimenisonNo5),
-                      cancelAppointButton(
-                          activateDeleteAndEditButton, context, userModel),
+                      cancelAppointButton(context, userModel),
                       if (isBillGenerated)
                         IconButton(
                           onPressed: () async {
@@ -409,7 +372,6 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
   }
 
   Widget editAppointButton(
-    bool activateDeleteAndEditButton,
     BuildContext context,
     UserModel userModel,
   ) {
@@ -444,17 +406,9 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
     );
   }
 
-  Widget cancelAppointButton(bool activateDeleteAndEditButton,
-      BuildContext context, UserModel userModel) {
+  Widget cancelAppointButton(BuildContext context, UserModel userModel) {
     return IconButton(
       onPressed: () {
-        // activateDeleteAndEditButton
-        //     ? showInforAlertDialog(
-        //         context,
-        //         "Appointment cannot be cancelled ",
-        //         "Appointment is ${widget.appointModel.status} you cannot cancel it",
-        //       )
-        //     :
         showDeleteAlertDialog(
             context, "Cancel Appointment", "Do you want Cancel Appointment",
             () {
@@ -684,19 +638,15 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                       )
                     : const SizedBox(),
                 SizedBox(height: Dimensions.dimenisonNo10),
-// Extra Discount
-                (hasFlat || hasPer)
+// Extra Discount in per
+                widget.appointModel.extraDiscountInPerAMT != 0.0
                     ? Padding(
                         padding:
                             EdgeInsets.only(bottom: Dimensions.dimenisonNo10),
                         child: Row(
                           children: [
                             Text(
-                              (hasFlat && hasPer)
-                                  ? "Flat Discount"
-                                  : hasFlat
-                                      ? "Flat Discount"
-                                      : "Extra Discount ${widget.appointModel.extraDiscountInPer ?? 0} %",
+                              "Extra Discount ${widget.appointModel.extraDiscountInPer ?? 0} %",
                               style: TextStyle(
                                 fontSize: Dimensions.dimenisonNo14,
                                 fontWeight: FontWeight.w500,
@@ -717,6 +667,68 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                         ),
                       )
                     : const SizedBox(),
+// Extra Discount in Flat Discount
+                widget.appointModel.extraDiscountInAmount != 0.0
+                    ? Padding(
+                        padding:
+                            EdgeInsets.only(bottom: Dimensions.dimenisonNo10),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Flat Discount',
+                              style: TextStyle(
+                                fontSize: Dimensions.dimenisonNo14,
+                                fontWeight: FontWeight.w500,
+                                letterSpacing: 0.90,
+                              ),
+                            ),
+                            const Spacer(),
+                            Text(
+                              "-₹${widget.appointModel.extraDiscountInAmount!.round().toString()}",
+                              style: TextStyle(
+                                fontSize: Dimensions.dimenisonNo14,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.green,
+                                letterSpacing: 0.90,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : const SizedBox(),
+// // Extra Discount
+//                 (hasFlat || hasPer)
+//                     ? Padding(
+//                         padding:
+//                             EdgeInsets.only(bottom: Dimensions.dimenisonNo10),
+//                         child: Row(
+//                           children: [
+//                             Text(
+//                               (hasFlat && hasPer)
+//                                   ? "Flat Discount"
+//                                   : hasFlat
+//                                       ? "Flat Discount"
+//                                       : "Extra Discount ${widget.appointModel.extraDiscountInPer ?? 0} %",
+//                               style: TextStyle(
+//                                 fontSize: Dimensions.dimenisonNo14,
+//                                 fontWeight: FontWeight.w500,
+//                                 letterSpacing: 0.90,
+//                               ),
+//                             ),
+//                             const Spacer(),
+//                             Text(
+//                               "-₹${((widget.appointModel.extraDiscountInPerAMT ?? 0.0) + (widget.appointModel.extraDiscountInAmount ?? 0.0)).toStringAsFixed(2)}",
+//                               style: TextStyle(
+//                                 fontSize: Dimensions.dimenisonNo14,
+//                                 fontWeight: FontWeight.w500,
+//                                 color: Colors.green,
+//                                 letterSpacing: 0.90,
+//                               ),
+//                             ),
+//                           ],
+//                         ),
+//                       )
+//                     : const SizedBox(),
 
                 Row(
                   children: [

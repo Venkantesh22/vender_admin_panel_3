@@ -488,11 +488,6 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
 
                                       AppointDetailsSummer(bookingProvider,
                                           serviceDurationInMinutes, context),
-                                      // if (_appointmentDateController != null)
-                                      //   AppointDetailsSummer(
-                                      //       bookingProvider,
-                                      //       serviceDurationInMinutes,
-                                      //       context),
                                     ],
                                   ),
                                 ),
@@ -620,6 +615,128 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                                 ),
                               ),
                             ),
+
+                          // if (_showTimeContaine)
+                          //   Positioned(
+                          //     right: ResponsiveLayout.isMobile(context)
+                          //         ? Dimensions
+                          //             .dimenisonNo20 // Adjust for mobile
+                          //         : Dimensions
+                          //             .dimenisonNo360, // Default for larger screens
+                          //     top: ResponsiveLayout.isMobile(context)
+                          //         ? Dimensions
+                          //             .dimenisonNo150 // Adjust for mobile
+                          //         : Dimensions
+                          //             .dimenisonNo150, // Default for larger screens
+                          //     left: ResponsiveLayout.isMobile(context)
+                          //         ? Dimensions
+                          //             .dimenisonNo20 // Adjust for mobile
+                          //         : null, // Default for larger screens
+                          //     child: SingleChildScrollView(
+                          //       child: Container(
+                          //         padding:
+                          //             EdgeInsets.all(Dimensions.dimenisonNo12),
+
+                          //         width: ResponsiveLayout.isMobile(context)
+                          //             ? Dimensions
+                          //                 .dimenisonNo300 // Adjust width for mobile
+                          //             : Dimensions
+                          //                 .dimenisonNo500, // Default for larger screens
+                          //         constraints: BoxConstraints(
+                          //           maxHeight: ResponsiveLayout.isMobile(
+                          //                   context)
+                          //               ? Dimensions
+                          //                   .dimenisonNo400 // Adjust height for mobile
+                          //               : Dimensions
+                          //                   .dimenisonNo500, // Default for larger screens
+                          //         ),
+                          //         decoration: BoxDecoration(
+                          //           color: Colors.white,
+                          //           borderRadius: BorderRadius.circular(
+                          //               Dimensions.dimenisonNo10),
+                          //           border: Border.all(
+                          //               color: Colors.grey, width: 1),
+                          //         ),
+                          //         child: SingleChildScrollView(
+                          //           child: Column(
+                          //             children: [
+                          //               TimeSlot(
+                          //                 section: 'Morning',
+                          //                 timeSlots: _categorizedTimeSlots[
+                          //                         'Morning'] ??
+                          //                     [],
+                          //                 selectedTimeSlot: _selectedTimeSlot,
+                          //                 serviceDurationInMinutes:
+                          //                     serviceDurationInMinutes,
+                          //                 endTime: _endTime,
+                          //                 onTimeSlotSelected: (selectedSlot) {
+                          //                   setState(() {
+                          //                     _selectedTimeSlot = selectedSlot;
+                          //                     _appointmentTimeController.text =
+                          //                         selectedSlot;
+                          //                   });
+                          //                 },
+                          //               ),
+                          //               TimeSlot(
+                          //                 section: 'Afternoon',
+                          //                 timeSlots: _categorizedTimeSlots[
+                          //                         'Afternoon'] ??
+                          //                     [],
+                          //                 selectedTimeSlot: _selectedTimeSlot,
+                          //                 serviceDurationInMinutes:
+                          //                     serviceDurationInMinutes,
+                          //                 endTime: _endTime,
+                          //                 onTimeSlotSelected: (selectedSlot) {
+                          //                   setState(() {
+                          //                     _selectedTimeSlot = selectedSlot;
+                          //                     _appointmentTimeController.text =
+                          //                         selectedSlot;
+                          //                   });
+                          //                 },
+                          //               ),
+                          //               TimeSlot(
+                          //                 section: 'Evening',
+                          //                 timeSlots: _categorizedTimeSlots[
+                          //                         'Evening'] ??
+                          //                     [],
+                          //                 selectedTimeSlot: _selectedTimeSlot,
+                          //                 serviceDurationInMinutes:
+                          //                     serviceDurationInMinutes,
+                          //                 endTime: _endTime,
+                          //                 onTimeSlotSelected: (selectedSlot) {
+                          //                   setState(() {
+                          //                     _selectedTimeSlot = selectedSlot;
+                          //                     _appointmentTimeController.text =
+                          //                         selectedSlot;
+                          //                   });
+                          //                 },
+                          //               ),
+                          //               TimeSlot(
+                          //                 section: 'Night',
+                          //                 timeSlots:
+                          //                     _categorizedTimeSlots['Night'] ??
+                          //                         [],
+                          //                 selectedTimeSlot: _selectedTimeSlot,
+                          //                 serviceDurationInMinutes:
+                          //                     serviceDurationInMinutes,
+                          //                 endTime: _endTime,
+                          //                 onTimeSlotSelected: (selectedSlot) {
+                          //                   setState(() {
+                          //                     _selectedTimeSlot = selectedSlot;
+                          //                     _appointmentTimeController.text =
+                          //                         selectedSlot;
+                          //                   });
+                          //                 },
+                          //               ),
+                          //               SizedBox(
+                          //                 height: Dimensions.dimenisonNo12,
+                          //               ),
+                          //             ],
+                          //           ),
+                          //         ),
+                          //       ),
+                          //     ),
+                          //   ),
                           if (_showCalender)
                             Positioned(
                               right: ResponsiveLayout.isMobile(context)
@@ -757,7 +874,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
         child: ResponsiveLayout.isMobile(context)
             ? Column(
                 children: [
-                  // User Name textbox
+                  //! Textbox for Moblie screen size
                   Wrap(
                     spacing: Dimensions.dimenisonNo8,
                     runSpacing: Dimensions.dimenisonNo5,
@@ -771,10 +888,11 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
 
                       //! select Date text box
                       selectAppointDateTextBox(),
+
                       textBoxOfForm("Mobile No", _mobileController),
 
                       //! select time textbox
-                      timeSelectTextBox(),
+                      _timeSelectTextBox(),
 
                       //! Search box for Services  text box
                       Column(
@@ -836,6 +954,8 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                   ),
                 ],
               )
+            //! Textbox for table and decktap screen size
+
             : Column(
                 children: [
                   // User Name textbox
@@ -876,7 +996,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                       ),
 
                       //! select time textbox
-                      timeSelectTextBox(),
+                      _timeSelectTextBox(),
                     ],
                   ),
                 ],
@@ -891,7 +1011,8 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
   ) {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
+      width:
+          ResponsiveLayout.isMobile(context) ? null : Dimensions.dimenisonNo250,
       child: FormCustomTextField(
         requiredField: false,
         controller: controller,
@@ -903,7 +1024,8 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
   SizedBox selectAppointDateTextBox() {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
+      width:
+          ResponsiveLayout.isMobile(context) ? null : Dimensions.dimenisonNo250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -911,7 +1033,9 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
             "Appointment Date",
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimenisonNo14
+                  : Dimensions.dimenisonNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.90,
@@ -921,8 +1045,12 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
             height: Dimensions.dimenisonNo5,
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo30,
-            width: Dimensions.dimenisonNo250,
+            height: ResponsiveLayout.isDesktop(context)
+                ? Dimensions.dimenisonNo30
+                : Dimensions.dimenisonNo40,
+            width: ResponsiveLayout.isMobile(context)
+                ? null
+                : Dimensions.dimenisonNo250,
             child: TextFormField(
               onTap: () {
                 setState(() {
@@ -953,10 +1081,9 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
     );
   }
 
-  SizedBox timeSelectTextBox() {
+  SizedBox _timeSelectTextBox() {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -964,7 +1091,9 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
             "Time",
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimenisonNo14
+                  : Dimensions.dimenisonNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.90,
@@ -974,8 +1103,12 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
             height: Dimensions.dimenisonNo5,
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo30,
-            width: Dimensions.dimenisonNo250,
+            height: ResponsiveLayout.isDesktop(context)
+                ? Dimensions.dimenisonNo30
+                : Dimensions.dimenisonNo40,
+            width: ResponsiveLayout.isMobile(context)
+                ? null
+                : Dimensions.dimenisonNo250,
             child: TextFormField(
               onTap: () {
                 setState(() {
@@ -1005,10 +1138,70 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
     );
   }
 
+  // SizedBox timeSelectTextBox() {
+  //   return SizedBox(
+  //     height: Dimensions.dimenisonNo70,
+  //     width:
+  //         ResponsiveLayout.isMobile(context) ? null : Dimensions.dimenisonNo250,
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Text(
+  //           "Time",
+  //           style: TextStyle(
+  //             color: Colors.black,
+  //             fontSize: ResponsiveLayout.isMobile(context)
+  //                 ? Dimensions.dimenisonNo14
+  //                 : Dimensions.dimenisonNo18,
+  //             fontFamily: GoogleFonts.roboto().fontFamily,
+  //             fontWeight: FontWeight.w500,
+  //             letterSpacing: 0.90,
+  //           ),
+  //         ),
+  //         SizedBox(
+  //           height: Dimensions.dimenisonNo5,
+  //         ),
+  //         SizedBox(
+  //           height: ResponsiveLayout.isDesktop(context)
+  //               ? Dimensions.dimenisonNo30
+  //               : Dimensions.dimenisonNo40,
+  //           width: ResponsiveLayout.isMobile(context)
+  //               ? null
+  //               : Dimensions.dimenisonNo250,
+  //           child: TextFormField(
+  //             onTap: () {
+  //               setState(() {
+  //                 _showTimeContaine = !_showTimeContaine;
+  //                 print("Time : $_showTimeContaine");
+  //               });
+  //             },
+  //             cursorHeight: Dimensions.dimenisonNo16,
+  //             style: TextStyle(
+  //                 fontSize: Dimensions.dimenisonNo12,
+  //                 fontFamily: GoogleFonts.roboto().fontFamily,
+  //                 fontWeight: FontWeight.bold,
+  //                 color: Colors.black),
+  //             controller: _appointmentTimeController,
+  //             decoration: InputDecoration(
+  //               contentPadding: EdgeInsets.symmetric(
+  //                   horizontal: Dimensions.dimenisonNo10,
+  //                   vertical: Dimensions.dimenisonNo10),
+  //               border: OutlineInputBorder(
+  //                 borderRadius: BorderRadius.circular(Dimensions.dimenisonNo16),
+  //               ),
+  //             ),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
   SizedBox serviceServiceTextBox() {
     return SizedBox(
       height: Dimensions.dimenisonNo70,
-      width: Dimensions.dimenisonNo250,
+      width:
+          ResponsiveLayout.isMobile(context) ? null : Dimensions.dimenisonNo250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1016,7 +1209,9 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
             "Service",
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimenisonNo14
+                  : Dimensions.dimenisonNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.90,
@@ -1026,8 +1221,12 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
             height: Dimensions.dimenisonNo5,
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo30,
-            width: Dimensions.dimenisonNo250,
+            height: ResponsiveLayout.isDesktop(context)
+                ? Dimensions.dimenisonNo30
+                : Dimensions.dimenisonNo40,
+            width: ResponsiveLayout.isMobile(context)
+                ? null
+                : Dimensions.dimenisonNo250,
             child: TextFormField(
               onChanged: (String value) {
                 serchService(value);
@@ -1408,19 +1607,24 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
     );
   }
 
-  CustomAuthButton saveAppointButton(BuildContext context,
-      int serviceDurationInMinutes, BookingProvider bookingProvider) {
+  CustomAuthButton saveAppointButton(
+    BuildContext context,
+    int serviceDurationInMinutes,
+    BookingProvider bookingProvider,
+  ) {
     return CustomAuthButton(
       text: "Save Appointment",
       ontap: () async {
         showLoaderDialog(context);
 
-        //! Calculating service in time.
-        _serviceEndTime = DateFormat('hh:mm a').format(
-          DateFormat('hh:mm a').parse(_selectedTimeSlot!).add(
-                Duration(minutes: serviceDurationInMinutes),
-              ),
-        );
+// update appoint ent to BookingProvider
+
+        DateTime _endTime = DateFormat('hh:mm a')
+            .parse(_selectedTimeSlot!)
+            .add(Duration(minutes: serviceDurationInMinutes));
+        bookingProvider.updateAppointEndTime(_endTime);
+
+        print("End time Pro--${bookingProvider.getAppointEndTime}");
 
         //! Format in Appointment Date
 
@@ -1441,7 +1645,6 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
             email: "No email",
             password: " ",
             timeStampModel: _timeStampModel);
-        // get Book appointment time
 
         bool _isVaildater = addNewAppointmentVaildation(_nameController.text,
             _lastNameController.text, _mobileController.text);

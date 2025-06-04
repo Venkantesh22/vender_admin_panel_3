@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/features/setting/widget/heading_text_of_page.dart';
 import 'package:samay_admin_plan/utility/color.dart';
@@ -44,17 +43,6 @@ class AboutUsPage extends StatelessWidget {
                       context,
                       'About Us',
                     ),
-                    // child: Text(
-                    //   'About Us',
-                    //   textAlign: TextAlign.center,
-                    //   style: TextStyle(
-                    //     color: Colors.black,
-                    //     fontSize: Dimensions.dimenisonNo36,
-                    //     fontWeight: FontWeight.w500,
-                    //     height: 0,
-                    //     letterSpacing: 0.15,
-                    //   ),
-                    // ),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(

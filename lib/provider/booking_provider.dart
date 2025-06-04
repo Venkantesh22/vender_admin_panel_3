@@ -27,6 +27,15 @@ class BookingProvider with ChangeNotifier {
   Duration? _appointDuration;
   Duration? get getAppointDuration => _appointDuration;
 
+  DateTime _appointStartTimeCal = DateTime.now();
+  DateTime get getAppointStartTimeCal => _appointStartTimeCal;
+
+  DateTime _appointEndTimeCal = DateTime.now();
+  DateTime get getAppointEndTimeCal => _appointEndTimeCal;
+
+  Duration? _appointDurationCal;
+  Duration? get getAppointDurationCal => _appointDurationCal;
+
   // User note.
   String? _userNote;
   String? get getUserNote => _userNote;
@@ -135,6 +144,7 @@ class BookingProvider with ChangeNotifier {
       endTime.minute,
     );
     _appointEndTime = formattedEndTime;
+    print("End time Pro $_appointEndTime");
     notifyListeners();
   }
 
@@ -212,6 +222,7 @@ class BookingProvider with ChangeNotifier {
       _appointDuration = totalDuration;
       _serviceBookingDuration =
           "${totalDuration.inHours}h ${totalDuration.inMinutes % 60}min";
+
       notifyListeners();
     } catch (e) {
       debugPrint("Error calculating total booking duration: $e");
@@ -356,6 +367,26 @@ class BookingProvider with ChangeNotifier {
     }
     notifyListeners();
   }
+
+  // //!------------ calculate Time Of Appointment Start and End time --------------
+
+  // void calAppointEndTime(DateTime startTime) {
+  //   int parseDuration(String duration) {
+  //     final regex = RegExp(r'(\d+)h (\d+)m');
+  //     final match = regex.firstMatch(duration);
+
+  //     if (match != null) {
+  //       final hours = int.parse(match.group(1)!);
+  //       final minutes = int.parse(match.group(2)!);
+  //       return hours * 60 + minutes;
+  //     }
+
+  //     return 0; // Default to 0 if parsing fails
+  //   }
+
+  //   _appointStartTimeCal = startTime
+  //       .add(Duration(minutes: parseDuration(_serviceBookingDuration)));
+  // }
 
   // ----------------- Utility Methods -----------------
 
