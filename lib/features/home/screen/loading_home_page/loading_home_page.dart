@@ -1,13 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:samay_admin_plan/features/Direct%20Billing/screen/direct_billing.dart';
-import 'package:samay_admin_plan/features/add_new_appointment/screen/add_new_appointment.dart';
 import 'package:samay_admin_plan/features/home/screen/accountBanned/account_banned.dart';
 import 'package:samay_admin_plan/features/home/screen/accountNotValidate/account_not_validate.dart';
 import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/firebase_firestore.dart';
-import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/setting_fb.dart';
+import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/one_time_update_fb.dart';
 import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/booking_provider.dart';
@@ -25,11 +23,57 @@ class LoadingHomePage extends StatefulWidget {
 class _LoadingHomePageState extends State<LoadingHomePage> {
   bool _isLoading = true;
   SalonModel? _salonModel;
+  bool _isupdateLoading = false;
 
   @override
   void initState() {
     super.initState();
     _initializeData();
+  }
+
+  Future<void> updateFun() async {
+    try {
+      setState(() {
+        _isupdateLoading = true;
+      });
+      // Check if any category is missing serviceFor
+      final categoriesSnapshot =
+          await OneTimeUpdateFb.instance.getAllCategories(_salonModel!.id);
+      bool needsUpdate = categoriesSnapshot.docs.any((doc) =>
+          !doc.data().containsKey('serviceFor') || doc['serviceFor'] == null);
+
+      final superCategoriesSnapshot =
+          await OneTimeUpdateFb.instance.getAllSCategories(_salonModel!.id);
+      bool needsSuperUpdate = superCategoriesSnapshot.docs.any((doc) =>
+          !doc.data().containsKey('serviceFor') || doc['serviceFor'] == null);
+
+      if (needsUpdate) {
+        // Update all categories with serviceFor = "Both"
+        await OneTimeUpdateFb.instance
+            .updateAllCategoriesWithServiceFor(_salonModel!.id);
+
+        debugPrint(
+            "All Loading page categories updated with serviceFor = 'Both'");
+      }
+      if (needsSuperUpdate) {
+        // Update all supercategories with serviceFor = "Both"
+        await OneTimeUpdateFb.instance
+            .updateAllSuperCategoriesWithServiceFor(_salonModel!.id);
+        debugPrint(
+            "All Loading page supercategories updated with serviceFor = 'Both'");
+      }
+
+      setState(() {
+        _isupdateLoading = needsUpdate;
+      });
+    } catch (e) {
+      debugPrint("Error updating categories: $e");
+    } finally {
+      setState(() {
+        _isupdateLoading = false;
+        _isLoading = false;
+      });
+    }
   }
 
   Future<void> _initializeData() async {
@@ -66,6 +110,8 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
             .fetchSettingPro(appProvider.getSalonInformation.id);
       }
 
+      updateFun();
+
       if (FirebaseAuth.instance.currentUser == null) {
         throw Exception("User is not authenticated.");
       }
@@ -84,46 +130,59 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton:
+          (!_isLoading && !_isupdateLoading && _isupdateLoading)
+              ? FloatingActionButton.extended(
+                  onPressed: () async {
+                    await updateFun();
+                    setState(() {
+                      _isupdateLoading = false; // Hide after update
+                    });
+                  },
+                  label: const Text("Update Categories"),
+                  icon: const Icon(Icons.update),
+                )
+              : null,
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
-          : StreamBuilder<SalonModel?>(
-              stream: FirebaseFirestoreHelper.instance
-                  .getSalonInformationFBStream(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
-                }
+          : _isupdateLoading
+              ? const Center(child: CircularProgressIndicator())
+              : StreamBuilder<SalonModel?>(
+                  stream: FirebaseFirestoreHelper.instance
+                      .getSalonInformationFBStream(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
 
-                if (snapshot.hasError) {
-                  return Center(child: Text("Error: ${snapshot.error}"));
-                }
+                    if (snapshot.hasError) {
+                      return Center(child: Text("Error: ${snapshot.error}"));
+                    }
 
-                if (!snapshot.hasData || snapshot.data == null) {
-                  return const Center(
-                      child: Text("Salon information not found."));
-                }
+                    if (!snapshot.hasData || snapshot.data == null) {
+                      return const Center(
+                          child: Text("Salon information not found."));
+                    }
 
-                final SalonModel salonInfo = snapshot.data!;
+                    final SalonModel salonInfo = snapshot.data!;
 
-                if (FirebaseAuth.instance.currentUser == null) {
-                  return const Center(
-                      child: Text("User is not authenticated."));
-                }
+                    if (FirebaseAuth.instance.currentUser == null) {
+                      return const Center(
+                          child: Text("User is not authenticated."));
+                    }
 
-                debugPrint("Salon information fetched: ${salonInfo.name}");
+                    debugPrint("Salon information fetched: ${salonInfo.name}");
 
-                if (salonInfo.isAccountBanBySamay) {
-                  return const AccountBanPage();
-                } else if (salonInfo.isAccountValidBySamay) {
-                  // return DirectBillingScreen(salonModel: _salonModel!);
-                  // return AddNewAppointment(salonModel: _salonModel!);
-                  return HomeScreen(date: DateTime.now());
-                } else {
-                  // to stop the loading dialog
-                  return const AccountNotValidatePage();
-                }
-              },
-            ),
+                    if (salonInfo.isAccountBanBySamay) {
+                      return const AccountBanPage();
+                    } else if (salonInfo.isAccountValidBySamay) {
+                      return HomeScreen(date: DateTime.now());
+                    } else {
+                      // to stop the loading dialog
+                      return const AccountNotValidatePage();
+                    }
+                  },
+                ),
     );
   }
 }

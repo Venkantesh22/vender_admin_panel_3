@@ -5,6 +5,7 @@ class SuperCategoryModel {
   final bool haveData;
   final String adminId;
   final String? imgUrl; // New optional field
+  final String? serviceFor;
 
   SuperCategoryModel({
     required this.id,
@@ -13,6 +14,7 @@ class SuperCategoryModel {
     this.haveData = false,
     required this.adminId,
     this.imgUrl,
+    this.serviceFor = "Both",
   });
 
   /// Factory method to create a `SuperCategoryModel` from JSON with null safety
@@ -24,6 +26,7 @@ class SuperCategoryModel {
       haveData: json['haveData'] ?? false,
       adminId: json['adminId'] ?? '',
       imgUrl: json['imgUrl'],
+      serviceFor: json['serviceFor'] ?? "Both",
     );
   }
 
@@ -36,6 +39,7 @@ class SuperCategoryModel {
       'haveData': haveData,
       'adminId': adminId,
       'imgUrl': imgUrl,
+      'serviceFor': serviceFor,
     };
   }
 
@@ -47,6 +51,7 @@ class SuperCategoryModel {
     bool? haveData,
     String? adminId,
     String? imgUrl,
+    String? serviceFor,
   }) {
     return SuperCategoryModel(
       id: id ?? this.id,
@@ -55,6 +60,7 @@ class SuperCategoryModel {
       haveData: haveData ?? this.haveData,
       adminId: adminId ?? this.adminId,
       imgUrl: imgUrl ?? this.imgUrl,
+      serviceFor: serviceFor ?? this.serviceFor,
     );
   }
 }

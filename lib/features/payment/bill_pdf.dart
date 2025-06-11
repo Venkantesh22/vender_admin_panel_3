@@ -428,7 +428,8 @@ class BillPdfPage extends StatelessWidget {
                       ),
                     )
                   : pw.SizedBox(),
-              (hasFlat || hasPer)
+              (appointModel.extraDiscountInPer != null &&
+                      appointModel.extraDiscountInPer != 0.0)
                   ? pw.Padding(
                       padding: pw.EdgeInsets.symmetric(
                           vertical: Dimensions.dimenisonNo5),
@@ -436,23 +437,42 @@ class BillPdfPage extends StatelessWidget {
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
                           pw.Text(
-                            (hasFlat && hasPer)
-                                ? "FLAT DISCOUNT"
-                                : hasFlat
-                                    ? "FLAT DISCOUNT"
-                                    : "EXTRA DISCOUNT ${appointModel.extraDiscountInPer ?? 0} %",
+                            "EXTRA DISCOUNT ${appointModel.extraDiscountInPer ?? 0} %",
                             style: pw.TextStyle(
                               fontSize: Dimensions.dimenisonNo10,
                               font: customFont,
                             ),
                           ),
                           pw.Text(
-                            "-₹${((appointModel.extraDiscountInPerAMT ?? 0.0) + (appointModel.extraDiscountInAmount ?? 0.0)).toStringAsFixed(2)}",
+                            "-₹${((appointModel.extraDiscountInPerAMT ?? 0.0).toStringAsFixed(2))}",
                             style: pw.TextStyle(
                               fontSize: Dimensions.dimenisonNo10,
                               font: customFont,
                             ),
                           ),
+                        ],
+                      ),
+                    )
+                  : pw.SizedBox(),
+              (appointModel.extraDiscountInAmount != null &&
+                      appointModel.extraDiscountInAmount != 0.0)
+                  ? pw.Padding(
+                      padding: pw.EdgeInsets.symmetric(
+                          vertical: Dimensions.dimenisonNo5),
+                      child: pw.Row(
+                        mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
+                        children: [
+                          pw.Text("Flat",
+                              style: pw.TextStyle(
+                                fontSize: Dimensions.dimenisonNo10,
+                                font: customFont,
+                              )),
+                          pw.Text(
+                              "-₹${appointModel.extraDiscountInAmount?.toStringAsFixed(2) ?? '0.00'}",
+                              style: pw.TextStyle(
+                                fontSize: Dimensions.dimenisonNo10,
+                                font: customFont,
+                              )),
                         ],
                       ),
                     )

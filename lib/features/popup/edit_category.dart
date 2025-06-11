@@ -21,28 +21,43 @@ class EditCategoryPopup extends StatefulWidget {
 }
 
 class _EditCategoryPopupState extends State<EditCategoryPopup> {
+  late TextEditingController _categoryController;
+  late String? _serviceFor;
+
+  @override
+  void initState() {
+    super.initState();
+    _categoryController = TextEditingController(
+      text: widget.categoryModel?.categoryName,
+    );
+    _serviceFor = widget.categoryModel?.serviceFor;
+  }
+
+  @override
+  void dispose() {
+    _categoryController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     ServiceProvider serviceProvider = Provider.of<ServiceProvider>(context);
-    final TextEditingController _categoryController =
-        TextEditingController(text: widget.categoryModel?.categoryName);
+    final List<String> _serviceForList = ["Male", "Female", "Both"];
 
     // Determine dialog width based on screen size
-    double dialogWidth =
-        MediaQuery.of(context).size.width * 0.8; // Default for web
+    double dialogWidth = MediaQuery.of(context).size.width * 0.8;
     if (ResponsiveLayout.isMoAndTab(context)) {
-      dialogWidth =
-          MediaQuery.of(context).size.width * 0.95; // Wider for mobile/tablet
+      dialogWidth = MediaQuery.of(context).size.width * 0.95;
     }
 
     return AlertDialog(
       titlePadding: EdgeInsets.only(
-        left: Dimensions.dimenisonNo20,
+        left: Dimensions.dimenisonNo10,
         right: Dimensions.dimenisonNo20,
         top: Dimensions.dimenisonNo20,
       ),
       contentPadding: EdgeInsets.symmetric(
-        horizontal: Dimensions.dimenisonNo20,
+        horizontal: Dimensions.dimenisonNo12,
         vertical: Dimensions.dimenisonNo10,
       ),
       actionsPadding: EdgeInsets.symmetric(
@@ -79,13 +94,60 @@ class _EditCategoryPopupState extends State<EditCategoryPopup> {
             ? Dimensions.dimenisonNo400
             : ResponsiveLayout.isTablet(context)
                 ? Dimensions.screenWidthM / 1.7
-                : dialogWidth, // Set the dialog width dynamically
+                : dialogWidth,
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             FormCustomTextField(
               controller: _categoryController,
               title: "Category Name",
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: Dimensions.dimenisonNo8),
+              child: Text(
+                "Select Service For",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: Dimensions.dimenisonNo18,
+                  fontFamily: GoogleFonts.roboto().fontFamily,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.15,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: Dimensions.dimenisonNo200,
+              child: DropdownButtonFormField<String>(
+                hint: Text(
+                  'Select for',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: Dimensions.dimenisonNo12,
+                    fontFamily: GoogleFonts.roboto().fontFamily,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.40,
+                  ),
+                ),
+                value: _serviceFor, // <-- This will select the correct value
+                items: _serviceForList.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (newValue) {
+                  setState(() {
+                    _serviceFor = newValue!;
+                  });
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select a Service for';
+                  }
+                  return null;
+                },
+              ),
             ),
           ],
         ),
@@ -98,8 +160,7 @@ class _EditCategoryPopupState extends State<EditCategoryPopup> {
               buttonWidth: ResponsiveLayout.isMobile(context)
                   ? Dimensions.dimenisonNo100
                   : ResponsiveLayout.isTablet(context)
-                      ? Dimensions
-                          .dimenisonNo100 // Smaller button for mobile/tablet
+                      ? Dimensions.dimenisonNo100
                       : Dimensions.dimenisonNo150,
               text: "Cancel",
               bgColor: Colors.red,
@@ -111,8 +172,7 @@ class _EditCategoryPopupState extends State<EditCategoryPopup> {
               buttonWidth: ResponsiveLayout.isMobile(context)
                   ? Dimensions.dimenisonNo100
                   : ResponsiveLayout.isTablet(context)
-                      ? Dimensions
-                          .dimenisonNo100 // Smaller button for mobile/tablet
+                      ? Dimensions.dimenisonNo100
                       : Dimensions.dimenisonNo150,
               text: "Save",
               ontap: () {
@@ -125,17 +185,12 @@ class _EditCategoryPopupState extends State<EditCategoryPopup> {
                   if (isVaildated) {
                     CategoryModel categoryModel = widget.categoryModel!
                         .copyWith(
-                            categoryName: _categoryController.text.trim());
+                            categoryName: _categoryController.text.trim(),
+                            serviceFor: _serviceFor);
                     serviceProvider.updateSingleCategoryPro(categoryModel);
 
                     Navigator.of(context, rootNavigator: true).pop();
                     Navigator.of(context, rootNavigator: true).pop();
-
-                    // showInforAlertDialog(
-                    //   context,
-                    //   "Successfully Edited the Category",
-                    //   "Category is edited successfully. Reload the page to see changes.",
-                    // );
                   }
                 } catch (e) {
                   Navigator.of(context, rootNavigator: true).pop();

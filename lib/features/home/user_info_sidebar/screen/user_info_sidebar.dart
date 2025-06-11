@@ -655,7 +655,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                             ),
                             const Spacer(),
                             Text(
-                              "-₹${((widget.appointModel.extraDiscountInPerAMT ?? 0.0) + (widget.appointModel.extraDiscountInAmount ?? 0.0)).toStringAsFixed(2)}",
+                              "-₹${((widget.appointModel.extraDiscountInPerAMT ?? 0.0)).toStringAsFixed(2)}",
                               style: TextStyle(
                                 fontSize: Dimensions.dimenisonNo14,
                                 fontWeight: FontWeight.w500,

@@ -21,12 +21,28 @@ class EditSuperCategoryPopup extends StatefulWidget {
 }
 
 class _EditSuperCategoryPopupState extends State<EditSuperCategoryPopup> {
+  late TextEditingController _superCategoryController;
+  late String? _serviceFor;
+
+  @override
+  void initState() {
+    super.initState();
+    _superCategoryController = TextEditingController(
+      text: widget.superCategoryModel?.superCategoryName,
+    );
+    _serviceFor = widget.superCategoryModel?.serviceFor;
+  }
+
+  @override
+  void dispose() {
+    _superCategoryController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     ServiceProvider serviceProvider = Provider.of<ServiceProvider>(context);
-    final TextEditingController _superCategoryController =
-        TextEditingController(
-            text: widget.superCategoryModel?.superCategoryName);
+    final List<String> _serviceForList = ["Male", "Female", "Both"];
 
     // Determine dialog width based on screen size
     double dialogWidth = MediaQuery.of(context).size.width * 0.8;
@@ -58,7 +74,7 @@ class _EditSuperCategoryPopupState extends State<EditSuperCategoryPopup> {
             children: [
               Expanded(
                 child: Text(
-                  'Edit Super-Category',
+                  'Edit Super-Category ${widget.superCategoryModel!.serviceFor}',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
@@ -82,10 +98,57 @@ class _EditSuperCategoryPopupState extends State<EditSuperCategoryPopup> {
                 : dialogWidth, // Set the dialog width dynamically
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             FormCustomTextField(
               controller: _superCategoryController,
               title: "Super-Category Name",
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: Dimensions.dimenisonNo8),
+              child: Text(
+                "Select Service For",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: Dimensions.dimenisonNo18,
+                  fontFamily: GoogleFonts.roboto().fontFamily,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.15,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: Dimensions.dimenisonNo200,
+              child: DropdownButtonFormField<String>(
+                hint: Text(
+                  'Select for',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: Dimensions.dimenisonNo12,
+                    fontFamily: GoogleFonts.roboto().fontFamily,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.40,
+                  ),
+                ),
+                value: _serviceFor, // <-- This will select the correct value
+                items: _serviceForList.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (newValue) {
+                  setState(() {
+                    _serviceFor = newValue!;
+                  });
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select a Service for';
+                  }
+                  return null;
+                },
+              ),
             ),
           ],
         ),
@@ -126,7 +189,8 @@ class _EditSuperCategoryPopupState extends State<EditSuperCategoryPopup> {
                     SuperCategoryModel superCategoryModel =
                         widget.superCategoryModel!.copyWith(
                             superCategoryName:
-                                _superCategoryController.text.trim());
+                                _superCategoryController.text.trim(),
+                            serviceFor: _serviceFor);
                     serviceProvider
                         .updateSingleSuperCategoryPro(superCategoryModel);
 

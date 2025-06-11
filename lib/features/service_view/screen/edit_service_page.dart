@@ -34,7 +34,6 @@ class _EditServicePageState extends State<EditServicePage> {
   void initState() {
     super.initState();
     getData();
-    _serviceFor = widget.serviceModel.serviceFor;
   }
 
   bool _isLoading = false;
@@ -94,6 +93,9 @@ class _EditServicePageState extends State<EditServicePage> {
       _hoursController.text = _serviceDurationInHr.toString();
       _minController.text = _serviceDurationInMin.toString();
       _descriptionController.text = widget.serviceModel.description!;
+      _serviceFor = widget.serviceModel.serviceFor;
+      _originalPriceController.addListener(_updateFinalPrice);
+      _discountInPer.addListener(_updateFinalPrice);
     } catch (e) {
     } finally {
       setStates() {
@@ -327,43 +329,77 @@ class _EditServicePageState extends State<EditServicePage> {
                               _serviceController.text.trim(),
                               _serviceCodeController.text.trim(),
                               _priceController.text.trim(),
-                              // _hoursController.text.trim(),
                               _minController.text.trim(),
                             );
                             int hours = int.tryParse(_hoursController.text) ??
                                 0; // Default to 0 if null or invalid
+                            // Parse and validate numeric fields
+                            double? originalPrice =
+                                double.tryParse(_originalPriceController.text);
+                            double? discountPercentage =
+                                double.tryParse(_discountInPer.text);
+                            double? finalPrice =
+                                double.tryParse(_priceController.text);
+                            int _hours = int.tryParse(_hoursController.text) ??
+                                0; // Default to 0 if null or invalid
+                            int? minutes = int.tryParse(_minController.text);
+
+                            if (originalPrice == null ||
+                                discountPercentage == null ||
+                                finalPrice == null) {
+                              showMessage(
+                                  "Please enter valid numeric values for price and discount.");
+                              return;
+                            }
 
                             if (isVaildated) {
                               Duration? _serviceDurationMin = Duration(
                                   hours: hours,
                                   minutes:
                                       int.parse(_minController.text.trim()));
+                              if (originalPrice == null ||
+                                  discountPercentage == null ||
+                                  finalPrice == null) {
+                                showMessage(
+                                    "Please enter valid numeric values for price and discount.");
+                                return;
+                              }
+
+                              if (minutes == null) {
+                                showMessage(
+                                    "Please enter valid numeric values for time duration.");
+                                return;
+                              }
+                              discountAmountFun();
+
                               ServiceModel serviceModel =
                                   widget.serviceModel.copyWith(
                                 servicesName: _serviceController.text.trim(),
                                 serviceCode: _serviceCodeController.text.trim(),
-                                price:
-                                    double.parse(_priceController.text.trim()),
+                                price: finalPrice,
+                                originalPrice: originalPrice,
+                                discountInPer: discountPercentage,
+                                discountAmount: discountAmount,
                                 serviceDurationMin:
                                     _serviceDurationMin.inMinutes,
                                 description:
                                     _descriptionController.text.trim() ?? "",
+                                serviceFor: _serviceFor ?? "Both",
                               );
 
-                              serviceProvider.updateSingleServicePro(
-                                  widget.index, serviceModel);
+                              serviceProvider
+                                  .updateSingleServicePro(serviceModel);
                             }
                             Navigator.of(context, rootNavigator: true).pop();
-                            Navigator.of(context).pop();
+                            Navigator.of(
+                              context,
+                            ).pop();
 
                             showMessage(
                                 "Successfully updated ${widget.serviceModel.servicesName} service");
                           } catch (e) {
                             showMessage("Error not updated  service");
-                          } finally {
-                            Navigator.of(context, rootNavigator: true).pop();
-                            Navigator.of(context).pop();
-                          }
+                          } finally {}
                         },
                       ),
                     ],

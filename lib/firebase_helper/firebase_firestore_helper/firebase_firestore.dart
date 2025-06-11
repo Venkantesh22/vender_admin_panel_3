@@ -182,6 +182,7 @@ class FirebaseFirestoreHelper {
     String superCategoryName,
     String salonId,
     String imgUrl,
+    String serviceFor,
     BuildContext context,
   ) async {
     try {
@@ -201,6 +202,7 @@ class FirebaseFirestoreHelper {
         salonId: salonId,
         adminId: adminUid!,
         imgUrl: imgUrl,
+        serviceFor: serviceFor,
       );
 
       await reference.set(superCategoryModel.toJson());
@@ -216,6 +218,7 @@ class FirebaseFirestoreHelper {
     String adminId,
     String salonId,
     String superCategoryName,
+    String sericeFor,
     BuildContext context,
   ) async {
     try {
@@ -233,6 +236,7 @@ class FirebaseFirestoreHelper {
         salonId: salonId,
         haveData: false,
         adminId: adminId,
+        serviceFor: sericeFor,
       );
 
       await reference.set(superCategoryModel.toJson());
@@ -311,6 +315,7 @@ class FirebaseFirestoreHelper {
     String categoryName,
     String salonId,
     String superCategoryName,
+    String serviceFor,
     BuildContext context,
   ) async {
     try {
@@ -325,11 +330,11 @@ class FirebaseFirestoreHelper {
           .doc();
 
       CategoryModel categoryModel = CategoryModel(
-        id: reference.id,
-        categoryName: categoryName,
-        salonId: salonId,
-        superCategoryName: superCategoryName,
-      );
+          id: reference.id,
+          categoryName: categoryName,
+          salonId: salonId,
+          superCategoryName: superCategoryName,
+          serviceFor: serviceFor);
 
       await reference.set(categoryModel.toJson());
       return categoryModel;
@@ -345,6 +350,7 @@ class FirebaseFirestoreHelper {
     String categoryName,
     String salonId,
     String superCategoryName,
+    String serviceFor,
     BuildContext context,
   ) async {
     try {
@@ -357,12 +363,12 @@ class FirebaseFirestoreHelper {
           .doc();
 
       CategoryModel categoryModel = CategoryModel(
-        id: reference.id,
-        categoryName: categoryName,
-        salonId: salonId,
-        superCategoryName: superCategoryName,
-        haveData: false,
-      );
+          id: reference.id,
+          categoryName: categoryName,
+          salonId: salonId,
+          superCategoryName: superCategoryName,
+          haveData: false,
+          serviceFor: serviceFor);
 
       await reference.set(categoryModel.toJson());
       return categoryModel;
@@ -426,7 +432,7 @@ class FirebaseFirestoreHelper {
       }
 
       List<CategoryModel> categoryList = querySnapshot.docs
-          .map((doc) => CategoryModel.fromMap(doc.data()))
+          .map((doc) => CategoryModel.fromJson(doc.data()))
           .toList();
       return categoryList;
     } catch (e) {
@@ -486,7 +492,7 @@ class FirebaseFirestoreHelper {
   }
 
 //Update Single Service for firebase
-  Future<void> updateSingleServiceFirebae(ServiceModel serviceModel) async {
+  Future<bool> updateSingleServiceFirebae(ServiceModel serviceModel) async {
     String? adminUid = FirebaseAuth.instance.currentUser?.uid;
 
     await _firebaseFirestore
@@ -499,6 +505,7 @@ class FirebaseFirestoreHelper {
         .collection("service")
         .doc(serviceModel.id)
         .update(serviceModel.toJson());
+    return true;
   }
 
 //Delete Single Service for firebase

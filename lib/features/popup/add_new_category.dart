@@ -11,13 +11,22 @@ import 'package:samay_admin_plan/utility/dimenison.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
 import 'package:samay_admin_plan/widget/customtextfield.dart';
 
-class AddNewCategory extends StatelessWidget {
+class AddNewCategory extends StatefulWidget {
   const AddNewCategory({super.key});
 
+  @override
+  State<AddNewCategory> createState() => _AddNewCategoryState();
+}
+
+class _AddNewCategoryState extends State<AddNewCategory> {
   @override
   Widget build(BuildContext context) {
     AppProvider appProvider = Provider.of<AppProvider>(context);
     ServiceProvider serviceProvider = Provider.of<ServiceProvider>(context);
+
+    // Dropdown options for "service for"
+    final List<String> _serviceForList = ["Male", "Female", "Both"];
+    String? _serviceFor = _serviceForList.last; // Default value
     final TextEditingController _categoryController = TextEditingController();
 
     // Determine the dialog width based on screen size
@@ -74,10 +83,57 @@ class AddNewCategory extends StatelessWidget {
                 : dialogWidth, // Set the dialog width dynamically
         child: Column(
           mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             FormCustomTextField(
               controller: _categoryController,
               title: "Category Name",
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: Dimensions.dimenisonNo8),
+              child: Text(
+                "Select Service For",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: Dimensions.dimenisonNo18,
+                  fontFamily: GoogleFonts.roboto().fontFamily,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.15,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: Dimensions.dimenisonNo200,
+              child: DropdownButtonFormField<String>(
+                hint: Text(
+                  'Select for',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: Dimensions.dimenisonNo12,
+                    fontFamily: GoogleFonts.roboto().fontFamily,
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: 0.40,
+                  ),
+                ),
+                value: _serviceFor,
+                items: _serviceForList.map((String value) {
+                  return DropdownMenuItem<String>(
+                    value: value,
+                    child: Text(value),
+                  );
+                }).toList(),
+                onChanged: (newValue) {
+                  // setState(() {
+                  _serviceFor = newValue!;
+                  // });
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please select a Service for';
+                  }
+                  return null;
+                },
+              ),
             ),
           ],
         ),
@@ -119,6 +175,7 @@ class AddNewCategory extends StatelessWidget {
                       _categoryController.text.trim(),
                       serviceProvider
                           .getSelectSuperCategoryModel!.superCategoryName,
+                      _serviceFor!,
                       context,
                     );
                     Navigator.of(context, rootNavigator: true).pop();

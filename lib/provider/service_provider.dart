@@ -74,12 +74,13 @@ class ServiceProvider extends ChangeNotifier {
     String superCategoryName,
     String salonId,
     String imgUrl,
+    String serviceFor,
     BuildContext context,
   ) async {
     SuperCategoryModel superCategoryModel = await FirebaseFirestoreHelper
         .instance
         .initializeSuperCategoryCollection(
-            superCategoryName, salonId, imgUrl, context);
+            superCategoryName, salonId, imgUrl, serviceFor, context);
     _superCategoryList.add(superCategoryModel);
     print("Length is  ${_categoryList.length}");
     notifyListeners();
@@ -91,11 +92,12 @@ class ServiceProvider extends ChangeNotifier {
     String adminId,
     String salonId,
     String superCategoryName,
+    String sericeFor,
     BuildContext context,
   ) async {
     SuperCategoryModel superCategoryModel =
         await FirebaseFirestoreHelper.instance.addNewSuperCategoryFirebase(
-            adminId, salonId, superCategoryName, context);
+            adminId, salonId, superCategoryName, sericeFor, context);
     _superCategoryList.add(superCategoryModel);
     notifyListeners();
   }
@@ -149,11 +151,12 @@ class ServiceProvider extends ChangeNotifier {
     String categoryName,
     String salonId,
     String superCategoryName,
+    String serviceFor,
     BuildContext context,
   ) async {
     CategoryModel categoryModel = await FirebaseFirestoreHelper.instance
         .initializeCategoryCollection(
-            categoryName, salonId, superCategoryName, context);
+            categoryName, salonId, superCategoryName, serviceFor, context);
     _categoryList.add(categoryModel);
     print("Length is  ${_categoryList.length}");
     notifyListeners();
@@ -166,11 +169,12 @@ class ServiceProvider extends ChangeNotifier {
     String salonId,
     String categoryName,
     String superCategoryName,
+    String serviceFor,
     BuildContext context,
   ) async {
     CategoryModel categoryModel = await FirebaseFirestoreHelper.instance
-        .addNewCategoryFirebase(
-            adminId, categoryName, salonId, superCategoryName, context);
+        .addNewCategoryFirebase(adminId, categoryName, salonId,
+            superCategoryName, serviceFor, context);
     _categoryList.add(categoryModel);
     notifyListeners();
   }
@@ -195,10 +199,16 @@ class ServiceProvider extends ChangeNotifier {
   }
 
   // Update a Single Services
-  void updateSingleServicePro(int index, ServiceModel serviceModel) async {
-    await FirebaseFirestoreHelper.instance
+  void updateSingleServicePro(ServiceModel serviceModel) async {
+    bool _val = await FirebaseFirestoreHelper.instance
         .updateSingleServiceFirebae(serviceModel);
-    _servicesList[index] = serviceModel;
+
+    // Find the index and update the item
+    int index =
+        _servicesList.indexWhere((element) => element.id == serviceModel.id);
+    if (index != -1) {
+      _servicesList[index] = serviceModel;
+    }
   }
 
 //Delete Single Services
