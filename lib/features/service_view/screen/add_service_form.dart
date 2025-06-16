@@ -38,14 +38,17 @@ class _AddServiceFormState extends State<AddServiceForm> {
 
   // Dropdown options for "service for"
   final List<String> _serviceForList = ["Male", "Female", "Both"];
-  String? _serviceFor;
+  String? _serviceFor; // Default selection
   bool _loadingSave = false; // Loader state for save button
 
   double discountAmount = 0.0;
 
   @override
+  @override
   void initState() {
     super.initState();
+    // Set default value for _serviceFor
+    _serviceFor = _serviceForList.last;
     // Add listeners to recalculate final price when original price or discount percentage changes.
     _originalPriceController.addListener(_updateFinalPrice);
     _discountInPer.addListener(_updateFinalPrice);
@@ -298,13 +301,8 @@ class _AddServiceFormState extends State<AddServiceForm> {
                       _serviceController.text,
                       _serviceCodeController.text,
                       _priceController.text,
-                      _minController.text,
+                      context,
                     );
-
-                    if (!isValidated) {
-                      showMessage("Please fill all required fields correctly.");
-                      return;
-                    }
 
                     // Parse and validate numeric fields
                     double? originalPrice =
@@ -314,19 +312,55 @@ class _AddServiceFormState extends State<AddServiceForm> {
                     double? finalPrice = double.tryParse(_priceController.text);
                     int hours = int.tryParse(_hoursController.text) ??
                         0; // Default to 0 if null or invalid
-                    int? minutes = int.tryParse(_minController.text);
+                    int? minutes = int.tryParse(_minController.text) ??
+                        0; // Default to 0 if null or invalid
 
                     if (originalPrice == null ||
                         discountPercentage == null ||
                         finalPrice == null) {
-                      showMessage(
-                          "Please enter valid numeric values for price and discount.");
+                      showBottonMessageError(
+                          "Please enter valid numeric values for price and discount.",
+                          context);
+
                       return;
                     }
 
-                    if (minutes == null) {
-                      showMessage(
-                          "Please enter valid numeric values for time duration.");
+                    if (minutes == null && hours == null) {
+                      showBottonMessageError(
+                          "Please enter valid numeric values for time duration.",
+                          context);
+
+                      return;
+                    }
+
+                    if (minutes != null && minutes < 0) {
+                      showBottonMessageError(
+                        "Minutes cannot be negative.",
+                        context,
+                      );
+                      return;
+                    }
+                    if (minutes! >= 60) {
+                      showBottonMessageError(
+                        "Minutes cannot be greater than or equal to 60.",
+                        context,
+                      );
+                      return;
+                    }
+                    if (_hoursController.text != null &&
+                        int.parse(_hoursController.text) < 0) {
+                      showBottonMessageError(
+                        "Hours cannot be negative.",
+                        context,
+                      );
+                      return;
+                    }
+
+                    if (!isValidated) {
+                      showBottonMessageError(
+                          "Please fill all required fields correctly.",
+                          context);
+
                       return;
                     }
 
@@ -337,6 +371,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                         Provider.of<AppProvider>(context, listen: false);
                     final serviceProvider =
                         Provider.of<ServiceProvider>(context, listen: false);
+                    hours != 0 && hours != null ? minutes = 0 : minutes;
 
                     // Add new service via provider method
                     await serviceProvider.addSingleServicePro(
@@ -353,7 +388,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                       discountPercentage,
                       discountAmount,
                       hours,
-                      minutes,
+                      minutes!,
                       _descriptionController.text.trim(),
                       _serviceFor!,
                     );
@@ -371,11 +406,14 @@ class _AddServiceFormState extends State<AddServiceForm> {
                     }
 
                     // Show success message and close form
-                    showMessage("New Service added Successfully");
+                    showBottonMessage(
+                        "New Service added Successfully", context);
+
                     Navigator.of(context).pop(); // Close the form screen
                   } catch (e) {
                     debugPrint("Error adding service: ${e.toString()}");
-                    showMessage("Error adding service: ${e.toString()}");
+                    // showBottonMessageError(
+                    //     "Something went wrong please add all fields", context);
                   } finally {
                     // Ensure loader dialog is dismissed
                     if (Navigator.of(context, rootNavigator: true).canPop()) {

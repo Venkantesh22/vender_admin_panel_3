@@ -495,34 +495,33 @@ bool addNewServiceVaildation(
   final String servicesName,
   final String serviceCode,
   final String price,
-  // final String hours,
-  final String minutes,
+  BuildContext context,
 ) {
-  final double? min = double.tryParse(minutes);
-  final double? hr = double.tryParse(minutes);
+  // final double? min = double.tryParse(minutes);
+  // final double? hr = double.tryParse(minutes);
   final double? pr = double.tryParse(price);
 
-  if (servicesName.isEmpty &&
-      serviceCode.isEmpty &&
-      price.isEmpty &&
+  if (servicesName.isEmpty && serviceCode.isEmpty && price.isEmpty
+      //  &&
       // hours.isEmpty &&
-      minutes.isEmpty) {
-    showMessage("All Fields are empty");
+      // minutes.isEmpty
+      ) {
+    showBottonMessageError("All Fields are empty", context);
     return false;
   } else if (servicesName.isEmpty) {
-    showMessage("Enter a Service Name");
+    showBottonMessageError("Enter a Service Name", context);
     return false;
   } else if (serviceCode.isEmpty) {
-    showMessage("Enter 4-Digit service code");
+    showBottonMessageError("Enter 4-Digit service code", context);
     return false;
     // } else if (serviceCode.length <= 4) {
     //   showMessage("Enter 4-Digit service code");
     //   return false;
   } else if (price.isEmpty) {
-    showMessage("Enter a Price");
+    showBottonMessageError("Enter a Price", context);
     return false;
   } else if (pr == null || pr < 0) {
-    showMessage("Enter a Price");
+    showBottonMessageError("Enter a Price", context);
     return false;
     // }
     //  else if (hours.isEmpty) {
@@ -531,12 +530,12 @@ bool addNewServiceVaildation(
     // } else if (hr == null || hr < 0) {
     //   showMessage("Enter a correct hours.");
     //   return false;
-  } else if (minutes.isEmpty) {
-    showMessage("Enter a Minutes");
-    return false;
-  } else if (min == null || min < 0 || min > 59) {
-    showMessage("Enter a correct minute.");
-    return false;
+    // } else if (minutes.isEmpty) {
+    //   showMessage("Enter a Minutes");
+    //   return false;
+    // } else if (min == null || min < 0 || min > 59) {
+    //   showMessage("Enter a correct minute.");
+    //   return false;
   } else {
     return true;
   }

@@ -324,13 +324,16 @@ class _EditServicePageState extends State<EditServicePage> {
                         text: "Save",
                         ontap: () async {
                           try {
-                            showLoaderDialog(context);
                             bool isVaildated = addNewServiceVaildation(
                               _serviceController.text.trim(),
                               _serviceCodeController.text.trim(),
                               _priceController.text.trim(),
-                              _minController.text.trim(),
+                              context,
+
+                              // _minController.text.trim(),
                             );
+                            // Robust time validation
+
                             int hours = int.tryParse(_hoursController.text) ??
                                 0; // Default to 0 if null or invalid
                             // Parse and validate numeric fields
@@ -364,12 +367,37 @@ class _EditServicePageState extends State<EditServicePage> {
                                     "Please enter valid numeric values for price and discount.");
                                 return;
                               }
+                              if (minutes == null && hours == null) {
+                                showBottonMessageError(
+                                    "Please enter valid numeric values for time duration.",
+                                    context);
 
-                              if (minutes == null) {
-                                showMessage(
-                                    "Please enter valid numeric values for time duration.");
                                 return;
                               }
+
+                              if (minutes != null && minutes < 0) {
+                                showBottonMessageError(
+                                  "Minutes cannot be negative.",
+                                  context,
+                                );
+                                return;
+                              }
+                              if (minutes! >= 60) {
+                                showBottonMessageError(
+                                  "Minutes cannot be greater than or equal to 60.",
+                                  context,
+                                );
+                                return;
+                              }
+                              if (_hoursController.text != null &&
+                                  int.parse(_hoursController.text) < 0) {
+                                showBottonMessageError(
+                                  "Hours cannot be negative.",
+                                  context,
+                                );
+                                return;
+                              }
+
                               discountAmountFun();
 
                               ServiceModel serviceModel =
@@ -390,7 +418,6 @@ class _EditServicePageState extends State<EditServicePage> {
                               serviceProvider
                                   .updateSingleServicePro(serviceModel);
                             }
-                            Navigator.of(context, rootNavigator: true).pop();
                             Navigator.of(
                               context,
                             ).pop();
@@ -398,7 +425,9 @@ class _EditServicePageState extends State<EditServicePage> {
                             showMessage(
                                 "Successfully updated ${widget.serviceModel.servicesName} service");
                           } catch (e) {
-                            showMessage("Error not updated  service");
+                            // showBottonMessageError(
+                            //     "Something went wrong please add all fields",
+                            //     context);
                           } finally {}
                         },
                       ),
