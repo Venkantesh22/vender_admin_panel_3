@@ -45,7 +45,7 @@ class FirebaseAuthHelper {
 
       // 4) Check the updateBy checkpoint
       if (updatedBy != "vendor") {
-        signOut();
+       await  signOut();
         showBottonMessageError(
           "Invalid vendor login information. Please check your credentials.",
           context,

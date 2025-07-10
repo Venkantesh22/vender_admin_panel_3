@@ -12,6 +12,7 @@ import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
 import 'package:samay_admin_plan/provider/payment_provider.dart';
+import 'package:samay_admin_plan/provider/product_provider.dart';
 import 'package:samay_admin_plan/provider/report_provider.dart';
 import 'package:samay_admin_plan/provider/samay_provider.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => SettingProvider()),
         ChangeNotifierProvider(create: (context) => EditProvider()),
         ChangeNotifierProvider(create: (context) => SamayProvider()),
+        ChangeNotifierProvider(create: (context) => ProductProvider()),
       ],
       builder: (context, child) {
         return MaterialApp(

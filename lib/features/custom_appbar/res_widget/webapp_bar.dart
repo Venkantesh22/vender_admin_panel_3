@@ -8,6 +8,7 @@ import 'package:samay_admin_plan/constants/router.dart';
 import 'package:samay_admin_plan/features/Direct%20Billing/screen/direct_billing.dart';
 import 'package:samay_admin_plan/features/custom_appbar/widget/appbar_item.dart';
 import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart';
+import 'package:samay_admin_plan/features/product/screen/product_screen.dart';
 import 'package:samay_admin_plan/features/reports_Section/report_dashboard/report_dashboard.dart';
 import 'package:samay_admin_plan/features/service_view/screen/super_category.dart';
 import 'package:samay_admin_plan/features/setting/setting_page.dart';
@@ -70,6 +71,13 @@ AppBar webAppBar(BuildContext context, AppProvider appProvider) {
             ontap: () {
               Routes.instance
                   .push(widget: SuperCategoryPage(), context: context);
+            },
+          ),
+          SizedBox(width: Dimensions.dimenisonNo20),
+          Appbaritem(
+            text: "Products",
+            ontap: () {
+              Routes.instance.push(widget: ProductScreen(), context: context);
             },
           ),
           SizedBox(width: Dimensions.dimenisonNo20),
