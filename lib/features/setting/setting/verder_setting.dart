@@ -12,9 +12,9 @@ import 'package:samay_admin_plan/models/salon_setting_model/salon_setting_model.
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
-import 'package:samay_admin_plan/widget/customtextfield.dart';
+import 'package:samay_admin_plan/widget/text_box/customtextfield.dart';
 
 class VerderSetting extends StatefulWidget {
   const VerderSetting({super.key});
@@ -134,18 +134,18 @@ class _VerderSettingState extends State<VerderSetting> {
                   child: Container(
                     margin: ResponsiveLayout.isMobile(context)
                         ? EdgeInsets.symmetric(
-                            horizontal: Dimensions.dimenisonNo12,
+                            horizontal: Dimensions.dimensionNo12,
                           )
                         : ResponsiveLayout.isTablet(context)
                             ? EdgeInsets.symmetric(
-                                horizontal: Dimensions.dimenisonNo60,
+                                horizontal: Dimensions.dimensionNo60,
                               )
                             : null,
                     padding: EdgeInsets.symmetric(
                         horizontal: ResponsiveLayout.isMobile(context)
-                            ? Dimensions.dimenisonNo10
-                            : Dimensions.dimenisonNo30,
-                        vertical: Dimensions.dimenisonNo20),
+                            ? Dimensions.dimensionNo10
+                            : Dimensions.dimensionNo30,
+                        vertical: Dimensions.dimensionNo20),
                     // color: Colors.green,
                     color: Colors.white,
                     width: ResponsiveLayout.isDesktop(context)
@@ -160,10 +160,10 @@ class _VerderSettingState extends State<VerderSetting> {
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(
-                              vertical: Dimensions.dimenisonNo10),
+                              vertical: Dimensions.dimensionNo10),
                           child: const Divider(),
                         ),
-                        SizedBox(height: Dimensions.dimenisonNo14),
+                        SizedBox(height: Dimensions.dimensionNo14),
                         FormCustomTextField(
                           controller: timeController,
                           title:
@@ -171,7 +171,7 @@ class _VerderSettingState extends State<VerderSetting> {
                           hintText: "Enter a Minute",
                           requiredField: false,
                         ),
-                        SizedBox(height: Dimensions.dimenisonNo14),
+                        SizedBox(height: Dimensions.dimensionNo14),
 
                         FormCustomTextField(
                           controller: dayController,
@@ -180,14 +180,14 @@ class _VerderSettingState extends State<VerderSetting> {
                           hintText: "Enter a Day",
                           requiredField: false,
                         ),
-                        SizedBox(height: Dimensions.dimenisonNo14),
+                        SizedBox(height: Dimensions.dimensionNo14),
 
                         TextForGSTNO(),
-                        SizedBox(height: Dimensions.dimenisonNo20),
+                        SizedBox(height: Dimensions.dimensionNo20),
                         // GST price type selection:
                         // if (gstController.text.isNotEmpty)
                         GstInclusiveOrExclusive(),
-                        SizedBox(height: Dimensions.dimenisonNo14),
+                        SizedBox(height: Dimensions.dimensionNo14),
                         ServiceAtSalonOrHome(),
                         const SizedBox(height: 50),
                         CustomAuthButton(
@@ -262,24 +262,24 @@ class _VerderSettingState extends State<VerderSetting> {
           style: TextStyle(
             color: Colors.black,
             fontSize: ResponsiveLayout.isMobile(context)
-                ? Dimensions.dimenisonNo14
-                : Dimensions.dimenisonNo18,
+                ? Dimensions.dimensionNo14
+                : Dimensions.dimensionNo18,
             fontFamily: GoogleFonts.roboto().fontFamily,
             fontWeight: FontWeight.w500,
             // letterSpacing: 0.90,
           ),
         ),
         SizedBox(
-          height: Dimensions.dimenisonNo5,
+          height: Dimensions.dimensionNo5,
         ),
         SizedBox(
           //salon description textbox has. max line.
 
-          height: Dimensions.dimenisonNo30,
+          height: Dimensions.dimensionNo30,
           child: TextFormField(
-            cursorHeight: Dimensions.dimenisonNo16,
+            cursorHeight: Dimensions.dimensionNo16,
             style: TextStyle(
-                fontSize: Dimensions.dimenisonNo12,
+                fontSize: Dimensions.dimensionNo12,
                 fontFamily: GoogleFonts.roboto().fontFamily,
                 fontWeight: FontWeight.bold,
                 color: Colors.black),
@@ -287,15 +287,15 @@ class _VerderSettingState extends State<VerderSetting> {
             decoration: InputDecoration(
               hintText: "Enter GST Number",
               hintStyle: TextStyle(
-                  fontSize: Dimensions.dimenisonNo12,
+                  fontSize: Dimensions.dimensionNo12,
                   fontFamily: GoogleFonts.roboto().fontFamily,
                   fontWeight: FontWeight.w200,
                   color: Colors.grey),
               contentPadding: EdgeInsets.symmetric(
-                  horizontal: Dimensions.dimenisonNo10,
-                  vertical: Dimensions.dimenisonNo10),
+                  horizontal: Dimensions.dimensionNo10,
+                  vertical: Dimensions.dimensionNo10),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(Dimensions.dimenisonNo16),
+                borderRadius: BorderRadius.circular(Dimensions.dimensionNo16),
               ),
             ),
             onChanged: (val) => setState(() {
@@ -328,8 +328,8 @@ class _VerderSettingState extends State<VerderSetting> {
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: ResponsiveLayout.isMobile(context)
-                      ? Dimensions.dimenisonNo14
-                      : Dimensions.dimenisonNo18,
+                      ? Dimensions.dimensionNo14
+                      : Dimensions.dimensionNo18,
                   fontFamily: GoogleFonts.roboto().fontFamily,
                   fontWeight: FontWeight.w500,
                 ),
@@ -338,7 +338,7 @@ class _VerderSettingState extends State<VerderSetting> {
                 text: ' *',
                 style: TextStyle(
                   color: const Color(0xFFFC0000),
-                  fontSize: Dimensions.dimenisonNo18,
+                  fontSize: Dimensions.dimensionNo18,
                   fontFamily: GoogleFonts.roboto().fontFamily,
                   fontWeight: FontWeight.w500,
                 ),
@@ -346,7 +346,7 @@ class _VerderSettingState extends State<VerderSetting> {
             ],
           ),
         ),
-        SizedBox(height: Dimensions.dimenisonNo5),
+        SizedBox(height: Dimensions.dimensionNo5),
         Row(
           children: [
             Row(
@@ -364,13 +364,13 @@ class _VerderSettingState extends State<VerderSetting> {
                   },
                 ),
                 Text("Inclusive",
-                    style: TextStyle(fontSize: Dimensions.dimenisonNo16)),
+                    style: TextStyle(fontSize: Dimensions.dimensionNo16)),
               ],
             ),
             SizedBox(
                 width: ResponsiveLayout.isMobile(context)
-                    ? Dimensions.dimenisonNo12
-                    : Dimensions.dimenisonNo20),
+                    ? Dimensions.dimensionNo12
+                    : Dimensions.dimensionNo20),
             Row(
               children: [
                 Radio<String>(
@@ -386,7 +386,7 @@ class _VerderSettingState extends State<VerderSetting> {
                   },
                 ),
                 Text("Exclusive",
-                    style: TextStyle(fontSize: Dimensions.dimenisonNo16)),
+                    style: TextStyle(fontSize: Dimensions.dimensionNo16)),
               ],
             ),
           ],
@@ -407,7 +407,7 @@ class _VerderSettingState extends State<VerderSetting> {
                     "Please select the type of services you offer at your salon or home.",
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: Dimensions.dimenisonNo18,
+                  fontSize: Dimensions.dimensionNo18,
                   fontFamily: GoogleFonts.roboto().fontFamily,
                   fontWeight: FontWeight.w500,
                 ),
@@ -416,7 +416,7 @@ class _VerderSettingState extends State<VerderSetting> {
                 text: ' *',
                 style: TextStyle(
                   color: const Color(0xFFFC0000),
-                  fontSize: Dimensions.dimenisonNo18,
+                  fontSize: Dimensions.dimensionNo18,
                   fontFamily: GoogleFonts.roboto().fontFamily,
                   fontWeight: FontWeight.w500,
                 ),
@@ -424,7 +424,7 @@ class _VerderSettingState extends State<VerderSetting> {
             ],
           ),
         ),
-        SizedBox(height: Dimensions.dimenisonNo5),
+        SizedBox(height: Dimensions.dimensionNo5),
         Row(
           children: [
             Row(
@@ -439,13 +439,13 @@ class _VerderSettingState extends State<VerderSetting> {
                   },
                 ),
                 Text(GlobalVariable.serviceAtSalon,
-                    style: TextStyle(fontSize: Dimensions.dimenisonNo16)),
+                    style: TextStyle(fontSize: Dimensions.dimensionNo16)),
               ],
             ),
             SizedBox(
                 width: ResponsiveLayout.isMobile(context)
-                    ? Dimensions.dimenisonNo12
-                    : Dimensions.dimenisonNo20),
+                    ? Dimensions.dimensionNo12
+                    : Dimensions.dimensionNo20),
             Row(
               children: [
                 Radio<String>(
@@ -458,13 +458,13 @@ class _VerderSettingState extends State<VerderSetting> {
                   },
                 ),
                 Text(GlobalVariable.serviceAtHome,
-                    style: TextStyle(fontSize: Dimensions.dimenisonNo16)),
+                    style: TextStyle(fontSize: Dimensions.dimensionNo16)),
               ],
             ),
             SizedBox(
                 width: ResponsiveLayout.isMobile(context)
-                    ? Dimensions.dimenisonNo12
-                    : Dimensions.dimenisonNo20),
+                    ? Dimensions.dimensionNo12
+                    : Dimensions.dimensionNo20),
             Row(
               children: [
                 Radio<String>(
@@ -477,7 +477,7 @@ class _VerderSettingState extends State<VerderSetting> {
                   },
                 ),
                 Text(GlobalVariable.serviceAtBoth,
-                    style: TextStyle(fontSize: Dimensions.dimenisonNo16)),
+                    style: TextStyle(fontSize: Dimensions.dimensionNo16)),
               ],
             ),
           ],

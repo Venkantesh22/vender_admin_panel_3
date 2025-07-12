@@ -6,7 +6,7 @@ import 'package:samay_admin_plan/features/popup/add_new_category.dart';
 import 'package:samay_admin_plan/features/services_page/widget/category_button.dart';
 import 'package:samay_admin_plan/models/category_model/category_model.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/add_button.dart';
 
 Drawer cateDrawer(
@@ -24,7 +24,7 @@ Drawer cateDrawer(
         children: [
           // Top header with title and close icon
           SizedBox(
-            height: Dimensions.dimenisonNo8,
+            height: Dimensions.dimensionNo8,
           ),
           // Add Category Button
           AddButton(
@@ -41,15 +41,15 @@ Drawer cateDrawer(
           ),
           Padding(
             padding: EdgeInsets.symmetric(
-              horizontal: Dimensions.dimenisonNo5,
-              vertical: Dimensions.dimenisonNo10,
+              horizontal: Dimensions.dimensionNo5,
+              vertical: Dimensions.dimensionNo10,
             ),
             child: Center(
               child: Text(
                 serviceProvider.getSelectSuperCategoryModel!.superCategoryName,
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: Dimensions.dimenisonNo24,
+                  fontSize: Dimensions.dimensionNo24,
                   fontFamily: GoogleFonts.roboto().fontFamily,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 0.15,
@@ -58,7 +58,7 @@ Drawer cateDrawer(
             ),
           ),
           Padding(
-            padding: EdgeInsets.all(Dimensions.dimenisonNo10),
+            padding: EdgeInsets.all(Dimensions.dimensionNo10),
             child: const Divider(color: Colors.white),
           ),
           Expanded(

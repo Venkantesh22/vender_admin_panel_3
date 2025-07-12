@@ -5,7 +5,7 @@ import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/models/service_model/service_model.dart';
 import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/custom_button.dart';
 
 class SingleServiceTapAppoint extends StatefulWidget {
@@ -36,17 +36,17 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
       children: [
         Container(
           margin: EdgeInsets.only(
-            left: Dimensions.dimenisonNo16,
-            right: Dimensions.dimenisonNo16,
-            top: Dimensions.dimenisonNo10,
+            left: Dimensions.dimensionNo16,
+            right: Dimensions.dimensionNo16,
+            top: Dimensions.dimensionNo10,
           ),
           padding: EdgeInsets.symmetric(
-            vertical: Dimensions.dimenisonNo8,
-            horizontal: Dimensions.dimenisonNo10,
+            vertical: Dimensions.dimensionNo8,
+            horizontal: Dimensions.dimensionNo10,
           ),
           decoration: BoxDecoration(
             border: Border.all(width: 1.5),
-            borderRadius: BorderRadius.circular(Dimensions.dimenisonNo10),
+            borderRadius: BorderRadius.circular(Dimensions.dimensionNo10),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,8 +63,8 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
                           style: TextStyle(
                             color: AppColor.serviceTapTextColor,
                             fontSize: isMobile
-                                ? Dimensions.dimenisonNo14
-                                : Dimensions.dimenisonNo16,
+                                ? Dimensions.dimensionNo14
+                                : Dimensions.dimensionNo16,
                             fontFamily: GoogleFonts.lato().fontFamily,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 1,
@@ -72,14 +72,14 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
                         ),
                         Padding(
                           padding:
-                              EdgeInsets.only(left: Dimensions.dimenisonNo8),
+                              EdgeInsets.only(left: Dimensions.dimensionNo8),
                           child: Text(
                             'Service Code: ${widget.serviceModel.serviceCode}',
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: isMobile
-                                  ? Dimensions.dimenisonNo10
-                                  : Dimensions.dimenisonNo12,
+                                  ? Dimensions.dimensionNo10
+                                  : Dimensions.dimensionNo12,
                               fontFamily: GoogleFonts.roboto().fontFamily,
                               letterSpacing: 1,
                             ),
@@ -118,21 +118,21 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
                         ? "Remove -"
                         : "Add+",
                     width: ResponsiveLayout.isMobile(context)
-                        ? Dimensions.dimenisonNo100
+                        ? Dimensions.dimensionNo100
                         : null,
                   ),
                 ],
               ),
               // Padding(
               //   padding:
-              //       EdgeInsets.symmetric(vertical: Dimensions.dimenisonNo8),
+              //       EdgeInsets.symmetric(vertical: Dimensions.dimensionNo8),
               //   child: const CustomDotttedLine(),
               // ),
               // Row(
               //   children: [
               //     Icon(
               //       Icons.watch_later_outlined,
-              //       size: Dimensions.dimenisonNo14,
+              //       size: Dimensions.dimensionNo14,
               //       color: Colors.black,
               //     ),
               //     _serviceDuration.inHours >= 1
@@ -140,7 +140,7 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
               //             ' ${_serviceDuration.inHours.toString()}h : ',
               //             style: TextStyle(
               //               color: AppColor.serviceTapTextColor,
-              //               fontSize: Dimensions.dimenisonNo12,
+              //               fontSize: Dimensions.dimensionNo12,
               //               fontFamily: GoogleFonts.roboto().fontFamily,
               //               fontWeight: FontWeight.bold,
               //               letterSpacing: 1,
@@ -151,7 +151,7 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
               //       " ${(_serviceDuration.inMinutes % 60).toString()}min",
               //       style: TextStyle(
               //         color: Colors.black,
-              //         fontSize: Dimensions.dimenisonNo12,
+              //         fontSize: Dimensions.dimensionNo12,
               //         fontFamily: GoogleFonts.roboto().fontFamily,
               //         fontWeight: FontWeight.bold,
               //         letterSpacing: 1,
@@ -191,20 +191,20 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
               //           ? "Remove -"
               //           : "Add+",
               //       width: ResponsiveLayout.isMobile(context)
-              //           ? Dimensions.dimenisonNo100
+              //           ? Dimensions.dimensionNo100
               //           : null,
               //     ),
               //   ],
               // ),
-              // SizedBox(height: Dimensions.dimenisonNo10),
+              // SizedBox(height: Dimensions.dimensionNo10),
               // Text(
               //   widget.serviceModel.description! ?? "",
               //   overflow: TextOverflow.ellipsis,
               //   style: TextStyle(
               //     color: Colors.black,
               //     fontSize: isMobile
-              //         ? Dimensions.dimenisonNo10
-              //         : Dimensions.dimenisonNo12,
+              //         ? Dimensions.dimensionNo10
+              //         : Dimensions.dimensionNo12,
               //     fontFamily: GoogleFonts.roboto().fontFamily,
               //     letterSpacing: 1,
               //   ),
@@ -244,17 +244,17 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
 //       children: [
 //         Container(
 //           margin: EdgeInsets.only(
-//             left: Dimensions.dimenisonNo16,
-//             right: Dimensions.dimenisonNo16,
-//             top: Dimensions.dimenisonNo10,
+//             left: Dimensions.dimensionNo16,
+//             right: Dimensions.dimensionNo16,
+//             top: Dimensions.dimensionNo10,
 //           ),
 //           padding: EdgeInsets.symmetric(
-//             vertical: Dimensions.dimenisonNo8,
-//             horizontal: Dimensions.dimenisonNo10,
+//             vertical: Dimensions.dimensionNo8,
+//             horizontal: Dimensions.dimensionNo10,
 //           ),
 //           decoration: BoxDecoration(
 //             border: Border.all(width: 1.5),
-//             borderRadius: BorderRadius.circular(Dimensions.dimenisonNo10),
+//             borderRadius: BorderRadius.circular(Dimensions.dimensionNo10),
 //           ),
 //           child: Column(
 //             crossAxisAlignment: CrossAxisAlignment.start,
@@ -271,8 +271,8 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
 //                           style: TextStyle(
 //                             color: AppColor.serviceTapTextColor,
 //                             fontSize: isMobile
-//                                 ? Dimensions.dimenisonNo14
-//                                 : Dimensions.dimenisonNo16,
+//                                 ? Dimensions.dimensionNo14
+//                                 : Dimensions.dimensionNo16,
 //                             fontFamily: GoogleFonts.lato().fontFamily,
 //                             fontWeight: FontWeight.bold,
 //                             letterSpacing: 1,
@@ -280,14 +280,14 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
 //                         ),
 //                         Padding(
 //                           padding:
-//                               EdgeInsets.only(left: Dimensions.dimenisonNo8),
+//                               EdgeInsets.only(left: Dimensions.dimensionNo8),
 //                           child: Text(
 //                             'Service Code: ${widget.serviceModel.serviceCode}',
 //                             style: TextStyle(
 //                               color: Colors.grey,
 //                               fontSize: isMobile
-//                                   ? Dimensions.dimenisonNo10
-//                                   : Dimensions.dimenisonNo12,
+//                                   ? Dimensions.dimensionNo10
+//                                   : Dimensions.dimensionNo12,
 //                               fontFamily: GoogleFonts.roboto().fontFamily,
 //                               letterSpacing: 1,
 //                             ),
@@ -301,14 +301,14 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
 //               ),
 //               Padding(
 //                 padding:
-//                     EdgeInsets.symmetric(vertical: Dimensions.dimenisonNo8),
+//                     EdgeInsets.symmetric(vertical: Dimensions.dimensionNo8),
 //                 child: const CustomDotttedLine(),
 //               ),
 //               Row(
 //                 children: [
 //                   Icon(
 //                     Icons.watch_later_outlined,
-//                     size: Dimensions.dimenisonNo14,
+//                     size: Dimensions.dimensionNo14,
 //                     color: Colors.black,
 //                   ),
 //                   _serviceDuration.inHours >= 1
@@ -316,7 +316,7 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
 //                           ' ${_serviceDuration.inHours.toString()}h : ',
 //                           style: TextStyle(
 //                             color: AppColor.serviceTapTextColor,
-//                             fontSize: Dimensions.dimenisonNo12,
+//                             fontSize: Dimensions.dimensionNo12,
 //                             fontFamily: GoogleFonts.roboto().fontFamily,
 //                             fontWeight: FontWeight.bold,
 //                             letterSpacing: 1,
@@ -327,7 +327,7 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
 //                     " ${(_serviceDuration.inMinutes % 60).toString()}min",
 //                     style: TextStyle(
 //                       color: Colors.black,
-//                       fontSize: Dimensions.dimenisonNo12,
+//                       fontSize: Dimensions.dimensionNo12,
 //                       fontFamily: GoogleFonts.roboto().fontFamily,
 //                       fontWeight: FontWeight.bold,
 //                       letterSpacing: 1,
@@ -367,20 +367,20 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
 //                         ? "Remove -"
 //                         : "Add+",
 //                     width: ResponsiveLayout.isMobile(context)
-//                         ? Dimensions.dimenisonNo100
+//                         ? Dimensions.dimensionNo100
 //                         : null,
 //                   ),
 //                 ],
 //               ),
-//               SizedBox(height: Dimensions.dimenisonNo10),
+//               SizedBox(height: Dimensions.dimensionNo10),
 //               Text(
 //                 widget.serviceModel.description! ?? "",
 //                 overflow: TextOverflow.ellipsis,
 //                 style: TextStyle(
 //                   color: Colors.black,
 //                   fontSize: isMobile
-//                       ? Dimensions.dimenisonNo10
-//                       : Dimensions.dimenisonNo12,
+//                       ? Dimensions.dimensionNo10
+//                       : Dimensions.dimensionNo12,
 //                   fontFamily: GoogleFonts.roboto().fontFamily,
 //                   letterSpacing: 1,
 //                 ),

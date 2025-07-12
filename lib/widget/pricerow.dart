@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/models/service_model/service_model.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class PriceRow extends StatelessWidget {
   final ServiceModel serviceModel;
@@ -32,8 +32,8 @@ class PriceRow extends StatelessWidget {
                                     color: AppColor.buttonColor,
                                     fontSize: ResponsiveLayout.isMobile(context)
                                         ? Dimensions
-                                            .dimenisonNo14 // Smaller font for mobile
-                                        : Dimensions.dimenisonNo16,
+                                            .dimensionNo14 // Smaller font for mobile
+                                        : Dimensions.dimensionNo16,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -43,8 +43,8 @@ class PriceRow extends StatelessWidget {
                                     color: AppColor.buttonColor,
                                     fontSize: ResponsiveLayout.isMobile(context)
                                         ? Dimensions
-                                            .dimenisonNo14 // Smaller font for mobile
-                                        : Dimensions.dimenisonNo16,
+                                            .dimensionNo14 // Smaller font for mobile
+                                        : Dimensions.dimensionNo16,
                                     fontFamily: GoogleFonts.roboto().fontFamily,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -53,7 +53,7 @@ class PriceRow extends StatelessWidget {
                             ),
                           ),
 
-                          SizedBox(width: Dimensions.dimenisonNo8),
+                          SizedBox(width: Dimensions.dimensionNo8),
                           // Original Price with rupee symbol using Text.rich (strikethrough and gray)
                           Text.rich(
                             TextSpan(
@@ -64,8 +64,8 @@ class PriceRow extends StatelessWidget {
                                     color: Colors.grey,
                                     fontSize: ResponsiveLayout.isMobile(context)
                                         ? Dimensions
-                                            .dimenisonNo14 // Smaller font for mobile
-                                        : Dimensions.dimenisonNo16,
+                                            .dimensionNo14 // Smaller font for mobile
+                                        : Dimensions.dimensionNo16,
                                     decoration: TextDecoration.lineThrough,
                                   ),
                                 ),
@@ -75,8 +75,8 @@ class PriceRow extends StatelessWidget {
                                     color: Colors.grey,
                                     fontSize: ResponsiveLayout.isMobile(context)
                                         ? Dimensions
-                                            .dimenisonNo14 // Smaller font for mobile
-                                        : Dimensions.dimenisonNo16,
+                                            .dimensionNo14 // Smaller font for mobile
+                                        : Dimensions.dimensionNo16,
                                     fontFamily: GoogleFonts.roboto().fontFamily,
                                     fontWeight: FontWeight.w500,
                                     decoration: TextDecoration.lineThrough,
@@ -87,7 +87,7 @@ class PriceRow extends StatelessWidget {
                           ),
                         ],
                       ),
-                      // SizedBox(height: Dimensions.dimenisonNo8),
+                      // SizedBox(height: Dimensions.dimensionNo8),
                       // Final Price with rupee symbol (normal, no strikethrough)
                       Text.rich(
                         TextSpan(
@@ -98,8 +98,8 @@ class PriceRow extends StatelessWidget {
                                 color: Colors.black,
                                 fontSize: ResponsiveLayout.isMobile(context)
                                     ? Dimensions
-                                        .dimenisonNo14 // Smaller font for mobile
-                                    : Dimensions.dimenisonNo16,
+                                        .dimensionNo14 // Smaller font for mobile
+                                    : Dimensions.dimensionNo16,
                               ),
                             ),
                             TextSpan(
@@ -108,8 +108,8 @@ class PriceRow extends StatelessWidget {
                                 color: Colors.black,
                                 fontSize: ResponsiveLayout.isMobile(context)
                                     ? Dimensions
-                                        .dimenisonNo14 // Smaller font for mobile
-                                    : Dimensions.dimenisonNo16,
+                                        .dimensionNo14 // Smaller font for mobile
+                                    : Dimensions.dimensionNo16,
                                 fontFamily: GoogleFonts.roboto().fontFamily,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -131,8 +131,8 @@ class PriceRow extends StatelessWidget {
                             color: AppColor.buttonColor,
                             fontSize: ResponsiveLayout.isMobile(context)
                                 ? Dimensions
-                                    .dimenisonNo14 // Smaller font for mobile
-                                : Dimensions.dimenisonNo16,
+                                    .dimensionNo14 // Smaller font for mobile
+                                : Dimensions.dimensionNo16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -142,8 +142,8 @@ class PriceRow extends StatelessWidget {
                             color: AppColor.buttonColor,
                             fontSize: ResponsiveLayout.isMobile(context)
                                 ? Dimensions
-                                    .dimenisonNo14 // Smaller font for mobile
-                                : Dimensions.dimenisonNo16,
+                                    .dimensionNo14 // Smaller font for mobile
+                                : Dimensions.dimensionNo16,
                             fontFamily: GoogleFonts.roboto().fontFamily,
                             fontWeight: FontWeight.bold,
                           ),
@@ -152,7 +152,7 @@ class PriceRow extends StatelessWidget {
                     ),
                   ),
 
-                  SizedBox(width: Dimensions.dimenisonNo8),
+                  SizedBox(width: Dimensions.dimensionNo8),
                   // Original Price with rupee symbol using Text.rich (strikethrough and gray)
                   Text.rich(
                     TextSpan(
@@ -163,8 +163,8 @@ class PriceRow extends StatelessWidget {
                             color: Colors.grey,
                             fontSize: ResponsiveLayout.isMobile(context)
                                 ? Dimensions
-                                    .dimenisonNo14 // Smaller font for mobile
-                                : Dimensions.dimenisonNo16,
+                                    .dimensionNo14 // Smaller font for mobile
+                                : Dimensions.dimensionNo16,
                             decoration: TextDecoration.lineThrough,
                           ),
                         ),
@@ -174,8 +174,8 @@ class PriceRow extends StatelessWidget {
                             color: Colors.grey,
                             fontSize: ResponsiveLayout.isMobile(context)
                                 ? Dimensions
-                                    .dimenisonNo14 // Smaller font for mobile
-                                : Dimensions.dimenisonNo16,
+                                    .dimensionNo14 // Smaller font for mobile
+                                : Dimensions.dimensionNo16,
                             fontFamily: GoogleFonts.roboto().fontFamily,
                             fontWeight: FontWeight.w500,
                             decoration: TextDecoration.lineThrough,
@@ -184,7 +184,7 @@ class PriceRow extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(width: Dimensions.dimenisonNo8),
+                  SizedBox(width: Dimensions.dimensionNo8),
                   // Final Price with rupee symbol (normal, no strikethrough)
                   Text.rich(
                     TextSpan(
@@ -195,8 +195,8 @@ class PriceRow extends StatelessWidget {
                             color: Colors.black,
                             fontSize: ResponsiveLayout.isMobile(context)
                                 ? Dimensions
-                                    .dimenisonNo14 // Smaller font for mobile
-                                : Dimensions.dimenisonNo16,
+                                    .dimensionNo14 // Smaller font for mobile
+                                : Dimensions.dimensionNo16,
                           ),
                         ),
                         TextSpan(
@@ -205,8 +205,8 @@ class PriceRow extends StatelessWidget {
                             color: Colors.black,
                             fontSize: ResponsiveLayout.isMobile(context)
                                 ? Dimensions
-                                    .dimenisonNo14 // Smaller font for mobile
-                                : Dimensions.dimenisonNo16,
+                                    .dimensionNo14 // Smaller font for mobile
+                                : Dimensions.dimensionNo16,
                             fontFamily: GoogleFonts.roboto().fontFamily,
                             fontWeight: FontWeight.w500,
                           ),
@@ -225,8 +225,8 @@ class PriceRow extends StatelessWidget {
                         color: Colors.black,
                         fontSize: ResponsiveLayout.isMobile(context)
                             ? Dimensions
-                                .dimenisonNo14 // Smaller font for mobile
-                            : Dimensions.dimenisonNo16,
+                                .dimensionNo14 // Smaller font for mobile
+                            : Dimensions.dimensionNo16,
                       ),
                     ),
                     TextSpan(
@@ -235,8 +235,8 @@ class PriceRow extends StatelessWidget {
                         color: Colors.black,
                         fontSize: ResponsiveLayout.isMobile(context)
                             ? Dimensions
-                                .dimenisonNo14 // Smaller font for mobile
-                            : Dimensions.dimenisonNo16,
+                                .dimensionNo14 // Smaller font for mobile
+                            : Dimensions.dimensionNo16,
                         fontFamily: GoogleFonts.roboto().fontFamily,
                         fontWeight: FontWeight.w500,
                       ),

@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class StateText extends StatelessWidget {
   final String status; // Mark appointModel as final
@@ -18,7 +18,7 @@ class StateText extends StatelessWidget {
       return Text(
         'Status not available',
         style: GoogleFonts.roboto(
-          fontSize: Dimensions.dimenisonNo16,
+          fontSize: Dimensions.dimensionNo16,
           color: Colors.grey,
           fontWeight: FontWeight.w500,
         ),
@@ -35,7 +35,7 @@ class StateText extends StatelessWidget {
             ? Text(
                 status,
                 style: GoogleFonts.roboto(
-                    fontSize: Dimensions.dimenisonNo16,
+                    fontSize: Dimensions.dimensionNo16,
                     color: AppColor.buttonColor,
                     fontWeight: FontWeight.w500,
                     letterSpacing: .90),
@@ -46,14 +46,14 @@ class StateText extends StatelessWidget {
                     children: [
                       Icon(
                         CupertinoIcons.exclamationmark_circle,
-                        size: Dimensions.dimenisonNo18,
+                        size: Dimensions.dimensionNo18,
                         color: Colors.red,
                       ),
-                      SizedBox(width: Dimensions.dimenisonNo5),
+                      SizedBox(width: Dimensions.dimensionNo5),
                       Text(
                         status,
                         style: GoogleFonts.roboto(
-                          fontSize: Dimensions.dimenisonNo16,
+                          fontSize: Dimensions.dimensionNo16,
                           color: Colors.red,
                           fontWeight: FontWeight.w500,
                         ),
@@ -66,14 +66,14 @@ class StateText extends StatelessWidget {
                         children: [
                           Icon(
                             CupertinoIcons.checkmark_alt_circle,
-                            size: Dimensions.dimenisonNo18,
+                            size: Dimensions.dimensionNo18,
                             color: Colors.white,
                           ),
-                          SizedBox(width: Dimensions.dimenisonNo5),
+                          SizedBox(width: Dimensions.dimensionNo5),
                           Text(
                             status,
                             style: GoogleFonts.roboto(
-                              fontSize: Dimensions.dimenisonNo16,
+                              fontSize: Dimensions.dimensionNo16,
                               color: Colors.white,
                               fontWeight: FontWeight.w500,
                             ),
@@ -87,14 +87,14 @@ class StateText extends StatelessWidget {
                             children: [
                               Icon(
                                 CupertinoIcons.checkmark_alt_circle,
-                                size: Dimensions.dimenisonNo18,
+                                size: Dimensions.dimensionNo18,
                                 color: Colors.blue,
                               ),
-                              SizedBox(width: Dimensions.dimenisonNo5),
+                              SizedBox(width: Dimensions.dimensionNo5),
                               Text(
                                 status,
                                 style: GoogleFonts.roboto(
-                                  fontSize: Dimensions.dimenisonNo16,
+                                  fontSize: Dimensions.dimensionNo16,
                                   color: Colors.blue,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -113,15 +113,15 @@ class StateText extends StatelessWidget {
                                     ),
                                     child: Icon(
                                       Icons.close,
-                                      size: Dimensions.dimenisonNo16,
+                                      size: Dimensions.dimensionNo16,
                                       color: Colors.red,
                                     ),
                                   ),
-                                  SizedBox(width: Dimensions.dimenisonNo5),
+                                  SizedBox(width: Dimensions.dimensionNo5),
                                   Text(
                                     status,
                                     style: GoogleFonts.roboto(
-                                      fontSize: Dimensions.dimenisonNo16,
+                                      fontSize: Dimensions.dimensionNo16,
                                       color: Colors.red,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -133,14 +133,14 @@ class StateText extends StatelessWidget {
                                     children: [
                                       Icon(
                                         CupertinoIcons.checkmark_alt_circle,
-                                        size: Dimensions.dimenisonNo14,
+                                        size: Dimensions.dimensionNo14,
                                         color: Colors.orange,
                                       ),
-                                      SizedBox(width: Dimensions.dimenisonNo10),
+                                      SizedBox(width: Dimensions.dimensionNo10),
                                       Text(
                                         status,
                                         style: GoogleFonts.roboto(
-                                          fontSize: Dimensions.dimenisonNo16,
+                                          fontSize: Dimensions.dimensionNo16,
                                           color: Colors.orange,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -152,16 +152,16 @@ class StateText extends StatelessWidget {
                                         children: [
                                           Icon(
                                             CupertinoIcons.checkmark_alt_circle,
-                                            size: Dimensions.dimenisonNo14,
+                                            size: Dimensions.dimensionNo14,
                                             color: Colors.orange,
                                           ),
                                           SizedBox(
-                                              width: Dimensions.dimenisonNo10),
+                                              width: Dimensions.dimensionNo10),
                                           Text(
                                             status,
                                             style: GoogleFonts.roboto(
                                               fontSize:
-                                                  Dimensions.dimenisonNo16,
+                                                  Dimensions.dimensionNo16,
                                               color: Colors.orange,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -174,7 +174,7 @@ class StateText extends StatelessWidget {
                                             status,
                                             style: GoogleFonts.roboto(
                                                 fontSize:
-                                                    Dimensions.dimenisonNo16,
+                                                    Dimensions.dimensionNo16,
                                                 color: AppColor.orangeColor,
                                                 fontWeight: FontWeight.w500,
                                                 letterSpacing: .90),
@@ -184,7 +184,7 @@ class StateText extends StatelessWidget {
                                             style: GoogleFonts.roboto(
                                               color: Colors.white,
                                               fontSize:
-                                                  Dimensions.dimenisonNo16,
+                                                  Dimensions.dimensionNo16,
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),

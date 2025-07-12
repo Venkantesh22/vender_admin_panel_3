@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:samay_admin_plan/constants/router.dart';
 import 'package:samay_admin_plan/features/custom_appbar/screen/custom_appbar.dart';
 import 'package:samay_admin_plan/features/drawer/drawer.dart';
 import 'package:samay_admin_plan/features/popup/add_new_super_category.dart';
+import 'package:samay_admin_plan/features/product/screen/product_add_screen.dart';
 import 'package:samay_admin_plan/widget/add_button.dart';
 
 class ProductScreen extends StatefulWidget {
@@ -18,7 +20,7 @@ class _ProductScreenState extends State<ProductScreen> {
 
     return Scaffold(
         appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
-        drawer: MobileDrawer(),
+        // drawer: MobileDrawer(),
         key: _scaffoldKey,
         body: SafeArea(
             child: SingleChildScrollView(
@@ -30,11 +32,13 @@ class _ProductScreenState extends State<ProductScreen> {
                   AddButton(
                     text: "Add Brand",
                     onTap: () {
+                      Routes.instance
+                          .push(widget: ProductAddScreen(), context: context);
                       // Use showDialog to display the AddNewSuperCategory widget
-                      showDialog(
-                        context: context,
-                        builder: (context) => const AddNewSuperCategory(),
-                      );
+                      // showDialog(
+                      //   context: context,
+                      //   builder: (context) => const AddNewSuperCategory(),
+                      // );
                     },
                   )
                 ],

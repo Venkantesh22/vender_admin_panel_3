@@ -1,32 +1,32 @@
-class ProductCategoryModel {
+class BrandCategoryModel {
   final String id;
   final String name;
   final String descp;
   String? image;
   final String productCateFor;
-  final String brandName;
-  final String brandId;
+  final bool isActive;
+  final int order;
 
-  ProductCategoryModel({
+  BrandCategoryModel({
     required this.id,
     required this.name,
     required this.descp,
+    required this.isActive,
     this.image = "",
-    this.productCateFor = "Both",
-    required this.brandName,
-    required this.brandId,
+    this.productCateFor = "Unisex",
+    this.order = 1,
   });
 
   // fromJson factory
-  factory ProductCategoryModel.fromJson(Map<String, dynamic> json) {
-    return ProductCategoryModel(
+  factory BrandCategoryModel.fromJson(Map<String, dynamic> json) {
+    return BrandCategoryModel(
       id: json['id'] ?? '',
       name: json['name'] ?? '',
+      isActive: json['isActive'] ?? false,
       descp: json['descp'] ?? '',
       image: json['image'] ?? '',
       productCateFor: json['productCateFor'] ?? 'both',
-      brandName: json['brandName'] ?? '',
-      brandId: json['brandId'] ?? '',
+      order: json['order'] ?? 1,
     );
   }
 
@@ -36,31 +36,33 @@ class ProductCategoryModel {
       'id': id,
       'name': name,
       'descp': descp,
+      'isActive': isActive,
       'image': image,
       'productCateFor': productCateFor,
-      'brandName': brandName,
-      'brandId': brandId,
+      'order': order,
     };
   }
 
   // copyWith method
-  ProductCategoryModel copyWith({
+  BrandCategoryModel copyWith({
     String? id,
     String? name,
+    bool? isActive,
     String? descp,
+    String? brandId,
+    String? brandName,
     String? image,
     String? productCateFor,
-    String? brandName,
-    String? brandId,
+    int? order,
   }) {
-    return ProductCategoryModel(
+    return BrandCategoryModel(
       id: id ?? this.id,
       name: name ?? this.name,
       descp: descp ?? this.descp,
+      isActive: isActive ?? this.isActive,
       image: image ?? this.image,
       productCateFor: productCateFor ?? this.productCateFor,
-      brandName: brandName ?? this.brandName,
-      brandId: brandId ?? this.brandId,
+      order: order ?? this.order,
     );
   }
 }

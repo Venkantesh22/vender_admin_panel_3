@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/features/home/screen/accountBanned/account_banned.dart';
 import 'package:samay_admin_plan/features/home/screen/accountNotValidate/account_not_validate.dart';
 import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart';
+import 'package:samay_admin_plan/features/product/screen/product_add_screen.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/firebase_firestore.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/one_time_update_fb.dart';
 import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart';
@@ -177,6 +178,7 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
                       return const AccountBanPage();
                     } else if (salonInfo.isAccountValidBySamay) {
                       return HomeScreen(date: DateTime.now());
+                      // return ProductAddScreen();
                     } else {
                       // to stop the loading dialog
                       return const AccountNotValidatePage();

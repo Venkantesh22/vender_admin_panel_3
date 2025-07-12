@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class PickTimeSectionForVenderPage extends StatefulWidget {
   TextEditingController openController;
@@ -107,7 +107,7 @@ class _PickTimeSectionForVenderPageState
                 text: widget.heading,
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: Dimensions.dimenisonNo18,
+                  fontSize: Dimensions.dimensionNo18,
                   fontFamily: GoogleFonts.roboto().fontFamily,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 0.15,
@@ -117,7 +117,7 @@ class _PickTimeSectionForVenderPageState
                 text: ' *',
                 style: TextStyle(
                   color: const Color(0xFFFC0000),
-                  fontSize: Dimensions.dimenisonNo18,
+                  fontSize: Dimensions.dimensionNo18,
                   fontFamily: GoogleFonts.roboto().fontFamily,
                   fontWeight: FontWeight.w500,
                   height: 0,
@@ -127,11 +127,11 @@ class _PickTimeSectionForVenderPageState
             ],
           ),
         ),
-        SizedBox(height: Dimensions.dimenisonNo5),
+        SizedBox(height: Dimensions.dimensionNo5),
         Padding(
           padding: ResponsiveLayout.isMobile(context)
               ? EdgeInsets.zero
-              : EdgeInsets.only(left: Dimensions.dimenisonNo16),
+              : EdgeInsets.only(left: Dimensions.dimensionNo16),
           child: Column(
             children: [
               Row(
@@ -146,7 +146,7 @@ class _PickTimeSectionForVenderPageState
                   )
                 ],
               ),
-              SizedBox(height: Dimensions.dimenisonNo10),
+              SizedBox(height: Dimensions.dimensionNo10),
               Row(
                 children: [
                   openCloseText('Closing Time'),
@@ -168,13 +168,13 @@ class _PickTimeSectionForVenderPageState
   Container selectTimeTextBox(
       BuildContext context, VoidCallback onTap, String time) {
     return Container(
-      width: Dimensions.dimenisonNo100,
-      height: Dimensions.dimenisonNo30,
+      width: Dimensions.dimensionNo100,
+      height: Dimensions.dimensionNo30,
       decoration: ShapeDecoration(
         color: const Color(0xFFEEEFF3),
         shape: RoundedRectangleBorder(
           side: const BorderSide(width: 1, color: Colors.black),
-          borderRadius: BorderRadius.circular(Dimensions.dimenisonNo5),
+          borderRadius: BorderRadius.circular(Dimensions.dimensionNo5),
         ),
       ),
       child: InkWell(
@@ -185,7 +185,7 @@ class _PickTimeSectionForVenderPageState
             //
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo16,
+              fontSize: Dimensions.dimensionNo16,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -197,11 +197,11 @@ class _PickTimeSectionForVenderPageState
   Padding stopWatctIcons(BuildContext context) {
     return Padding(
       padding: ResponsiveLayout.isMobile(context)
-          ? EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo8)
-          : EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo20),
+          ? EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo8)
+          : EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo20),
       child: Icon(
         CupertinoIcons.stopwatch,
-        size: Dimensions.dimenisonNo16,
+        size: Dimensions.dimensionNo16,
       ),
     );
   }
@@ -211,7 +211,7 @@ class _PickTimeSectionForVenderPageState
       text,
       style: TextStyle(
         color: Colors.black,
-        fontSize: Dimensions.dimenisonNo16,
+        fontSize: Dimensions.dimensionNo16,
         fontFamily: GoogleFonts.roboto().fontFamily,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.15,

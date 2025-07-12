@@ -9,7 +9,7 @@ import 'package:samay_admin_plan/features/Account_Create_Form/widget/salon_socia
 import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
 
 class SocialMediaPage extends StatefulWidget {
@@ -77,18 +77,18 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                 child: Container(
                   margin: ResponsiveLayout.isMobile(context)
                       ? EdgeInsets.symmetric(
-                          horizontal: Dimensions.dimenisonNo12,
+                          horizontal: Dimensions.dimensionNo12,
                         )
                       : ResponsiveLayout.isTablet(context)
                           ? EdgeInsets.symmetric(
-                              horizontal: Dimensions.dimenisonNo60,
+                              horizontal: Dimensions.dimensionNo60,
                             )
                           : null,
                   padding: EdgeInsets.symmetric(
                       horizontal: ResponsiveLayout.isMobile(context)
-                          ? Dimensions.dimenisonNo10
-                          : Dimensions.dimenisonNo30,
-                      vertical: Dimensions.dimenisonNo20),
+                          ? Dimensions.dimensionNo10
+                          : Dimensions.dimensionNo30,
+                      vertical: Dimensions.dimensionNo20),
                   // color: Colors.green,
                   color: Colors.white,
                   width: ResponsiveLayout.isDesktop(context)
@@ -105,8 +105,8 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: ResponsiveLayout.isMobile(context)
-                                ? Dimensions.dimenisonNo28
-                                : Dimensions.dimenisonNo36,
+                                ? Dimensions.dimensionNo28
+                                : Dimensions.dimensionNo36,
                             fontWeight: FontWeight.w500,
                             height: 0,
                             letterSpacing: 0.15,
@@ -115,22 +115,22 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(
-                            vertical: Dimensions.dimenisonNo10),
+                            vertical: Dimensions.dimensionNo10),
                         child: Divider(),
                       ),
-                      SizedBox(height: Dimensions.dimenisonNo10),
+                      SizedBox(height: Dimensions.dimensionNo10),
                       Text(
                         'Enter Social media link',
                         textAlign: TextAlign.start,
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: Dimensions.dimenisonNo16,
+                          fontSize: Dimensions.dimensionNo16,
                           fontWeight: FontWeight.w500,
                           fontFamily: GoogleFonts.roboto().fontFamily,
                           letterSpacing: 0.15,
                         ),
                       ),
-                      SizedBox(height: Dimensions.dimenisonNo10),
+                      SizedBox(height: Dimensions.dimensionNo10),
                       Column(
                         children: [
                           SalonSocialMediaAdd(
@@ -155,7 +155,7 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                           ),
                         ],
                       ),
-                      SizedBox(height: Dimensions.dimenisonNo10),
+                      SizedBox(height: Dimensions.dimensionNo10),
                       CustomAuthButton(
                         text: "Update",
                         ontap: () async {

@@ -97,4 +97,9 @@ class GlobalVariable {
   static String checkInAppointState = "Check-In";
   static String billGenerateAppointState = "Bill Generate";
   static String updateAppointState = "(Update)";
+
+  // Product for
+  static String forMale = "Male";
+  static String forFemale = "Female";
+  static String forUnisex = "Unisex";
 }

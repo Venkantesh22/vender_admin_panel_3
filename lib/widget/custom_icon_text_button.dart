@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class CustomIconTextButton extends StatelessWidget {
   final String text;
@@ -21,13 +21,13 @@ class CustomIconTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: Dimensions.dimenisonNo36,
-      width: Dimensions.dimenisonNo200,
+      height: Dimensions.dimensionNo36,
+      width: Dimensions.dimensionNo200,
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
           padding: EdgeInsetsDirectional.symmetric(
-              horizontal: Dimensions.dimenisonNo10),
+              horizontal: Dimensions.dimensionNo10),
           backgroundColor: buttonColor,
           foregroundColor: Colors.white,
           // Text color
@@ -45,18 +45,18 @@ class CustomIconTextButton extends StatelessWidget {
           children: [
             Icon(
               iconData,
-              size: Dimensions.dimenisonNo16,
+              size: Dimensions.dimensionNo16,
               color: const Color(0xFF08BA85),
             ), // Display the icon
             SizedBox(
-              width: Dimensions.dimenisonNo5,
+              width: Dimensions.dimensionNo5,
             ),
             Text(
               text,
               style: TextStyle(
                 color: textColor,
                 // color: Colors.black,
-                fontSize: Dimensions.dimenisonNo16,
+                fontSize: Dimensions.dimensionNo16,
                 fontFamily: GoogleFonts.roboto().fontFamily,
                 fontWeight: FontWeight.w500,
                 letterSpacing: 1.25,

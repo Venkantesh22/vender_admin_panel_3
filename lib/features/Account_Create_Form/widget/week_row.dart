@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 // ignore: must_be_immutable
 class WeekRow extends StatefulWidget {
@@ -44,9 +44,9 @@ class _WeekRowState extends State<WeekRow> {
     return Padding(
       padding: EdgeInsets.symmetric(
           horizontal: ResponsiveLayout.isMobile(context)
-              ? Dimensions.dimenisonNo10
-              : Dimensions.dimenisonNo30,
-          vertical: Dimensions.dimenisonNo10),
+              ? Dimensions.dimensionNo10
+              : Dimensions.dimensionNo30,
+          vertical: Dimensions.dimensionNo10),
       child: Row(
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -55,26 +55,26 @@ class _WeekRowState extends State<WeekRow> {
             style: TextStyle(
               color: Colors.black,
               fontSize: ResponsiveLayout.isMobile(context)
-                  ? Dimensions.dimenisonNo14
-                  : Dimensions.dimenisonNo16,
+                  ? Dimensions.dimensionNo14
+                  : Dimensions.dimensionNo16,
               fontFamily: GoogleFonts.roboto().fontFamily,
               letterSpacing: 0.02,
             ),
           ),
           const Spacer(),
           SizedBox(
-            height: Dimensions.dimenisonNo50,
+            height: Dimensions.dimensionNo50,
             width: ResponsiveLayout.isMobile(context)
-                ? Dimensions.dimenisonNo200
-                : Dimensions.dimenisonNo250,
+                ? Dimensions.dimensionNo200
+                : Dimensions.dimensionNo250,
             child: DropdownButtonFormField<String>(
               hint: Text(
                 'Select Time',
                 style: TextStyle(
                   color: Colors.grey,
                   fontSize: ResponsiveLayout.isMobile(context)
-                      ? Dimensions.dimenisonNo14
-                      : Dimensions.dimenisonNo16,
+                      ? Dimensions.dimensionNo14
+                      : Dimensions.dimensionNo16,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 0.40,
                 ),
@@ -94,7 +94,7 @@ class _WeekRowState extends State<WeekRow> {
             ),
           ),
           SizedBox(
-            width: Dimensions.dimenisonNo10,
+            width: Dimensions.dimensionNo10,
           ),
         ],
       ),
@@ -147,9 +147,9 @@ class _WeekRowState extends State<WeekRow> {
 //     return Padding(
 //       padding: EdgeInsets.symmetric(
 //           horizontal: ResponsiveLayout.isMobile(context)
-//               ? Dimensions.dimenisonNo10
-//               : Dimensions.dimenisonNo30,
-//           vertical: Dimensions.dimenisonNo10),
+//               ? Dimensions.dimensionNo10
+//               : Dimensions.dimensionNo30,
+//           vertical: Dimensions.dimensionNo10),
 //       child: Row(
 //         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //         children: [
@@ -158,26 +158,26 @@ class _WeekRowState extends State<WeekRow> {
 //             style: TextStyle(
 //               color: Colors.black,
 //               fontSize: ResponsiveLayout.isMobile(context)
-//                   ? Dimensions.dimenisonNo14
-//                   : Dimensions.dimenisonNo16,
+//                   ? Dimensions.dimensionNo14
+//                   : Dimensions.dimensionNo16,
 //               fontFamily: GoogleFonts.roboto().fontFamily,
 //               letterSpacing: 0.02,
 //             ),
 //           ),
 //           const Spacer(),
 //           SizedBox(
-//             height: Dimensions.dimenisonNo50,
+//             height: Dimensions.dimensionNo50,
 //             width: ResponsiveLayout.isMobile(context)
-//                 ? Dimensions.dimenisonNo200
-//                 : Dimensions.dimenisonNo250,
+//                 ? Dimensions.dimensionNo200
+//                 : Dimensions.dimensionNo250,
 //             child: DropdownButtonFormField<String>(
 //               hint: Text(
 //                 'Select Time',
 //                 style: TextStyle(
 //                   color: Colors.grey,
 //                   fontSize: ResponsiveLayout.isMobile(context)
-//                       ? Dimensions.dimenisonNo14
-//                       : Dimensions.dimenisonNo16,
+//                       ? Dimensions.dimensionNo14
+//                       : Dimensions.dimensionNo16,
 //                   fontWeight: FontWeight.w500,
 //                   letterSpacing: 0.40,
 //                 ),

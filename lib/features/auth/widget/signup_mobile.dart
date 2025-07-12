@@ -9,9 +9,9 @@ import 'package:samay_admin_plan/features/Account_Create_Form/screen/account_cre
 import 'package:samay_admin_plan/features/auth/login.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_auth_helper/firebase_auth_helper.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
-import 'package:samay_admin_plan/widget/customtextfield.dart';
+import 'package:samay_admin_plan/widget/text_box/customtextfield.dart';
 
 SingleChildScrollView signUpMobileWidget(
     BuildContext context,
@@ -23,11 +23,11 @@ SingleChildScrollView signUpMobileWidget(
     VoidCallback chooseImages) {
   return SingleChildScrollView(
     child: Container(
-      margin: EdgeInsets.all(Dimensions.dimenisonNo20),
-      padding: EdgeInsets.all(Dimensions.dimenisonNo20),
+      margin: EdgeInsets.all(Dimensions.dimensionNo20),
+      padding: EdgeInsets.all(Dimensions.dimensionNo20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(Dimensions.dimenisonNo10),
+        borderRadius: BorderRadius.circular(Dimensions.dimensionNo10),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -36,20 +36,20 @@ SingleChildScrollView signUpMobileWidget(
             'Create an Admin Login',
             style: TextStyle(
               color: AppColor.createText,
-              fontSize: Dimensions.dimenisonNo24,
+              fontSize: Dimensions.dimensionNo24,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w700,
             ),
           ),
-          SizedBox(height: Dimensions.dimenisonNo10),
+          SizedBox(height: Dimensions.dimensionNo10),
           selectedImage == null
               ? InkWell(
                   onTap: () {
                     chooseImages();
                   },
                   child: Container(
-                    width: Dimensions.dimenisonNo70,
-                    height: Dimensions.dimenisonNo70,
+                    width: Dimensions.dimensionNo70,
+                    height: Dimensions.dimensionNo70,
                     clipBehavior: Clip.antiAlias,
                     decoration: ShapeDecoration(
                       shape: RoundedRectangleBorder(
@@ -57,7 +57,7 @@ SingleChildScrollView signUpMobileWidget(
                       ),
                     ),
                     child: CircleAvatar(
-                        radius: Dimensions.dimenisonNo36,
+                        radius: Dimensions.dimensionNo36,
                         child: const Icon(Icons.camera_alt)),
                   ),
                 )
@@ -66,8 +66,8 @@ SingleChildScrollView signUpMobileWidget(
                     chooseImages();
                   },
                   child: Container(
-                    width: Dimensions.dimenisonNo70,
-                    height: Dimensions.dimenisonNo70,
+                    width: Dimensions.dimensionNo70,
+                    height: Dimensions.dimensionNo70,
                     clipBehavior: Clip.antiAlias,
                     decoration: ShapeDecoration(
                       shape: RoundedRectangleBorder(
@@ -79,37 +79,37 @@ SingleChildScrollView signUpMobileWidget(
                       fit: BoxFit.cover,
                     ),
                   )),
-          SizedBox(height: Dimensions.dimenisonNo10),
+          SizedBox(height: Dimensions.dimensionNo10),
           CustomTextField(
               controller: nameController,
               obscureForPassword: false,
               keyboardType: TextInputType.name,
               label: "Name"),
-          SizedBox(height: Dimensions.dimenisonNo10),
+          SizedBox(height: Dimensions.dimensionNo10),
           CustomTextField(
               controller: emailController,
               obscureForPassword: false,
               keyboardType: TextInputType.emailAddress,
               label: "Email"),
-          SizedBox(height: Dimensions.dimenisonNo10),
+          SizedBox(height: Dimensions.dimensionNo10),
           CustomTextField(
               controller: mobileController,
               obscureForPassword: false,
               keyboardType: TextInputType.number,
               label: "Mobile Number"),
-          SizedBox(height: Dimensions.dimenisonNo10),
+          SizedBox(height: Dimensions.dimensionNo10),
           CustomTextField(
               controller: passwordController,
               obscureForPassword: true,
               keyboardType: TextInputType.name,
               label: "Password"),
-          SizedBox(height: Dimensions.dimenisonNo20),
+          SizedBox(height: Dimensions.dimensionNo20),
           CustomAuthButton(
             text: "Sign Up",
             ontap: () async {
               // 1️⃣ Check image first
               if (selectedImage == null || selectedImage.isEmpty) {
-                showBottonMessageError(
+                showBottomMessageError(
                     "Please select a profile image", context);
                 return;
               }
@@ -144,7 +144,7 @@ SingleChildScrollView signUpMobileWidget(
               }
             },
           ),
-          SizedBox(height: Dimensions.dimenisonNo10),
+          SizedBox(height: Dimensions.dimensionNo10),
           InkWell(
             onTap: () {
               Routes.instance
@@ -155,7 +155,7 @@ SingleChildScrollView signUpMobileWidget(
               textAlign: TextAlign.end,
               style: TextStyle(
                 color: Colors.black,
-                fontSize: Dimensions.dimenisonNo16,
+                fontSize: Dimensions.dimensionNo16,
                 fontFamily: GoogleFonts.roboto().fontFamily,
                 fontWeight: FontWeight.w500,
                 decoration: TextDecoration.underline,
@@ -163,27 +163,27 @@ SingleChildScrollView signUpMobileWidget(
               ),
             ),
           ),
-          SizedBox(height: Dimensions.dimenisonNo20),
+          SizedBox(height: Dimensions.dimensionNo20),
           Text(
             'Main hu Samay, mere Sath chalo.!',
             textAlign: TextAlign.center,
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo20,
+              fontSize: Dimensions.dimensionNo20,
               fontFamily: GoogleFonts.inknutAntiqua().fontFamily,
               fontWeight: FontWeight.w400,
               letterSpacing: 0.15,
             ),
           ),
-          SizedBox(height: Dimensions.dimenisonNo20),
+          SizedBox(height: Dimensions.dimensionNo20),
           GlobalVariable.samayCartoon.isNotEmpty
               ? Image.asset(
                   GlobalVariable.samayCartoon,
-                  height: Dimensions.dimenisonNo200,
+                  height: Dimensions.dimensionNo200,
                   fit: BoxFit.cover,
                   errorBuilder: (context, error, stackTrace) => Icon(
                     Icons.broken_image,
-                    size: Dimensions.dimenisonNo60,
+                    size: Dimensions.dimensionNo60,
                     color: Colors.grey,
                   ),
                 )

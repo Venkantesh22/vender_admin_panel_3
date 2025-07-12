@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class AnimatedDrawerTile extends StatefulWidget {
   final String title;
@@ -43,7 +43,7 @@ class _AnimatedDrawerTileState extends State<AnimatedDrawerTile> {
         curve: Curves.easeInOut,
         decoration: BoxDecoration(
           color: _backgroundColor,
-          borderRadius: BorderRadius.circular(Dimensions.dimenisonNo10),
+          borderRadius: BorderRadius.circular(Dimensions.dimensionNo10),
         ),
         margin: const EdgeInsets.all(3),
         child: ListTile(
@@ -56,7 +56,7 @@ class _AnimatedDrawerTileState extends State<AnimatedDrawerTile> {
             style: TextStyle(
               color: Colors.white,
               fontFamily: GoogleFonts.roboto().fontFamily,
-              fontSize: Dimensions.dimenisonNo16,
+              fontSize: Dimensions.dimensionNo16,
               fontWeight: FontWeight.w400,
               letterSpacing: 0.15,
             ),

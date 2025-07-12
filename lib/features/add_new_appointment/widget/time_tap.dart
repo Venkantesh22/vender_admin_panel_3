@@ -3,7 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/provider/booking_provider.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class TimeSlot extends StatefulWidget {
   final String section;
@@ -40,12 +40,12 @@ class _TimeSlotState extends State<TimeSlot> {
           widget.section,
           style: TextStyle(
             fontSize: ResponsiveLayout.isMobile(context)
-                ? Dimensions.dimenisonNo14 // Smaller font for mobile
-                : Dimensions.dimenisonNo16,
+                ? Dimensions.dimensionNo14 // Smaller font for mobile
+                : Dimensions.dimensionNo16,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: Dimensions.dimenisonNo12),
+        SizedBox(height: Dimensions.dimensionNo12),
         // Time slots grid
         Container(
           color: Colors.white,
@@ -59,8 +59,8 @@ class _TimeSlotState extends State<TimeSlot> {
               childAspectRatio: ResponsiveLayout.isMobile(context)
                   ? 3
                   : 2.5, // Adjust aspect ratio
-              crossAxisSpacing: Dimensions.dimenisonNo10,
-              mainAxisSpacing: Dimensions.dimenisonNo10,
+              crossAxisSpacing: Dimensions.dimensionNo10,
+              mainAxisSpacing: Dimensions.dimensionNo10,
             ),
             itemCount: widget.timeSlots.length,
             itemBuilder: (context, index) {
@@ -86,8 +86,8 @@ class _TimeSlotState extends State<TimeSlot> {
                   side: const BorderSide(color: Colors.black),
                   padding: EdgeInsets.symmetric(
                     vertical: ResponsiveLayout.isMobile(context)
-                        ? Dimensions.dimenisonNo8 // Smaller padding for mobile
-                        : Dimensions.dimenisonNo12,
+                        ? Dimensions.dimensionNo8 // Smaller padding for mobile
+                        : Dimensions.dimensionNo12,
                   ),
                 ),
                 onPressed: isWithinDuration
@@ -110,15 +110,15 @@ class _TimeSlotState extends State<TimeSlot> {
                   timeSlot,
                   style: TextStyle(
                     fontSize: ResponsiveLayout.isMobile(context)
-                        ? Dimensions.dimenisonNo12 // Smaller font for mobile
-                        : Dimensions.dimenisonNo14,
+                        ? Dimensions.dimensionNo12 // Smaller font for mobile
+                        : Dimensions.dimensionNo14,
                   ),
                 ),
               );
             },
           ),
         ),
-        SizedBox(height: Dimensions.dimenisonNo16),
+        SizedBox(height: Dimensions.dimensionNo16),
       ],
     );
   }

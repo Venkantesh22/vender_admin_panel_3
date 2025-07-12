@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class Appbaritem extends StatelessWidget {
   final String text;
@@ -25,7 +25,7 @@ class Appbaritem extends StatelessWidget {
             text,
             style: TextStyle(
               color: Colors.white,
-              fontSize: Dimensions.dimenisonNo16,
+              fontSize: Dimensions.dimensionNo16,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w400,
             ),

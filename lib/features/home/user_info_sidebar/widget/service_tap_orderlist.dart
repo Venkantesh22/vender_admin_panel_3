@@ -5,7 +5,7 @@ import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/constants/custom_chip.dart';
 import 'package:samay_admin_plan/models/service_model/service_model.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/pricerow.dart';
 
 class SingleServiceOrderList extends StatelessWidget {
@@ -24,18 +24,18 @@ class SingleServiceOrderList extends StatelessWidget {
     Duration? _serviceDuration =
         Duration(minutes: serviceModel.serviceDurationMin);
     return Container(
-      margin: EdgeInsets.only(bottom: Dimensions.dimenisonNo12),
+      margin: EdgeInsets.only(bottom: Dimensions.dimensionNo12),
       padding: EdgeInsets.symmetric(
-          vertical: Dimensions.dimenisonNo5,
-          horizontal: Dimensions.dimenisonNo12),
+          vertical: Dimensions.dimensionNo5,
+          horizontal: Dimensions.dimensionNo12),
       decoration: BoxDecoration(
           border: Border.all(width: 1, color: Colors.black),
-          borderRadius: BorderRadius.circular(Dimensions.dimenisonNo10)),
+          borderRadius: BorderRadius.circular(Dimensions.dimensionNo10)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(right: Dimensions.dimenisonNo12),
+            padding: EdgeInsets.only(right: Dimensions.dimensionNo12),
             child: Row(
               children: [
                 Column(
@@ -46,19 +46,19 @@ class SingleServiceOrderList extends StatelessWidget {
                       style: TextStyle(
                         overflow: TextOverflow.clip,
                         color: Colors.black,
-                        fontSize: Dimensions.dimenisonNo14,
+                        fontSize: Dimensions.dimensionNo14,
                         fontFamily: GoogleFonts.roboto().fontFamily,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 1,
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left: Dimensions.dimenisonNo8),
+                      padding: EdgeInsets.only(left: Dimensions.dimensionNo8),
                       child: Text(
                         'service code : ${serviceModel.serviceCode}',
                         style: TextStyle(
                           color: Colors.grey,
-                          fontSize: Dimensions.dimenisonNo10,
+                          fontSize: Dimensions.dimensionNo10,
                           fontFamily: GoogleFonts.roboto().fontFamily,
                           letterSpacing: 1,
                         ),
@@ -81,7 +81,7 @@ class SingleServiceOrderList extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: Dimensions.dimenisonNo5,
+                    height: Dimensions.dimensionNo5,
                   ),
                   Row(
                     children: [
@@ -89,7 +89,7 @@ class SingleServiceOrderList extends StatelessWidget {
                         "During : ",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: Dimensions.dimenisonNo12,
+                          fontSize: Dimensions.dimensionNo12,
                           fontFamily: GoogleFonts.roboto().fontFamily,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1,
@@ -100,7 +100,7 @@ class SingleServiceOrderList extends StatelessWidget {
                               ' ${_serviceDuration.inHours.toString()}h : ',
                               style: TextStyle(
                                 color: AppColor.serviceTapTextColor,
-                                fontSize: Dimensions.dimenisonNo12,
+                                fontSize: Dimensions.dimensionNo12,
                                 fontFamily: GoogleFonts.roboto().fontFamily,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1,
@@ -111,7 +111,7 @@ class SingleServiceOrderList extends StatelessWidget {
                         "${(_serviceDuration.inMinutes % 60).toString()}min",
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: Dimensions.dimenisonNo12,
+                          fontSize: Dimensions.dimensionNo12,
                           fontFamily: GoogleFonts.roboto().fontFamily,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1,
@@ -120,7 +120,7 @@ class SingleServiceOrderList extends StatelessWidget {
                     ],
                   ),
                   SizedBox(
-                    height: Dimensions.dimenisonNo5,
+                    height: Dimensions.dimensionNo5,
                   ),
                   PriceRow(serviceModel: serviceModel),
                 ],
@@ -146,12 +146,12 @@ class SingleServiceOrderList extends StatelessWidget {
                       icon: Icon(
                         Icons.delete,
                         color: Colors.red,
-                        size: Dimensions.dimenisonNo30,
+                        size: Dimensions.dimensionNo30,
                       ),
                     )
                   : SizedBox(),
               SizedBox(
-                width: Dimensions.dimenisonNo20,
+                width: Dimensions.dimensionNo20,
               )
             ],
           ),

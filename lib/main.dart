@@ -17,7 +17,7 @@ import 'package:samay_admin_plan/provider/report_provider.dart';
 import 'package:samay_admin_plan/provider/samay_provider.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
 import 'package:samay_admin_plan/provider/setting_provider.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

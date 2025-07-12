@@ -26,7 +26,7 @@
 //   Widget build(BuildContext context) {
 //     return SingleChildScrollView(
 //       child: Padding(
-//         padding: EdgeInsets.all(Dimensions.dimenisonNo16),
+//         padding: EdgeInsets.all(Dimensions.dimensionNo16),
 //         child: Column(
 //           crossAxisAlignment: CrossAxisAlignment.start,
 //           mainAxisAlignment: MainAxisAlignment.start,
@@ -35,7 +35,7 @@
 //               'Appointment List',
 //               style: TextStyle(
 //                 color: Colors.black,
-//                 fontSize: Dimensions.dimenisonNo16,
+//                 fontSize: Dimensions.dimensionNo16,
 //                 fontWeight: FontWeight.bold,
 //               ),
 //             ),
@@ -43,11 +43,11 @@
 //               'Show Appointment List information for sales',
 //               style: TextStyle(
 //                 color: const Color(0xFF595959),
-//                 fontSize: Dimensions.dimenisonNo12,
+//                 fontSize: Dimensions.dimensionNo12,
 //                 fontWeight: FontWeight.w600,
 //               ),
 //             ),
-//             SizedBox(height: Dimensions.dimenisonNo20),
+//             SizedBox(height: Dimensions.dimensionNo20),
 //             if (isLoading)
 //               const Center(child: CircularProgressIndicator())
 //             else
@@ -57,9 +57,9 @@
 //                 children: [
 //                   Container(
 //                     padding: EdgeInsets.symmetric(
-//                         horizontal: Dimensions.dimenisonNo20),
+//                         horizontal: Dimensions.dimensionNo20),
 //                     alignment: Alignment.topCenter,
-//                     height: Dimensions.dimenisonNo34,
+//                     height: Dimensions.dimensionNo34,
 //                     decoration: BoxDecoration(
 //                       color: const Color.fromARGB(153, 215, 166, 166),
 //                       border: Border.all(
@@ -67,43 +67,43 @@
 //                         width: 1,
 //                       ),
 //                       borderRadius:
-//                           BorderRadius.circular(Dimensions.dimenisonNo5),
+//                           BorderRadius.circular(Dimensions.dimensionNo5),
 //                     ),
 //                     child: Center(
 //                       child: Row(
 //                         children: [
 //                           SizedBox(
-//                             width: Dimensions.dimenisonNo30,
+//                             width: Dimensions.dimensionNo30,
 //                             child: Center(
 //                               child: Text(
 //                                 "No",
 //                                 style: TextStyle(
-//                                   fontSize: Dimensions.dimenisonNo14,
+//                                   fontSize: Dimensions.dimensionNo14,
 //                                   fontWeight: FontWeight.w500,
 //                                 ),
 //                               ),
 //                             ),
 //                           ),
 //                           SizedBox(
-//                             width: Dimensions.dimenisonNo50,
+//                             width: Dimensions.dimensionNo50,
 //                             child: Center(
 //                               child: Text(
 //                                 "Image",
 //                                 style: TextStyle(
-//                                   fontSize: Dimensions.dimenisonNo14,
+//                                   fontSize: Dimensions.dimensionNo14,
 //                                   fontWeight: FontWeight.w500,
 //                                 ),
 //                               ),
 //                             ),
 //                           ),
-//                           SizedBox(width: Dimensions.dimenisonNo10),
+//                           SizedBox(width: Dimensions.dimensionNo10),
 //                           SizedBox(
-//                             width: Dimensions.dimenisonNo200,
+//                             width: Dimensions.dimensionNo200,
 //                             child: Text(
 //                               "Name",
 //                               textAlign: TextAlign.start,
 //                               style: TextStyle(
-//                                 fontSize: Dimensions.dimenisonNo14,
+//                                 fontSize: Dimensions.dimensionNo14,
 //                                 fontWeight: FontWeight.w500,
 //                               ),
 //                             ),
@@ -113,25 +113,25 @@
 //                             child: Text(
 //                               "Date and Time",
 //                               style: TextStyle(
-//                                 fontSize: Dimensions.dimenisonNo14,
+//                                 fontSize: Dimensions.dimensionNo14,
 //                                 fontWeight: FontWeight.w500,
 //                               ),
 //                             ),
 //                           ),
 //                           const Spacer(),
 //                           SizedBox(
-//                             width: Dimensions.dimenisonNo80,
+//                             width: Dimensions.dimensionNo80,
 //                             child: Center(
 //                               child: Text(
 //                                 "Status",
 //                                 style: TextStyle(
-//                                   fontSize: Dimensions.dimenisonNo14,
+//                                   fontSize: Dimensions.dimensionNo14,
 //                                   fontWeight: FontWeight.w500,
 //                                 ),
 //                               ),
 //                             ),
 //                           ),
-//                           SizedBox(width: Dimensions.dimenisonNo30),
+//                           SizedBox(width: Dimensions.dimensionNo30),
 //                         ],
 //                       ),
 //                     ),

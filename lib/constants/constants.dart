@@ -5,14 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/custom_button.dart';
 
 // final bool emailValid =
 // RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
 //   .hasMatch(email);
 
-void showBottonMessageError(String message, BuildContext context) {
+void showBottomMessageError(String message, BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(message),
@@ -21,7 +21,7 @@ void showBottonMessageError(String message, BuildContext context) {
   );
 }
 
-void showBottonMessage(String message, BuildContext context) {
+void showBottomMessage(String message, BuildContext context) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(message),
@@ -36,7 +36,7 @@ void showMessage(String message) {
     msg: message,
     backgroundColor: Colors.white,
     textColor: Colors.black,
-    fontSize: Dimensions.dimenisonNo16,
+    fontSize: Dimensions.dimensionNo16,
   );
 }
 
@@ -54,20 +54,20 @@ void showDeleteAlertDialog(
         title: Text(
           title,
           style: TextStyle(
-            fontSize: Dimensions.dimenisonNo20,
+            fontSize: Dimensions.dimensionNo20,
             fontWeight: FontWeight.w600,
           ),
         ),
         content: Text(
           message,
           style: TextStyle(
-            fontSize: Dimensions.dimenisonNo14,
+            fontSize: Dimensions.dimensionNo14,
             color: Colors.black,
           ),
         ),
         actions: [
           SizedBox(
-            height: Dimensions.dimenisonNo36,
+            height: Dimensions.dimensionNo36,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               mainAxisSize: MainAxisSize.min,
@@ -82,7 +82,7 @@ void showDeleteAlertDialog(
                     textColor: Colors.black,
                   ),
                 ),
-                SizedBox(width: Dimensions.dimenisonNo8),
+                SizedBox(width: Dimensions.dimensionNo8),
                 Expanded(
                   child: CustomButtom(
                     buttonColor: Colors.red,
@@ -95,7 +95,7 @@ void showDeleteAlertDialog(
             ),
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo12,
+            height: Dimensions.dimensionNo12,
           ),
         ],
         shape: RoundedRectangleBorder(
@@ -103,14 +103,14 @@ void showDeleteAlertDialog(
         ),
         contentPadding: EdgeInsets.symmetric(
           horizontal: ResponsiveLayout.isMoAndTab(context)
-              ? Dimensions.dimenisonNo16
-              : Dimensions.dimenisonNo24,
-          vertical: Dimensions.dimenisonNo16,
+              ? Dimensions.dimensionNo16
+              : Dimensions.dimensionNo24,
+          vertical: Dimensions.dimensionNo16,
         ),
         actionsPadding: EdgeInsets.symmetric(
           horizontal: ResponsiveLayout.isMoAndTab(context)
-              ? Dimensions.dimenisonNo8
-              : Dimensions.dimenisonNo16,
+              ? Dimensions.dimensionNo8
+              : Dimensions.dimensionNo16,
         ),
       );
     },
@@ -130,13 +130,13 @@ void showInforAlertDialog(
         title: Text(
           title,
           style: TextStyle(
-              fontSize: Dimensions.dimenisonNo24, fontWeight: FontWeight.w600),
+              fontSize: Dimensions.dimensionNo24, fontWeight: FontWeight.w600),
         ),
         // content:  Text('The salon is closed on the selected date.'),
         content: Text(
           message,
           style: TextStyle(
-              fontSize: Dimensions.dimenisonNo16, color: Colors.black),
+              fontSize: Dimensions.dimensionNo16, color: Colors.black),
         ),
         actions: [
           CustomButtom(
@@ -158,26 +158,26 @@ showLoaderDialog(BuildContext context) {
     backgroundColor: AppColor.bgForAdminCreateSec,
     content: Builder(builder: (context) {
       return SizedBox(
-        height: Dimensions.dimenisonNo40,
-        width: Dimensions.dimenisonNo200,
+        height: Dimensions.dimensionNo40,
+        width: Dimensions.dimensionNo200,
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              width: Dimensions.dimenisonNo20,
+              width: Dimensions.dimensionNo20,
             ),
             const CircularProgressIndicator(
               color: Color(0xffe16555),
             ),
             SizedBox(
-              width: Dimensions.dimenisonNo18,
+              width: Dimensions.dimensionNo18,
             ),
             Container(
-              margin: EdgeInsets.only(left: Dimensions.dimenisonNo10),
+              margin: EdgeInsets.only(left: Dimensions.dimensionNo10),
               child: Text(
                 "Loading...",
                 style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo16,
+                    fontSize: Dimensions.dimensionNo16,
                     fontFamily: GoogleFonts.roboto().fontFamily,
                     fontWeight: FontWeight.w500),
               ),
@@ -472,7 +472,7 @@ bool addNewSuperCategoryVaildation(
   BuildContext context,
 ) {
   if (superCategoryName.isEmpty) {
-    showBottonMessageError("Enter a Super-Category Name", context);
+    showBottomMessageError("Enter a Super-Category Name", context);
     return false;
   } else {
     return true;
@@ -506,22 +506,22 @@ bool addNewServiceVaildation(
       // hours.isEmpty &&
       // minutes.isEmpty
       ) {
-    showBottonMessageError("All Fields are empty", context);
+    showBottomMessageError("All Fields are empty", context);
     return false;
   } else if (servicesName.isEmpty) {
-    showBottonMessageError("Enter a Service Name", context);
+    showBottomMessageError("Enter a Service Name", context);
     return false;
   } else if (serviceCode.isEmpty) {
-    showBottonMessageError("Enter 4-Digit service code", context);
+    showBottomMessageError("Enter 4-Digit service code", context);
     return false;
     // } else if (serviceCode.length <= 4) {
     //   showMessage("Enter 4-Digit service code");
     //   return false;
   } else if (price.isEmpty) {
-    showBottonMessageError("Enter a Price", context);
+    showBottomMessageError("Enter a Price", context);
     return false;
   } else if (pr == null || pr < 0) {
-    showBottonMessageError("Enter a Price", context);
+    showBottomMessageError("Enter a Price", context);
     return false;
     // }
     //  else if (hours.isEmpty) {

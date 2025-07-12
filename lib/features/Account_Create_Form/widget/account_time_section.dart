@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:samay_admin_plan/constants/global_variable.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class PickTimeSection extends StatefulWidget {
   TextEditingController openController;
@@ -114,7 +114,7 @@ class _PickTimeSectionState extends State<PickTimeSection> {
                 text: widget.heading,
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: Dimensions.dimenisonNo18,
+                  fontSize: Dimensions.dimensionNo18,
                   fontFamily: GoogleFonts.roboto().fontFamily,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 0.15,
@@ -124,7 +124,7 @@ class _PickTimeSectionState extends State<PickTimeSection> {
                 text: ' *',
                 style: TextStyle(
                   color: const Color(0xFFFC0000),
-                  fontSize: Dimensions.dimenisonNo18,
+                  fontSize: Dimensions.dimensionNo18,
                   fontFamily: GoogleFonts.roboto().fontFamily,
                   fontWeight: FontWeight.w500,
                   height: 0,
@@ -134,9 +134,9 @@ class _PickTimeSectionState extends State<PickTimeSection> {
             ],
           ),
         ),
-        SizedBox(height: Dimensions.dimenisonNo5),
+        SizedBox(height: Dimensions.dimensionNo5),
         Padding(
-          padding: EdgeInsets.only(left: Dimensions.dimenisonNo16),
+          padding: EdgeInsets.only(left: Dimensions.dimensionNo16),
           child: Column(
             children: [
               Row(
@@ -145,7 +145,7 @@ class _PickTimeSectionState extends State<PickTimeSection> {
                     'Opening Time ',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: Dimensions.dimenisonNo16,
+                      fontSize: Dimensions.dimensionNo16,
                       fontFamily: GoogleFonts.roboto().fontFamily,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.15,
@@ -153,21 +153,21 @@ class _PickTimeSectionState extends State<PickTimeSection> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(
-                        horizontal: Dimensions.dimenisonNo20),
+                        horizontal: Dimensions.dimensionNo20),
                     child: Icon(
                       CupertinoIcons.stopwatch,
-                      size: Dimensions.dimenisonNo16,
+                      size: Dimensions.dimensionNo16,
                     ),
                   ),
                   Container(
-                    width: Dimensions.dimenisonNo100,
-                    height: Dimensions.dimenisonNo30,
+                    width: Dimensions.dimensionNo100,
+                    height: Dimensions.dimensionNo30,
                     decoration: ShapeDecoration(
                       color: const Color(0xFFEEEFF3),
                       shape: RoundedRectangleBorder(
                         side: const BorderSide(width: 1, color: Colors.black),
                         borderRadius:
-                            BorderRadius.circular(Dimensions.dimenisonNo5),
+                            BorderRadius.circular(Dimensions.dimensionNo5),
                       ),
                     ),
                     child: InkWell(
@@ -177,7 +177,7 @@ class _PickTimeSectionState extends State<PickTimeSection> {
                           _selectedTimeOpen.format(context),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: Dimensions.dimenisonNo16,
+                            fontSize: Dimensions.dimensionNo16,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -186,34 +186,34 @@ class _PickTimeSectionState extends State<PickTimeSection> {
                   )
                 ],
               ),
-              SizedBox(height: Dimensions.dimenisonNo10),
+              SizedBox(height: Dimensions.dimensionNo10),
               Row(
                 children: [
                   Text(
                     'Closing Time  ',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: Dimensions.dimenisonNo16,
+                      fontSize: Dimensions.dimensionNo16,
                       fontFamily: GoogleFonts.roboto().fontFamily,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.15,
                     ),
                   ),
-                  SizedBox(width: Dimensions.dimenisonNo22),
+                  SizedBox(width: Dimensions.dimensionNo22),
                   Icon(
                     CupertinoIcons.stopwatch,
-                    size: Dimensions.dimenisonNo16,
+                    size: Dimensions.dimensionNo16,
                   ),
-                  SizedBox(width: Dimensions.dimenisonNo20),
+                  SizedBox(width: Dimensions.dimensionNo20),
                   Container(
-                    width: Dimensions.dimenisonNo100,
-                    height: Dimensions.dimenisonNo30,
+                    width: Dimensions.dimensionNo100,
+                    height: Dimensions.dimensionNo30,
                     decoration: ShapeDecoration(
                       color: const Color(0xFFEEEFF3),
                       shape: RoundedRectangleBorder(
                         side: const BorderSide(width: 1, color: Colors.black),
                         borderRadius:
-                            BorderRadius.circular(Dimensions.dimenisonNo5),
+                            BorderRadius.circular(Dimensions.dimensionNo5),
                       ),
                     ),
                     child: InkWell(
@@ -223,7 +223,7 @@ class _PickTimeSectionState extends State<PickTimeSection> {
                           _selectedTimeClose.format(context),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: Dimensions.dimenisonNo16,
+                            fontSize: Dimensions.dimensionNo16,
                             fontWeight: FontWeight.w500,
                           ),
                         ),

@@ -9,7 +9,7 @@ import 'package:samay_admin_plan/features/home/widget/state_text.dart';
 import 'package:samay_admin_plan/models/user_model/user_model.dart';
 import 'package:samay_admin_plan/models/appoint_model/appoint_model.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class UserBookingTap extends StatefulWidget {
   final AppointModel appointModel;
@@ -88,37 +88,37 @@ class _UserBookingTapState extends State<UserBookingTap> {
   Container userBookingWebWiget(UserModel? userModel) {
     return Container(
       margin: EdgeInsets.only(
-          left: Dimensions.dimenisonNo12,
-          right: Dimensions.dimenisonNo12,
-          top: Dimensions.dimenisonNo8),
-      padding: EdgeInsets.all(Dimensions.dimenisonNo8),
-      height: Dimensions.dimenisonNo60,
+          left: Dimensions.dimensionNo12,
+          right: Dimensions.dimensionNo12,
+          top: Dimensions.dimensionNo8),
+      padding: EdgeInsets.all(Dimensions.dimensionNo8),
+      height: Dimensions.dimensionNo60,
       width: double.infinity,
       decoration: BoxDecoration(
         color: AppColor.mainColor,
-        borderRadius: BorderRadius.circular(Dimensions.dimenisonNo12),
+        borderRadius: BorderRadius.circular(Dimensions.dimensionNo12),
       ),
       child: Row(
         children: [
           SizedBox(
             // color: Colors.red,
-            width: Dimensions.dimenisonNo30,
+            width: Dimensions.dimensionNo30,
             child: Center(
               child: Text(
                 "${widget.index.toString()}.",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: Dimensions.dimenisonNo14,
+                  fontSize: Dimensions.dimensionNo14,
                 ),
               ),
             ),
           ),
-          // SizedBox(width: Dimensions.dimenisonNo8),
+          // SizedBox(width: Dimensions.dimensionNo8),
           SizedBox(
             // color: Colors.yellow,
-            width: Dimensions.dimenisonNo50,
+            width: Dimensions.dimensionNo50,
             child: CircleAvatar(
-              radius: Dimensions.dimenisonNo20,
+              radius: Dimensions.dimensionNo20,
               backgroundColor: Colors.green[100],
               backgroundImage:
                   (userModel?.image != null && userModel!.image.isNotEmpty)
@@ -132,9 +132,9 @@ class _UserBookingTapState extends State<UserBookingTap> {
                   : null,
             ),
           ),
-          SizedBox(width: Dimensions.dimenisonNo8),
+          SizedBox(width: Dimensions.dimensionNo8),
           SizedBox(
-            width: Dimensions.dimenisonNo200,
+            width: Dimensions.dimensionNo200,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -144,14 +144,14 @@ class _UserBookingTapState extends State<UserBookingTap> {
                     overflow: TextOverflow.ellipsis,
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
-                    fontSize: Dimensions.dimenisonNo16,
+                    fontSize: Dimensions.dimensionNo16,
                   ),
                 ),
                 Text(
                   userModel?.phone.toString() ?? 'No phone available',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: Dimensions.dimenisonNo14,
+                    fontSize: Dimensions.dimensionNo14,
                   ),
                 ),
               ],
@@ -167,14 +167,14 @@ class _UserBookingTapState extends State<UserBookingTap> {
                             .format(widget.appointModel.serviceDate),
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: Dimensions.dimenisonNo14,
+                          fontSize: Dimensions.dimensionNo14,
                         ),
                       ),
                       Text(
                         '${DateFormat('hh:mm a').format(widget.appointModel.serviceStartTime).toString()} To ${DateFormat('hh:mm a').format(widget.appointModel.serviceEndTime).toString()}',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: Dimensions.dimenisonNo14,
+                          fontSize: Dimensions.dimensionNo14,
                         ),
                       ),
                     ],
@@ -185,16 +185,16 @@ class _UserBookingTapState extends State<UserBookingTap> {
                     '${DateFormat('hh:mm a').format(widget.appointModel.serviceStartTime).toString()} To ${DateFormat('hh:mm a').format(widget.appointModel.serviceEndTime).toString()}',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: Dimensions.dimenisonNo14,
+                      fontSize: Dimensions.dimensionNo14,
                     ),
                   ),
                 ),
           const Spacer(),
           SizedBox(
-              width: Dimensions.dimenisonNo110,
+              width: Dimensions.dimensionNo110,
               child:
                   Center(child: StateText(status: widget.appointModel.status))),
-          SizedBox(width: Dimensions.dimenisonNo16),
+          SizedBox(width: Dimensions.dimensionNo16),
         ],
       ),
     );

@@ -13,7 +13,7 @@ import 'package:samay_admin_plan/features/service_view/screen/add_service_form.d
 import 'package:samay_admin_plan/features/service_view/screen/single_service_tap.dart';
 import 'package:samay_admin_plan/models/category_model/category_model.dart';
 import 'package:samay_admin_plan/models/service_model/service_model.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/add_button.dart';
 
 class ServicesList extends StatefulWidget {
@@ -93,7 +93,7 @@ class _ServicesListState extends State<ServicesList> {
     }
 
     return Container(
-      padding: EdgeInsets.all(Dimensions.dimenisonNo10),
+      padding: EdgeInsets.all(Dimensions.dimensionNo10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -106,7 +106,7 @@ class _ServicesListState extends State<ServicesList> {
                     selectedCategory.categoryName,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: Dimensions.dimenisonNo30,
+                      fontSize: Dimensions.dimensionNo30,
                       fontFamily: GoogleFonts.roboto().fontFamily,
                       fontWeight: FontWeight.w700,
                       letterSpacing: 0.15,

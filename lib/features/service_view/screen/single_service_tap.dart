@@ -12,7 +12,7 @@ import 'package:samay_admin_plan/models/category_model/category_model.dart';
 import 'package:samay_admin_plan/models/service_model/service_model.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/pricerow.dart';
 
 class SingleServiceTap extends StatelessWidget {
@@ -57,7 +57,7 @@ class SingleServiceTap extends StatelessWidget {
             Navigator.of(context, rootNavigator: true).pop();
           }
 
-          showBottonMessage(
+          showBottomMessage(
             "Successfully deleted ${serviceModel.servicesName}",
             context,
           );
@@ -66,7 +66,7 @@ class SingleServiceTap extends StatelessWidget {
           if (Navigator.of(context, rootNavigator: true).canPop()) {
             Navigator.of(context, rootNavigator: true).pop();
           }
-          showBottonMessageError(
+          showBottomMessageError(
             "Error deleting ${serviceModel.servicesName}: ${e.toString()}",
             context,
           );
@@ -91,15 +91,15 @@ class SingleServiceTap extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.symmetric(
-        horizontal: Dimensions.dimenisonNo10,
-        vertical: Dimensions.dimenisonNo10,
+        horizontal: Dimensions.dimensionNo10,
+        vertical: Dimensions.dimensionNo10,
       ),
-      margin: EdgeInsets.only(bottom: Dimensions.dimenisonNo10),
+      margin: EdgeInsets.only(bottom: Dimensions.dimensionNo10),
       decoration: ShapeDecoration(
         color: AppColor.bgForAdminCreateSec,
         shape: RoundedRectangleBorder(
           side: const BorderSide(width: 1),
-          borderRadius: BorderRadius.circular(Dimensions.dimenisonNo10),
+          borderRadius: BorderRadius.circular(Dimensions.dimensionNo10),
         ),
       ),
       child: Column(
@@ -118,18 +118,18 @@ class SingleServiceTap extends StatelessWidget {
                       serviceModel.servicesName,
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: Dimensions.dimenisonNo18,
+                        fontSize: Dimensions.dimensionNo18,
                         fontFamily: GoogleFonts.roboto().fontFamily,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.15,
                       ),
                     ),
-                    SizedBox(height: Dimensions.dimenisonNo5),
+                    SizedBox(height: Dimensions.dimensionNo5),
                     Text(
                       'Service code: ${serviceModel.serviceCode}',
                       style: TextStyle(
                         color: const Color.fromARGB(255, 124, 118, 118),
-                        fontSize: Dimensions.dimenisonNo12,
+                        fontSize: Dimensions.dimensionNo12,
                         fontFamily: GoogleFonts.roboto().fontFamily,
                         letterSpacing: 1,
                       ),
@@ -176,17 +176,17 @@ class SingleServiceTap extends StatelessWidget {
           Row(
             children: [
               PriceRow(serviceModel: serviceModel),
-              SizedBox(width: Dimensions.dimenisonNo10),
+              SizedBox(width: Dimensions.dimensionNo10),
               Icon(
                 Icons.watch_later_outlined,
-                size: Dimensions.dimenisonNo16,
+                size: Dimensions.dimensionNo16,
               ),
-              SizedBox(width: Dimensions.dimenisonNo5),
+              SizedBox(width: Dimensions.dimensionNo5),
               Text(
                 "${serviceDuration.inHours}h: ${serviceDuration.inMinutes % 60}min",
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: Dimensions.dimenisonNo14,
+                  fontSize: Dimensions.dimensionNo14,
                   fontFamily: GoogleFonts.roboto().fontFamily,
                   fontWeight: FontWeight.w400,
                   letterSpacing: 0.15,
@@ -204,7 +204,7 @@ class SingleServiceTap extends StatelessWidget {
                   maxLines: 2,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: Dimensions.dimenisonNo12,
+                    fontSize: Dimensions.dimensionNo12,
                     fontFamily: GoogleFonts.roboto().fontFamily,
                     fontWeight: FontWeight.w400,
                     letterSpacing: 0.15,
@@ -218,25 +218,25 @@ class SingleServiceTap extends StatelessWidget {
   Container singleServiceWebWidget(BuildContext context,
       ServiceProvider serviceProvider, Duration serviceDuration) {
     return Container(
-      width: Dimensions.dimenisonNo500,
+      width: Dimensions.dimensionNo500,
       padding: EdgeInsets.symmetric(
-        horizontal: Dimensions.dimenisonNo10,
-        vertical: Dimensions.dimenisonNo10,
+        horizontal: Dimensions.dimensionNo10,
+        vertical: Dimensions.dimensionNo10,
       ),
       child: Container(
         margin: EdgeInsets.only(
             right: ResponsiveLayout.isDesktop(context)
-                ? Dimensions.dimenisonNo200
-                : Dimensions.dimenisonNo10),
+                ? Dimensions.dimensionNo200
+                : Dimensions.dimensionNo10),
         padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.dimenisonNo10,
-          vertical: Dimensions.dimenisonNo10,
+          horizontal: Dimensions.dimensionNo10,
+          vertical: Dimensions.dimensionNo10,
         ),
         decoration: ShapeDecoration(
           color: AppColor.bgForAdminCreateSec,
           shape: RoundedRectangleBorder(
             side: const BorderSide(width: 1),
-            borderRadius: BorderRadius.circular(Dimensions.dimenisonNo10),
+            borderRadius: BorderRadius.circular(Dimensions.dimensionNo10),
           ),
         ),
         child: Column(
@@ -286,30 +286,30 @@ class SingleServiceTap extends StatelessWidget {
             Row(
               children: [
                 SizedBox(
-                    width: Dimensions.dimenisonNo200,
+                    width: Dimensions.dimensionNo200,
                     child: PriceRow(serviceModel: serviceModel)),
-                SizedBox(width: Dimensions.dimenisonNo20),
+                SizedBox(width: Dimensions.dimensionNo20),
                 Icon(
                   Icons.watch_later_outlined,
-                  size: Dimensions.dimenisonNo16,
+                  size: Dimensions.dimensionNo16,
                 ),
-                SizedBox(width: Dimensions.dimenisonNo10),
+                SizedBox(width: Dimensions.dimensionNo10),
                 Text(
                   "${serviceDuration.inHours}h: ${(serviceDuration.inMinutes % 60).toString().padLeft(2, '0')}min",
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: Dimensions.dimenisonNo16,
+                    fontSize: Dimensions.dimensionNo16,
                     fontFamily: GoogleFonts.roboto().fontFamily,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 0.15,
                   ),
                 ),
-                SizedBox(width: Dimensions.dimenisonNo20),
+                SizedBox(width: Dimensions.dimensionNo20),
                 Text(
                   "Service for: ${serviceModel.serviceFor}",
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: Dimensions.dimenisonNo16,
+                    fontSize: Dimensions.dimensionNo16,
                     fontFamily: GoogleFonts.roboto().fontFamily,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 0.15,
@@ -329,7 +329,7 @@ class SingleServiceTap extends StatelessWidget {
                     overflow: TextOverflow.clip,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: Dimensions.dimenisonNo12,
+                      fontSize: Dimensions.dimensionNo12,
                       fontFamily: GoogleFonts.roboto().fontFamily,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.15,
@@ -349,14 +349,14 @@ class SingleServiceTap extends StatelessWidget {
           serviceModel.servicesName,
           style: TextStyle(
             color: Colors.black,
-            fontSize: Dimensions.dimenisonNo20,
+            fontSize: Dimensions.dimensionNo20,
             fontFamily: GoogleFonts.roboto().fontFamily,
             fontWeight: FontWeight.w400,
             letterSpacing: 0.04,
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(left: Dimensions.dimenisonNo10),
+          padding: EdgeInsets.only(left: Dimensions.dimensionNo10),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -364,12 +364,12 @@ class SingleServiceTap extends StatelessWidget {
                 'Service code: ${serviceModel.serviceCode}',
                 style: TextStyle(
                   color: const Color.fromARGB(255, 124, 118, 118),
-                  fontSize: Dimensions.dimenisonNo14,
+                  fontSize: Dimensions.dimensionNo14,
                   fontFamily: GoogleFonts.roboto().fontFamily,
                   letterSpacing: 1,
                 ),
               ),
-              SizedBox(height: Dimensions.dimenisonNo10),
+              SizedBox(height: Dimensions.dimensionNo10),
             ],
           ),
         ),

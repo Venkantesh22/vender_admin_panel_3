@@ -20,7 +20,7 @@ import 'package:samay_admin_plan/models/appoint_model/appoint_model.dart';
 import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart';
 import 'package:samay_admin_plan/models/salon_setting_model/salon_setting_model.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:http/http.dart' as http;
 
 class BillPdfPage extends StatelessWidget {
@@ -107,7 +107,7 @@ class BillPdfPage extends StatelessWidget {
           pageFormat: format,
           build: (pw.Context context) {
             return pw.Padding(
-              padding: pw.EdgeInsets.all(Dimensions.dimenisonNo8),
+              padding: pw.EdgeInsets.all(Dimensions.dimensionNo8),
               child: pw.Column(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
@@ -116,16 +116,16 @@ class BillPdfPage extends StatelessWidget {
                     children: [
                       _buildTopLogo(logoImage, customFont),
                       _buildInvoiceTitle(customFont),
-                      pw.SizedBox(height: Dimensions.dimenisonNo16),
+                      pw.SizedBox(height: Dimensions.dimensionNo16),
                       _buildHeaderSection(vendorLogoImage, customFont),
-                      pw.SizedBox(height: Dimensions.dimenisonNo16),
+                      pw.SizedBox(height: Dimensions.dimensionNo16),
                       pw.Divider(),
                       _buildClientInvoiceDetails(customFont),
-                      pw.SizedBox(height: Dimensions.dimenisonNo16),
+                      pw.SizedBox(height: Dimensions.dimensionNo16),
                       _buildServiceTable(serviceRows, customFont),
-                      pw.SizedBox(height: Dimensions.dimenisonNo16),
+                      pw.SizedBox(height: Dimensions.dimensionNo16),
                       _buildTaxAndTotalsSection(taxAmt, customFont, isTaxShow),
-                      pw.SizedBox(height: Dimensions.dimenisonNo50),
+                      pw.SizedBox(height: Dimensions.dimensionNo50),
                       _buildFooter(customFont),
                     ],
                   ),
@@ -148,15 +148,15 @@ class BillPdfPage extends StatelessWidget {
         pw.Container(
           alignment: pw.Alignment.topLeft,
           decoration: pw.BoxDecoration(
-              borderRadius: pw.BorderRadius.circular(Dimensions.dimenisonNo18)),
-          width: Dimensions.dimenisonNo40,
-          height: Dimensions.dimenisonNo40,
+              borderRadius: pw.BorderRadius.circular(Dimensions.dimensionNo18)),
+          width: Dimensions.dimensionNo40,
+          height: Dimensions.dimensionNo40,
           child: pw.Image(logoImage!, fit: pw.BoxFit.cover),
         ),
         pw.Text(
           "Power by Samay",
           style: pw.TextStyle(
-            fontSize: Dimensions.dimenisonNo5,
+            fontSize: Dimensions.dimensionNo5,
             font: customFont,
           ),
         ),
@@ -169,7 +169,7 @@ class BillPdfPage extends StatelessWidget {
       child: pw.Text(
         "INVOICE",
         style: pw.TextStyle(
-          fontSize: Dimensions.dimenisonNo24,
+          fontSize: Dimensions.dimensionNo24,
           fontWeight: pw.FontWeight.bold,
           font: customFont,
         ),
@@ -186,8 +186,8 @@ class BillPdfPage extends StatelessWidget {
             ? pw.Column(
                 children: [
                   pw.Container(
-                    width: Dimensions.dimenisonNo40,
-                    height: Dimensions.dimenisonNo40,
+                    width: Dimensions.dimensionNo40,
+                    height: Dimensions.dimensionNo40,
                     child: pw.ClipOval(
                       child: pw.Image(vendorLogoImage, fit: pw.BoxFit.cover),
                     ),
@@ -195,7 +195,7 @@ class BillPdfPage extends StatelessWidget {
                   pw.Text(
                     "Power by Samay",
                     style: pw.TextStyle(
-                      fontSize: Dimensions.dimenisonNo5,
+                      fontSize: Dimensions.dimensionNo5,
                       font: customFont,
                     ),
                   ),
@@ -203,14 +203,14 @@ class BillPdfPage extends StatelessWidget {
               )
             : pw.SizedBox(),
         pw.SizedBox(
-          width: Dimensions.dimenisonNo200,
+          width: Dimensions.dimensionNo200,
           child: pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
               pw.Text(
                 salonModel.name,
                 style: pw.TextStyle(
-                  fontSize: Dimensions.dimenisonNo16,
+                  fontSize: Dimensions.dimensionNo16,
                   fontWeight: pw.FontWeight.bold,
                   font: customFont,
                 ),
@@ -218,7 +218,7 @@ class BillPdfPage extends StatelessWidget {
               pw.Text(
                 "${salonModel.address}\n${salonModel.city} - ${salonModel.pinCode}",
                 style: pw.TextStyle(
-                  fontSize: Dimensions.dimenisonNo8,
+                  fontSize: Dimensions.dimensionNo8,
                   font: customFont,
                 ),
               ),
@@ -226,7 +226,7 @@ class BillPdfPage extends StatelessWidget {
                   ? pw.Text(
                       "GSTIN: ${settingModel.gstNo}",
                       style: pw.TextStyle(
-                        fontSize: Dimensions.dimenisonNo8,
+                        fontSize: Dimensions.dimensionNo8,
                         font: customFont,
                       ),
                     )
@@ -234,7 +234,7 @@ class BillPdfPage extends StatelessWidget {
               pw.Text(
                 "Contact No: ${salonModel.number}",
                 style: pw.TextStyle(
-                  fontSize: Dimensions.dimenisonNo8,
+                  fontSize: Dimensions.dimensionNo8,
                   font: customFont,
                 ),
               ),
@@ -255,7 +255,7 @@ class BillPdfPage extends StatelessWidget {
             pw.Text(
               "Client : ${appointModel.userModel.name}",
               style: pw.TextStyle(
-                fontSize: Dimensions.dimenisonNo8,
+                fontSize: Dimensions.dimensionNo8,
                 fontWeight: pw.FontWeight.bold,
                 font: customFont,
               ),
@@ -263,7 +263,7 @@ class BillPdfPage extends StatelessWidget {
             pw.Text(
               "Mobile : ${appointModel.userModel.phone}",
               style: pw.TextStyle(
-                fontSize: Dimensions.dimenisonNo8,
+                fontSize: Dimensions.dimensionNo8,
                 fontWeight: pw.FontWeight.bold,
                 font: customFont,
               ),
@@ -276,7 +276,7 @@ class BillPdfPage extends StatelessWidget {
             pw.Text(
               "Invoice No: ${appointModel.orderId}",
               style: pw.TextStyle(
-                fontSize: Dimensions.dimenisonNo8,
+                fontSize: Dimensions.dimensionNo8,
                 fontWeight: pw.FontWeight.bold,
                 font: customFont,
               ),
@@ -284,7 +284,7 @@ class BillPdfPage extends StatelessWidget {
             pw.Text(
               "Date: ${GlobalVariable.getCurrentDate()} ${GlobalVariable.getCurrentTime()}",
               style: pw.TextStyle(
-                fontSize: Dimensions.dimenisonNo8,
+                fontSize: Dimensions.dimensionNo8,
                 fontWeight: pw.FontWeight.bold,
                 font: customFont,
               ),
@@ -301,12 +301,12 @@ class BillPdfPage extends StatelessWidget {
       headers: ['No', 'TYPE', 'NAME', 'RATE', 'QTY', 'PRICE'],
       data: serviceRows,
       headerStyle: pw.TextStyle(
-        fontSize: Dimensions.dimenisonNo10,
+        fontSize: Dimensions.dimensionNo10,
         fontWeight: pw.FontWeight.bold,
         font: customFont,
       ),
       cellStyle: pw.TextStyle(
-        fontSize: Dimensions.dimenisonNo10,
+        fontSize: Dimensions.dimensionNo10,
         font: customFont,
       ),
       cellAlignment: pw.Alignment.centerLeft,
@@ -344,7 +344,7 @@ class BillPdfPage extends StatelessWidget {
                       child: pw.Text(
                         "TAX SUMMARY",
                         style: pw.TextStyle(
-                          fontSize: Dimensions.dimenisonNo10,
+                          fontSize: Dimensions.dimensionNo10,
                           fontWeight: pw.FontWeight.bold,
                           font: customFont,
                         ),
@@ -367,12 +367,12 @@ class BillPdfPage extends StatelessWidget {
                         ],
                       ],
                       headerStyle: pw.TextStyle(
-                        fontSize: Dimensions.dimenisonNo10,
+                        fontSize: Dimensions.dimensionNo10,
                         fontWeight: pw.FontWeight.bold,
                         font: customFont,
                       ),
                       cellStyle: pw.TextStyle(
-                        fontSize: Dimensions.dimenisonNo10,
+                        fontSize: Dimensions.dimensionNo10,
                         font: customFont,
                       ),
                       headerDecoration:
@@ -382,24 +382,24 @@ class BillPdfPage extends StatelessWidget {
                 )
               : pw.SizedBox(),
         ),
-        pw.SizedBox(width: Dimensions.dimenisonNo30),
+        pw.SizedBox(width: Dimensions.dimensionNo30),
         pw.Expanded(
           flex: 1,
           child: pw.Column(
             crossAxisAlignment: pw.CrossAxisAlignment.start,
             children: [
-              pw.SizedBox(height: Dimensions.dimenisonNo12),
+              pw.SizedBox(height: Dimensions.dimensionNo12),
               pw.Row(
                 mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
                   pw.Text("SUBTOTAL",
                       style: pw.TextStyle(
-                        fontSize: Dimensions.dimenisonNo10,
+                        fontSize: Dimensions.dimensionNo10,
                         font: customFont,
                       )),
                   pw.Text("₹${appointModel.subtatal.toStringAsFixed(2)}",
                       style: pw.TextStyle(
-                        fontSize: Dimensions.dimenisonNo10,
+                        fontSize: Dimensions.dimensionNo10,
                         font: customFont,
                       )),
                 ],
@@ -408,20 +408,20 @@ class BillPdfPage extends StatelessWidget {
                       appointModel.discountInPer != 0.0)
                   ? pw.Padding(
                       padding: pw.EdgeInsets.symmetric(
-                          vertical: Dimensions.dimenisonNo5),
+                          vertical: Dimensions.dimensionNo5),
                       child: pw.Row(
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
                           pw.Text(
                               "ITEM DISCOUNT ${appointModel.discountInPer!.round().toString()}%",
                               style: pw.TextStyle(
-                                fontSize: Dimensions.dimenisonNo10,
+                                fontSize: Dimensions.dimensionNo10,
                                 font: customFont,
                               )),
                           pw.Text(
                               "-₹${appointModel.discountAmount?.toStringAsFixed(2) ?? '0.00'}",
                               style: pw.TextStyle(
-                                fontSize: Dimensions.dimenisonNo10,
+                                fontSize: Dimensions.dimensionNo10,
                                 font: customFont,
                               )),
                         ],
@@ -432,21 +432,21 @@ class BillPdfPage extends StatelessWidget {
                       appointModel.extraDiscountInPer != 0.0)
                   ? pw.Padding(
                       padding: pw.EdgeInsets.symmetric(
-                          vertical: Dimensions.dimenisonNo5),
+                          vertical: Dimensions.dimensionNo5),
                       child: pw.Row(
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
                           pw.Text(
                             "EXTRA DISCOUNT ${appointModel.extraDiscountInPer ?? 0} %",
                             style: pw.TextStyle(
-                              fontSize: Dimensions.dimenisonNo10,
+                              fontSize: Dimensions.dimensionNo10,
                               font: customFont,
                             ),
                           ),
                           pw.Text(
                             "-₹${((appointModel.extraDiscountInPerAMT ?? 0.0).toStringAsFixed(2))}",
                             style: pw.TextStyle(
-                              fontSize: Dimensions.dimenisonNo10,
+                              fontSize: Dimensions.dimensionNo10,
                               font: customFont,
                             ),
                           ),
@@ -458,19 +458,19 @@ class BillPdfPage extends StatelessWidget {
                       appointModel.extraDiscountInAmount != 0.0)
                   ? pw.Padding(
                       padding: pw.EdgeInsets.symmetric(
-                          vertical: Dimensions.dimenisonNo5),
+                          vertical: Dimensions.dimensionNo5),
                       child: pw.Row(
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
                           pw.Text("Flat",
                               style: pw.TextStyle(
-                                fontSize: Dimensions.dimenisonNo10,
+                                fontSize: Dimensions.dimensionNo10,
                                 font: customFont,
                               )),
                           pw.Text(
                               "-₹${appointModel.extraDiscountInAmount?.toStringAsFixed(2) ?? '0.00'}",
                               style: pw.TextStyle(
-                                fontSize: Dimensions.dimenisonNo10,
+                                fontSize: Dimensions.dimensionNo10,
                                 font: customFont,
                               )),
                         ],
@@ -479,19 +479,19 @@ class BillPdfPage extends StatelessWidget {
                   : pw.SizedBox(),
               pw.Padding(
                 padding:
-                    pw.EdgeInsets.symmetric(vertical: Dimensions.dimenisonNo5),
+                    pw.EdgeInsets.symmetric(vertical: Dimensions.dimensionNo5),
                 child: pw.Row(
                   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                   children: [
                     pw.Text("NET",
                         style: pw.TextStyle(
-                          fontSize: Dimensions.dimenisonNo10,
+                          fontSize: Dimensions.dimensionNo10,
                           font: customFont,
                         )),
                     pw.Text(
                       "₹${appointModel.netPrice.toStringAsFixed(2)}",
                       style: pw.TextStyle(
-                        fontSize: Dimensions.dimenisonNo10,
+                        fontSize: Dimensions.dimensionNo10,
                         font: customFont,
                       ),
                     )
@@ -502,19 +502,19 @@ class BillPdfPage extends StatelessWidget {
                       appointModel.subtatal != 0.0)
                   ? pw.Padding(
                       padding: pw.EdgeInsets.symmetric(
-                          vertical: Dimensions.dimenisonNo5),
+                          vertical: Dimensions.dimensionNo5),
                       child: pw.Row(
                         mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                         children: [
                           pw.Text("PLATFORM FEES",
                               style: pw.TextStyle(
-                                fontSize: Dimensions.dimenisonNo10,
+                                fontSize: Dimensions.dimensionNo10,
                                 font: customFont,
                               )),
                           pw.Text(
                             "₹${appointModel.platformFees.toStringAsFixed(2)}",
                             style: pw.TextStyle(
-                              fontSize: Dimensions.dimenisonNo10,
+                              fontSize: Dimensions.dimensionNo10,
                               font: customFont,
                             ),
                           )
@@ -524,19 +524,19 @@ class BillPdfPage extends StatelessWidget {
                   : pw.SizedBox(),
               pw.Padding(
                 padding:
-                    pw.EdgeInsets.symmetric(vertical: Dimensions.dimenisonNo5),
+                    pw.EdgeInsets.symmetric(vertical: Dimensions.dimensionNo5),
                 child: pw.Row(
                   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                   children: [
                     pw.Text("GRAND",
                         style: pw.TextStyle(
-                          fontSize: Dimensions.dimenisonNo10,
+                          fontSize: Dimensions.dimensionNo10,
                           font: customFont,
                         )),
                     pw.Text(
                       "₹${appointModel.totalPrice.round().toString()}",
                       style: pw.TextStyle(
-                        fontSize: Dimensions.dimenisonNo10,
+                        fontSize: Dimensions.dimensionNo10,
                         font: customFont,
                       ),
                     )
@@ -545,19 +545,19 @@ class BillPdfPage extends StatelessWidget {
               ),
               pw.Padding(
                 padding:
-                    pw.EdgeInsets.symmetric(vertical: Dimensions.dimenisonNo5),
+                    pw.EdgeInsets.symmetric(vertical: Dimensions.dimensionNo5),
                 child: pw.Row(
                   mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                   children: [
                     pw.Text("TOTAL PAID",
                         style: pw.TextStyle(
-                          fontSize: Dimensions.dimenisonNo10,
+                          fontSize: Dimensions.dimensionNo10,
                           font: customFont,
                         )),
                     pw.Text(
                       "₹${appointModel.totalPrice.round().toString()}",
                       style: pw.TextStyle(
-                        fontSize: Dimensions.dimenisonNo10,
+                        fontSize: Dimensions.dimensionNo10,
                         font: customFont,
                       ),
                     )
@@ -577,14 +577,14 @@ class BillPdfPage extends StatelessWidget {
         children: [
           pw.Text("visit again !",
               style: pw.TextStyle(
-                fontSize: Dimensions.dimenisonNo16,
+                fontSize: Dimensions.dimensionNo16,
                 color: PdfColors.grey,
                 font: customFont,
               )),
-          pw.SizedBox(height: Dimensions.dimenisonNo8),
+          pw.SizedBox(height: Dimensions.dimensionNo8),
           pw.Text("Main hu Samay, mere Sath chalo.!",
               style: pw.TextStyle(
-                fontSize: Dimensions.dimenisonNo16,
+                fontSize: Dimensions.dimensionNo16,
                 font: customFont,
               )),
         ],
@@ -615,7 +615,7 @@ class BillPdfPage extends StatelessWidget {
       backgroundColor: AppColor.mainColor,
       actions: [
         Container(
-          margin: EdgeInsets.only(left: Dimensions.dimenisonNo20),
+          margin: EdgeInsets.only(left: Dimensions.dimensionNo20),
           child: IconButton(
             onPressed: () async {
               try {
@@ -702,7 +702,7 @@ class BillPdfPage extends StatelessWidget {
             },
             icon: FaIcon(
               FontAwesomeIcons.whatsapp,
-              size: Dimensions.dimenisonNo24,
+              size: Dimensions.dimensionNo24,
               color: Colors.white,
             ),
           ),
@@ -716,7 +716,7 @@ class BillPdfPage extends StatelessWidget {
         icon: Icon(
           Icons.home,
           color: Colors.white,
-          size: Dimensions.dimenisonNo24,
+          size: Dimensions.dimensionNo24,
         ),
       ),
       title: Center(
@@ -728,16 +728,16 @@ class BillPdfPage extends StatelessWidget {
               "INVOICE ",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: Dimensions.dimenisonNo18,
+                fontSize: Dimensions.dimensionNo18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(width: Dimensions.dimenisonNo8),
+            SizedBox(width: Dimensions.dimensionNo8),
             Text(
               "Power by Samay",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: Dimensions.dimenisonNo12,
+                fontSize: Dimensions.dimensionNo12,
                 fontWeight: FontWeight.w400,
               ),
             ),

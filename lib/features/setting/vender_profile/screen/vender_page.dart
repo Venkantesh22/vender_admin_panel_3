@@ -18,10 +18,10 @@ import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/utility/get_avatar_bg_color.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
-import 'package:samay_admin_plan/widget/customtextfield.dart';
+import 'package:samay_admin_plan/widget/text_box/customtextfield.dart';
 
 class SalonProfilePage extends StatefulWidget {
   const SalonProfilePage({super.key});
@@ -182,18 +182,18 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                   child: Container(
                     margin: ResponsiveLayout.isMobile(context)
                         ? EdgeInsets.symmetric(
-                            horizontal: Dimensions.dimenisonNo12,
+                            horizontal: Dimensions.dimensionNo12,
                           )
                         : ResponsiveLayout.isTablet(context)
                             ? EdgeInsets.symmetric(
-                                horizontal: Dimensions.dimenisonNo60,
+                                horizontal: Dimensions.dimensionNo60,
                               )
                             : null,
                     padding: EdgeInsets.symmetric(
                         horizontal: ResponsiveLayout.isMobile(context)
-                            ? Dimensions.dimenisonNo10
-                            : Dimensions.dimenisonNo30,
-                        vertical: Dimensions.dimenisonNo20),
+                            ? Dimensions.dimensionNo10
+                            : Dimensions.dimensionNo30,
+                        vertical: Dimensions.dimensionNo20),
                     // color: Colors.green,
                     color: Colors.white,
                     width: ResponsiveLayout.isDesktop(context)
@@ -211,31 +211,31 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                         ),
                         Padding(
                           padding: EdgeInsets.symmetric(
-                              vertical: Dimensions.dimenisonNo10),
+                              vertical: Dimensions.dimensionNo10),
                           child: Divider(),
                         ),
                         imageAndLogPart(appProvider),
-                        SizedBox(height: Dimensions.dimenisonNo10),
+                        SizedBox(height: Dimensions.dimensionNo10),
                         FormCustomTextField(
                           controller: _salonName,
                           title: "${GlobalVariable.salon} Name",
                         ),
-                        SizedBox(height: Dimensions.dimenisonNo10),
+                        SizedBox(height: Dimensions.dimensionNo10),
                         FormCustomTextField(
                           controller: _email,
                           title: "Email ID",
                         ),
-                        SizedBox(height: Dimensions.dimenisonNo10),
+                        SizedBox(height: Dimensions.dimensionNo10),
                         FormCustomTextField(
                           controller: _mobile,
                           title: "Mobile No",
                         ),
-                        SizedBox(height: Dimensions.dimenisonNo10),
+                        SizedBox(height: Dimensions.dimensionNo10),
                         FormCustomTextField(
                           controller: _whatApp,
                           title: "WhatApp No",
                         ),
-                        SizedBox(height: Dimensions.dimenisonNo10),
+                        SizedBox(height: Dimensions.dimensionNo10),
                         Text.rich(
                           TextSpan(
                             children: [
@@ -243,7 +243,7 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                                 text: '${GlobalVariable.salon} Type ',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: Dimensions.dimenisonNo18,
+                                  fontSize: Dimensions.dimensionNo18,
                                   fontFamily: GoogleFonts.roboto().fontFamily,
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 0.15,
@@ -253,7 +253,7 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                                 text: '*',
                                 style: TextStyle(
                                   color: const Color(0xFFFC0000),
-                                  fontSize: Dimensions.dimenisonNo18,
+                                  fontSize: Dimensions.dimensionNo18,
                                   fontFamily: GoogleFonts.roboto().fontFamily,
                                   fontWeight: FontWeight.w500,
                                   height: 0,
@@ -263,13 +263,13 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                             ],
                           ),
                         ),
-                        SizedBox(height: Dimensions.dimenisonNo5),
+                        SizedBox(height: Dimensions.dimensionNo5),
                         DropdownButtonFormField<String>(
                           hint: Text(
                             'Select ${GlobalVariable.salon} Type',
                             style: TextStyle(
                               color: Colors.grey,
-                              fontSize: Dimensions.dimenisonNo16,
+                              fontSize: Dimensions.dimensionNo16,
                               fontFamily: GoogleFonts.roboto().fontFamily,
                               fontWeight: FontWeight.w500,
                               letterSpacing: 0.40,
@@ -294,33 +294,33 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                             return null;
                           },
                         ),
-                        SizedBox(height: Dimensions.dimenisonNo10),
+                        SizedBox(height: Dimensions.dimensionNo10),
                         FormCustomTextField(
                           controller: _descrition,
                           title: "${GlobalVariable.salon} Description",
                           maxline: 5,
                         ),
-                        SizedBox(height: Dimensions.dimenisonNo10),
+                        SizedBox(height: Dimensions.dimensionNo10),
                         TimingSection(appProvider, context),
-                        SizedBox(height: Dimensions.dimenisonNo10),
+                        SizedBox(height: Dimensions.dimensionNo10),
                         FormCustomTextField(
                           controller: _address,
                           title: "Address",
                           maxline: 2,
                         ),
-                        SizedBox(height: Dimensions.dimenisonNo20),
+                        SizedBox(height: Dimensions.dimensionNo20),
                         Text(
                           "The address is updated; it does not show here. You can see it in the app. If you want to change it, do it here.",
                           overflow: TextOverflow.clip,
                           style: TextStyle(
                             color: Colors.grey,
-                            fontSize: Dimensions.dimenisonNo12,
+                            fontSize: Dimensions.dimensionNo12,
                             fontFamily: GoogleFonts.roboto().fontFamily,
                             fontWeight: FontWeight.w400,
                             letterSpacing: 0.40,
                           ),
                         ),
-                        SizedBox(height: Dimensions.dimenisonNo5),
+                        SizedBox(height: Dimensions.dimensionNo5),
                         Row(
                           children: [
                             Expanded(
@@ -349,18 +349,18 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                                     cityValue != null && cityValue!.isNotEmpty
                                         ? cityValue!
                                         : "Select City",
-                                dropdownDialogRadius: Dimensions.dimenisonNo12,
-                                searchBarRadius: Dimensions.dimenisonNo30,
+                                dropdownDialogRadius: Dimensions.dimensionNo12,
+                                searchBarRadius: Dimensions.dimensionNo30,
                                 dropdownDecoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(
-                                      Dimensions.dimenisonNo10),
+                                      Dimensions.dimensionNo10),
                                   color: Colors.white,
                                   border:
                                       Border.all(color: Colors.black, width: 1),
                                 ),
                                 disabledDropdownDecoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(
-                                      Dimensions.dimenisonNo10),
+                                      Dimensions.dimensionNo10),
                                   color: Colors.grey.shade300,
                                   border:
                                       Border.all(color: Colors.black, width: 1),
@@ -369,10 +369,10 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                             ),
                           ],
                         ),
-                        SizedBox(height: Dimensions.dimenisonNo12),
+                        SizedBox(height: Dimensions.dimensionNo12),
                         FormCustomTextField(
                             controller: _pincode, title: "Pincode"),
-                        SizedBox(height: Dimensions.dimenisonNo20),
+                        SizedBox(height: Dimensions.dimensionNo20),
                         CustomAuthButton(
                           text: "Update",
                           ontap: () async {
@@ -562,7 +562,7 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
     return Column(
       children: [
         textboxHeading('Upload ${GlobalVariable.salon} Images ', true),
-        SizedBox(height: Dimensions.dimenisonNo10),
+        SizedBox(height: Dimensions.dimensionNo10),
         Stack(
           children: [
             // Main Salon Image
@@ -579,10 +579,10 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(Dimensions.dimenisonNo20),
+                  borderRadius: BorderRadius.circular(Dimensions.dimensionNo20),
                 ),
-                width: Dimensions.dimenisonNo300,
-                height: Dimensions.dimenisonNo200,
+                width: Dimensions.dimensionNo300,
+                height: Dimensions.dimensionNo200,
                 clipBehavior: Clip.antiAlias,
                 child: selectedImage != null
                     ? Image.memory(selectedImage!, fit: BoxFit.cover)
@@ -595,14 +595,14 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                                 Center(
                               child: Icon(
                                 Icons.image,
-                                size: Dimensions.dimenisonNo200,
+                                size: Dimensions.dimensionNo200,
                               ),
                             ),
                           )
                         : Center(
                             child: Icon(
                               Icons.image,
-                              size: Dimensions.dimenisonNo200,
+                              size: Dimensions.dimensionNo200,
                             ),
                           ),
               ),
@@ -623,18 +623,18 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                   }
                 },
                 child: CircleAvatar(
-                  radius: Dimensions.dimenisonNo40,
+                  radius: Dimensions.dimensionNo40,
                   backgroundColor: Colors.white,
                   child: selectedlog != null
                       ? CircleAvatar(
-                          radius: Dimensions.dimenisonNo38,
+                          radius: Dimensions.dimensionNo38,
                           backgroundImage: MemoryImage(selectedlog!),
                         )
                       : (appProvider.getSalonInformation.logImage != null &&
                               appProvider
                                   .getSalonInformation.logImage!.isNotEmpty)
                           ? CircleAvatar(
-                              radius: Dimensions.dimenisonNo38,
+                              radius: Dimensions.dimensionNo38,
                               backgroundColor: getAvatarBgColor(
                                   appProvider.getSalonInformation.name),
                               backgroundImage: NetworkImage(
@@ -642,7 +642,7 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                               onBackgroundImageError: (_, __) {},
                             )
                           : CircleAvatar(
-                              radius: Dimensions.dimenisonNo38,
+                              radius: Dimensions.dimensionNo38,
                               backgroundColor: getAvatarBgColor(
                                   appProvider.getSalonInformation.name),
                               child: Text(
@@ -653,7 +653,7 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                                     : '',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  fontSize: Dimensions.dimenisonNo28,
+                                  fontSize: Dimensions.dimensionNo28,
                                   fontWeight: FontWeight.bold,
                                   color: Colors.white,
                                 ),
@@ -676,7 +676,7 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
             text: heading,
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: Dimensions.dimensionNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.15,
@@ -686,7 +686,7 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
             text: isRequired ? '*' : '',
             style: TextStyle(
               color: const Color(0xFFFC0000),
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: Dimensions.dimensionNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               height: 0,

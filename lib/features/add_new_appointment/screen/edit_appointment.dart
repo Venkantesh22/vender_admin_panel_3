@@ -31,9 +31,9 @@ import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
-import 'package:samay_admin_plan/widget/customtextfield.dart';
+import 'package:samay_admin_plan/widget/text_box/customtextfield.dart';
 
 class EditAppointment extends StatefulWidget {
   final int index;
@@ -365,11 +365,11 @@ class _EditAppointmentState extends State<EditAppointment> {
                             children: [
                               Padding(
                                 padding:
-                                    EdgeInsets.all(Dimensions.dimenisonNo16),
+                                    EdgeInsets.all(Dimensions.dimensionNo16),
                                 child: Text(
                                   "Update Appointment",
                                   style: TextStyle(
-                                    fontSize: Dimensions.dimenisonNo20,
+                                    fontSize: Dimensions.dimensionNo20,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -392,11 +392,11 @@ class _EditAppointmentState extends State<EditAppointment> {
                                 child: Padding(
                                   padding: ResponsiveLayout.isMobile(context)
                                       ? EdgeInsets.symmetric(
-                                          horizontal: Dimensions.dimenisonNo12,
-                                          vertical: Dimensions.dimenisonNo12)
+                                          horizontal: Dimensions.dimensionNo12,
+                                          vertical: Dimensions.dimensionNo12)
                                       : EdgeInsets.symmetric(
-                                          horizontal: Dimensions.dimenisonNo18,
-                                          vertical: Dimensions.dimenisonNo12),
+                                          horizontal: Dimensions.dimensionNo18,
+                                          vertical: Dimensions.dimensionNo12),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -409,8 +409,8 @@ class _EditAppointmentState extends State<EditAppointment> {
                                             style: TextStyle(
                                               fontSize: ResponsiveLayout
                                                       .isMobile(context)
-                                                  ? Dimensions.dimenisonNo14
-                                                  : Dimensions.dimenisonNo18,
+                                                  ? Dimensions.dimensionNo14
+                                                  : Dimensions.dimensionNo18,
                                               fontWeight:
                                                   ResponsiveLayout.isMobile(
                                                           context)
@@ -424,8 +424,8 @@ class _EditAppointmentState extends State<EditAppointment> {
                                             style: TextStyle(
                                               fontSize: ResponsiveLayout
                                                       .isMobile(context)
-                                                  ? Dimensions.dimenisonNo14
-                                                  : Dimensions.dimenisonNo18,
+                                                  ? Dimensions.dimensionNo14
+                                                  : Dimensions.dimensionNo18,
                                               fontWeight:
                                                   ResponsiveLayout.isMobile(
                                                           context)
@@ -436,7 +436,7 @@ class _EditAppointmentState extends State<EditAppointment> {
                                         ],
                                       ),
                                       SizedBox(
-                                        height: Dimensions.dimenisonNo10,
+                                        height: Dimensions.dimensionNo10,
                                       ),
                                       Padding(
                                         padding:
@@ -444,12 +444,12 @@ class _EditAppointmentState extends State<EditAppointment> {
                                                 ? EdgeInsets.zero
                                                 : EdgeInsets.symmetric(
                                                     horizontal: Dimensions
-                                                        .dimenisonNo12),
+                                                        .dimensionNo12),
                                         child: Wrap(
                                           spacing: Dimensions
-                                              .dimenisonNo12, // Horizontal space between items
+                                              .dimensionNo12, // Horizontal space between items
                                           runSpacing: Dimensions
-                                              .dimenisonNo12, // Vertical space between rows
+                                              .dimensionNo12, // Vertical space between rows
                                           alignment: WrapAlignment.center,
                                           runAlignment: WrapAlignment.start,
                                           children: List.generate(
@@ -461,8 +461,8 @@ class _EditAppointmentState extends State<EditAppointment> {
                                               return SizedBox(
                                                 width: ResponsiveLayout
                                                         .isMobile(context)
-                                                    ? Dimensions.dimenisonNo210
-                                                    : Dimensions.dimenisonNo300,
+                                                    ? Dimensions.dimensionNo210
+                                                    : Dimensions.dimensionNo300,
                                                 child:
                                                     SingleServiceTapDeleteIcon(
                                                   serviceModel: servicelist,
@@ -498,7 +498,7 @@ class _EditAppointmentState extends State<EditAppointment> {
                                         ),
                                       ),
                                       SizedBox(
-                                          height: Dimensions.dimenisonNo12),
+                                          height: Dimensions.dimensionNo12),
                                       //! TextBox for user note
                                       SizedBox(
                                         width: Dimensions.screenWidth,
@@ -512,7 +512,7 @@ class _EditAppointmentState extends State<EditAppointment> {
                                         ),
                                       ),
                                       SizedBox(
-                                          height: Dimensions.dimenisonNo12),
+                                          height: Dimensions.dimensionNo12),
                                       // Detail of appointment
                                       //! Appointment Details
                                       if (_appointmentDateController != null)
@@ -528,40 +528,40 @@ class _EditAppointmentState extends State<EditAppointment> {
                             Positioned(
                               right: ResponsiveLayout.isMobile(context)
                                   ? Dimensions
-                                      .dimenisonNo20 // Adjust for mobile
+                                      .dimensionNo20 // Adjust for mobile
                                   : Dimensions
-                                      .dimenisonNo360, // Default for larger screens
+                                      .dimensionNo360, // Default for larger screens
                               top: ResponsiveLayout.isMobile(context)
                                   ? Dimensions
-                                      .dimenisonNo150 // Adjust for mobile
+                                      .dimensionNo150 // Adjust for mobile
                                   : Dimensions
-                                      .dimenisonNo150, // Default for larger screens
+                                      .dimensionNo150, // Default for larger screens
                               left: ResponsiveLayout.isMobile(context)
                                   ? Dimensions
-                                      .dimenisonNo20 // Adjust for mobile
+                                      .dimensionNo20 // Adjust for mobile
                                   : null, // Default for larger screens
                               child: SingleChildScrollView(
                                 child: Container(
                                   padding:
-                                      EdgeInsets.all(Dimensions.dimenisonNo12),
+                                      EdgeInsets.all(Dimensions.dimensionNo12),
 
                                   width: ResponsiveLayout.isMobile(context)
                                       ? Dimensions
-                                          .dimenisonNo300 // Adjust width for mobile
+                                          .dimensionNo300 // Adjust width for mobile
                                       : Dimensions
-                                          .dimenisonNo500, // Default for larger screens
+                                          .dimensionNo500, // Default for larger screens
                                   constraints: BoxConstraints(
                                     maxHeight: ResponsiveLayout.isMobile(
                                             context)
                                         ? Dimensions
-                                            .dimenisonNo400 // Adjust height for mobile
+                                            .dimensionNo400 // Adjust height for mobile
                                         : Dimensions
-                                            .dimenisonNo500, // Default for larger screens
+                                            .dimensionNo500, // Default for larger screens
                                   ),
                                   decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(
-                                        Dimensions.dimenisonNo10),
+                                        Dimensions.dimensionNo10),
                                     border: Border.all(
                                         color: Colors.grey, width: 1),
                                   ),
@@ -637,7 +637,7 @@ class _EditAppointmentState extends State<EditAppointment> {
                                           },
                                         ),
                                         SizedBox(
-                                          height: Dimensions.dimenisonNo12,
+                                          height: Dimensions.dimensionNo12,
                                         ),
                                       ],
                                     ),
@@ -649,33 +649,33 @@ class _EditAppointmentState extends State<EditAppointment> {
                             Positioned(
                               right: ResponsiveLayout.isMobile(context)
                                   ? Dimensions
-                                      .dimenisonNo20 // Adjust for mobile
+                                      .dimensionNo20 // Adjust for mobile
                                   : Dimensions
-                                      .dimenisonNo360, // Default for larger screens
+                                      .dimensionNo360, // Default for larger screens
                               top: ResponsiveLayout.isMobile(context)
                                   ? Dimensions
-                                      .dimenisonNo150 // Adjust for mobile
+                                      .dimensionNo150 // Adjust for mobile
                                   : Dimensions
-                                      .dimenisonNo120, // Default for larger screens
+                                      .dimensionNo120, // Default for larger screens
                               left: ResponsiveLayout.isMobile(context)
                                   ? Dimensions
-                                      .dimenisonNo20 // Adjust for mobile
+                                      .dimensionNo20 // Adjust for mobile
                                   : null, // Default for larger screens
                               child: SizedBox(
                                 height: ResponsiveLayout.isMobile(context)
                                     ? Dimensions
-                                        .dimenisonNo400 // Adjust height for mobile
+                                        .dimensionNo400 // Adjust height for mobile
                                     : ResponsiveLayout.isTablet(context)
                                         ? 400 // Adjust width for mobile
                                         : Dimensions
-                                            .dimenisonNo450, // Default for larger screens
+                                            .dimensionNo450, // Default for larger screens
                                 width: ResponsiveLayout.isMobile(context)
                                     ? Dimensions
-                                        .dimenisonNo300 // Adjust width for mobile
+                                        .dimensionNo300 // Adjust width for mobile
                                     : ResponsiveLayout.isTablet(context)
                                         ? 600 // Adjust width for mobile
                                         : Dimensions
-                                            .dimenisonNo360, // Default for larger screens
+                                            .dimensionNo360, // Default for larger screens
                                 child: CustomCalendar(
                                   salonModel: widget.salonModel,
                                   controller: _appointmentDateController,
@@ -688,22 +688,22 @@ class _EditAppointmentState extends State<EditAppointment> {
                             Positioned(
                               right: ResponsiveLayout.isMobile(context)
                                   ? Dimensions
-                                      .dimenisonNo20 // Adjust for mobile
+                                      .dimensionNo20 // Adjust for mobile
                                   : null,
 
-                              //     .dimenisonNo360, // Default for larger screens
+                              //     .dimensionNo360, // Default for larger screens
                               top: ResponsiveLayout.isMobile(context)
                                   ? Dimensions
-                                      .dimenisonNo200 // Adjust for mobile
+                                      .dimensionNo200 // Adjust for mobile
                                   : Dimensions
-                                      .dimenisonNo210, // Default for larger screens
+                                      .dimensionNo210, // Default for larger screens
                               left: ResponsiveLayout.isMobile(context)
                                   ? Dimensions
-                                      .dimenisonNo20 // Adjust for mobile
+                                      .dimensionNo20 // Adjust for mobile
                                   : Dimensions
-                                      .dimenisonNo90, // Default for larger screens
+                                      .dimensionNo90, // Default for larger screens
                               child: Container(
-                                width: Dimensions.dimenisonNo500,
+                                width: Dimensions.dimensionNo500,
                                 constraints: const BoxConstraints(
                                   maxHeight:
                                       320, // Set a max height to make it scrollable
@@ -711,21 +711,21 @@ class _EditAppointmentState extends State<EditAppointment> {
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFFFFFFF),
                                   borderRadius: BorderRadius.circular(
-                                      Dimensions.dimenisonNo10),
+                                      Dimensions.dimensionNo10),
                                 ),
                                 child: _serviceController.text.isNotEmpty &&
                                         serchServiceList.isEmpty
                                     ? Padding(
                                         padding: EdgeInsets.only(
-                                          top: Dimensions.dimenisonNo12,
-                                          left: Dimensions.dimenisonNo16,
-                                          bottom: Dimensions.dimenisonNo12,
+                                          top: Dimensions.dimensionNo12,
+                                          left: Dimensions.dimensionNo16,
+                                          bottom: Dimensions.dimensionNo12,
                                         ),
                                         child: Text(
                                           "No service found",
                                           style: TextStyle(
                                               fontSize:
-                                                  Dimensions.dimenisonNo14,
+                                                  Dimensions.dimensionNo14,
                                               fontWeight: FontWeight.w600),
                                         ),
                                       )
@@ -735,15 +735,15 @@ class _EditAppointmentState extends State<EditAppointment> {
                                             _serviceController.text.isEmpty
                                         ? Padding(
                                             padding: EdgeInsets.only(
-                                              top: Dimensions.dimenisonNo12,
-                                              left: Dimensions.dimenisonNo16,
-                                              bottom: Dimensions.dimenisonNo12,
+                                              top: Dimensions.dimensionNo12,
+                                              left: Dimensions.dimensionNo16,
+                                              bottom: Dimensions.dimensionNo12,
                                             ),
                                             child: Text(
                                               "Enter a Service name or Code",
                                               style: TextStyle(
                                                   fontSize:
-                                                      Dimensions.dimenisonNo14,
+                                                      Dimensions.dimensionNo14,
                                                   fontWeight: FontWeight.w600),
                                             ),
                                           )
@@ -775,11 +775,11 @@ class _EditAppointmentState extends State<EditAppointment> {
 
   Container _formOfAppoint() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo16),
-      padding: EdgeInsets.all(Dimensions.dimenisonNo16),
+      margin: EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo16),
+      padding: EdgeInsets.all(Dimensions.dimensionNo16),
       decoration: BoxDecoration(
         border: Border.all(width: 1.5),
-        borderRadius: BorderRadius.circular(Dimensions.dimenisonNo8),
+        borderRadius: BorderRadius.circular(Dimensions.dimensionNo8),
       ),
       child: Center(
         child: ResponsiveLayout.isMobile(context)
@@ -789,8 +789,8 @@ class _EditAppointmentState extends State<EditAppointment> {
                 children: [
                   //! User Name textbox
                   Wrap(
-                    spacing: Dimensions.dimenisonNo8,
-                    runSpacing: Dimensions.dimenisonNo5,
+                    spacing: Dimensions.dimensionNo8,
+                    runSpacing: Dimensions.dimensionNo5,
                     alignment: WrapAlignment.start, // Align items to the left
                     children: [
                       textBoxOfForm("First Name", _nameController),
@@ -813,10 +813,10 @@ class _EditAppointmentState extends State<EditAppointment> {
                         children: [
                           _serviceServiceTextBox(),
                           SizedBox(
-                            height: Dimensions.dimenisonNo8,
+                            height: Dimensions.dimensionNo8,
                           ),
                           Container(
-                            width: Dimensions.dimenisonNo500,
+                            width: Dimensions.dimensionNo500,
                             constraints: const BoxConstraints(
                               maxHeight:
                                   320, // Set a max height to make it scrollable
@@ -824,20 +824,20 @@ class _EditAppointmentState extends State<EditAppointment> {
                             decoration: BoxDecoration(
                               color: const Color(0xFFFFFFFF),
                               borderRadius: BorderRadius.circular(
-                                  Dimensions.dimenisonNo10),
+                                  Dimensions.dimensionNo10),
                             ),
                             child: _serviceController.text.isNotEmpty &&
                                     serchServiceList.isEmpty
                                 ? Padding(
                                     padding: EdgeInsets.only(
-                                      top: Dimensions.dimenisonNo12,
-                                      left: Dimensions.dimenisonNo16,
-                                      bottom: Dimensions.dimenisonNo12,
+                                      top: Dimensions.dimensionNo12,
+                                      left: Dimensions.dimensionNo16,
+                                      bottom: Dimensions.dimensionNo12,
                                     ),
                                     child: Text(
                                       "No service found",
                                       style: TextStyle(
-                                          fontSize: Dimensions.dimenisonNo14,
+                                          fontSize: Dimensions.dimensionNo14,
                                           fontWeight: FontWeight.w600),
                                     ),
                                   )
@@ -875,13 +875,13 @@ class _EditAppointmentState extends State<EditAppointment> {
                     children: [
                       textBoxOfForm("First Name", _nameController),
                       SizedBox(
-                        width: Dimensions.dimenisonNo30,
+                        width: Dimensions.dimensionNo30,
                       ),
                       //! User last Name textbox
 
                       textBoxOfForm("Last Name", _lastNameController),
                       SizedBox(
-                        width: Dimensions.dimenisonNo30,
+                        width: Dimensions.dimensionNo30,
                       ),
                       //! select Date text box
                       _selectAppointDateTextBox(),
@@ -894,13 +894,13 @@ class _EditAppointmentState extends State<EditAppointment> {
                     children: [
                       _serviceServiceTextBox(),
                       SizedBox(
-                        width: Dimensions.dimenisonNo30,
+                        width: Dimensions.dimensionNo30,
                       ),
                       //! mobile text box
                       textBoxOfForm("Mobile No", _mobileController),
 
                       SizedBox(
-                        width: Dimensions.dimenisonNo30,
+                        width: Dimensions.dimensionNo30,
                       ),
 
                       //! select time textbox
@@ -908,7 +908,7 @@ class _EditAppointmentState extends State<EditAppointment> {
                     ],
                   ),
 
-                  // SizedBox(height: Dimensions.dimenisonNo16),
+                  // SizedBox(height: Dimensions.dimensionNo16),
                 ],
               ),
       ),
@@ -917,7 +917,7 @@ class _EditAppointmentState extends State<EditAppointment> {
 
   SizedBox _timeSelectTextBox() {
     return SizedBox(
-      height: Dimensions.dimenisonNo70,
+      height: Dimensions.dimensionNo70,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -926,23 +926,23 @@ class _EditAppointmentState extends State<EditAppointment> {
             style: TextStyle(
               color: Colors.black,
               fontSize: ResponsiveLayout.isMobile(context)
-                  ? Dimensions.dimenisonNo14
-                  : Dimensions.dimenisonNo18,
+                  ? Dimensions.dimensionNo14
+                  : Dimensions.dimensionNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.90,
             ),
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo5,
+            height: Dimensions.dimensionNo5,
           ),
           SizedBox(
             height: ResponsiveLayout.isDesktop(context)
-                ? Dimensions.dimenisonNo30
-                : Dimensions.dimenisonNo40,
+                ? Dimensions.dimensionNo30
+                : Dimensions.dimensionNo40,
             width: ResponsiveLayout.isMobile(context)
                 ? null
-                : Dimensions.dimenisonNo250,
+                : Dimensions.dimensionNo250,
             child: TextFormField(
               onTap: () {
                 setState(() {
@@ -950,19 +950,19 @@ class _EditAppointmentState extends State<EditAppointment> {
                   print("Time : $_showTimeContaine");
                 });
               },
-              cursorHeight: Dimensions.dimenisonNo16,
+              cursorHeight: Dimensions.dimensionNo16,
               style: TextStyle(
-                  fontSize: Dimensions.dimenisonNo12,
+                  fontSize: Dimensions.dimensionNo12,
                   fontFamily: GoogleFonts.roboto().fontFamily,
                   fontWeight: FontWeight.bold,
                   color: Colors.black),
               controller: _appointmentTimeController,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.dimenisonNo10,
-                    vertical: Dimensions.dimenisonNo10),
+                    horizontal: Dimensions.dimensionNo10,
+                    vertical: Dimensions.dimensionNo10),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Dimensions.dimenisonNo16),
+                  borderRadius: BorderRadius.circular(Dimensions.dimensionNo16),
                 ),
               ),
             ),
@@ -974,9 +974,9 @@ class _EditAppointmentState extends State<EditAppointment> {
 
   SizedBox _serviceServiceTextBox() {
     return SizedBox(
-      height: Dimensions.dimenisonNo70,
+      height: Dimensions.dimensionNo70,
       width:
-          ResponsiveLayout.isMobile(context) ? null : Dimensions.dimenisonNo250,
+          ResponsiveLayout.isMobile(context) ? null : Dimensions.dimensionNo250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -985,23 +985,23 @@ class _EditAppointmentState extends State<EditAppointment> {
             style: TextStyle(
               color: Colors.black,
               fontSize: ResponsiveLayout.isMobile(context)
-                  ? Dimensions.dimenisonNo14
-                  : Dimensions.dimenisonNo18,
+                  ? Dimensions.dimensionNo14
+                  : Dimensions.dimensionNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.90,
             ),
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo5,
+            height: Dimensions.dimensionNo5,
           ),
           SizedBox(
             height: ResponsiveLayout.isDesktop(context)
-                ? Dimensions.dimenisonNo30
-                : Dimensions.dimenisonNo40,
+                ? Dimensions.dimensionNo30
+                : Dimensions.dimensionNo40,
             width: ResponsiveLayout.isMobile(context)
                 ? null
-                : Dimensions.dimenisonNo250,
+                : Dimensions.dimensionNo250,
             child: TextFormField(
               onChanged: (String value) {
                 serchService(value);
@@ -1018,9 +1018,9 @@ class _EditAppointmentState extends State<EditAppointment> {
                   });
                 }
               },
-              cursorHeight: Dimensions.dimenisonNo16,
+              cursorHeight: Dimensions.dimensionNo16,
               style: TextStyle(
-                  fontSize: Dimensions.dimenisonNo12,
+                  fontSize: Dimensions.dimensionNo12,
                   fontFamily: GoogleFonts.roboto().fontFamily,
                   fontWeight: FontWeight.bold,
                   color: Colors.black),
@@ -1028,10 +1028,10 @@ class _EditAppointmentState extends State<EditAppointment> {
               decoration: InputDecoration(
                 hintText: "Search Service...",
                 contentPadding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.dimenisonNo10,
-                    vertical: Dimensions.dimenisonNo10),
+                    horizontal: Dimensions.dimensionNo10,
+                    vertical: Dimensions.dimensionNo10),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Dimensions.dimenisonNo16),
+                  borderRadius: BorderRadius.circular(Dimensions.dimensionNo16),
                 ),
               ),
             ),
@@ -1043,9 +1043,9 @@ class _EditAppointmentState extends State<EditAppointment> {
 
   SizedBox _selectAppointDateTextBox() {
     return SizedBox(
-      height: Dimensions.dimenisonNo70,
+      height: Dimensions.dimensionNo70,
       width:
-          ResponsiveLayout.isMobile(context) ? null : Dimensions.dimenisonNo250,
+          ResponsiveLayout.isMobile(context) ? null : Dimensions.dimensionNo250,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -1054,23 +1054,23 @@ class _EditAppointmentState extends State<EditAppointment> {
             style: TextStyle(
               color: Colors.black,
               fontSize: ResponsiveLayout.isMobile(context)
-                  ? Dimensions.dimenisonNo14
-                  : Dimensions.dimenisonNo18,
+                  ? Dimensions.dimensionNo14
+                  : Dimensions.dimensionNo18,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.90,
             ),
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo5,
+            height: Dimensions.dimensionNo5,
           ),
           SizedBox(
             height: ResponsiveLayout.isDesktop(context)
-                ? Dimensions.dimenisonNo30
-                : Dimensions.dimenisonNo40,
+                ? Dimensions.dimensionNo30
+                : Dimensions.dimensionNo40,
             width: ResponsiveLayout.isMobile(context)
                 ? null
-                : Dimensions.dimenisonNo250,
+                : Dimensions.dimensionNo250,
             child: TextFormField(
               onTap: () {
                 setState(() {
@@ -1079,19 +1079,19 @@ class _EditAppointmentState extends State<EditAppointment> {
                 print(_showCalender);
               },
               readOnly: true,
-              cursorHeight: Dimensions.dimenisonNo16,
+              cursorHeight: Dimensions.dimensionNo16,
               style: TextStyle(
-                  fontSize: Dimensions.dimenisonNo12,
+                  fontSize: Dimensions.dimensionNo12,
                   fontFamily: GoogleFonts.roboto().fontFamily,
                   fontWeight: FontWeight.bold,
                   color: Colors.black),
               controller: _appointmentDateController,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.dimenisonNo10,
-                    vertical: Dimensions.dimenisonNo10),
+                    horizontal: Dimensions.dimensionNo10,
+                    vertical: Dimensions.dimensionNo10),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Dimensions.dimenisonNo16),
+                  borderRadius: BorderRadius.circular(Dimensions.dimensionNo16),
                 ),
               ),
             ),
@@ -1106,9 +1106,9 @@ class _EditAppointmentState extends State<EditAppointment> {
     TextEditingController controller,
   ) {
     return SizedBox(
-      height: Dimensions.dimenisonNo70,
+      height: Dimensions.dimensionNo70,
       width:
-          ResponsiveLayout.isMobile(context) ? null : Dimensions.dimenisonNo250,
+          ResponsiveLayout.isMobile(context) ? null : Dimensions.dimensionNo250,
       child: FormCustomTextField(
         requiredField: false,
         controller: controller,
@@ -1125,24 +1125,24 @@ class _EditAppointmentState extends State<EditAppointment> {
     return Container(
       margin: ResponsiveLayout.isMobile(context)
           ? EdgeInsets.zero
-          : EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo250),
+          : EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo250),
       padding: EdgeInsets.symmetric(
           horizontal: ResponsiveLayout.isMobile(context)
-              ? Dimensions.dimenisonNo5
-              : Dimensions.dimenisonNo20),
+              ? Dimensions.dimensionNo5
+              : Dimensions.dimensionNo20),
       decoration: BoxDecoration(
         color: AppColor.grey,
-        borderRadius: BorderRadius.circular(Dimensions.dimenisonNo10),
+        borderRadius: BorderRadius.circular(Dimensions.dimensionNo10),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: Dimensions.dimenisonNo16),
+          SizedBox(height: Dimensions.dimensionNo16),
           if (_selectedTimeSlot != null)
             Text(
               'Appointment Duration',
               style: TextStyle(
-                fontSize: Dimensions.dimenisonNo16,
+                fontSize: Dimensions.dimensionNo16,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -1150,7 +1150,7 @@ class _EditAppointmentState extends State<EditAppointment> {
             color: Colors.white,
           ),
           if (_selectedTimeSlot != null) ...[
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             Row(
               children: [
                 Text(
@@ -1164,7 +1164,7 @@ class _EditAppointmentState extends State<EditAppointment> {
                 ),
               ],
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             Row(
               children: [
                 Text(
@@ -1178,7 +1178,7 @@ class _EditAppointmentState extends State<EditAppointment> {
                 ),
               ],
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             Row(
               children: [
                 Text(
@@ -1192,7 +1192,7 @@ class _EditAppointmentState extends State<EditAppointment> {
                 ),
               ],
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             Row(
               children: [
                 Text(
@@ -1210,7 +1210,7 @@ class _EditAppointmentState extends State<EditAppointment> {
                 ),
               ],
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             const Divider(
               color: Colors.white,
             ),
@@ -1218,7 +1218,7 @@ class _EditAppointmentState extends State<EditAppointment> {
               child: Text(
                 'Price Details',
                 style: TextStyle(
-                  fontSize: Dimensions.dimenisonNo16,
+                  fontSize: Dimensions.dimensionNo16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -1226,7 +1226,7 @@ class _EditAppointmentState extends State<EditAppointment> {
             const Divider(
               color: Colors.white,
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
 
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -1243,7 +1243,7 @@ class _EditAppointmentState extends State<EditAppointment> {
                         style: appointSummaryTextStyle(context),
                       ),
                     ),
-                    Icon(Icons.currency_rupee, size: Dimensions.dimenisonNo16),
+                    Icon(Icons.currency_rupee, size: Dimensions.dimensionNo16),
                     Text(
                       bookingProvider.getSubTotal.toString(),
                       style: appointSummaryTextStyle(context, bold: true),
@@ -1327,7 +1327,7 @@ class _EditAppointmentState extends State<EditAppointment> {
                         style: appointSummaryTextStyle(context),
                       ),
                     ),
-                    Icon(Icons.currency_rupee, size: Dimensions.dimenisonNo16),
+                    Icon(Icons.currency_rupee, size: Dimensions.dimensionNo16),
                     Text(
                       _samaySalonSettingModel!.platformFee,
                       style: appointSummaryTextStyle(context, bold: true),
@@ -1349,7 +1349,7 @@ class _EditAppointmentState extends State<EditAppointment> {
                         style: appointSummaryTextStyle(context),
                       ),
                     ),
-                    Icon(Icons.currency_rupee, size: Dimensions.dimenisonNo16),
+                    Icon(Icons.currency_rupee, size: Dimensions.dimensionNo16),
                     Text(
                       bookingProvider.getTaxAbleAmount!
                           .round()
@@ -1371,7 +1371,7 @@ class _EditAppointmentState extends State<EditAppointment> {
                         ),
                       ),
                       Icon(Icons.currency_rupee,
-                          size: Dimensions.dimenisonNo16),
+                          size: Dimensions.dimensionNo16),
                       Text(
                         _settingModel!.gSTIsIncludingOrExcluding ==
                                 GlobalVariable.GstExclusive
@@ -1396,7 +1396,7 @@ class _EditAppointmentState extends State<EditAppointment> {
                       ),
                     ),
                     Icon(Icons.currency_rupee,
-                        size: Dimensions.dimenisonNo18,
+                        size: Dimensions.dimensionNo18,
                         color: Colors.green.shade700),
                     Text(
                       bookingProvider.getFinalPayableAMT!.round().toString(),
@@ -1443,7 +1443,7 @@ class _EditAppointmentState extends State<EditAppointment> {
             // }),
 
             saveButton(context, serviceDurationInMinutes, bookingProvider),
-            SizedBox(height: Dimensions.dimenisonNo12),
+            SizedBox(height: Dimensions.dimensionNo12),
           ],
         ],
       ),
@@ -1464,11 +1464,11 @@ class _EditAppointmentState extends State<EditAppointment> {
       {Color? color, bool bold = false}) {
     double fontSize;
     if (ResponsiveLayout.isMobile(context)) {
-      fontSize = Dimensions.dimenisonNo13;
+      fontSize = Dimensions.dimensionNo13;
     } else if (ResponsiveLayout.isTablet(context)) {
-      fontSize = Dimensions.dimenisonNo15;
+      fontSize = Dimensions.dimensionNo15;
     } else {
-      fontSize = Dimensions.dimenisonNo17;
+      fontSize = Dimensions.dimensionNo17;
     }
     return TextStyle(
       fontSize: fontSize,
@@ -1481,7 +1481,7 @@ class _EditAppointmentState extends State<EditAppointment> {
 
   TextStyle _appointSummTextSyle() {
     return TextStyle(
-      fontSize: Dimensions.dimenisonNo14,
+      fontSize: Dimensions.dimensionNo14,
       fontWeight: FontWeight.w500,
       letterSpacing: 0.90,
     );
@@ -1576,37 +1576,37 @@ class _EditAppointmentState extends State<EditAppointment> {
                 builder: (context) {
                   return AlertDialog(
                     content: SizedBox(
-                      height: Dimensions.dimenisonNo250,
+                      height: Dimensions.dimensionNo250,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          SizedBox(height: Dimensions.dimenisonNo12),
+                          SizedBox(height: Dimensions.dimensionNo12),
                           Icon(
                             FontAwesomeIcons.solidHourglassHalf,
-                            size: Dimensions.dimenisonNo40,
+                            size: Dimensions.dimensionNo40,
                             color: AppColor.buttonColor,
                           ),
-                          SizedBox(height: Dimensions.dimenisonNo20),
+                          SizedBox(height: Dimensions.dimensionNo20),
                           Text(
                             'Appointment update Successfully',
                             style: TextStyle(
-                              fontSize: Dimensions.dimenisonNo16,
+                              fontSize: Dimensions.dimensionNo16,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          SizedBox(height: Dimensions.dimenisonNo16),
+                          SizedBox(height: Dimensions.dimensionNo16),
                           Text(
                             'Appointment update has been processed!\nDetails of the appointment are included below',
                             style: TextStyle(
-                              fontSize: Dimensions.dimenisonNo12,
+                              fontSize: Dimensions.dimensionNo12,
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                          SizedBox(height: Dimensions.dimenisonNo20),
+                          SizedBox(height: Dimensions.dimensionNo20),
                           Text(
                             'Appointment No : ${widget.appintModel.appointmentNo}',
                             style: TextStyle(
-                              fontSize: Dimensions.dimenisonNo14,
+                              fontSize: Dimensions.dimensionNo14,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -1628,7 +1628,7 @@ class _EditAppointmentState extends State<EditAppointment> {
                           'OK',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: Dimensions.dimenisonNo18,
+                            fontSize: Dimensions.dimensionNo18,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -1648,26 +1648,26 @@ class _EditAppointmentState extends State<EditAppointment> {
   AlertDialog warnigAlertDialogBox(String messages, BuildContext context) {
     return AlertDialog(
       content: SizedBox(
-        width: Dimensions.dimenisonNo360,
-        height: Dimensions.dimenisonNo200,
+        width: Dimensions.dimensionNo360,
+        height: Dimensions.dimensionNo200,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: Dimensions.dimenisonNo12),
+            SizedBox(height: Dimensions.dimensionNo12),
             Text(
               'Warning',
               style: TextStyle(
-                fontSize: Dimensions.dimenisonNo16,
+                fontSize: Dimensions.dimensionNo16,
                 fontWeight: FontWeight.w700,
               ),
             ),
-            SizedBox(height: Dimensions.dimenisonNo16),
+            SizedBox(height: Dimensions.dimensionNo16),
             Wrap(
               children: [
                 Text(
                   messages,
                   style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
+                    fontSize: Dimensions.dimensionNo14,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -1690,7 +1690,7 @@ class _EditAppointmentState extends State<EditAppointment> {
             'GO Back',
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: Dimensions.dimensionNo18,
               fontWeight: FontWeight.w700,
             ),
           ),
@@ -1704,7 +1704,7 @@ class _EditAppointmentState extends State<EditAppointment> {
             'OK',
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: Dimensions.dimensionNo18,
               fontWeight: FontWeight.w700,
             ),
           ),

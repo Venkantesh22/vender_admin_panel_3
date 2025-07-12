@@ -26,7 +26,7 @@ import 'package:samay_admin_plan/utility/color.dart';
 import 'package:samay_admin_plan/widget/custom_button.dart';
 import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/models/appoint_model/appoint_model.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/custom_icon_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -112,16 +112,16 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
             children: [
               Padding(
                 padding: EdgeInsets.only(
-                  left: Dimensions.dimenisonNo16,
-                  right: Dimensions.dimenisonNo16,
-                  top: Dimensions.dimenisonNo18,
+                  left: Dimensions.dimensionNo16,
+                  right: Dimensions.dimensionNo16,
+                  top: Dimensions.dimensionNo18,
                 ),
 
 //! heading bar of Appointment
 
                 child: appointHeadingPart(context, userModel),
               ),
-              Divider(thickness: Dimensions.dimenisonNo5),
+              Divider(thickness: Dimensions.dimensionNo5),
 //! Appointment State
               RowOfStates(
                 index: widget.index,
@@ -134,7 +134,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
 
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: Dimensions.dimenisonNo16,
+                  horizontal: Dimensions.dimensionNo16,
                 ),
                 child: Row(
                   children: [
@@ -143,9 +143,9 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                       backgroundImage: NetworkImage(
                         userModel.image,
                       ),
-                      radius: Dimensions.dimenisonNo20,
+                      radius: Dimensions.dimensionNo20,
                     ),
-                    SizedBox(width: Dimensions.dimenisonNo10),
+                    SizedBox(width: Dimensions.dimensionNo10),
                     Expanded(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -158,14 +158,14 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                                 style: TextStyle(
                                   overflow: TextOverflow.clip,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: Dimensions.dimenisonNo16,
+                                  fontSize: Dimensions.dimensionNo16,
                                 ),
                               ),
                               Text(
                                 "M.no ${userModel.phone}",
                                 style: TextStyle(
                                   fontWeight: FontWeight.w500,
-                                  fontSize: Dimensions.dimenisonNo14,
+                                  fontSize: Dimensions.dimensionNo14,
                                 ),
                               ),
                             ],
@@ -176,7 +176,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                               _openWhatsApp(
                                   "${GlobalVariable.indiaCode}${widget.appointModel.userModel.phone.toString()}");
                             },
-                            iconSize: Dimensions.dimenisonNo30,
+                            iconSize: Dimensions.dimensionNo30,
                           ),
                         ],
                       ),
@@ -186,23 +186,23 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
               ),
               Divider(),
               Padding(
-                padding: EdgeInsets.only(left: Dimensions.dimenisonNo16),
+                padding: EdgeInsets.only(left: Dimensions.dimensionNo16),
                 child: Center(
                   child: Text(
                     'Appointment Information',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: Dimensions.dimenisonNo18,
+                      fontSize: Dimensions.dimensionNo18,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: Dimensions.dimenisonNo16),
+              SizedBox(height: Dimensions.dimensionNo16),
 
               Padding(
                 padding:
-                    EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo16),
+                    EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -210,20 +210,20 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                       "Appointment Time",
                       style: TextStyle(
                         // color: Colors.black.withOpacity(0.699999988079071),
-                        fontSize: Dimensions.dimenisonNo15,
+                        fontSize: Dimensions.dimensionNo15,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
                     Padding(
                         padding: EdgeInsets.only(
-                            top: Dimensions.dimenisonNo5,
-                            left: Dimensions.dimenisonNo5,
-                            bottom: Dimensions.dimenisonNo10),
+                            top: Dimensions.dimensionNo5,
+                            left: Dimensions.dimensionNo5,
+                            bottom: Dimensions.dimensionNo10),
                         child: Text(
                           "${DateFormat('hh:mm a').format(widget.appointModel.serviceStartTime)} To ${DateFormat('hh:mm a').format(widget.appointModel.serviceEndTime)} (${appointDuration.inHours}h : ${appointDuration.inMinutes % 60}m)",
                           style: TextStyle(
                             color: Color(0xFF1F1616),
-                            fontSize: Dimensions.dimenisonNo14,
+                            fontSize: Dimensions.dimensionNo14,
                             fontWeight: FontWeight.w400,
                             letterSpacing: 0.90,
                           ),
@@ -250,10 +250,10 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                       infoText: widget.appointModel.serviceAddress!,
                     )
                   : SizedBox(),
-              Divider(thickness: Dimensions.dimenisonNo5),
+              Divider(thickness: Dimensions.dimensionNo5),
               //Service List
               servicerLIst(),
-              SizedBox(height: Dimensions.dimenisonNo10),
+              SizedBox(height: Dimensions.dimensionNo10),
 
               const Divider(),
               widget.appointModel.userNote.length >= 2
@@ -263,18 +263,18 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                   : const userInfoColumn(
                       title: "Client Note", infoText: "No user note"),
               //payment section
-              SizedBox(height: Dimensions.dimenisonNo10),
+              SizedBox(height: Dimensions.dimensionNo10),
 
               const Divider(thickness: 3),
 
               // Price Details Section
 
               pricreInfor(),
-              SizedBox(height: Dimensions.dimenisonNo10),
+              SizedBox(height: Dimensions.dimensionNo10),
 
               const Divider(thickness: 3),
               appointBookingInfor(userModel),
-              SizedBox(height: Dimensions.dimenisonNo20),
+              SizedBox(height: Dimensions.dimensionNo20),
               Opacity(
                 // opacity: widget.appointModel.status != "Completed" ? 0.5 : 1.0,
                 opacity: widget.appointModel.status == "Pen" ? 0.5 : 1.0,
@@ -283,7 +283,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                   ignoring: widget.appointModel.status == "Pen",
                   child: Container(
                     padding: EdgeInsets.symmetric(
-                        horizontal: Dimensions.dimenisonNo16),
+                        horizontal: Dimensions.dimensionNo16),
                     width: double.infinity,
                     child: CustomButtom(
                         text: "CheckOut",
@@ -300,7 +300,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                 ),
               ),
               SizedBox(
-                height: Dimensions.dimenisonNo20,
+                height: Dimensions.dimensionNo20,
               ),
             ],
           ),
@@ -321,7 +321,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
           'Appointment',
           style: TextStyle(
             color: Colors.black,
-            fontSize: Dimensions.dimenisonNo18,
+            fontSize: Dimensions.dimensionNo18,
             fontWeight: FontWeight.w500,
           ),
         ),
@@ -337,7 +337,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       editAppointButton(context, userModel),
-                      SizedBox(width: Dimensions.dimenisonNo5),
+                      SizedBox(width: Dimensions.dimensionNo5),
                       cancelAppointButton(context, userModel),
                       if (isBillGenerated)
                         IconButton(
@@ -362,7 +362,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                             color: Colors.green,
                           ),
                         ),
-                      SizedBox(width: Dimensions.dimenisonNo12),
+                      SizedBox(width: Dimensions.dimensionNo12),
                     ],
                   ),
           ),
@@ -449,23 +449,23 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
 
   Padding servicerLIst() {
     return Padding(
-      padding: EdgeInsets.only(left: Dimensions.dimenisonNo16),
+      padding: EdgeInsets.only(left: Dimensions.dimensionNo16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Service List",
             style: TextStyle(
-              fontSize: Dimensions.dimenisonNo15,
+              fontSize: Dimensions.dimensionNo15,
               fontWeight: FontWeight.w600,
             ),
           ),
-          SizedBox(height: Dimensions.dimenisonNo10),
+          SizedBox(height: Dimensions.dimensionNo10),
           ...widget.appointModel.services.map(
             (singleService) {
               return Padding(
                 padding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.dimenisonNo18_5),
+                    horizontal: Dimensions.dimensionNo18_5),
                 child: SingleServiceOrderList(
                   serviceModel: singleService,
                   showDelectIcon: false,
@@ -480,19 +480,19 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
 
   Padding appointBookingInfor(UserModel userModel) {
     return Padding(
-      padding: EdgeInsets.only(left: Dimensions.dimenisonNo16),
+      padding: EdgeInsets.only(left: Dimensions.dimensionNo16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "Appointment Book Details",
             style: TextStyle(
-              fontSize: Dimensions.dimenisonNo15,
+              fontSize: Dimensions.dimensionNo15,
               fontWeight: FontWeight.w600,
             ),
           ),
           ListView.builder(
-            padding: EdgeInsets.only(left: Dimensions.dimenisonNo5),
+            padding: EdgeInsets.only(left: Dimensions.dimensionNo5),
             shrinkWrap: true,
             itemCount: widget.appointModel.timeStampList.length,
             itemBuilder: (context, index) {
@@ -528,7 +528,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
     final bool hasPer = (widget.appointModel.extraDiscountInPerAMT != null &&
         widget.appointModel.extraDiscountInPerAMT != 0.0);
     return Padding(
-      padding: EdgeInsets.all(Dimensions.dimenisonNo16),
+      padding: EdgeInsets.all(Dimensions.dimensionNo16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -536,17 +536,17 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
             'Price Details',
             style: TextStyle(
               color: Colors.black,
-              fontSize: Dimensions.dimenisonNo18,
+              fontSize: Dimensions.dimensionNo18,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.0,
             ),
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo12,
+            height: Dimensions.dimensionNo12,
           ),
           // Price Details Section
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo10),
+            padding: EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo10),
             child: Column(
               children: [
                 Row(
@@ -555,7 +555,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                       'Payment Status',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: Dimensions.dimenisonNo14,
+                        fontSize: Dimensions.dimensionNo14,
                         // fontWeight: FontWeight.w500,
                         letterSpacing: 0.90,
                       ),
@@ -565,31 +565,31 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                       widget.appointModel.payment,
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: Dimensions.dimenisonNo14,
+                        fontSize: Dimensions.dimensionNo14,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 0.90,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: Dimensions.dimenisonNo20),
+                SizedBox(height: Dimensions.dimensionNo20),
                 Row(
                   children: [
                     Text(
                       'Price',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: Dimensions.dimenisonNo14,
+                        fontSize: Dimensions.dimensionNo14,
                         fontWeight: FontWeight.w400,
                         letterSpacing: 0.90,
                       ),
                     ),
-                    SizedBox(width: Dimensions.dimenisonNo5),
+                    SizedBox(width: Dimensions.dimensionNo5),
                     Text(
                       '(services ${widget.appointModel.services.length})',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: Dimensions.dimenisonNo14,
+                        fontSize: Dimensions.dimensionNo14,
                         // fontWeight: FontWeight.w500,
                         letterSpacing: 0.90,
                       ),
@@ -597,20 +597,20 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                     Spacer(),
                     Icon(
                       Icons.currency_rupee,
-                      size: Dimensions.dimenisonNo18,
+                      size: Dimensions.dimensionNo18,
                     ),
                     Text(
                       widget.appointModel.subtatal.toString(),
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: Dimensions.dimenisonNo14,
+                        fontSize: Dimensions.dimensionNo14,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 0.90,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
 
 // Item Discount
                 widget.appointModel.discountInPer != 0.0
@@ -619,7 +619,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                           Text(
                             'item Discount ${widget.appointModel.discountInPer!.round().toString()}%',
                             style: TextStyle(
-                              fontSize: Dimensions.dimenisonNo14,
+                              fontSize: Dimensions.dimensionNo14,
                               fontWeight: FontWeight.w500,
                               letterSpacing: 0.90,
                             ),
@@ -628,7 +628,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                           Text(
                             "-₹${widget.appointModel.discountAmount!.round().toString()}",
                             style: TextStyle(
-                              fontSize: Dimensions.dimenisonNo14,
+                              fontSize: Dimensions.dimensionNo14,
                               fontWeight: FontWeight.w500,
                               color: Colors.green,
                               letterSpacing: 0.90,
@@ -637,18 +637,18 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                         ],
                       )
                     : const SizedBox(),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
 // Extra Discount in per
                 widget.appointModel.extraDiscountInPerAMT != 0.0
                     ? Padding(
                         padding:
-                            EdgeInsets.only(bottom: Dimensions.dimenisonNo10),
+                            EdgeInsets.only(bottom: Dimensions.dimensionNo10),
                         child: Row(
                           children: [
                             Text(
                               "Extra Discount ${widget.appointModel.extraDiscountInPer ?? 0} %",
                               style: TextStyle(
-                                fontSize: Dimensions.dimenisonNo14,
+                                fontSize: Dimensions.dimensionNo14,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: 0.90,
                               ),
@@ -657,7 +657,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                             Text(
                               "-₹${((widget.appointModel.extraDiscountInPerAMT ?? 0.0)).toStringAsFixed(2)}",
                               style: TextStyle(
-                                fontSize: Dimensions.dimenisonNo14,
+                                fontSize: Dimensions.dimensionNo14,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.green,
                                 letterSpacing: 0.90,
@@ -671,13 +671,13 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                 widget.appointModel.extraDiscountInAmount != 0.0
                     ? Padding(
                         padding:
-                            EdgeInsets.only(bottom: Dimensions.dimenisonNo10),
+                            EdgeInsets.only(bottom: Dimensions.dimensionNo10),
                         child: Row(
                           children: [
                             Text(
                               'Flat Discount',
                               style: TextStyle(
-                                fontSize: Dimensions.dimenisonNo14,
+                                fontSize: Dimensions.dimensionNo14,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: 0.90,
                               ),
@@ -686,7 +686,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                             Text(
                               "-₹${widget.appointModel.extraDiscountInAmount!.round().toString()}",
                               style: TextStyle(
-                                fontSize: Dimensions.dimenisonNo14,
+                                fontSize: Dimensions.dimensionNo14,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.green,
                                 letterSpacing: 0.90,
@@ -700,7 +700,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
 //                 (hasFlat || hasPer)
 //                     ? Padding(
 //                         padding:
-//                             EdgeInsets.only(bottom: Dimensions.dimenisonNo10),
+//                             EdgeInsets.only(bottom: Dimensions.dimensionNo10),
 //                         child: Row(
 //                           children: [
 //                             Text(
@@ -710,7 +710,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
 //                                       ? "Flat Discount"
 //                                       : "Extra Discount ${widget.appointModel.extraDiscountInPer ?? 0} %",
 //                               style: TextStyle(
-//                                 fontSize: Dimensions.dimenisonNo14,
+//                                 fontSize: Dimensions.dimensionNo14,
 //                                 fontWeight: FontWeight.w500,
 //                                 letterSpacing: 0.90,
 //                               ),
@@ -719,7 +719,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
 //                             Text(
 //                               "-₹${((widget.appointModel.extraDiscountInPerAMT ?? 0.0) + (widget.appointModel.extraDiscountInAmount ?? 0.0)).toStringAsFixed(2)}",
 //                               style: TextStyle(
-//                                 fontSize: Dimensions.dimenisonNo14,
+//                                 fontSize: Dimensions.dimensionNo14,
 //                                 fontWeight: FontWeight.w500,
 //                                 color: Colors.green,
 //                                 letterSpacing: 0.90,
@@ -735,7 +735,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                     Text(
                       'Net',
                       style: TextStyle(
-                        fontSize: Dimensions.dimenisonNo14,
+                        fontSize: Dimensions.dimensionNo14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.90,
                       ),
@@ -744,14 +744,14 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                     Text(
                       "₹${widget.appointModel.netPrice.toStringAsFixed(2)}",
                       style: TextStyle(
-                        fontSize: Dimensions.dimenisonNo14,
+                        fontSize: Dimensions.dimensionNo14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.90,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 // GST Price
                 widget.appointModel.gstAmount != 0.0
                     ? Column(
@@ -762,7 +762,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                                 'GST 18% (SGST & CGST)',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: Dimensions.dimenisonNo14,
+                                  fontSize: Dimensions.dimensionNo14,
                                   // fontWeight: FontWeight.w500,
                                   letterSpacing: 0.90,
                                 ),
@@ -770,21 +770,21 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                               Spacer(),
                               Icon(
                                 Icons.currency_rupee,
-                                size: Dimensions.dimenisonNo14,
+                                size: Dimensions.dimensionNo14,
                               ),
                               Text(
                                 widget.appointModel.gstAmount
                                     .toStringAsFixed(2),
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: Dimensions.dimenisonNo14,
+                                  fontSize: Dimensions.dimensionNo14,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 0.90,
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(height: Dimensions.dimenisonNo10),
+                          SizedBox(height: Dimensions.dimensionNo10),
                         ],
                       )
                     : SizedBox(),
@@ -794,7 +794,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                       'Platform Fees',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: Dimensions.dimenisonNo14,
+                        fontSize: Dimensions.dimensionNo14,
                         // fontWeight: FontWeight.w500,
                         letterSpacing: 0.90,
                       ),
@@ -802,20 +802,20 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                     Spacer(),
                     Icon(
                       Icons.currency_rupee,
-                      size: Dimensions.dimenisonNo14,
+                      size: Dimensions.dimensionNo14,
                     ),
                     Text(
                       widget.appointModel.platformFees.toString(),
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: Dimensions.dimenisonNo14,
+                        fontSize: Dimensions.dimensionNo14,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 0.90,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: Dimensions.dimenisonNo20),
+                SizedBox(height: Dimensions.dimensionNo20),
 
                 // Total Amount
                 Row(
@@ -824,7 +824,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                       'Total Amount',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: Dimensions.dimenisonNo16,
+                        fontSize: Dimensions.dimensionNo16,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 0.90,
                       ),
@@ -832,13 +832,13 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                     Spacer(),
                     Icon(
                       Icons.currency_rupee,
-                      size: Dimensions.dimenisonNo18,
+                      size: Dimensions.dimensionNo18,
                     ),
                     Text(
                       widget.appointModel.totalPrice.round().toString(),
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: Dimensions.dimenisonNo16,
+                        fontSize: Dimensions.dimensionNo16,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 0.90,
                       ),

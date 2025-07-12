@@ -7,9 +7,9 @@ import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
-import 'package:samay_admin_plan/widget/customtextfield.dart';
+import 'package:samay_admin_plan/widget/text_box/customtextfield.dart';
 
 class AddNewCategory extends StatefulWidget {
   const AddNewCategory({super.key});
@@ -38,16 +38,16 @@ class _AddNewCategoryState extends State<AddNewCategory> {
 
     return AlertDialog(
       titlePadding: EdgeInsets.only(
-        left: Dimensions.dimenisonNo10,
-        right: Dimensions.dimenisonNo20,
-        top: Dimensions.dimenisonNo20,
+        left: Dimensions.dimensionNo10,
+        right: Dimensions.dimensionNo20,
+        top: Dimensions.dimensionNo20,
       ),
       contentPadding: EdgeInsets.symmetric(
-        horizontal: Dimensions.dimenisonNo12,
-        vertical: Dimensions.dimenisonNo10,
+        horizontal: Dimensions.dimensionNo12,
+        vertical: Dimensions.dimensionNo10,
       ),
       actionsPadding: EdgeInsets.symmetric(
-        vertical: Dimensions.dimenisonNo10,
+        vertical: Dimensions.dimensionNo10,
       ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
@@ -63,7 +63,7 @@ class _AddNewCategoryState extends State<AddNewCategory> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: Dimensions.dimenisonNo18,
+                    fontSize: Dimensions.dimensionNo18,
                     fontFamily: GoogleFonts.roboto().fontFamily,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 0.15,
@@ -77,7 +77,7 @@ class _AddNewCategoryState extends State<AddNewCategory> {
       ),
       content: SizedBox(
         width: ResponsiveLayout.isDesktop(context)
-            ? Dimensions.dimenisonNo400
+            ? Dimensions.dimensionNo400
             : ResponsiveLayout.isTablet(context)
                 ? Dimensions.screenWidthM / 1.7
                 : dialogWidth, // Set the dialog width dynamically
@@ -90,12 +90,12 @@ class _AddNewCategoryState extends State<AddNewCategory> {
               title: "Category Name",
             ),
             Padding(
-              padding: EdgeInsets.symmetric(vertical: Dimensions.dimenisonNo8),
+              padding: EdgeInsets.symmetric(vertical: Dimensions.dimensionNo8),
               child: Text(
                 "Select Service For",
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: Dimensions.dimenisonNo18,
+                  fontSize: Dimensions.dimensionNo18,
                   fontFamily: GoogleFonts.roboto().fontFamily,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 0.15,
@@ -103,13 +103,13 @@ class _AddNewCategoryState extends State<AddNewCategory> {
               ),
             ),
             SizedBox(
-              width: Dimensions.dimenisonNo200,
+              width: Dimensions.dimensionNo200,
               child: DropdownButtonFormField<String>(
                 hint: Text(
                   'Select for',
                   style: TextStyle(
                     color: Colors.grey,
-                    fontSize: Dimensions.dimenisonNo12,
+                    fontSize: Dimensions.dimensionNo12,
                     fontFamily: GoogleFonts.roboto().fontFamily,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 0.40,
@@ -145,8 +145,8 @@ class _AddNewCategoryState extends State<AddNewCategory> {
             CustomAuthButton(
               buttonWidth: ResponsiveLayout.isMoAndTab(context)
                   ? Dimensions
-                      .dimenisonNo110 // Smaller button for mobile/tablet
-                  : Dimensions.dimenisonNo150,
+                      .dimensionNo110 // Smaller button for mobile/tablet
+                  : Dimensions.dimensionNo150,
               text: "Cancel",
               bgColor: Colors.red,
               ontap: () {
@@ -155,11 +155,11 @@ class _AddNewCategoryState extends State<AddNewCategory> {
             ),
             CustomAuthButton(
               buttonWidth: ResponsiveLayout.isMobile(context)
-                  ? Dimensions.dimenisonNo100
+                  ? Dimensions.dimensionNo100
                   : ResponsiveLayout.isTablet(context)
                       ? Dimensions
-                          .dimenisonNo110 // Smaller button for mobile/tablet
-                      : Dimensions.dimenisonNo150,
+                          .dimensionNo110 // Smaller button for mobile/tablet
+                      : Dimensions.dimensionNo150,
               text: "Save",
               ontap: () {
                 try {
@@ -179,13 +179,13 @@ class _AddNewCategoryState extends State<AddNewCategory> {
                       context,
                     );
                     Navigator.of(context, rootNavigator: true).pop();
-                    showBottonMessage(
+                    showBottomMessage(
                         "New Category added Successfully", context);
                   }
                   Navigator.of(context, rootNavigator: true).pop();
                 } catch (e) {
                   Navigator.of(context, rootNavigator: true).pop();
-                  showBottonMessageError(
+                  showBottomMessageError(
                       "Error creating new Category: ${e.toString()}", context);
                 }
               },

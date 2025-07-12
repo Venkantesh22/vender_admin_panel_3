@@ -12,7 +12,7 @@ import 'package:samay_admin_plan/models/user_model/user_model.dart';
 import 'package:samay_admin_plan/models/appoint_model/appoint_model.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class HomeScreen extends StatefulWidget {
   final DateTime date;

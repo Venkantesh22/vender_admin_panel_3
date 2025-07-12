@@ -29,37 +29,37 @@
 //       padding: EdgeInsets.zero,
 //       onPressed: onTap,
 //       child: Container(
-//         width: Dimensions.dimenisonNo200,
-//         height: Dimensions.dimenisonNo45,
+//         width: Dimensions.dimensionNo200,
+//         height: Dimensions.dimensionNo45,
 //         decoration: ShapeDecoration(
 //           color: bgColor,
 //           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(Dimensions.dimenisonNo60),
+//             borderRadius: BorderRadius.circular(Dimensions.dimensionNo60),
 //           ),
 //         ),
 //         child: Row(
 //           children: [
 //             SizedBox(
-//               width: Dimensions.dimenisonNo16,
+//               width: Dimensions.dimensionNo16,
 //             ),
 //             Container(
-//               width: Dimensions.dimenisonNo24,
-//               height: Dimensions.dimenisonNo24,
+//               width: Dimensions.dimensionNo24,
+//               height: Dimensions.dimensionNo24,
 //               decoration: BoxDecoration(
 //                   borderRadius:
-//                       BorderRadius.circular(Dimensions.dimenisonNo100),
+//                       BorderRadius.circular(Dimensions.dimensionNo100),
 //                   border: Border.all(color: iconColor!, width: 2)),
 //               child: Icon(Icons.add,
-//                   color: iconColor!, size: Dimensions.dimenisonNo18),
+//                   color: iconColor!, size: Dimensions.dimensionNo18),
 //             ),
 //             SizedBox(
-//               width: Dimensions.dimenisonNo10,
+//               width: Dimensions.dimensionNo10,
 //             ),
 //             Text(
 //               text,
 //               style: TextStyle(
 //                 color: textColor,
-//                 fontSize: Dimensions.dimenisonNo18,
+//                 fontSize: Dimensions.dimensionNo18,
 //                 fontFamily: GoogleFonts.roboto().fontFamily,
 //                 fontWeight: FontWeight.w500,
 //                 letterSpacing: 0.15,
@@ -78,7 +78,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class AddButton extends StatelessWidget {
   final String text;
@@ -114,11 +114,11 @@ class AddButton extends StatelessWidget {
       padding: EdgeInsets.zero,
       onPressed: onTap,
       child: Container(
-        height: Dimensions.dimenisonNo45,
+        height: Dimensions.dimensionNo45,
         decoration: ShapeDecoration(
           color: bgColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(Dimensions.dimenisonNo60),
+            borderRadius: BorderRadius.circular(Dimensions.dimensionNo60),
           ),
         ),
         child: Row(
@@ -126,33 +126,33 @@ class AddButton extends StatelessWidget {
               MainAxisSize.min, // Adjusts the button size to fit content
           children: [
             SizedBox(
-              width: Dimensions.dimenisonNo16,
+              width: Dimensions.dimensionNo16,
             ),
             Container(
-              width: Dimensions.dimenisonNo24,
-              height: Dimensions.dimenisonNo24,
+              width: Dimensions.dimensionNo24,
+              height: Dimensions.dimensionNo24,
               decoration: BoxDecoration(
                   borderRadius:
-                      BorderRadius.circular(Dimensions.dimenisonNo100),
+                      BorderRadius.circular(Dimensions.dimensionNo100),
                   border: Border.all(color: iconColor!, width: 2)),
               child: Icon(Icons.add,
-                  color: iconColor!, size: Dimensions.dimenisonNo18),
+                  color: iconColor!, size: Dimensions.dimensionNo18),
             ),
             SizedBox(
-              width: Dimensions.dimenisonNo10,
+              width: Dimensions.dimensionNo10,
             ),
             Text(
               text,
               style: TextStyle(
                 color: textColor,
-                fontSize: Dimensions.dimenisonNo18,
+                fontSize: Dimensions.dimensionNo18,
                 fontFamily: GoogleFonts.roboto().fontFamily,
                 fontWeight: FontWeight.w500,
                 letterSpacing: 0.15,
               ),
             ),
             SizedBox(
-              width: Dimensions.dimenisonNo16,
+              width: Dimensions.dimensionNo16,
             ),
           ],
         ),
@@ -166,11 +166,11 @@ class AddButton extends StatelessWidget {
       padding: EdgeInsets.zero,
       onPressed: onTap,
       child: Container(
-        height: Dimensions.dimenisonNo40,
+        height: Dimensions.dimensionNo40,
         decoration: ShapeDecoration(
           color: bgColor,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(Dimensions.dimenisonNo50),
+            borderRadius: BorderRadius.circular(Dimensions.dimensionNo50),
           ),
         ),
         child: Row(
@@ -178,33 +178,33 @@ class AddButton extends StatelessWidget {
               MainAxisSize.min, // Adjusts the button size to fit content
           children: [
             SizedBox(
-              width: Dimensions.dimenisonNo12,
+              width: Dimensions.dimensionNo12,
             ),
             Container(
-              width: Dimensions.dimenisonNo20,
-              height: Dimensions.dimenisonNo20,
+              width: Dimensions.dimensionNo20,
+              height: Dimensions.dimensionNo20,
               decoration: BoxDecoration(
                   borderRadius:
-                      BorderRadius.circular(Dimensions.dimenisonNo100),
+                      BorderRadius.circular(Dimensions.dimensionNo100),
                   border: Border.all(color: iconColor!, width: 2)),
               child: Icon(Icons.add,
-                  color: iconColor!, size: Dimensions.dimenisonNo16),
+                  color: iconColor!, size: Dimensions.dimensionNo16),
             ),
             SizedBox(
-              width: Dimensions.dimenisonNo8,
+              width: Dimensions.dimensionNo8,
             ),
             Text(
               text,
               style: TextStyle(
                 color: textColor,
-                fontSize: Dimensions.dimenisonNo16,
+                fontSize: Dimensions.dimensionNo16,
                 fontFamily: GoogleFonts.roboto().fontFamily,
                 fontWeight: FontWeight.w500,
                 letterSpacing: 0.15,
               ),
             ),
             SizedBox(
-              width: Dimensions.dimenisonNo12,
+              width: Dimensions.dimensionNo12,
             ),
           ],
         ),

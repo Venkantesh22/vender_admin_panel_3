@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/features/drawer/cate_drawer.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class CatergoryDrawer extends StatefulWidget {
   final String superCategoryName;
@@ -54,7 +54,7 @@ class _CatergoryDrawerState extends State<CatergoryDrawer> {
     final screenWidth = MediaQuery.of(context).size.width;
     // For mobile use 90% of the width; for larger screens, use a fixed width
     final drawerWidth =
-        screenWidth < 600 ? screenWidth * 0.9 : Dimensions.dimenisonNo250;
+        screenWidth < 600 ? screenWidth * 0.9 : Dimensions.dimensionNo250;
 
     ServiceProvider serviceProvider = Provider.of<ServiceProvider>(context);
 

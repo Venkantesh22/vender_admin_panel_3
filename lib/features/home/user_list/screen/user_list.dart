@@ -15,7 +15,7 @@ import 'package:samay_admin_plan/models/user_model/user_model.dart';
 import 'package:samay_admin_plan/models/appoint_model/appoint_model.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/booking_provider.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/add_button.dart';
 
 class UserList extends StatefulWidget {
@@ -129,14 +129,14 @@ class _UserListState extends State<UserList> {
             children: [
               Container(
                 padding: EdgeInsets.only(
-                  left: Dimensions.dimenisonNo16,
-                  right: Dimensions.dimenisonNo16,
-                  top: Dimensions.dimenisonNo10,
+                  left: Dimensions.dimensionNo16,
+                  right: Dimensions.dimensionNo16,
+                  top: Dimensions.dimensionNo10,
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(width: Dimensions.dimenisonNo10),
+                    SizedBox(width: Dimensions.dimensionNo10),
 
                     // Decrease date button
                     GestureDetector(
@@ -145,7 +145,7 @@ class _UserListState extends State<UserList> {
                         decoration: BoxDecoration(
                           color: const Color(0xFF4B4B4B),
                           borderRadius:
-                              BorderRadius.circular(Dimensions.dimenisonNo5),
+                              BorderRadius.circular(Dimensions.dimensionNo5),
                         ),
                         child: const Icon(
                           Icons.arrow_left_sharp,
@@ -156,13 +156,13 @@ class _UserListState extends State<UserList> {
 
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: Dimensions.dimenisonNo10),
+                          horizontal: Dimensions.dimensionNo10),
                       child: Center(
                         child: Text(
                           _formatDate(widget.date),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: Dimensions.dimenisonNo16,
+                            fontSize: Dimensions.dimensionNo16,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -175,7 +175,7 @@ class _UserListState extends State<UserList> {
                         decoration: BoxDecoration(
                           color: const Color(0xFF4B4B4B),
                           borderRadius:
-                              BorderRadius.circular(Dimensions.dimenisonNo5),
+                              BorderRadius.circular(Dimensions.dimensionNo5),
                         ),
                         child: const Icon(
                           Icons.arrow_right_sharp,
@@ -183,7 +183,7 @@ class _UserListState extends State<UserList> {
                         ),
                       ),
                     ),
-                    SizedBox(width: Dimensions.dimenisonNo12),
+                    SizedBox(width: Dimensions.dimensionNo12),
 
                     // Toggle calendar visibility
                     IconButton(
@@ -201,7 +201,7 @@ class _UserListState extends State<UserList> {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
-                          fontSize: Dimensions.dimenisonNo16),
+                          fontSize: Dimensions.dimensionNo16),
                     ),
                     const Spacer(),
                     AddButton(
@@ -221,12 +221,12 @@ class _UserListState extends State<UserList> {
               ),
               const Divider(thickness: 5),
               SizedBox(
-                height: Dimensions.dimenisonNo16,
+                height: Dimensions.dimensionNo16,
               ),
               // Show booking list for the selected date
               _isLoading
                   ? Padding(
-                      padding: EdgeInsets.only(top: Dimensions.dimenisonNo200),
+                      padding: EdgeInsets.only(top: Dimensions.dimensionNo200),
                       child: const Center(
                         child: CircularProgressIndicator(),
                       ),
@@ -283,11 +283,11 @@ class _UserListState extends State<UserList> {
         ),
         if (_showCalendar)
           Positioned(
-            left: Dimensions.dimenisonNo50,
-            top: Dimensions.dimenisonNo50,
+            left: Dimensions.dimensionNo50,
+            top: Dimensions.dimensionNo50,
             child: SizedBox(
-              height: Dimensions.dimenisonNo450,
-              width: Dimensions.dimenisonNo360,
+              height: Dimensions.dimensionNo450,
+              width: Dimensions.dimensionNo360,
               child: CustomCalendar(
                 salonModel: widget.salonModel,
                 controller: _dateController,
@@ -320,19 +320,19 @@ class _UserListState extends State<UserList> {
               Container(
                 padding: ResponsiveLayout.isMobile(context)
                     ? EdgeInsets.only(
-                        left: Dimensions.dimenisonNo8,
-                        right: Dimensions.dimenisonNo8,
-                        top: Dimensions.dimenisonNo8,
+                        left: Dimensions.dimensionNo8,
+                        right: Dimensions.dimensionNo8,
+                        top: Dimensions.dimensionNo8,
                       )
                     : EdgeInsets.only(
-                        left: Dimensions.dimenisonNo16,
-                        right: Dimensions.dimenisonNo16,
-                        top: Dimensions.dimenisonNo10,
+                        left: Dimensions.dimensionNo16,
+                        right: Dimensions.dimensionNo16,
+                        top: Dimensions.dimensionNo10,
                       ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(width: Dimensions.dimenisonNo10),
+                    SizedBox(width: Dimensions.dimensionNo10),
 
                     // Decrease date button
                     GestureDetector(
@@ -341,7 +341,7 @@ class _UserListState extends State<UserList> {
                         decoration: BoxDecoration(
                           color: const Color(0xFF4B4B4B),
                           borderRadius:
-                              BorderRadius.circular(Dimensions.dimenisonNo5),
+                              BorderRadius.circular(Dimensions.dimensionNo5),
                         ),
                         child: const Icon(
                           Icons.arrow_left_sharp,
@@ -352,15 +352,15 @@ class _UserListState extends State<UserList> {
 
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: Dimensions.dimenisonNo10),
+                          horizontal: Dimensions.dimensionNo10),
                       child: Center(
                         child: Text(
                           _formatDate(widget.date),
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: ResponsiveLayout.isDesktop(context)
-                                ? Dimensions.dimenisonNo16
-                                : Dimensions.dimenisonNo14,
+                                ? Dimensions.dimensionNo16
+                                : Dimensions.dimensionNo14,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -373,7 +373,7 @@ class _UserListState extends State<UserList> {
                         decoration: BoxDecoration(
                           color: const Color(0xFF4B4B4B),
                           borderRadius:
-                              BorderRadius.circular(Dimensions.dimenisonNo5),
+                              BorderRadius.circular(Dimensions.dimensionNo5),
                         ),
                         child: const Icon(
                           Icons.arrow_right_sharp,
@@ -381,7 +381,7 @@ class _UserListState extends State<UserList> {
                         ),
                       ),
                     ),
-                    SizedBox(width: Dimensions.dimenisonNo12),
+                    SizedBox(width: Dimensions.dimensionNo12),
 
                     // Toggle calendar visibility
                     IconButton(
@@ -400,7 +400,7 @@ class _UserListState extends State<UserList> {
                             widget.salonModel.name ?? 'Salon Name',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: Dimensions.dimenisonNo16),
+                                fontSize: Dimensions.dimensionNo16),
                           ),
 
                     const Spacer(),
@@ -421,12 +421,12 @@ class _UserListState extends State<UserList> {
               ),
               const Divider(thickness: 5),
               SizedBox(
-                height: Dimensions.dimenisonNo16,
+                height: Dimensions.dimensionNo16,
               ),
               // Show booking list for the selected date
               _isLoading
                   ? Padding(
-                      padding: EdgeInsets.only(top: Dimensions.dimenisonNo200),
+                      padding: EdgeInsets.only(top: Dimensions.dimensionNo200),
                       child: const Center(
                         child: CircularProgressIndicator(),
                       ),
@@ -481,11 +481,11 @@ class _UserListState extends State<UserList> {
         if (_showCalendar)
           ResponsiveLayout.isMobile(context)
               ? Positioned(
-                  left: Dimensions.dimenisonNo20,
-                  top: Dimensions.dimenisonNo50,
-                  right: Dimensions.dimenisonNo20,
+                  left: Dimensions.dimensionNo20,
+                  top: Dimensions.dimensionNo50,
+                  right: Dimensions.dimensionNo20,
                   child: SizedBox(
-                    height: Dimensions.dimenisonNo400,
+                    height: Dimensions.dimensionNo400,
                     child: CustomCalendar(
                       salonModel: widget.salonModel,
                       controller: _dateController,
@@ -502,15 +502,15 @@ class _UserListState extends State<UserList> {
                 )
               : ResponsiveLayout.isTablet(context)
                   ? Positioned(
-                      left: Dimensions.dimenisonNo30,
-                      top: Dimensions.dimenisonNo60,
-                      right: Dimensions.dimenisonNo30,
+                      left: Dimensions.dimensionNo30,
+                      top: Dimensions.dimensionNo60,
+                      right: Dimensions.dimensionNo30,
                       child: Container(
                         constraints: BoxConstraints(
                           minHeight:
-                              Dimensions.dimenisonNo300, // Minimum height
+                              Dimensions.dimensionNo300, // Minimum height
                           maxHeight:
-                              Dimensions.dimenisonNo600, // Maximum height
+                              Dimensions.dimensionNo600, // Maximum height
                         ),
                         child: CustomCalendar(
                           salonModel: widget.salonModel,
@@ -527,11 +527,11 @@ class _UserListState extends State<UserList> {
                       ),
                     )
                   : Positioned(
-                      left: Dimensions.dimenisonNo50,
-                      top: Dimensions.dimenisonNo50,
+                      left: Dimensions.dimensionNo50,
+                      top: Dimensions.dimensionNo50,
                       child: SizedBox(
-                        height: Dimensions.dimenisonNo450,
-                        width: Dimensions.dimenisonNo360,
+                        height: Dimensions.dimensionNo450,
+                        width: Dimensions.dimensionNo360,
                         child: CustomCalendar(
                           salonModel: widget.salonModel,
                           controller: _dateController,

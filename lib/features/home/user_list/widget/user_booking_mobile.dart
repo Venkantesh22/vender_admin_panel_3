@@ -10,7 +10,7 @@ import 'package:samay_admin_plan/models/appoint_model/appoint_model.dart';
 import 'package:samay_admin_plan/models/user_model/user_model.dart';
 import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 Widget userBookingMobileWidget(
   final AppointModel appointModel,
@@ -38,18 +38,18 @@ Widget userBookingMobileWidget(
       child: Container(
         margin: applyMargin
             ? EdgeInsets.only(
-                left: Dimensions.dimenisonNo12,
-                right: Dimensions.dimenisonNo12,
-                top: Dimensions.dimenisonNo8,
+                left: Dimensions.dimensionNo12,
+                right: Dimensions.dimensionNo12,
+                top: Dimensions.dimensionNo8,
               )
             : EdgeInsets.only(
-                top: Dimensions.dimenisonNo10,
+                top: Dimensions.dimensionNo10,
               ),
-        padding: EdgeInsets.all(Dimensions.dimenisonNo8),
+        padding: EdgeInsets.all(Dimensions.dimensionNo8),
         width: double.infinity,
         decoration: BoxDecoration(
           color: AppColor.mainColor,
-          borderRadius: BorderRadius.circular(Dimensions.dimenisonNo12),
+          borderRadius: BorderRadius.circular(Dimensions.dimensionNo12),
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,12 +63,12 @@ Widget userBookingMobileWidget(
                   "${index.toString()}.",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: Dimensions.dimenisonNo14,
+                    fontSize: Dimensions.dimensionNo14,
                   ),
                 ),
-                SizedBox(width: Dimensions.dimenisonNo8),
+                SizedBox(width: Dimensions.dimensionNo8),
                 CircleAvatar(
-                  radius: Dimensions.dimenisonNo20,
+                  radius: Dimensions.dimensionNo20,
                   backgroundColor: Colors.green[100],
                   backgroundImage:
                       (userModel?.image != null && userModel!.image.isNotEmpty)
@@ -83,7 +83,7 @@ Widget userBookingMobileWidget(
                 ),
               ],
             ),
-            SizedBox(width: Dimensions.dimenisonNo8),
+            SizedBox(width: Dimensions.dimensionNo8),
 
             // Second Column: User Details and Status
             Expanded(
@@ -100,23 +100,23 @@ Widget userBookingMobileWidget(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(
-                            width: Dimensions.dimenisonNo100,
+                            width: Dimensions.dimensionNo100,
                             child: Text(
                               userModel?.name ?? 'Unknown User',
                               style: TextStyle(
                                 overflow: TextOverflow.ellipsis,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
-                                fontSize: Dimensions.dimenisonNo16,
+                                fontSize: Dimensions.dimensionNo16,
                               ),
                             ),
                           ),
-                          SizedBox(height: Dimensions.dimenisonNo8),
+                          SizedBox(height: Dimensions.dimensionNo8),
                           Text(
                             userModel?.phone.toString() ?? 'No phone available',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: Dimensions.dimenisonNo14,
+                              fontSize: Dimensions.dimensionNo14,
                             ),
                           ),
                         ],
@@ -129,7 +129,7 @@ Widget userBookingMobileWidget(
                     ],
                   ),
 
-                  SizedBox(height: Dimensions.dimenisonNo8),
+                  SizedBox(height: Dimensions.dimensionNo8),
 
                   // Row: Time Range with Stopwatch Icon
                   Row(
@@ -137,13 +137,13 @@ Widget userBookingMobileWidget(
                     children: [
                       const FaIcon(FontAwesomeIcons.stopwatch,
                           color: Colors.white),
-                      SizedBox(width: Dimensions.dimenisonNo5),
+                      SizedBox(width: Dimensions.dimensionNo5),
                       Text(
                         '${DateFormat('hh:mm a').format(appointModel.serviceStartTime)} - '
                         '${DateFormat('hh:mm a').format(appointModel.serviceEndTime)}',
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: Dimensions.dimenisonNo14,
+                          fontSize: Dimensions.dimensionNo14,
                         ),
                       ),
                     ],

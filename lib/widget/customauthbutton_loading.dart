@@ -3,7 +3,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class CustomAuthButtonLoading extends StatelessWidget {
   Widget title;
@@ -26,12 +26,12 @@ class CustomAuthButtonLoading extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(
             horizontal: ResponsiveLayout.isMoAndTab(context)
-                ? Dimensions.dimenisonNo12
-                : Dimensions.dimenisonNo20),
+                ? Dimensions.dimensionNo12
+                : Dimensions.dimensionNo20),
         decoration: BoxDecoration(
             color: bgColor,
-            borderRadius: BorderRadius.circular(Dimensions.dimenisonNo30)),
-        height: Dimensions.dimenisonNo40,
+            borderRadius: BorderRadius.circular(Dimensions.dimensionNo30)),
+        height: Dimensions.dimensionNo40,
         width: buttonWidth,
         child: Center(
           child: title,

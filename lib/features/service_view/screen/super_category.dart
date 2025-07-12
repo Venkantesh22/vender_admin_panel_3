@@ -16,7 +16,7 @@ import 'package:samay_admin_plan/one_time_run_function/initialize_default_catego
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/samay_provider.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/add_button.dart';
 
 class SuperCategoryPage extends StatefulWidget {
@@ -83,7 +83,7 @@ class _SuperCategoryPageState extends State<SuperCategoryPage> {
                 key: _scaffoldKey,
                 body: SingleChildScrollView(
                   child: Padding(
-                    padding: EdgeInsets.all(Dimensions.dimenisonNo8),
+                    padding: EdgeInsets.all(Dimensions.dimensionNo8),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -104,15 +104,15 @@ class _SuperCategoryPageState extends State<SuperCategoryPage> {
                             )
                           ],
                         ),
-                        SizedBox(height: Dimensions.dimenisonNo8),
+                        SizedBox(height: Dimensions.dimensionNo8),
                         Text(
                           "Super Category",
                           style: TextStyle(
-                            fontSize: Dimensions.dimenisonNo20,
+                            fontSize: Dimensions.dimensionNo20,
                             fontWeight: FontWeight.w800,
                           ),
                         ),
-                        SizedBox(height: Dimensions.dimenisonNo20),
+                        SizedBox(height: Dimensions.dimensionNo20),
                         // Wrap ListView.builder in a SizedBox with a fixed height
                         SizedBox(
                           height: ResponsiveLayout.isMoAndTab(context)

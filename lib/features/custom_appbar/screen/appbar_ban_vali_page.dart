@@ -9,7 +9,7 @@ import 'package:samay_admin_plan/constants/router.dart';
 import 'package:samay_admin_plan/features/setting/setting_page.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class AppBarForBanValiPage extends StatefulWidget
     implements PreferredSizeWidget {
@@ -48,8 +48,8 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
       elevation: 0,
       title: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.dimenisonNo10,
-          vertical: Dimensions.dimenisonNo10,
+          horizontal: Dimensions.dimensionNo10,
+          vertical: Dimensions.dimensionNo10,
         ),
         child: Row(
           children: [
@@ -57,44 +57,44 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
                 // appProvider.getLogImageList.isNotEmpty
                 ? Image.asset(
                     GlobalVariable.samayLogo,
-                    height: Dimensions.dimenisonNo40,
+                    height: Dimensions.dimensionNo40,
                     errorBuilder: (context, error, stackTrace) => Icon(
                       Icons.broken_image, // User icon in case of error
                       size: Dimensions
-                          .dimenisonNo60, // Set the size of the icon (adjust as needed)
+                          .dimensionNo60, // Set the size of the icon (adjust as needed)
                       color: Colors
                           .grey, // Set the color of the icon (adjust as needed)
                     ),
                   )
                 : const Center(child: CircularProgressIndicator()),
-            SizedBox(width: Dimensions.dimenisonNo20),
+            SizedBox(width: Dimensions.dimensionNo20),
             Container(
               width: 3,
-              height: Dimensions.dimenisonNo40,
+              height: Dimensions.dimensionNo40,
               decoration: const BoxDecoration(color: Colors.white),
             ),
-            // SizedBox(width: Dimensions.dimenisonNo20),
+            // SizedBox(width: Dimensions.dimensionNo20),
             // Appbaritem(
             //   text: "Calendar",
             //   ontap: () {
-            //     showBottonMessage(
+            //     showBottomMessage(
             //         "Please wait for your account to be validated.", context);
             //     // Routes.instance
             //     //     .push(widget: const HomeScreen(), context: context);
             //   },
             // ),
 
-            // SizedBox(width: Dimensions.dimenisonNo20),
+            // SizedBox(width: Dimensions.dimensionNo20),
             // Appbaritem(
             //   text: "Services",
             //   ontap: () {
-            //     showBottonMessage(
+            //     showBottomMessage(
             //         "Please wait for your account to be validated.", context);
             //     // Routes.instance.push(widget: ServicesPages(), context: context);
             //   },
             // ),
             const Spacer(),
-            SizedBox(width: Dimensions.dimenisonNo20),
+            SizedBox(width: Dimensions.dimensionNo20),
             Container(
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -108,21 +108,21 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
                 },
               ),
             ),
-            SizedBox(width: Dimensions.dimenisonNo20),
+            SizedBox(width: Dimensions.dimensionNo20),
             Container(
               width: 3,
-              height: Dimensions.dimenisonNo40,
+              height: Dimensions.dimensionNo40,
               decoration: const BoxDecoration(color: Colors.white),
             ),
-            // SizedBox(width: Dimensions.dimenisonNo16),
+            // SizedBox(width: Dimensions.dimensionNo16),
             Padding(
-              padding: EdgeInsets.all(Dimensions.dimenisonNo20),
+              padding: EdgeInsets.all(Dimensions.dimensionNo20),
               child: CircleAvatar(
                 backgroundImage: NetworkImage(
                   appProvider.getAdminInformation.image ??
                       'https://via.placeholder.com/150',
                 ),
-                radius: Dimensions.dimenisonNo20,
+                radius: Dimensions.dimensionNo20,
                 onBackgroundImageError: (exception, stackTrace) {
                   // Handle image loading error here
                   print("Image load error: $exception");
@@ -140,19 +140,19 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
                       appProvider.getAdminInformation.name,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: Dimensions.dimenisonNo16,
+                        fontSize: Dimensions.dimensionNo16,
                         fontFamily: GoogleFonts.roboto().fontFamily,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                     SizedBox(
-                      height: Dimensions.dimenisonNo5,
+                      height: Dimensions.dimensionNo5,
                     ),
                     Text(
                       'Admin',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: Dimensions.dimenisonNo12,
+                        fontSize: Dimensions.dimensionNo12,
                         fontFamily: GoogleFonts.roboto().fontFamily,
                         fontWeight: FontWeight.w400,
                         height: 0,
@@ -178,10 +178,10 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
         icon: GlobalVariable.samayLogo.isNotEmpty
             ? Image.asset(
                 GlobalVariable.samayLogo,
-                height: Dimensions.dimenisonNo30,
+                height: Dimensions.dimensionNo30,
                 errorBuilder: (context, error, stackTrace) => Icon(
                   Icons.broken_image,
-                  size: Dimensions.dimenisonNo30,
+                  size: Dimensions.dimensionNo30,
                   color: Colors.grey,
                 ),
               )
@@ -209,19 +209,19 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
                   },
                 ),
               ),
-              SizedBox(width: Dimensions.dimenisonNo20),
+              SizedBox(width: Dimensions.dimensionNo20),
               Container(
                 width: 3,
-                height: Dimensions.dimenisonNo40,
+                height: Dimensions.dimensionNo40,
                 decoration: const BoxDecoration(color: Colors.white),
               ),
-              // SizedBox(width: Dimensions.dimenisonNo16),
+              // SizedBox(width: Dimensions.dimensionNo16),
               Container(
                 padding: EdgeInsets.all(6),
 
                 clipBehavior: Clip.antiAlias,
-                width: Dimensions.dimenisonNo50 * 2, // Diameter of the circle
-                height: Dimensions.dimenisonNo50 * 2, // Diameter of the circle
+                width: Dimensions.dimensionNo50 * 2, // Diameter of the circle
+                height: Dimensions.dimensionNo50 * 2, // Diameter of the circle
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
@@ -249,7 +249,7 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: Dimensions.dimenisonNo14,
+                        fontSize: Dimensions.dimensionNo14,
                         fontFamily: GoogleFonts.roboto().fontFamily,
                         fontWeight: FontWeight.w700,
                       ),
@@ -261,7 +261,7 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
                       'Admin',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: Dimensions.dimenisonNo12,
+                        fontSize: Dimensions.dimensionNo12,
                         fontFamily: GoogleFonts.roboto().fontFamily,
                         fontWeight: FontWeight.w400,
                         height: 0,
@@ -273,7 +273,7 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
             ],
           ),
         ),
-        SizedBox(width: Dimensions.dimenisonNo12),
+        SizedBox(width: Dimensions.dimensionNo12),
       ],
     );
   }

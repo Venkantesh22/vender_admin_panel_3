@@ -33,7 +33,7 @@ class FirebaseAuthHelper {
       final data = docSnapshot.data();
 
       if (data == null) {
-        showBottonMessageError("User record not found", context);
+        showBottomMessageError("User record not found", context);
         return false;
       }
 
@@ -45,8 +45,8 @@ class FirebaseAuthHelper {
 
       // 4) Check the updateBy checkpoint
       if (updatedBy != "vendor") {
-       await  signOut();
-        showBottonMessageError(
+        await signOut();
+        showBottomMessageError(
           "Invalid vendor login information. Please check your credentials.",
           context,
         );
@@ -56,7 +56,7 @@ class FirebaseAuthHelper {
       // 5) Verify the bcrypt hash
       final bool isMatch = BCrypt.checkpw(password, storedHash);
       if (!isMatch) {
-        showBottonMessageError("Invalid credentials", context);
+        showBottomMessageError("Invalid credentials", context);
         return false;
       }
 
@@ -64,10 +64,10 @@ class FirebaseAuthHelper {
       return true;
     } on FirebaseAuthException catch (err) {
       // Close loader if still open
-      showBottonMessageError(err.code, context);
+      showBottomMessageError(err.code, context);
       return false;
     } catch (e) {
-      showBottonMessageError(e.toString(), context);
+      showBottomMessageError(e.toString(), context);
       return false;
     }
   }

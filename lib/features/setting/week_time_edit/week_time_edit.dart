@@ -9,7 +9,7 @@ import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
 
 class WeekTimeEdit extends StatefulWidget {
@@ -143,10 +143,10 @@ class _WeekTimeEditState extends State<WeekTimeEdit> {
                 child: Container(
                   margin: ResponsiveLayout.isMobile(context)
                       ? EdgeInsets.symmetric(
-                          horizontal: Dimensions.dimenisonNo12)
+                          horizontal: Dimensions.dimensionNo12)
                       : ResponsiveLayout.isTablet(context)
                           ? EdgeInsets.symmetric(
-                              horizontal: Dimensions.dimenisonNo60)
+                              horizontal: Dimensions.dimensionNo60)
                           : null,
                   color: Colors.white,
                   width: ResponsiveLayout.isDesktop(context)
@@ -156,20 +156,20 @@ class _WeekTimeEditState extends State<WeekTimeEdit> {
                     key: _formKey,
                     child: Column(
                       children: [
-                        SizedBox(height: Dimensions.dimenisonNo20),
+                        SizedBox(height: Dimensions.dimensionNo20),
                         Text(
                           'Weekly Schedule',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: Dimensions.dimenisonNo30,
+                            fontSize: Dimensions.dimensionNo30,
                             fontFamily: GoogleFonts.roboto().fontFamily,
                             fontWeight: FontWeight.w500,
                             letterSpacing: 0.15,
                           ),
                         ),
                         const Divider(),
-                        SizedBox(height: Dimensions.dimenisonNo10),
+                        SizedBox(height: Dimensions.dimensionNo10),
                         WeekRow(dayOfWeek: "Monday", time: mondayController),
                         WeekRow(dayOfWeek: "Tuesday", time: tuesdayController),
                         WeekRow(
@@ -182,8 +182,8 @@ class _WeekTimeEditState extends State<WeekTimeEdit> {
                         WeekRow(dayOfWeek: "Sunday", time: sundayController),
                         Padding(
                           padding: EdgeInsets.symmetric(
-                              horizontal: Dimensions.dimenisonNo10,
-                              vertical: Dimensions.dimenisonNo20),
+                              horizontal: Dimensions.dimensionNo10,
+                              vertical: Dimensions.dimensionNo20),
                           child: CustomAuthButton(
                             text: "Save",
                             ontap: _saveWeekTimes,

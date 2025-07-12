@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
@@ -24,10 +24,10 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
         icon: GlobalVariable.samayLogo.isNotEmpty
             ? Image.asset(
                 GlobalVariable.samayLogo,
-                height: Dimensions.dimenisonNo30,
+                height: Dimensions.dimensionNo30,
                 errorBuilder: (context, error, stackTrace) => Icon(
                   Icons.broken_image,
-                  size: Dimensions.dimenisonNo30,
+                  size: Dimensions.dimensionNo30,
                   color: Colors.grey,
                 ),
               )
@@ -48,12 +48,12 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
                   appProvider.getAdminInformation.image ??
                       'https://via.placeholder.com/150',
                 ),
-                radius: Dimensions.dimenisonNo20,
+                radius: Dimensions.dimensionNo20,
                 onBackgroundImageError: (exception, stackTrace) {
                   debugPrint("Image load error: $exception");
                 },
               ),
-              SizedBox(width: Dimensions.dimenisonNo10),
+              SizedBox(width: Dimensions.dimensionNo10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -63,7 +63,7 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: Dimensions.dimenisonNo14,
+                      fontSize: Dimensions.dimensionNo14,
                       fontFamily: GoogleFonts.roboto().fontFamily,
                       fontWeight: FontWeight.w700,
                     ),
@@ -73,7 +73,7 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
                     'Admin',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: Dimensions.dimenisonNo12,
+                      fontSize: Dimensions.dimensionNo12,
                       fontFamily: GoogleFonts.roboto().fontFamily,
                       fontWeight: FontWeight.w400,
                     ),
@@ -83,7 +83,7 @@ class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
             ],
           ),
         ),
-        SizedBox(width: Dimensions.dimenisonNo12),
+        SizedBox(width: Dimensions.dimensionNo12),
       ],
     );
   }

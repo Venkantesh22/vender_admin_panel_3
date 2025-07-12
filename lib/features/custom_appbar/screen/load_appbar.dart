@@ -8,7 +8,7 @@ import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class LoadAppBar extends StatefulWidget implements PreferredSizeWidget {
   const LoadAppBar({super.key});
@@ -30,20 +30,20 @@ class _LoadAppBarState extends State<LoadAppBar> {
       elevation: 0,
       title: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: Dimensions.dimenisonNo10,
-          vertical: Dimensions.dimenisonNo10,
+          horizontal: Dimensions.dimensionNo10,
+          vertical: Dimensions.dimensionNo10,
         ),
         child: Row(
           children: [
             // Image.asset(
             //   AppImages.logo,
-            //   height: Dimensions.dimenisonNo40,
+            //   height: Dimensions.dimensionNo40,
             // ),
             GlobalVariable.samayLogo.isNotEmpty
                 // appProvider.getLogImageList.isNotEmpty
                 ? Image.asset(
                     GlobalVariable.samayLogo,
-                    height: Dimensions.dimenisonNo40,
+                    height: Dimensions.dimensionNo40,
                     // fit: BoxFit.cover,
                     // loadingBuilder: (context, child, progress) {
                     //   return progress == null
@@ -55,19 +55,19 @@ class _LoadAppBarState extends State<LoadAppBar> {
                     errorBuilder: (context, error, stackTrace) => Icon(
                       Icons.broken_image, // User icon in case of error
                       size: Dimensions
-                          .dimenisonNo60, // Set the size of the icon (adjust as needed)
+                          .dimensionNo60, // Set the size of the icon (adjust as needed)
                       color: Colors
                           .grey, // Set the color of the icon (adjust as needed)
                     ),
                   )
                 : const Center(child: CircularProgressIndicator()),
-            SizedBox(width: Dimensions.dimenisonNo20),
+            SizedBox(width: Dimensions.dimensionNo20),
             Container(
               width: 3,
-              height: Dimensions.dimenisonNo40,
+              height: Dimensions.dimensionNo40,
               decoration: const BoxDecoration(color: Colors.white),
             ),
-            SizedBox(width: Dimensions.dimenisonNo20),
+            SizedBox(width: Dimensions.dimensionNo20),
             Appbaritem(
               text: "Calendar",
               ontap: () {
@@ -81,7 +81,7 @@ class _LoadAppBarState extends State<LoadAppBar> {
               },
             ),
 
-            SizedBox(width: Dimensions.dimenisonNo20),
+            SizedBox(width: Dimensions.dimensionNo20),
             Appbaritem(
               text: "Services",
               ontap: () {
@@ -89,7 +89,7 @@ class _LoadAppBarState extends State<LoadAppBar> {
               },
             ),
             const Spacer(),
-            SizedBox(width: Dimensions.dimenisonNo20),
+            SizedBox(width: Dimensions.dimensionNo20),
             Container(
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -103,42 +103,42 @@ class _LoadAppBarState extends State<LoadAppBar> {
                 },
               ),
             ),
-            SizedBox(width: Dimensions.dimenisonNo20),
+            SizedBox(width: Dimensions.dimensionNo20),
             Container(
               width: 3,
-              height: Dimensions.dimenisonNo40,
+              height: Dimensions.dimensionNo40,
               decoration: const BoxDecoration(color: Colors.white),
             ),
-            SizedBox(width: Dimensions.dimenisonNo20),
+            SizedBox(width: Dimensions.dimensionNo20),
             Padding(
-              padding: EdgeInsets.all(Dimensions.dimenisonNo20),
+              padding: EdgeInsets.all(Dimensions.dimensionNo20),
               child: CircleAvatar(
-                radius: Dimensions.dimenisonNo20,
+                radius: Dimensions.dimensionNo20,
                 child: SizedBox(
-                  height: Dimensions.dimenisonNo20,
-                  width: Dimensions.dimenisonNo20,
+                  height: Dimensions.dimensionNo20,
+                  width: Dimensions.dimensionNo20,
                   child: const CircularProgressIndicator(),
                 ),
               ),
             ),
-            SizedBox(width: Dimensions.dimenisonNo20),
+            SizedBox(width: Dimensions.dimensionNo20),
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: Dimensions.dimenisonNo20,
-                  width: Dimensions.dimenisonNo20,
+                  height: Dimensions.dimensionNo20,
+                  width: Dimensions.dimensionNo20,
                   child: const CircularProgressIndicator(),
                 ),
                 SizedBox(
-                  height: Dimensions.dimenisonNo5,
+                  height: Dimensions.dimensionNo5,
                 ),
                 Text(
                   'Admin',
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: Dimensions.dimenisonNo12,
+                    fontSize: Dimensions.dimensionNo12,
                     fontFamily: GoogleFonts.roboto().fontFamily,
                     fontWeight: FontWeight.w400,
                     height: 0,

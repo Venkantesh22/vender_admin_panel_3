@@ -10,9 +10,9 @@ import 'package:samay_admin_plan/models/vender_payent_details/vender_payment_det
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/setting_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
-import 'package:samay_admin_plan/widget/customtextfield.dart';
+import 'package:samay_admin_plan/widget/text_box/customtextfield.dart';
 
 class PaymentSettingPage extends StatefulWidget {
   const PaymentSettingPage({super.key});
@@ -75,7 +75,7 @@ class _SettingPaymentPageState extends State<PaymentSettingPage> {
     final regex = RegExp(r'^[a-zA-Z0-9.-]+@[a-zA-Z]+$');
 
     if (_upiControiller.text.trim().isEmpty) {
-      showBottonMessageError("UPI is required.", context);
+      showBottomMessageError("UPI is required.", context);
       return false;
     }
 
@@ -95,18 +95,18 @@ class _SettingPaymentPageState extends State<PaymentSettingPage> {
                 child: Container(
                   margin: ResponsiveLayout.isMobile(context)
                       ? EdgeInsets.symmetric(
-                          horizontal: Dimensions.dimenisonNo12,
+                          horizontal: Dimensions.dimensionNo12,
                         )
                       : ResponsiveLayout.isTablet(context)
                           ? EdgeInsets.symmetric(
-                              horizontal: Dimensions.dimenisonNo60,
+                              horizontal: Dimensions.dimensionNo60,
                             )
                           : null,
                   padding: EdgeInsets.symmetric(
                       horizontal: ResponsiveLayout.isMobile(context)
-                          ? Dimensions.dimenisonNo10
-                          : Dimensions.dimenisonNo30,
-                      vertical: Dimensions.dimenisonNo20),
+                          ? Dimensions.dimensionNo10
+                          : Dimensions.dimensionNo30,
+                      vertical: Dimensions.dimensionNo20),
                   // color: Colors.green,
                   color: Colors.white,
                   width: ResponsiveLayout.isDesktop(context)
@@ -122,7 +122,7 @@ class _SettingPaymentPageState extends State<PaymentSettingPage> {
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(
-                            vertical: Dimensions.dimenisonNo10),
+                            vertical: Dimensions.dimensionNo10),
                         child: const Divider(),
                       ),
                       const SizedBox(height: 20),
@@ -158,11 +158,11 @@ class _SettingPaymentPageState extends State<PaymentSettingPage> {
                               // _isSaving = false;
                               Navigator.pop(context);
                               if (_isUpdate) {
-                                showBottonMessage(
+                                showBottomMessage(
                                     "Vender Payment Details updated successfully.",
                                     context);
                               } else {
-                                showBottonMessageError(
+                                showBottomMessageError(
                                     "Failed to update Payment Details.",
                                     context);
                               }
@@ -175,10 +175,10 @@ class _SettingPaymentPageState extends State<PaymentSettingPage> {
                               Navigator.pop(context);
                             }
 
-                            showBottonMessage(
+                            showBottomMessage(
                                 "UPI save successfully.", context);
                           } catch (e) {
-                            showBottonMessageError(
+                            showBottomMessageError(
                                 "Failed to save UPI: $e", context);
                           }
                         },

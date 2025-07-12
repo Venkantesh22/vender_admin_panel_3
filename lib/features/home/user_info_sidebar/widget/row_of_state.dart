@@ -15,7 +15,7 @@ import 'package:samay_admin_plan/models/appoint_model/appoint_model.dart';
 import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class RowOfStates extends StatelessWidget {
   final int index;
@@ -51,9 +51,9 @@ class RowOfStates extends StatelessWidget {
     return appointModel.status == "Pending"
         ? Padding(
             padding: EdgeInsets.only(
-              top: Dimensions.dimenisonNo16,
-              left: Dimensions.dimenisonNo16,
-              right: Dimensions.dimenisonNo16,
+              top: Dimensions.dimensionNo16,
+              left: Dimensions.dimensionNo16,
+              right: Dimensions.dimensionNo16,
             ),
             child: Row(
               children: [
@@ -61,7 +61,7 @@ class RowOfStates extends StatelessWidget {
                   children: [
                     Text(
                       "Current State",
-                      style: TextStyle(fontSize: Dimensions.dimenisonNo14),
+                      style: TextStyle(fontSize: Dimensions.dimensionNo14),
                     ),
                     CupertinoButton(
                         padding: EdgeInsets.zero,
@@ -74,7 +74,7 @@ class RowOfStates extends StatelessWidget {
                   children: [
                     Text(
                       "Update State",
-                      style: TextStyle(fontSize: Dimensions.dimenisonNo14),
+                      style: TextStyle(fontSize: Dimensions.dimensionNo14),
                     ),
                     CupertinoButton(
                       padding: EdgeInsets.zero,
@@ -110,14 +110,14 @@ class RowOfStates extends StatelessWidget {
                         children: [
                           Icon(
                             CupertinoIcons.checkmark_alt_circle,
-                            size: Dimensions.dimenisonNo18,
+                            size: Dimensions.dimensionNo18,
                             color: AppColor.buttonColor,
                           ),
-                          SizedBox(width: Dimensions.dimenisonNo5),
+                          SizedBox(width: Dimensions.dimensionNo5),
                           Text(
                             "Confirmed",
                             style: GoogleFonts.roboto(
-                              fontSize: Dimensions.dimenisonNo16,
+                              fontSize: Dimensions.dimensionNo16,
                               color: AppColor.buttonColor,
                               fontWeight: FontWeight.w500,
                             ),
@@ -137,9 +137,9 @@ class RowOfStates extends StatelessWidget {
         : appointModel.status == "Confirmed"
             ? Padding(
                 padding: EdgeInsets.only(
-                  top: Dimensions.dimenisonNo16,
-                  left: Dimensions.dimenisonNo16,
-                  right: Dimensions.dimenisonNo16,
+                  top: Dimensions.dimensionNo16,
+                  left: Dimensions.dimensionNo16,
+                  right: Dimensions.dimensionNo16,
                 ),
                 child: Row(
                   children: [
@@ -147,7 +147,7 @@ class RowOfStates extends StatelessWidget {
                       children: [
                         Text(
                           "Current State",
-                          style: TextStyle(fontSize: Dimensions.dimenisonNo14),
+                          style: TextStyle(fontSize: Dimensions.dimensionNo14),
                         ),
                         CupertinoButton(
                           padding: EdgeInsets.zero,
@@ -156,14 +156,14 @@ class RowOfStates extends StatelessWidget {
                             children: [
                               Icon(
                                 CupertinoIcons.checkmark_alt_circle,
-                                size: Dimensions.dimenisonNo18,
+                                size: Dimensions.dimensionNo18,
                                 color: AppColor.buttonColor,
                               ),
-                              SizedBox(width: Dimensions.dimenisonNo5),
+                              SizedBox(width: Dimensions.dimensionNo5),
                               Text(
                                 appointModel.status,
                                 style: GoogleFonts.roboto(
-                                  fontSize: Dimensions.dimenisonNo16,
+                                  fontSize: Dimensions.dimensionNo16,
                                   color: AppColor.buttonColor,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -178,7 +178,7 @@ class RowOfStates extends StatelessWidget {
                       children: [
                         Text(
                           "Update State",
-                          style: TextStyle(fontSize: Dimensions.dimenisonNo14),
+                          style: TextStyle(fontSize: Dimensions.dimensionNo14),
                         ),
                         CupertinoButton(
                           padding: EdgeInsets.zero,
@@ -207,14 +207,14 @@ class RowOfStates extends StatelessWidget {
                             children: [
                               Icon(
                                 CupertinoIcons.checkmark_alt_circle,
-                                size: Dimensions.dimenisonNo14,
+                                size: Dimensions.dimensionNo14,
                                 color: Colors.orange,
                               ),
-                              SizedBox(width: Dimensions.dimenisonNo10),
+                              SizedBox(width: Dimensions.dimensionNo10),
                               Text(
                                 "Check-In",
                                 style: GoogleFonts.roboto(
-                                  fontSize: Dimensions.dimenisonNo16,
+                                  fontSize: Dimensions.dimensionNo16,
                                   color: Colors.orange,
                                   fontWeight: FontWeight.w500,
                                 ),
@@ -233,9 +233,9 @@ class RowOfStates extends StatelessWidget {
             : appointModel.status == "Check-In"
                 ? Padding(
                     padding: EdgeInsets.only(
-                      top: Dimensions.dimenisonNo16,
-                      left: Dimensions.dimenisonNo16,
-                      right: Dimensions.dimenisonNo16,
+                      top: Dimensions.dimensionNo16,
+                      left: Dimensions.dimensionNo16,
+                      right: Dimensions.dimensionNo16,
                     ),
                     child: Row(
                       children: [
@@ -244,7 +244,7 @@ class RowOfStates extends StatelessWidget {
                             Text(
                               "Current State",
                               style:
-                                  TextStyle(fontSize: Dimensions.dimenisonNo14),
+                                  TextStyle(fontSize: Dimensions.dimensionNo14),
                             ),
                             CupertinoButton(
                                 padding: EdgeInsets.zero,
@@ -258,7 +258,7 @@ class RowOfStates extends StatelessWidget {
                             Text(
                               "Update State",
                               style:
-                                  TextStyle(fontSize: Dimensions.dimenisonNo14),
+                                  TextStyle(fontSize: Dimensions.dimensionNo14),
                             ),
                             CupertinoButton(
                               padding: EdgeInsets.zero,
@@ -296,13 +296,13 @@ class RowOfStates extends StatelessWidget {
                                 children: [
                                   Icon(
                                     FontAwesomeIcons.scissors,
-                                    size: Dimensions.dimenisonNo14,
+                                    size: Dimensions.dimensionNo14,
                                   ),
-                                  SizedBox(width: Dimensions.dimenisonNo10),
+                                  SizedBox(width: Dimensions.dimensionNo10),
                                   Text(
                                     "InServices",
                                     style: GoogleFonts.roboto(
-                                      fontSize: Dimensions.dimenisonNo16,
+                                      fontSize: Dimensions.dimensionNo16,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
@@ -321,9 +321,9 @@ class RowOfStates extends StatelessWidget {
                 : appointModel.status == "InServices"
                     ? Padding(
                         padding: EdgeInsets.only(
-                          top: Dimensions.dimenisonNo16,
-                          left: Dimensions.dimenisonNo16,
-                          right: Dimensions.dimenisonNo16,
+                          top: Dimensions.dimensionNo16,
+                          left: Dimensions.dimensionNo16,
+                          right: Dimensions.dimensionNo16,
                         ),
                         child: Row(
                           children: [
@@ -332,7 +332,7 @@ class RowOfStates extends StatelessWidget {
                                 Text(
                                   "Current State",
                                   style: TextStyle(
-                                      fontSize: Dimensions.dimenisonNo14),
+                                      fontSize: Dimensions.dimensionNo14),
                                 ),
                                 CupertinoButton(
                                   padding: EdgeInsets.zero,
@@ -341,13 +341,13 @@ class RowOfStates extends StatelessWidget {
                                     children: [
                                       Icon(
                                         FontAwesomeIcons.scissors,
-                                        size: Dimensions.dimenisonNo14,
+                                        size: Dimensions.dimensionNo14,
                                       ),
-                                      SizedBox(width: Dimensions.dimenisonNo10),
+                                      SizedBox(width: Dimensions.dimensionNo10),
                                       Text(
                                         appointModel.status,
                                         style: GoogleFonts.roboto(
-                                          fontSize: Dimensions.dimenisonNo16,
+                                          fontSize: Dimensions.dimensionNo16,
                                           color: AppColor.buttonColor,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -363,7 +363,7 @@ class RowOfStates extends StatelessWidget {
                                 Text(
                                   "Update State",
                                   style: TextStyle(
-                                      fontSize: Dimensions.dimenisonNo14),
+                                      fontSize: Dimensions.dimensionNo14),
                                 ),
                                 CupertinoButton(
                                   padding: EdgeInsets.zero,
@@ -393,14 +393,14 @@ class RowOfStates extends StatelessWidget {
                                     children: [
                                       Icon(
                                         CupertinoIcons.checkmark_alt_circle,
-                                        size: Dimensions.dimenisonNo18,
+                                        size: Dimensions.dimensionNo18,
                                         color: Colors.blue,
                                       ),
-                                      SizedBox(width: Dimensions.dimenisonNo5),
+                                      SizedBox(width: Dimensions.dimensionNo5),
                                       Text(
                                         "Completed",
                                         style: GoogleFonts.roboto(
-                                          fontSize: Dimensions.dimenisonNo16,
+                                          fontSize: Dimensions.dimensionNo16,
                                           color: Colors.blue,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -419,9 +419,9 @@ class RowOfStates extends StatelessWidget {
 
                     : appointModel.status == "Completed"
                         ? Container(
-                            height: Dimensions.dimenisonNo60,
+                            height: Dimensions.dimensionNo60,
                             padding: EdgeInsets.only(
-                              left: Dimensions.dimenisonNo16,
+                              left: Dimensions.dimensionNo16,
                             ),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -429,10 +429,10 @@ class RowOfStates extends StatelessWidget {
                                 Text(
                                   "Current State",
                                   style: TextStyle(
-                                      fontSize: Dimensions.dimenisonNo14),
+                                      fontSize: Dimensions.dimensionNo14),
                                 ),
                                 SizedBox(
-                                  height: Dimensions.dimenisonNo10,
+                                  height: Dimensions.dimensionNo10,
                                 ),
                                 StateText(status: appointModel.status),
                               ],
@@ -440,9 +440,9 @@ class RowOfStates extends StatelessWidget {
                           )
                         : appointModel.status == "(Cancel)"
                             ? Container(
-                                height: Dimensions.dimenisonNo60,
+                                height: Dimensions.dimensionNo60,
                                 padding: EdgeInsets.only(
-                                  left: Dimensions.dimenisonNo16,
+                                  left: Dimensions.dimensionNo16,
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -450,10 +450,10 @@ class RowOfStates extends StatelessWidget {
                                     Text(
                                       "Current State",
                                       style: TextStyle(
-                                          fontSize: Dimensions.dimenisonNo14),
+                                          fontSize: Dimensions.dimensionNo14),
                                     ),
                                     SizedBox(
-                                      height: Dimensions.dimenisonNo10,
+                                      height: Dimensions.dimensionNo10,
                                     ),
                                     StateText(status: appointModel.status),
                                   ],
@@ -461,9 +461,9 @@ class RowOfStates extends StatelessWidget {
                               )
                             : appointModel.status == "Bill Generate"
                                 ? Container(
-                                    height: Dimensions.dimenisonNo60,
+                                    height: Dimensions.dimensionNo60,
                                     padding: EdgeInsets.only(
-                                      left: Dimensions.dimenisonNo16,
+                                      left: Dimensions.dimensionNo16,
                                     ),
                                     child: Column(
                                       crossAxisAlignment:
@@ -473,19 +473,19 @@ class RowOfStates extends StatelessWidget {
                                           "Current State",
                                           style: TextStyle(
                                               fontSize:
-                                                  Dimensions.dimenisonNo14),
+                                                  Dimensions.dimensionNo14),
                                         ),
                                         SizedBox(
-                                          height: Dimensions.dimenisonNo10,
+                                          height: Dimensions.dimensionNo10,
                                         ),
                                         StateText(status: appointModel.status),
                                       ],
                                     ),
                                   )
                                 : Container(
-                                    height: Dimensions.dimenisonNo60,
+                                    height: Dimensions.dimensionNo60,
                                     padding: EdgeInsets.only(
-                                      left: Dimensions.dimenisonNo16,
+                                      left: Dimensions.dimensionNo16,
                                     ),
                                     child: Column(
                                       crossAxisAlignment:
@@ -495,10 +495,10 @@ class RowOfStates extends StatelessWidget {
                                           "Current State",
                                           style: TextStyle(
                                               fontSize:
-                                                  Dimensions.dimenisonNo14),
+                                                  Dimensions.dimensionNo14),
                                         ),
                                         SizedBox(
-                                          height: Dimensions.dimenisonNo10,
+                                          height: Dimensions.dimensionNo10,
                                         ),
                                         StateText(status: appointModel.status),
                                       ],

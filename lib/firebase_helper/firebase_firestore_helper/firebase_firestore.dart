@@ -242,7 +242,7 @@ class FirebaseFirestoreHelper {
       await reference.set(superCategoryModel.toJson());
       return superCategoryModel;
     } catch (e) {
-      showBottonMessageError(
+      showBottomMessageError(
           "Error create new Super-Category ${e.toString()}", context);
       print("Error create new Super-Category ${e.toString()} ");
       rethrow; // Ensure the error is still thrown

@@ -9,7 +9,7 @@ import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
 
 class FormTimeSection extends StatefulWidget {
@@ -61,14 +61,14 @@ class _FormTimeSectionState extends State<FormTimeSection> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: Dimensions.dimenisonNo20,
+                      height: Dimensions.dimensionNo20,
                     ),
                     Text(
                       'Weekly Schedule',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: Dimensions.dimenisonNo30,
+                        fontSize: Dimensions.dimensionNo30,
                         fontFamily: GoogleFonts.roboto().fontFamily,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.15,
@@ -76,7 +76,7 @@ class _FormTimeSectionState extends State<FormTimeSection> {
                     ),
                     Divider(),
                     SizedBox(
-                      height: Dimensions.dimenisonNo10,
+                      height: Dimensions.dimensionNo10,
                     ),
                     WeekRow(dayOfWeek: "Monday", time: mondayController),
                     WeekRow(dayOfWeek: "Tuesday", time: tuesdayController),
@@ -87,8 +87,8 @@ class _FormTimeSectionState extends State<FormTimeSection> {
                     WeekRow(dayOfWeek: "Sunday", time: sundayController),
                     Padding(
                       padding: EdgeInsets.symmetric(
-                          horizontal: Dimensions.dimenisonNo10,
-                          vertical: Dimensions.dimenisonNo20),
+                          horizontal: Dimensions.dimensionNo10,
+                          vertical: Dimensions.dimensionNo20),
                       child: CustomAuthButton(
                         text: "Save",
                         ontap: () async {

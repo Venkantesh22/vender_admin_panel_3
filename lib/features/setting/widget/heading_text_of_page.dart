@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 Text headingTextOFPage(BuildContext context, String text) {
   return Text(
@@ -9,8 +9,8 @@ Text headingTextOFPage(BuildContext context, String text) {
     style: TextStyle(
       color: Colors.black,
       fontSize: ResponsiveLayout.isMobile(context)
-          ? Dimensions.dimenisonNo28
-          : Dimensions.dimenisonNo36,
+          ? Dimensions.dimensionNo28
+          : Dimensions.dimensionNo36,
       fontWeight: FontWeight.w500,
     ),
   );

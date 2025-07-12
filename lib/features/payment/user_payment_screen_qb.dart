@@ -21,7 +21,7 @@ import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
 import 'package:upi_payment_qrcode_generator/upi_payment_qrcode_generator.dart';
 
@@ -196,19 +196,19 @@ class _UserSideBarPaymentScreenForQBState
                   ),
                   padding: ResponsiveLayout.isMobile(context)
                       ? EdgeInsets.symmetric(
-                          horizontal: Dimensions.dimenisonNo10,
-                          vertical: Dimensions.dimenisonNo10,
+                          horizontal: Dimensions.dimensionNo10,
+                          vertical: Dimensions.dimensionNo10,
                         )
                       : EdgeInsets.symmetric(
-                          horizontal: Dimensions.dimenisonNo16,
-                          vertical: Dimensions.dimenisonNo10,
+                          horizontal: Dimensions.dimensionNo16,
+                          vertical: Dimensions.dimensionNo10,
                         ),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         _buildPaymentDetailsSection(bookingProvider),
-                        SizedBox(height: Dimensions.dimenisonNo20),
+                        SizedBox(height: Dimensions.dimensionNo20),
                         _buildPaymentOptionsSection(bookingProvider),
                         billButtom(),
                       ],
@@ -225,7 +225,7 @@ class _UserSideBarPaymentScreenForQBState
       backgroundColor: AppColor.mainColor,
       actions: [
         Container(
-          margin: EdgeInsets.only(left: Dimensions.dimenisonNo20),
+          margin: EdgeInsets.only(left: Dimensions.dimensionNo20),
           child: IconButton(
             onPressed: () {
               setState(() {
@@ -235,7 +235,7 @@ class _UserSideBarPaymentScreenForQBState
             icon: Icon(
               Icons.percent,
               color: Colors.white,
-              size: Dimensions.dimenisonNo18,
+              size: Dimensions.dimensionNo18,
             ),
           ),
         )
@@ -249,16 +249,16 @@ class _UserSideBarPaymentScreenForQBState
               "Bill Page",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: Dimensions.dimenisonNo18,
+                fontSize: Dimensions.dimensionNo18,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(width: Dimensions.dimenisonNo8),
+            SizedBox(width: Dimensions.dimensionNo8),
             Text(
               "Power by Samay",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: Dimensions.dimenisonNo12,
+                fontSize: Dimensions.dimensionNo12,
                 fontWeight: FontWeight.w400,
               ),
             ),
@@ -276,18 +276,18 @@ class _UserSideBarPaymentScreenForQBState
           firstText: "Payment Method:",
           lastText: _appointModel.payment,
         ),
-        SizedBox(height: Dimensions.dimenisonNo10),
+        SizedBox(height: Dimensions.dimensionNo10),
         const Divider(),
         Padding(
           padding: ResponsiveLayout.isMobile(context)
-              ? EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo5)
-              : EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo20),
+              ? EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo5)
+              : EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo20),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               pricreInfor(),
-              SizedBox(height: Dimensions.dimenisonNo10),
-              SizedBox(height: Dimensions.dimenisonNo8),
+              SizedBox(height: Dimensions.dimensionNo10),
+              SizedBox(height: Dimensions.dimensionNo8),
               const Divider(),
               _buildFinalAmountRow(bookingProvider),
             ],
@@ -303,7 +303,7 @@ class _UserSideBarPaymentScreenForQBState
     return Padding(
       padding: ResponsiveLayout.isMobile(context)
           ? EdgeInsets.zero
-          : EdgeInsets.all(Dimensions.dimenisonNo16),
+          : EdgeInsets.all(Dimensions.dimensionNo16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -312,24 +312,24 @@ class _UserSideBarPaymentScreenForQBState
             style: TextStyle(
               color: Colors.black,
               fontSize: ResponsiveLayout.isMobile(context)
-                  ? Dimensions.dimenisonNo14
-                  : Dimensions.dimenisonNo18,
+                  ? Dimensions.dimensionNo14
+                  : Dimensions.dimensionNo18,
               fontWeight: FontWeight.w600,
               letterSpacing: 1.0,
             ),
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo12,
+            height: Dimensions.dimensionNo12,
           ),
           // Price Details Section
           Padding(
             padding: ResponsiveLayout.isMobile(context)
-                ? EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo5)
-                : EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo10),
+                ? EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo5)
+                : EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo10),
             child: Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(bottom: Dimensions.dimenisonNo10),
+                  padding: EdgeInsets.only(bottom: Dimensions.dimensionNo10),
                   child: Row(
                     children: [
                       Text(
@@ -337,35 +337,35 @@ class _UserSideBarPaymentScreenForQBState
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: ResponsiveLayout.isMobile(context)
-                              ? Dimensions.dimenisonNo12
-                              : Dimensions.dimenisonNo14,
+                              ? Dimensions.dimensionNo12
+                              : Dimensions.dimensionNo14,
                           fontWeight: FontWeight.w400,
                           letterSpacing: 0.90,
                         ),
                       ),
-                      SizedBox(width: Dimensions.dimenisonNo5),
+                      SizedBox(width: Dimensions.dimensionNo5),
                       Text(
                         '(services ${_appointModel.services.length})',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: ResponsiveLayout.isMobile(context)
-                              ? Dimensions.dimenisonNo12
-                              : Dimensions.dimenisonNo14,
+                              ? Dimensions.dimensionNo12
+                              : Dimensions.dimensionNo14,
                           letterSpacing: 0.90,
                         ),
                       ),
                       Spacer(),
                       Icon(
                         Icons.currency_rupee,
-                        size: Dimensions.dimenisonNo18,
+                        size: Dimensions.dimensionNo18,
                       ),
                       Text(
                         bookingProvider.getSubTotal.toString(),
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: ResponsiveLayout.isMobile(context)
-                              ? Dimensions.dimenisonNo12
-                              : Dimensions.dimenisonNo14,
+                              ? Dimensions.dimensionNo12
+                              : Dimensions.dimensionNo14,
                           fontWeight: FontWeight.w400,
                           letterSpacing: 0.90,
                         ),
@@ -378,15 +378,15 @@ class _UserSideBarPaymentScreenForQBState
                 _appointModel.discountInPer != 0.0
                     ? Padding(
                         padding:
-                            EdgeInsets.only(bottom: Dimensions.dimenisonNo10),
+                            EdgeInsets.only(bottom: Dimensions.dimensionNo10),
                         child: Row(
                           children: [
                             Text(
                               'Item Discount ${bookingProvider.getDiscountInPer!.round()}%',
                               style: TextStyle(
                                 fontSize: ResponsiveLayout.isMobile(context)
-                                    ? Dimensions.dimenisonNo12
-                                    : Dimensions.dimenisonNo14,
+                                    ? Dimensions.dimensionNo12
+                                    : Dimensions.dimensionNo14,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: 0.90,
                               ),
@@ -396,8 +396,8 @@ class _UserSideBarPaymentScreenForQBState
                               "-₹${bookingProvider.getDiscountAmount.toString()}",
                               style: TextStyle(
                                 fontSize: ResponsiveLayout.isMobile(context)
-                                    ? Dimensions.dimenisonNo12
-                                    : Dimensions.dimenisonNo14,
+                                    ? Dimensions.dimensionNo12
+                                    : Dimensions.dimensionNo14,
                                 fontWeight: FontWeight.w500,
                                 color: Colors.green,
                                 letterSpacing: 0.90,
@@ -422,8 +422,8 @@ class _UserSideBarPaymentScreenForQBState
                           : 'Net Price',
                       style: TextStyle(
                         fontSize: ResponsiveLayout.isMobile(context)
-                            ? Dimensions.dimenisonNo12
-                            : Dimensions.dimenisonNo14,
+                            ? Dimensions.dimensionNo12
+                            : Dimensions.dimensionNo14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.90,
                       ),
@@ -433,15 +433,15 @@ class _UserSideBarPaymentScreenForQBState
                       "₹${bookingProvider.getNetPrice!.toStringAsFixed(2)}",
                       style: TextStyle(
                         fontSize: ResponsiveLayout.isMobile(context)
-                            ? Dimensions.dimenisonNo12
-                            : Dimensions.dimenisonNo14,
+                            ? Dimensions.dimensionNo12
+                            : Dimensions.dimensionNo14,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.90,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
 
                 Row(
                   children: [
@@ -450,30 +450,30 @@ class _UserSideBarPaymentScreenForQBState
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: ResponsiveLayout.isMobile(context)
-                            ? Dimensions.dimenisonNo12
-                            : Dimensions.dimenisonNo14,
+                            ? Dimensions.dimensionNo12
+                            : Dimensions.dimensionNo14,
                         letterSpacing: 0.90,
                       ),
                     ),
                     Spacer(),
                     Icon(
                       Icons.currency_rupee,
-                      size: Dimensions.dimenisonNo14,
+                      size: Dimensions.dimensionNo14,
                     ),
                     Text(
                       _samaySalonSettingModel!.platformFee,
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: ResponsiveLayout.isMobile(context)
-                            ? Dimensions.dimenisonNo12
-                            : Dimensions.dimenisonNo14,
+                            ? Dimensions.dimensionNo12
+                            : Dimensions.dimensionNo14,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 0.90,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
 
                 Row(
                   children: [
@@ -487,14 +487,14 @@ class _UserSideBarPaymentScreenForQBState
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: ResponsiveLayout.isMobile(context)
-                              ? Dimensions.dimenisonNo12
-                              : Dimensions.dimenisonNo14,
+                              ? Dimensions.dimensionNo12
+                              : Dimensions.dimensionNo14,
                           fontWeight: FontWeight.w600,
                           letterSpacing: 0.90,
                         ),
                       ),
                     ),
-                    Icon(Icons.currency_rupee, size: Dimensions.dimenisonNo16),
+                    Icon(Icons.currency_rupee, size: Dimensions.dimensionNo16),
                     Text(
                       bookingProvider.getTaxAbleAmount!
                           .round()
@@ -502,15 +502,15 @@ class _UserSideBarPaymentScreenForQBState
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: ResponsiveLayout.isMobile(context)
-                            ? Dimensions.dimenisonNo12
-                            : Dimensions.dimenisonNo14,
+                            ? Dimensions.dimensionNo12
+                            : Dimensions.dimensionNo14,
                         fontWeight: FontWeight.w600,
                         letterSpacing: 0.90,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 // GST Price
                 _appointModel.gstAmount != 0.0
                     ? Column(
@@ -522,8 +522,8 @@ class _UserSideBarPaymentScreenForQBState
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: ResponsiveLayout.isMobile(context)
-                                      ? Dimensions.dimenisonNo12
-                                      : Dimensions.dimenisonNo14,
+                                      ? Dimensions.dimensionNo12
+                                      : Dimensions.dimensionNo14,
                                   // fontWeight: FontWeight.w500,
                                   letterSpacing: 0.90,
                                 ),
@@ -539,15 +539,15 @@ class _UserSideBarPaymentScreenForQBState
                                 style: TextStyle(
                                   color: Colors.black,
                                   fontSize: ResponsiveLayout.isMobile(context)
-                                      ? Dimensions.dimenisonNo12
-                                      : Dimensions.dimenisonNo14,
+                                      ? Dimensions.dimensionNo12
+                                      : Dimensions.dimensionNo14,
                                   fontWeight: FontWeight.w600,
                                   letterSpacing: 0.90,
                                 ),
                               ),
                             ],
                           ),
-                          SizedBox(height: Dimensions.dimenisonNo10),
+                          SizedBox(height: Dimensions.dimensionNo10),
                         ],
                       )
                     : SizedBox(),
@@ -573,14 +573,14 @@ class _UserSideBarPaymentScreenForQBState
               "Extra Discount :",
               style: TextStyle(
                 fontSize: ResponsiveLayout.isMobile(context)
-                    ? Dimensions.dimenisonNo12
-                    : Dimensions.dimenisonNo14,
+                    ? Dimensions.dimensionNo12
+                    : Dimensions.dimensionNo14,
                 fontWeight: FontWeight.w500,
               ),
             ),
             const Spacer(),
             SizedBox(
-              width: Dimensions.dimenisonNo10,
+              width: Dimensions.dimensionNo10,
             ),
             Expanded(
               child: TextField(
@@ -592,7 +592,7 @@ class _UserSideBarPaymentScreenForQBState
                   labelText: "Rupess ₹",
                   errorText:
                       validateDiscountInput(_extraDiscountInDirectAmount.text),
-                  errorStyle: TextStyle(fontSize: Dimensions.dimenisonNo12),
+                  errorStyle: TextStyle(fontSize: Dimensions.dimensionNo12),
                 ),
                 onChanged: (value) {
                   double _discount = double.tryParse(value) ?? 0.0;
@@ -602,7 +602,7 @@ class _UserSideBarPaymentScreenForQBState
                 },
               ),
             ),
-            SizedBox(width: Dimensions.dimenisonNo8),
+            SizedBox(width: Dimensions.dimensionNo8),
             Expanded(
               child: TextField(
                 controller: _extraDiscountInPer,
@@ -612,7 +612,7 @@ class _UserSideBarPaymentScreenForQBState
                   border: const OutlineInputBorder(),
                   labelText: "Discount",
                   errorText: validateDiscountInput(_extraDiscountInPer.text),
-                  errorStyle: TextStyle(fontSize: Dimensions.dimenisonNo12),
+                  errorStyle: TextStyle(fontSize: Dimensions.dimensionNo12),
                 ),
                 onChanged: (value) {
                   _extraDiscontAmountFun1();
@@ -625,10 +625,10 @@ class _UserSideBarPaymentScreenForQBState
                 },
               ),
             ),
-            Icon(Icons.percent, size: Dimensions.dimenisonNo16),
+            Icon(Icons.percent, size: Dimensions.dimensionNo16),
           ],
         ),
-        SizedBox(height: Dimensions.dimenisonNo8),
+        SizedBox(height: Dimensions.dimensionNo8),
         // Row for displaying calculated extra discount amount
         Row(
           children: [
@@ -636,21 +636,21 @@ class _UserSideBarPaymentScreenForQBState
               "Extra Discount Percentage Amount:",
               style: TextStyle(
                 fontSize: ResponsiveLayout.isMobile(context)
-                    ? Dimensions.dimenisonNo12
-                    : Dimensions.dimenisonNo14,
+                    ? Dimensions.dimensionNo12
+                    : Dimensions.dimensionNo14,
                 fontWeight: FontWeight.w500,
               ),
             ),
             const Spacer(),
             SizedBox(
-              width: Dimensions.dimenisonNo110,
+              width: Dimensions.dimensionNo110,
               child: Text(
                 "-₹${_extraDiscountInPerAMTLoc.toStringAsFixed(2)}",
                 style: TextStyle(
                   color: Colors.green,
                   fontSize: ResponsiveLayout.isMobile(context)
-                      ? Dimensions.dimenisonNo12
-                      : Dimensions.dimenisonNo14,
+                      ? Dimensions.dimensionNo12
+                      : Dimensions.dimensionNo14,
                   fontWeight: FontWeight.w400,
                   letterSpacing: 0.80,
                 ),
@@ -658,7 +658,7 @@ class _UserSideBarPaymentScreenForQBState
             ),
           ],
         ),
-        SizedBox(height: Dimensions.dimenisonNo10),
+        SizedBox(height: Dimensions.dimensionNo10),
         _extraDiscountInDirectAmount.text == null ||
                 _extraDiscountInDirectAmount.text.isEmpty
             ? const SizedBox()
@@ -668,22 +668,22 @@ class _UserSideBarPaymentScreenForQBState
                     "Extra Discount Amount:",
                     style: TextStyle(
                       fontSize: ResponsiveLayout.isMobile(context)
-                          ? Dimensions.dimenisonNo12
-                          : Dimensions.dimenisonNo14,
+                          ? Dimensions.dimensionNo12
+                          : Dimensions.dimensionNo14,
                       fontWeight: FontWeight.w500,
                       color: Colors.green,
                     ),
                   ),
                   const Spacer(),
                   SizedBox(
-                    width: Dimensions.dimenisonNo110,
+                    width: Dimensions.dimensionNo110,
                     child: Text(
                       "-₹${_extraDiscountInDirectAmount.text}",
                       style: TextStyle(
                         color: Colors.green,
                         fontSize: ResponsiveLayout.isMobile(context)
-                            ? Dimensions.dimenisonNo12
-                            : Dimensions.dimenisonNo14,
+                            ? Dimensions.dimensionNo12
+                            : Dimensions.dimensionNo14,
                         fontWeight: FontWeight.w400,
                         letterSpacing: 0.80,
                       ),
@@ -691,14 +691,14 @@ class _UserSideBarPaymentScreenForQBState
                   ),
                 ],
               ),
-        SizedBox(height: Dimensions.dimenisonNo10),
+        SizedBox(height: Dimensions.dimensionNo10),
       ],
     );
   }
 
   Widget _buildFinalAmountRow(BookingProvider bookingProvider) {
     return Padding(
-      padding: EdgeInsets.symmetric(vertical: Dimensions.dimenisonNo16),
+      padding: EdgeInsets.symmetric(vertical: Dimensions.dimensionNo16),
       child: Row(
         children: [
           Text(
@@ -706,7 +706,7 @@ class _UserSideBarPaymentScreenForQBState
             style: TextStyle(
               fontSize: ResponsiveLayout.isMobile(context)
                   ? 13
-                  : Dimensions.dimenisonNo15,
+                  : Dimensions.dimensionNo15,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -715,8 +715,8 @@ class _UserSideBarPaymentScreenForQBState
             bookingProvider.getFinalPayableAMT!.round().toString(),
             style: TextStyle(
               fontSize: ResponsiveLayout.isMobile(context)
-                  ? Dimensions.dimenisonNo14
-                  : Dimensions.dimenisonNo16,
+                  ? Dimensions.dimensionNo14
+                  : Dimensions.dimensionNo16,
               fontWeight: FontWeight.bold,
               color: bookingProvider.getFinalPayableAMT! < finalAmount
                   ? Colors.green
@@ -737,26 +737,26 @@ class _UserSideBarPaymentScreenForQBState
           'Payment Options',
           style: TextStyle(
             fontSize: ResponsiveLayout.isMobile(context)
-                ? Dimensions.dimenisonNo16
-                : Dimensions.dimenisonNo20,
+                ? Dimensions.dimensionNo16
+                : Dimensions.dimensionNo20,
             fontWeight: FontWeight.w600,
           ),
         ),
-        SizedBox(height: Dimensions.dimenisonNo12),
+        SizedBox(height: Dimensions.dimensionNo12),
         Container(
-          padding: EdgeInsets.all(Dimensions.dimenisonNo8),
+          padding: EdgeInsets.all(Dimensions.dimensionNo8),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(Dimensions.dimenisonNo12),
+            borderRadius: BorderRadius.circular(Dimensions.dimensionNo12),
             border: Border.all(width: 1.6, color: Colors.black),
           ),
           child: _buildPaymentMethodSelector(bookingProvider),
         ),
-        SizedBox(height: Dimensions.dimenisonNo12),
+        SizedBox(height: Dimensions.dimensionNo12),
         Text(
           "Note: Online payments coming soon. Currently only cash payments available.",
           style: TextStyle(
             color: Colors.red,
-            fontSize: Dimensions.dimenisonNo12,
+            fontSize: Dimensions.dimensionNo12,
           ),
           softWrap: true,
         ),
@@ -849,11 +849,11 @@ class _UserSideBarPaymentScreenForQBState
           ),
           onChanged: (value) => setState(() {}),
         ),
-        SizedBox(height: Dimensions.dimenisonNo16),
+        SizedBox(height: Dimensions.dimensionNo16),
         Text(
           "Change Due: ₹${_cashToGiveBack.round()}",
           style: TextStyle(
-            fontSize: Dimensions.dimenisonNo16,
+            fontSize: Dimensions.dimensionNo16,
             color: _cashToGiveBack >= 0 ? Colors.green : Colors.red,
           ),
         ),
@@ -862,7 +862,7 @@ class _UserSideBarPaymentScreenForQBState
             "Insufficient cash received",
             style: TextStyle(
               color: Colors.red,
-              fontSize: Dimensions.dimenisonNo12,
+              fontSize: Dimensions.dimensionNo12,
             ),
           ),
       ],
@@ -889,19 +889,19 @@ class _UserSideBarPaymentScreenForQBState
           mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
-              height: Dimensions.dimenisonNo150,
-              width: Dimensions.dimenisonNo150,
+              height: Dimensions.dimensionNo150,
+              width: Dimensions.dimensionNo150,
               child: UPIPaymentQRCode(upiDetails: upiDetails!),
             ),
-            SizedBox(height: Dimensions.dimenisonNo8),
+            SizedBox(height: Dimensions.dimensionNo8),
             Padding(
               padding:
-                  EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo20),
+                  EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo20),
               child: SizedBox(
-                height: Dimensions.dimenisonNo30,
+                height: Dimensions.dimensionNo30,
                 child: TextField(
                   controller: _transactionIdController,
-                  style: TextStyle(fontSize: Dimensions.dimenisonNo12),
+                  style: TextStyle(fontSize: Dimensions.dimensionNo12),
                   decoration: const InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: "Transaction ID",
@@ -920,7 +920,7 @@ class _UserSideBarPaymentScreenForQBState
     return Center(
       child: Text(
         "Custom Payment method selected.",
-        style: TextStyle(fontSize: Dimensions.dimenisonNo14),
+        style: TextStyle(fontSize: Dimensions.dimensionNo14),
       ),
     );
   }
@@ -929,11 +929,11 @@ class _UserSideBarPaymentScreenForQBState
       {Color? color, bool bold = false}) {
     double fontSize;
     if (ResponsiveLayout.isMobile(context)) {
-      fontSize = Dimensions.dimenisonNo13;
+      fontSize = Dimensions.dimensionNo13;
     } else if (ResponsiveLayout.isTablet(context)) {
-      fontSize = Dimensions.dimenisonNo15;
+      fontSize = Dimensions.dimensionNo15;
     } else {
-      fontSize = Dimensions.dimenisonNo17;
+      fontSize = Dimensions.dimensionNo17;
     }
     return TextStyle(
       fontSize: fontSize,

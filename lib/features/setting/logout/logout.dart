@@ -5,7 +5,7 @@ import 'package:samay_admin_plan/constants/router.dart';
 import 'package:samay_admin_plan/features/auth/login.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_auth_helper/firebase_auth_helper.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/custom_icon_text_button.dart';
 
 class LogoutPage extends StatelessWidget {
@@ -19,18 +19,18 @@ class LogoutPage extends StatelessWidget {
       body: Container(
         margin: ResponsiveLayout.isMobile(context)
             ? EdgeInsets.symmetric(
-                horizontal: Dimensions.dimenisonNo12,
+                horizontal: Dimensions.dimensionNo12,
               )
             : ResponsiveLayout.isTablet(context)
                 ? EdgeInsets.symmetric(
-                    horizontal: Dimensions.dimenisonNo60,
+                    horizontal: Dimensions.dimensionNo60,
                   )
                 : null,
         padding: EdgeInsets.symmetric(
             horizontal: ResponsiveLayout.isMobile(context)
-                ? Dimensions.dimenisonNo10
-                : Dimensions.dimenisonNo30,
-            vertical: Dimensions.dimenisonNo20),
+                ? Dimensions.dimensionNo10
+                : Dimensions.dimensionNo30,
+            vertical: Dimensions.dimensionNo20),
         // color: Colors.green,
         color: Colors.white,
         width: ResponsiveLayout.isDesktop(context)
@@ -45,15 +45,15 @@ class LogoutPage extends StatelessWidget {
               style: TextStyle(
                 color: Colors.black,
                 fontSize: ResponsiveLayout.isMobile(context)
-                    ? Dimensions.dimenisonNo14
-                    : Dimensions.dimenisonNo18,
+                    ? Dimensions.dimensionNo14
+                    : Dimensions.dimensionNo18,
                 fontFamily: GoogleFonts.roboto().fontFamily,
                 fontWeight: FontWeight.w500,
                 letterSpacing: 0.15,
               ),
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             CustomIconTextButton(
                 text: "Logout",
                 onTap: () async {

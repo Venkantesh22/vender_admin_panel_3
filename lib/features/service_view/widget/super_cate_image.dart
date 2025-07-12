@@ -9,7 +9,7 @@ import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/fireb
 import 'package:samay_admin_plan/models/super_cate/super_cate.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class SuperCateImage extends StatefulWidget {
   final SuperCategoryModel superCategoryModel;
@@ -50,12 +50,12 @@ class _SuperCateImageState extends State<SuperCateImage> {
             }
 
             Navigator.of(context).pop();
-            showBottonMessage(
+            showBottomMessage(
                 "Successfully deleted ${widget.superCategoryModel.superCategoryName}",
                 context);
           } catch (e) {
             Navigator.of(context).pop();
-            showBottonMessageError(
+            showBottomMessageError(
                 "Error deleting ${widget.superCategoryModel.superCategoryName}",
                 context);
           }
@@ -85,7 +85,7 @@ class _SuperCateImageState extends State<SuperCateImage> {
   Container superCateImgWeb(BuildContext context, String? superCateImgUrl,
       ServiceProvider serviceProvider, AppProvider appProvider) {
     return Container(
-      margin: EdgeInsets.all(Dimensions.dimenisonNo12),
+      margin: EdgeInsets.all(Dimensions.dimensionNo12),
       height: ResponsiveLayout.isMoAndTab(context)
           ? 220
           : MediaQuery.of(context).size.height / 1.5,
@@ -94,19 +94,19 @@ class _SuperCateImageState extends State<SuperCateImage> {
           : MediaQuery.of(context).size.width / 4.5,
       clipBehavior: Clip.antiAlias,
       padding: EdgeInsets.all(ResponsiveLayout.isMobile(context)
-          ? Dimensions.dimenisonNo8
-          : Dimensions.dimenisonNo12),
+          ? Dimensions.dimensionNo8
+          : Dimensions.dimensionNo12),
       decoration: BoxDecoration(
         border: Border.all(
           color: Colors.black,
           width: 1,
         ),
-        borderRadius: BorderRadius.circular(Dimensions.dimenisonNo12),
+        borderRadius: BorderRadius.circular(Dimensions.dimensionNo12),
       ),
       child: Stack(
         children: [
           ClipRRect(
-            borderRadius: BorderRadius.circular(Dimensions.dimenisonNo12),
+            borderRadius: BorderRadius.circular(Dimensions.dimensionNo12),
             child: superCateImgUrl != null
                 ? Image.network(
                     superCateImgUrl,
@@ -175,13 +175,13 @@ class _SuperCateImageState extends State<SuperCateImage> {
                                 .pop(); // Close loader/dialog
                             Navigator.of(context, rootNavigator: true)
                                 .pop(); // Close loader/dialog
-                            showBottonMessage(
+                            showBottomMessage(
                               "Successfully deleted ${widget.superCategoryModel.superCategoryName}",
                               context,
                             );
                           } catch (e) {
                             Navigator.of(context, rootNavigator: true).pop();
-                            showBottonMessageError(
+                            showBottomMessageError(
                               "Error deleting ${widget.superCategoryModel.superCategoryName}",
                               context,
                             );
@@ -218,7 +218,7 @@ class _SuperCateImageState extends State<SuperCateImage> {
             alignment: Alignment.bottomCenter,
             child: Container(
               width: double.infinity,
-              padding: EdgeInsets.only(bottom: Dimensions.dimenisonNo20),
+              padding: EdgeInsets.only(bottom: Dimensions.dimensionNo20),
               child: Text(
                 widget.superCategoryModel.superCategoryName,
                 textAlign: TextAlign.center,
@@ -226,8 +226,8 @@ class _SuperCateImageState extends State<SuperCateImage> {
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: ResponsiveLayout.isMoAndTab(context)
-                      ? Dimensions.dimenisonNo14
-                      : Dimensions.dimenisonNo18,
+                      ? Dimensions.dimensionNo14
+                      : Dimensions.dimensionNo18,
                   fontWeight: ResponsiveLayout.isMoAndTab(context)
                       ? FontWeight.bold
                       : FontWeight.w600,

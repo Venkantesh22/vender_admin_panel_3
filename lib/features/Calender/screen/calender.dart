@@ -8,7 +8,7 @@ import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CustomCalendar extends StatefulWidget {
@@ -119,11 +119,11 @@ class _CustomCalendarState extends State<CustomCalendar> {
   Widget build(BuildContext context) {
     CalenderProvider calenderProvider = Provider.of<CalenderProvider>(context);
     return Container(
-      padding: EdgeInsets.all(Dimensions.dimenisonNo5),
+      padding: EdgeInsets.all(Dimensions.dimensionNo5),
       decoration: BoxDecoration(
         color: const Color.fromARGB(
             255, 179, 250, 182), // Background color for the calendar
-        borderRadius: BorderRadius.circular(Dimensions.dimenisonNo20),
+        borderRadius: BorderRadius.circular(Dimensions.dimensionNo20),
       ),
       child: Column(
         children: [
@@ -165,7 +165,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
             calendarBuilders: CalendarBuilders(
               holidayBuilder: (context, date, _) => Center(
                 child: Container(
-                  margin: EdgeInsets.all(Dimensions.dimenisonNo5),
+                  margin: EdgeInsets.all(Dimensions.dimensionNo5),
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.red, // Color for holidays
@@ -197,7 +197,7 @@ class _CustomCalendarState extends State<CustomCalendar> {
                 if (_isAppointmentDate(date)) {
                   return Center(
                     child: Container(
-                      margin: EdgeInsets.all(Dimensions.dimenisonNo5),
+                      margin: EdgeInsets.all(Dimensions.dimensionNo5),
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         color: Colors.orange, // Color for appointment dates
@@ -216,16 +216,16 @@ class _CustomCalendarState extends State<CustomCalendar> {
             ),
           ),
           SizedBox(
-            height: Dimensions.dimenisonNo10,
+            height: Dimensions.dimensionNo10,
           ),
           Row(
             children: [
               SizedBox(
-                width: Dimensions.dimenisonNo5,
+                width: Dimensions.dimensionNo5,
               ),
               colorName(Colors.red, "Holiday"),
               SizedBox(
-                width: Dimensions.dimenisonNo10,
+                width: Dimensions.dimensionNo10,
               ),
               colorName(Colors.orange, "Appointment"),
             ],
@@ -239,17 +239,17 @@ class _CustomCalendarState extends State<CustomCalendar> {
     return Row(
       children: [
         CircleAvatar(
-          radius: Dimensions.dimenisonNo10,
+          radius: Dimensions.dimensionNo10,
           backgroundColor: color,
         ),
         SizedBox(
-          width: Dimensions.dimenisonNo5,
+          width: Dimensions.dimensionNo5,
         ),
         Text(
           name,
           style: TextStyle(
               color: color,
-              fontSize: Dimensions.dimenisonNo12,
+              fontSize: Dimensions.dimensionNo12,
               fontWeight: FontWeight.w500),
         )
       ],

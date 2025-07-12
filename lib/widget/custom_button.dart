@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class CustomButtom extends StatelessWidget {
   final String text;
@@ -22,13 +22,13 @@ class CustomButtom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: Dimensions.dimenisonNo36,
-      width: width ?? Dimensions.dimenisonNo200,
+      height: Dimensions.dimensionNo36,
+      width: width ?? Dimensions.dimensionNo200,
       child: ElevatedButton(
         onPressed: ontap,
         style: ElevatedButton.styleFrom(
           padding: EdgeInsetsDirectional.symmetric(
-              horizontal: Dimensions.dimenisonNo10),
+              horizontal: Dimensions.dimensionNo10),
           backgroundColor: buttonColor,
           foregroundColor: Colors.white,
           // Text color
@@ -46,8 +46,8 @@ class CustomButtom extends StatelessWidget {
             color: textColor,
             // color: Colors.black,
             fontSize: ResponsiveLayout.isMoAndTab(context)
-                ? Dimensions.dimenisonNo12
-                : Dimensions.dimenisonNo16,
+                ? Dimensions.dimensionNo12
+                : Dimensions.dimensionNo16,
             fontFamily: GoogleFonts.roboto().fontFamily,
             fontWeight: FontWeight.w500,
             letterSpacing: 1.25,

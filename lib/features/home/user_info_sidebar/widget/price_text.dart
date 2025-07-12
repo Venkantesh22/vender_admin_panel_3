@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class CustomText extends StatelessWidget {
   final String firstText;
@@ -21,13 +21,13 @@ class CustomText extends StatelessWidget {
     return Padding(
       padding: ResponsiveLayout.isMobile(context)
           ? EdgeInsets.only(
-              left: Dimensions.dimenisonNo10,
-              right: Dimensions.dimenisonNo10,
-              top: Dimensions.dimenisonNo5)
+              left: Dimensions.dimensionNo10,
+              right: Dimensions.dimensionNo10,
+              top: Dimensions.dimensionNo5)
           : EdgeInsets.only(
-              left: Dimensions.dimenisonNo20,
-              right: Dimensions.dimenisonNo20,
-              top: Dimensions.dimenisonNo5),
+              left: Dimensions.dimensionNo20,
+              right: Dimensions.dimensionNo20,
+              top: Dimensions.dimensionNo5),
       child: Row(
         children: [
           Text(
@@ -35,22 +35,22 @@ class CustomText extends StatelessWidget {
             style: TextStyle(
               color: Colors.black,
               fontSize: ResponsiveLayout.isMobile(context)
-                  ? Dimensions.dimenisonNo12
-                  : Dimensions.dimenisonNo15,
+                  ? Dimensions.dimensionNo12
+                  : Dimensions.dimensionNo15,
               fontWeight: FontWeight.w500,
               letterSpacing: 0.80,
             ),
           ),
           Spacer(),
           if (showicon)
-            Icon(icon, size: Dimensions.dimenisonNo18, color: Colors.black),
+            Icon(icon, size: Dimensions.dimensionNo18, color: Colors.black),
           Text(
             lastText,
             style: TextStyle(
               color: Colors.black,
               fontSize: ResponsiveLayout.isMobile(context)
-                  ? Dimensions.dimenisonNo12
-                  : Dimensions.dimenisonNo15,
+                  ? Dimensions.dimensionNo12
+                  : Dimensions.dimensionNo15,
               fontWeight: FontWeight.w400,
               letterSpacing: 0.80,
             ),

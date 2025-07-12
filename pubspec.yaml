@@ -60,6 +60,8 @@ dependencies:
   sidebarx: ^0.17.1
   bcrypt: ^1.1.3
   open_file: ^3.5.10
+  dotted_border: ^3.1.0
+  flutter_dropzone: ^4.2.1
 
  
 

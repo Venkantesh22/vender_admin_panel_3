@@ -4,7 +4,7 @@ import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/features/setting/widget/heading_text_of_page.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class SupportPage extends StatelessWidget {
   const SupportPage({super.key});
@@ -18,18 +18,18 @@ class SupportPage extends StatelessWidget {
           child: Container(
             margin: ResponsiveLayout.isMobile(context)
                 ? EdgeInsets.symmetric(
-                    horizontal: Dimensions.dimenisonNo12,
+                    horizontal: Dimensions.dimensionNo12,
                   )
                 : ResponsiveLayout.isTablet(context)
                     ? EdgeInsets.symmetric(
-                        horizontal: Dimensions.dimenisonNo60,
+                        horizontal: Dimensions.dimensionNo60,
                       )
                     : null,
             padding: EdgeInsets.symmetric(
                 horizontal: ResponsiveLayout.isMobile(context)
-                    ? Dimensions.dimenisonNo10
-                    : Dimensions.dimenisonNo30,
-                vertical: Dimensions.dimenisonNo20),
+                    ? Dimensions.dimensionNo10
+                    : Dimensions.dimensionNo30,
+                vertical: Dimensions.dimensionNo20),
             // color: Colors.green,
             color: Colors.white,
             width: ResponsiveLayout.isDesktop(context)
@@ -46,7 +46,7 @@ class SupportPage extends StatelessWidget {
                 ),
                 Padding(
                   padding:
-                      EdgeInsets.symmetric(vertical: Dimensions.dimenisonNo10),
+                      EdgeInsets.symmetric(vertical: Dimensions.dimensionNo10),
                   child: const Divider(),
                 ),
                 Text(
@@ -54,8 +54,8 @@ class SupportPage extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: ResponsiveLayout.isMobile(context)
-                        ? Dimensions.dimenisonNo14
-                        : Dimensions.dimenisonNo18,
+                        ? Dimensions.dimensionNo14
+                        : Dimensions.dimensionNo18,
                     fontFamily: 'Roboto',
                     fontWeight: FontWeight.w500,
                     height: 0,
@@ -63,15 +63,15 @@ class SupportPage extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                  height: Dimensions.dimenisonNo12,
+                  height: Dimensions.dimensionNo12,
                 ),
                 Text(
                   'Email ID :  ${GlobalVariable.customerGmail}',
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: ResponsiveLayout.isMobile(context)
-                        ? Dimensions.dimenisonNo14
-                        : Dimensions.dimenisonNo18,
+                        ? Dimensions.dimensionNo14
+                        : Dimensions.dimensionNo18,
                     fontFamily: 'Roboto',
                     fontWeight: FontWeight.w500,
                     height: 0,

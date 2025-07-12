@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class userInfoColumn extends StatelessWidget {
   final String title;
@@ -11,7 +11,7 @@ class userInfoColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo16),
+      padding: EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -19,21 +19,21 @@ class userInfoColumn extends StatelessWidget {
             title,
             style: TextStyle(
               // color: Colors.black.withOpacity(0.699999988079071),
-              fontSize: Dimensions.dimenisonNo15,
+              fontSize: Dimensions.dimensionNo15,
               fontWeight: FontWeight.w600,
             ),
           ),
           Padding(
             padding: EdgeInsets.only(
-                top: Dimensions.dimenisonNo5,
-                left: Dimensions.dimenisonNo5,
-                bottom: Dimensions.dimenisonNo10),
+                top: Dimensions.dimensionNo5,
+                left: Dimensions.dimensionNo5,
+                bottom: Dimensions.dimensionNo10),
             child: Text(
               infoText,
               overflow: TextOverflow.clip,
               style: TextStyle(
                 color: Color(0xFF1F1616),
-                fontSize: Dimensions.dimenisonNo14,
+                fontSize: Dimensions.dimensionNo14,
                 fontWeight: FontWeight.w400,
                 letterSpacing: 0.90,
               ),

@@ -11,7 +11,7 @@ import 'package:samay_admin_plan/features/setting/setting_page.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class MobileDrawer extends StatelessWidget {
   @override
@@ -35,19 +35,19 @@ class MobileDrawer extends StatelessWidget {
                             .image ??
                         'https://via.placeholder.com/150',
                   ),
-                  radius: Dimensions.dimenisonNo30,
+                  radius: Dimensions.dimensionNo30,
                   onBackgroundImageError: (exception, stackTrace) {
                     debugPrint("Image load error: $exception");
                   },
                 ),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 Text(
                   Provider.of<AppProvider>(context, listen: false)
                       .getAdminInformation
                       .name,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: Dimensions.dimenisonNo16,
+                    fontSize: Dimensions.dimensionNo16,
                     fontFamily: GoogleFonts.roboto().fontFamily,
                     fontWeight: FontWeight.w700,
                   ),

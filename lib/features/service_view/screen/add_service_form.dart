@@ -7,9 +7,9 @@ import 'package:samay_admin_plan/models/category_model/category_model.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
-import 'package:samay_admin_plan/widget/customtextfield.dart';
+import 'package:samay_admin_plan/widget/text_box/customtextfield.dart';
 
 class AddServiceForm extends StatefulWidget {
   final CategoryModel categoryModel;
@@ -99,8 +99,8 @@ class _AddServiceFormState extends State<AddServiceForm> {
               ? Dimensions.screenWidth / 1.5
               : null,
           padding: EdgeInsets.symmetric(
-            horizontal: Dimensions.dimenisonNo30,
-            vertical: Dimensions.dimenisonNo30,
+            horizontal: Dimensions.dimensionNo30,
+            vertical: Dimensions.dimensionNo30,
           ),
           decoration: const BoxDecoration(
             color: Colors.white,
@@ -117,7 +117,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: Dimensions.dimenisonNo24,
+                        fontSize: Dimensions.dimensionNo24,
                         fontFamily: GoogleFonts.roboto().fontFamily,
                         fontWeight: FontWeight.w500,
                         letterSpacing: 0.15,
@@ -133,28 +133,28 @@ class _AddServiceFormState extends State<AddServiceForm> {
                 ],
               ),
               const Divider(),
-              SizedBox(height: Dimensions.dimenisonNo20),
+              SizedBox(height: Dimensions.dimensionNo20),
               // Service Name field
               FormCustomTextField(
                 controller: _serviceController,
                 title: "Service name",
               ),
-              SizedBox(height: Dimensions.dimenisonNo20),
+              SizedBox(height: Dimensions.dimensionNo20),
               // Service Code field
               FormCustomTextField(
                 controller: _serviceCodeController,
                 title: "Enter 4-Digit service code",
               ),
-              SizedBox(height: Dimensions.dimenisonNo10),
+              SizedBox(height: Dimensions.dimensionNo10),
 
               // Price fields: Original Price, Discount Percentage, and Final Price.
               Wrap(
-                spacing: Dimensions.dimenisonNo20,
-                runSpacing: Dimensions.dimenisonNo20,
+                spacing: Dimensions.dimensionNo20,
+                runSpacing: Dimensions.dimensionNo20,
                 children: [
                   // Original Price field
                   SizedBox(
-                    width: Dimensions.dimenisonNo200,
+                    width: Dimensions.dimensionNo200,
                     child: FormCustomTextField(
                       controller: _originalPriceController,
                       title: "Original Price",
@@ -162,7 +162,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                   ),
                   // Discount Percentage field
                   SizedBox(
-                    width: Dimensions.dimenisonNo230,
+                    width: Dimensions.dimensionNo230,
                     child: FormCustomTextField(
                       requiredField: false,
                       controller: _discountInPer,
@@ -171,7 +171,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                   ),
                   // Final Price field (read-only, updated in real time)
                   SizedBox(
-                    width: Dimensions.dimenisonNo200,
+                    width: Dimensions.dimensionNo200,
                     child: FormCustomTextField(
                       requiredField: false,
                       controller: _priceController,
@@ -182,12 +182,12 @@ class _AddServiceFormState extends State<AddServiceForm> {
                 ],
               ),
               SizedBox(
-                height: Dimensions.dimenisonNo20,
+                height: Dimensions.dimensionNo20,
               ),
               // Time duration and Service For fields
               Wrap(
-                spacing: Dimensions.dimenisonNo20,
-                runSpacing: Dimensions.dimenisonNo12,
+                spacing: Dimensions.dimensionNo20,
+                runSpacing: Dimensions.dimensionNo12,
                 children: [
                   // Time Duration Column
                   Column(
@@ -197,7 +197,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                         'Time duration',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: Dimensions.dimenisonNo18,
+                          fontSize: Dimensions.dimensionNo18,
                           fontFamily: GoogleFonts.roboto().fontFamily,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 0.15,
@@ -205,22 +205,22 @@ class _AddServiceFormState extends State<AddServiceForm> {
                       ),
                       Row(
                         children: [
-                          SizedBox(width: Dimensions.dimenisonNo10),
+                          SizedBox(width: Dimensions.dimensionNo10),
                           HeadingText('Timing'),
-                          SizedBox(width: Dimensions.dimenisonNo10),
+                          SizedBox(width: Dimensions.dimensionNo10),
                           SizedBox(
-                            height: Dimensions.dimenisonNo30,
-                            width: Dimensions.dimenisonNo50,
+                            height: Dimensions.dimensionNo30,
+                            width: Dimensions.dimensionNo50,
                             child: _TextFormTime(" HH ", _hoursController),
                           ),
                           Padding(
                             padding: EdgeInsets.symmetric(
-                                horizontal: Dimensions.dimenisonNo10),
+                                horizontal: Dimensions.dimensionNo10),
                             child: Text(
                               ':',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: Dimensions.dimenisonNo20,
+                                fontSize: Dimensions.dimensionNo20,
                                 fontFamily: GoogleFonts.roboto().fontFamily,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 0.15,
@@ -228,29 +228,29 @@ class _AddServiceFormState extends State<AddServiceForm> {
                             ),
                           ),
                           SizedBox(
-                            height: Dimensions.dimenisonNo30,
-                            width: Dimensions.dimenisonNo50,
+                            height: Dimensions.dimensionNo30,
+                            width: Dimensions.dimensionNo50,
                             child: _TextFormTime(" MM ", _minController),
                           ),
-                          SizedBox(width: Dimensions.dimenisonNo10),
+                          SizedBox(width: Dimensions.dimensionNo10),
                         ],
                       ),
                     ],
                   ),
-                  // SizedBox(width: Dimensions.dimenisonNo30),
+                  // SizedBox(width: Dimensions.dimensionNo30),
                   // Service For Dropdown Column
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       HeadingText('Select for'),
                       SizedBox(
-                        width: Dimensions.dimenisonNo200,
+                        width: Dimensions.dimensionNo200,
                         child: DropdownButtonFormField<String>(
                           hint: Text(
                             'Select for',
                             style: TextStyle(
                               color: Colors.grey,
-                              fontSize: Dimensions.dimenisonNo12,
+                              fontSize: Dimensions.dimensionNo12,
                               fontFamily: GoogleFonts.roboto().fontFamily,
                               fontWeight: FontWeight.w500,
                               letterSpacing: 0.40,
@@ -280,7 +280,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                   ),
                 ],
               ),
-              SizedBox(height: Dimensions.dimenisonNo10),
+              SizedBox(height: Dimensions.dimensionNo10),
 
               // Service Description field
               FormCustomTextField(
@@ -288,7 +288,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                 controller: _descriptionController,
                 title: "Service Description",
               ),
-              SizedBox(height: Dimensions.dimenisonNo10),
+              SizedBox(height: Dimensions.dimensionNo10),
 
               CustomAuthButton(
                 text: "Save",
@@ -318,7 +318,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                     if (originalPrice == null ||
                         discountPercentage == null ||
                         finalPrice == null) {
-                      showBottonMessageError(
+                      showBottomMessageError(
                           "Please enter valid numeric values for price and discount.",
                           context);
 
@@ -326,7 +326,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                     }
 
                     if (minutes == null && hours == null) {
-                      showBottonMessageError(
+                      showBottomMessageError(
                           "Please enter valid numeric values for time duration.",
                           context);
 
@@ -334,14 +334,14 @@ class _AddServiceFormState extends State<AddServiceForm> {
                     }
 
                     if (minutes != null && minutes < 0) {
-                      showBottonMessageError(
+                      showBottomMessageError(
                         "Minutes cannot be negative.",
                         context,
                       );
                       return;
                     }
                     if (minutes! >= 60) {
-                      showBottonMessageError(
+                      showBottomMessageError(
                         "Minutes cannot be greater than or equal to 60.",
                         context,
                       );
@@ -349,7 +349,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                     }
                     if (_hoursController.text != null &&
                         int.parse(_hoursController.text) < 0) {
-                      showBottonMessageError(
+                      showBottomMessageError(
                         "Hours cannot be negative.",
                         context,
                       );
@@ -357,7 +357,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                     }
 
                     if (!isValidated) {
-                      showBottonMessageError(
+                      showBottomMessageError(
                           "Please fill all required fields correctly.",
                           context);
 
@@ -406,13 +406,13 @@ class _AddServiceFormState extends State<AddServiceForm> {
                     }
 
                     // Show success message and close form
-                    showBottonMessage(
+                    showBottomMessage(
                         "New Service added Successfully", context);
 
                     Navigator.of(context).pop(); // Close the form screen
                   } catch (e) {
                     debugPrint("Error adding service: ${e.toString()}");
-                    // showBottonMessageError(
+                    // showBottomMessageError(
                     //     "Something went wrong please add all fields", context);
                   } finally {
                     // Ensure loader dialog is dismissed
@@ -435,7 +435,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
       heading,
       style: TextStyle(
         color: Colors.black,
-        fontSize: Dimensions.dimenisonNo18,
+        fontSize: Dimensions.dimensionNo18,
         fontFamily: GoogleFonts.roboto().fontFamily,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.15,
@@ -447,9 +447,9 @@ class _AddServiceFormState extends State<AddServiceForm> {
   TextFormField _TextFormTime(
       String hintText, TextEditingController controller) {
     return TextFormField(
-      cursorHeight: Dimensions.dimenisonNo16,
+      cursorHeight: Dimensions.dimensionNo16,
       style: TextStyle(
-        fontSize: Dimensions.dimenisonNo12,
+        fontSize: Dimensions.dimensionNo12,
         fontFamily: GoogleFonts.roboto().fontFamily,
         fontWeight: FontWeight.bold,
         color: Colors.black,
@@ -458,16 +458,16 @@ class _AddServiceFormState extends State<AddServiceForm> {
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(
-          fontSize: Dimensions.dimenisonNo12,
+          fontSize: Dimensions.dimensionNo12,
           fontFamily: GoogleFonts.roboto().fontFamily,
           fontWeight: FontWeight.bold,
         ),
         contentPadding: EdgeInsets.symmetric(
-          horizontal: Dimensions.dimenisonNo10,
-          vertical: Dimensions.dimenisonNo10,
+          horizontal: Dimensions.dimensionNo10,
+          vertical: Dimensions.dimensionNo10,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(Dimensions.dimenisonNo16),
+          borderRadius: BorderRadius.circular(Dimensions.dimensionNo16),
         ),
       ),
     );

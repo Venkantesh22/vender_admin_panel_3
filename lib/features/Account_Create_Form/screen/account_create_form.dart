@@ -17,9 +17,9 @@ import 'package:samay_admin_plan/features/Account_Create_Form/widget/salon_socia
 import 'package:samay_admin_plan/features/auth/login.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton_loading.dart';
-import 'package:samay_admin_plan/widget/customtextfield.dart';
+import 'package:samay_admin_plan/widget/text_box/customtextfield.dart';
 
 class AccountCreateForm extends StatefulWidget {
   const AccountCreateForm({super.key});
@@ -97,7 +97,7 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
         _loadingSave = true;
       });
       if (selectedImage == null || selectedImage!.isEmpty) {
-        showBottonMessageError("Please select a  Salon profile image", context);
+        showBottomMessageError("Please select a  Salon profile image", context);
         return;
       }
 
@@ -182,7 +182,7 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
               '${GlobalVariable.salon} Profile Details',
               style: TextStyle(
                 color: Colors.white,
-                fontSize: Dimensions.dimenisonNo30,
+                fontSize: Dimensions.dimensionNo30,
                 fontFamily: GoogleFonts.roboto().fontFamily,
                 fontWeight: FontWeight.w500,
                 letterSpacing: 0.15,
@@ -206,8 +206,8 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
         child: Center(
           child: Container(
             padding: EdgeInsets.symmetric(
-                horizontal: Dimensions.dimenisonNo30,
-                vertical: Dimensions.dimenisonNo20),
+                horizontal: Dimensions.dimensionNo30,
+                vertical: Dimensions.dimensionNo20),
             // color: Colors.green,
             color: Colors.white,
             width: Dimensions.screenWidth / 1.5,
@@ -221,7 +221,7 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                         text: 'Upload ${GlobalVariable.salon} Images ',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: Dimensions.dimenisonNo18,
+                          fontSize: Dimensions.dimensionNo18,
                           fontFamily: GoogleFonts.roboto().fontFamily,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 0.15,
@@ -231,7 +231,7 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                         text: '*',
                         style: TextStyle(
                           color: const Color(0xFFFC0000),
-                          fontSize: Dimensions.dimenisonNo18,
+                          fontSize: Dimensions.dimensionNo18,
                           fontFamily: GoogleFonts.roboto().fontFamily,
                           fontWeight: FontWeight.w500,
                           height: 0,
@@ -241,19 +241,19 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                     ],
                   ),
                 ),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 selectedImage == null
                     ? InkWell(
                         onTap: chooseImages,
                         child: Container(
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(
-                                  Dimensions.dimenisonNo20)),
-                          width: Dimensions.dimenisonNo300,
-                          height: Dimensions.dimenisonNo200,
+                                  Dimensions.dimensionNo20)),
+                          width: Dimensions.dimensionNo300,
+                          height: Dimensions.dimensionNo200,
                           child: Icon(
                             Icons.image,
-                            size: Dimensions.dimenisonNo200,
+                            size: Dimensions.dimensionNo200,
                           ),
                         ),
                       )
@@ -261,12 +261,12 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                         onTap: chooseImages,
                         child: Container(
                           margin:
-                              EdgeInsets.only(left: Dimensions.dimenisonNo20),
+                              EdgeInsets.only(left: Dimensions.dimensionNo20),
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(
-                                  Dimensions.dimenisonNo20)),
-                          width: Dimensions.dimenisonNo300,
-                          height: Dimensions.dimenisonNo200,
+                                  Dimensions.dimensionNo20)),
+                          width: Dimensions.dimensionNo300,
+                          height: Dimensions.dimensionNo200,
                           clipBehavior: Clip.antiAlias,
                           child: Image.memory(
                             selectedImage!,
@@ -274,27 +274,27 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                           ),
                         ),
                       ),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 FormCustomTextField(
                   controller: _salonName,
                   title: "${GlobalVariable.salon} Name",
                 ),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 FormCustomTextField(
                   controller: _email,
                   title: "Email ID",
                 ),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 FormCustomTextField(
                   controller: _mobile,
                   title: "Mobile No",
                 ),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 FormCustomTextField(
                   controller: _whatApp,
                   title: "WhatApp No",
                 ),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 Text.rich(
                   TextSpan(
                     children: [
@@ -302,7 +302,7 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                         text: '${GlobalVariable.salon} Type ',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: Dimensions.dimenisonNo18,
+                          fontSize: Dimensions.dimensionNo18,
                           fontFamily: GoogleFonts.roboto().fontFamily,
                           fontWeight: FontWeight.w500,
                           letterSpacing: 0.15,
@@ -312,7 +312,7 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                         text: '*',
                         style: TextStyle(
                           color: const Color(0xFFFC0000),
-                          fontSize: Dimensions.dimenisonNo18,
+                          fontSize: Dimensions.dimensionNo18,
                           fontFamily: GoogleFonts.roboto().fontFamily,
                           fontWeight: FontWeight.w500,
                           height: 0,
@@ -322,14 +322,14 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                     ],
                   ),
                 ),
-                SizedBox(height: Dimensions.dimenisonNo5),
+                SizedBox(height: Dimensions.dimensionNo5),
 
                 DropdownButtonFormField<String>(
                   hint: Text(
                     'Select ${GlobalVariable.salon} Type',
                     style: TextStyle(
                       color: Colors.grey,
-                      fontSize: Dimensions.dimenisonNo16,
+                      fontSize: Dimensions.dimensionNo16,
                       fontFamily: GoogleFonts.roboto().fontFamily,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.40,
@@ -355,13 +355,13 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                   },
                 ),
 
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 FormCustomTextField(
                   controller: _descrition,
                   title: "${GlobalVariable.salon} Description",
                   maxline: 5,
                 ),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 //! select a time
 
                 PickTimeSection(
@@ -379,13 +379,13 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                   },
                 ),
 
-                SizedBox(height: Dimensions.dimenisonNo20),
+                SizedBox(height: Dimensions.dimensionNo20),
                 FormCustomTextField(
                   controller: _address,
                   title: "Address",
                   maxline: 2,
                 ),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -415,20 +415,20 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                         stateDropdownLabel: "Select State",
                         cityDropdownLabel: "Select City",
 
-                        dropdownDialogRadius: Dimensions.dimenisonNo12,
-                        searchBarRadius: Dimensions.dimenisonNo30,
+                        dropdownDialogRadius: Dimensions.dimensionNo12,
+                        searchBarRadius: Dimensions.dimensionNo30,
 
                         ///Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER] (USE with disabledDropdownDecoration)
                         dropdownDecoration: BoxDecoration(
                             borderRadius: BorderRadius.all(
-                                Radius.circular(Dimensions.dimenisonNo10)),
+                                Radius.circular(Dimensions.dimensionNo10)),
                             color: Colors.white,
                             border: Border.all(color: Colors.black, width: 1)),
 
                         ///Disabled Dropdown box decoration to style your dropdown selector [OPTIONAL PARAMETER]  (USE with disabled dropdownDecoration)
                         disabledDropdownDecoration: BoxDecoration(
                             borderRadius: BorderRadius.all(
-                                Radius.circular(Dimensions.dimenisonNo10)),
+                                Radius.circular(Dimensions.dimensionNo10)),
                             color: Colors.grey.shade300,
                             border: Border.all(color: Colors.black, width: 1)),
                       ),
@@ -436,24 +436,24 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                   ],
                 ),
 
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 SizedBox(
-                  width: Dimensions.dimenisonNo150,
+                  width: Dimensions.dimensionNo150,
                   child: FormCustomTextField(
                       controller: _pincode, title: "Pincode"),
                 ),
-                SizedBox(height: Dimensions.dimenisonNo20),
+                SizedBox(height: Dimensions.dimensionNo20),
                 Text(
                   'Social media Information',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: Dimensions.dimenisonNo16,
+                    fontSize: Dimensions.dimensionNo16,
                     fontWeight: FontWeight.w500,
                     fontFamily: GoogleFonts.roboto().fontFamily,
                     letterSpacing: 0.15,
                   ),
                 ),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 Column(
                   children: [
                     SalonSocialMediaAdd(
@@ -478,7 +478,7 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                     ),
                   ],
                 ),
-                SizedBox(height: Dimensions.dimenisonNo20),
+                SizedBox(height: Dimensions.dimensionNo20),
                 // CustomAuthButton(
                 //     text: "check",
                 //     ontap: () {
@@ -522,8 +522,8 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: ResponsiveLayout.isMoAndTab(context)
-                    ? Dimensions.dimenisonNo12
-                    : Dimensions.dimenisonNo16,
+                    ? Dimensions.dimensionNo12
+                    : Dimensions.dimensionNo16,
                 fontFamily: GoogleFonts.roboto().fontFamily,
                 fontWeight: FontWeight.w500,
                 letterSpacing: 1.25,
@@ -539,8 +539,8 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
       child: Container(
         color: Colors.white,
         padding: EdgeInsets.symmetric(
-            horizontal: Dimensions.dimenisonNo20,
-            vertical: Dimensions.dimenisonNo10),
+            horizontal: Dimensions.dimensionNo20,
+            vertical: Dimensions.dimensionNo10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -551,7 +551,7 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                     text: 'Upload ${GlobalVariable.salon} Images ',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: Dimensions.dimenisonNo16,
+                      fontSize: Dimensions.dimensionNo16,
                       fontFamily: GoogleFonts.roboto().fontFamily,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.15,
@@ -561,7 +561,7 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                     text: '*',
                     style: TextStyle(
                       color: const Color(0xFFFC0000),
-                      fontSize: Dimensions.dimenisonNo16,
+                      fontSize: Dimensions.dimensionNo16,
                       fontFamily: GoogleFonts.roboto().fontFamily,
                       fontWeight: FontWeight.w500,
                       height: 0,
@@ -571,19 +571,19 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                 ],
               ),
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             selectedImage == null
                 ? InkWell(
                     onTap: chooseImages,
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius:
-                              BorderRadius.circular(Dimensions.dimenisonNo10)),
+                              BorderRadius.circular(Dimensions.dimensionNo10)),
                       width: double.infinity,
-                      height: Dimensions.dimenisonNo150,
+                      height: Dimensions.dimensionNo150,
                       child: Icon(
                         Icons.image,
-                        size: Dimensions.dimenisonNo100,
+                        size: Dimensions.dimensionNo100,
                       ),
                     ),
                   )
@@ -592,9 +592,9 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius:
-                              BorderRadius.circular(Dimensions.dimenisonNo10)),
+                              BorderRadius.circular(Dimensions.dimensionNo10)),
                       width: double.infinity,
-                      height: Dimensions.dimenisonNo150,
+                      height: Dimensions.dimensionNo150,
                       clipBehavior: Clip.antiAlias,
                       child: Image.memory(
                         selectedImage!,
@@ -602,27 +602,27 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                       ),
                     ),
                   ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             FormCustomTextField(
               controller: _salonName,
               title: "${GlobalVariable.salon} Name",
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             FormCustomTextField(
               controller: _email,
               title: "Email ID",
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             FormCustomTextField(
               controller: _mobile,
               title: "Mobile No",
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             FormCustomTextField(
               controller: _whatApp,
               title: "WhatApp No",
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             Text.rich(
               TextSpan(
                 children: [
@@ -630,7 +630,7 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                     text: '${GlobalVariable.salon} Type ',
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: Dimensions.dimenisonNo16,
+                      fontSize: Dimensions.dimensionNo16,
                       fontFamily: GoogleFonts.roboto().fontFamily,
                       fontWeight: FontWeight.w500,
                       letterSpacing: 0.15,
@@ -640,7 +640,7 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                     text: '*',
                     style: TextStyle(
                       color: const Color(0xFFFC0000),
-                      fontSize: Dimensions.dimenisonNo16,
+                      fontSize: Dimensions.dimensionNo16,
                       fontFamily: GoogleFonts.roboto().fontFamily,
                       fontWeight: FontWeight.w500,
                       height: 0,
@@ -650,13 +650,13 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                 ],
               ),
             ),
-            SizedBox(height: Dimensions.dimenisonNo5),
+            SizedBox(height: Dimensions.dimensionNo5),
             DropdownButtonFormField<String>(
               hint: Text(
                 'Select ${GlobalVariable.salon} Type',
                 style: TextStyle(
                   color: Colors.grey,
-                  fontSize: Dimensions.dimenisonNo14,
+                  fontSize: Dimensions.dimensionNo14,
                   fontFamily: GoogleFonts.roboto().fontFamily,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 0.40,
@@ -681,13 +681,13 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                 return null;
               },
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             FormCustomTextField(
               controller: _descrition,
               title: "${GlobalVariable.salon} Description",
               maxline: 3,
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             PickTimeSection(
               openController: _openTime,
               closeController: _closeTime,
@@ -702,13 +702,13 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                 });
               },
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             FormCustomTextField(
               controller: _address,
               title: "Address",
               maxline: 2,
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             CSCPickerPlus(
               layout: Layout.vertical,
               flagState: CountryFlag.DISABLE,
@@ -727,27 +727,27 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
               cityDropdownLabel: "Select City",
               dropdownDecoration: BoxDecoration(
                   borderRadius: BorderRadius.all(
-                      Radius.circular(Dimensions.dimenisonNo10)),
+                      Radius.circular(Dimensions.dimensionNo10)),
                   color: Colors.white,
                   border: Border.all(color: Colors.black, width: 1)),
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             FormCustomTextField(
               controller: _pincode,
               title: "Pincode",
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             Text(
               'Social Media Information',
               style: TextStyle(
                 color: Colors.black,
-                fontSize: Dimensions.dimenisonNo14,
+                fontSize: Dimensions.dimensionNo14,
                 fontWeight: FontWeight.w500,
                 fontFamily: GoogleFonts.roboto().fontFamily,
                 letterSpacing: 0.15,
               ),
             ),
-            SizedBox(height: Dimensions.dimenisonNo10),
+            SizedBox(height: Dimensions.dimensionNo10),
             Column(
               children: [
                 SalonSocialMediaAdd(
@@ -772,7 +772,7 @@ class _AccountCreateFormState extends State<AccountCreateForm> {
                 ),
               ],
             ),
-            SizedBox(height: Dimensions.dimenisonNo20),
+            SizedBox(height: Dimensions.dimensionNo20),
             saveButton(appProvider, context)
           ],
         ),

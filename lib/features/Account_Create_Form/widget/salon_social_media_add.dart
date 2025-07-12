@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class SalonSocialMediaAdd extends StatelessWidget {
   final String text;
@@ -22,26 +22,26 @@ class SalonSocialMediaAdd extends StatelessWidget {
       leading: FaIcon(
         icon,
         color: Colors.black,
-        size: Dimensions.dimenisonNo24,
+        size: Dimensions.dimensionNo24,
       ),
       title: SizedBox(
-        height: Dimensions.dimenisonNo24,
+        height: Dimensions.dimensionNo24,
         child: TextFormField(
-          cursorHeight: Dimensions.dimenisonNo16,
-          style: TextStyle(fontSize: Dimensions.dimenisonNo12),
+          cursorHeight: Dimensions.dimensionNo16,
+          style: TextStyle(fontSize: Dimensions.dimensionNo12),
           controller: controller,
           decoration: InputDecoration(
             hintText: "Enter $text account link",
             hintStyle: TextStyle(
-              fontSize: Dimensions.dimenisonNo12,
+              fontSize: Dimensions.dimensionNo12,
               fontWeight: FontWeight.w500,
               fontFamily: GoogleFonts.roboto().fontFamily,
             ),
             contentPadding: EdgeInsets.symmetric(
-              horizontal: Dimensions.dimenisonNo10,
+              horizontal: Dimensions.dimensionNo10,
             ),
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(Dimensions.dimenisonNo16),
+              borderRadius: BorderRadius.circular(Dimensions.dimensionNo16),
             ),
           ),
         ),

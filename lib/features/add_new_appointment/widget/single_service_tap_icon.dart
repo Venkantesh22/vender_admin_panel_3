@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:samay_admin_plan/constants/custom_chip.dart';
 import 'package:samay_admin_plan/models/service_model/service_model.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/pricerow.dart';
 
 class SingleServiceTapDeleteIcon extends StatelessWidget {
@@ -25,20 +25,20 @@ class SingleServiceTapDeleteIcon extends StatelessWidget {
     bool isMobile = MediaQuery.of(context).size.width < 600;
 
     return Container(
-      margin: EdgeInsets.only(bottom: Dimensions.dimenisonNo12),
+      margin: EdgeInsets.only(bottom: Dimensions.dimensionNo12),
       padding: EdgeInsets.symmetric(
-        vertical: Dimensions.dimenisonNo5,
-        horizontal: Dimensions.dimenisonNo12,
+        vertical: Dimensions.dimensionNo5,
+        horizontal: Dimensions.dimensionNo12,
       ),
       decoration: BoxDecoration(
         border: Border.all(width: 1, color: Colors.black),
-        borderRadius: BorderRadius.circular(Dimensions.dimenisonNo10),
+        borderRadius: BorderRadius.circular(Dimensions.dimensionNo10),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(right: Dimensions.dimenisonNo12),
+            padding: EdgeInsets.only(right: Dimensions.dimensionNo12),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -52,22 +52,22 @@ class SingleServiceTapDeleteIcon extends StatelessWidget {
                           overflow: TextOverflow.clip,
                           color: Colors.black,
                           fontSize: isMobile
-                              ? Dimensions.dimenisonNo12
-                              : Dimensions.dimenisonNo14,
+                              ? Dimensions.dimensionNo12
+                              : Dimensions.dimensionNo14,
                           fontFamily: GoogleFonts.roboto().fontFamily,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1,
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.only(left: Dimensions.dimenisonNo8),
+                        padding: EdgeInsets.only(left: Dimensions.dimensionNo8),
                         child: Text(
                           'Service Code: ${serviceModel.serviceCode}',
                           style: TextStyle(
                             color: Colors.grey,
                             fontSize: isMobile
-                                ? Dimensions.dimenisonNo10
-                                : Dimensions.dimenisonNo12,
+                                ? Dimensions.dimensionNo10
+                                : Dimensions.dimensionNo12,
                             fontFamily: GoogleFonts.roboto().fontFamily,
                             letterSpacing: 1,
                           ),
@@ -89,7 +89,7 @@ class SingleServiceTapDeleteIcon extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(
-                    height: Dimensions.dimenisonNo5,
+                    height: Dimensions.dimensionNo5,
                   ),
                   Row(
                     children: [
@@ -98,8 +98,8 @@ class SingleServiceTapDeleteIcon extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: isMobile
-                              ? Dimensions.dimenisonNo10
-                              : Dimensions.dimenisonNo12,
+                              ? Dimensions.dimensionNo10
+                              : Dimensions.dimensionNo12,
                           fontFamily: GoogleFonts.roboto().fontFamily,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1,
@@ -111,8 +111,8 @@ class SingleServiceTapDeleteIcon extends StatelessWidget {
                               style: TextStyle(
                                 color: AppColor.serviceTapTextColor,
                                 fontSize: isMobile
-                                    ? Dimensions.dimenisonNo10
-                                    : Dimensions.dimenisonNo12,
+                                    ? Dimensions.dimensionNo10
+                                    : Dimensions.dimensionNo12,
                                 fontFamily: GoogleFonts.roboto().fontFamily,
                                 fontWeight: FontWeight.bold,
                                 letterSpacing: 1,
@@ -124,8 +124,8 @@ class SingleServiceTapDeleteIcon extends StatelessWidget {
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: isMobile
-                              ? Dimensions.dimenisonNo10
-                              : Dimensions.dimenisonNo12,
+                              ? Dimensions.dimensionNo10
+                              : Dimensions.dimensionNo12,
                           fontFamily: GoogleFonts.roboto().fontFamily,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 1,
@@ -134,7 +134,7 @@ class SingleServiceTapDeleteIcon extends StatelessWidget {
                     ],
                   ),
                   SizedBox(
-                    height: Dimensions.dimenisonNo5,
+                    height: Dimensions.dimensionNo5,
                   ),
                   PriceRow(serviceModel: serviceModel),
                 ],
@@ -146,12 +146,12 @@ class SingleServiceTapDeleteIcon extends StatelessWidget {
                   Icons.delete,
                   color: Colors.red,
                   size: isMobile
-                      ? Dimensions.dimenisonNo24
-                      : Dimensions.dimenisonNo30,
+                      ? Dimensions.dimensionNo24
+                      : Dimensions.dimensionNo30,
                 ),
               ),
               SizedBox(
-                width: Dimensions.dimenisonNo20,
+                width: Dimensions.dimensionNo20,
               ),
             ],
           ),

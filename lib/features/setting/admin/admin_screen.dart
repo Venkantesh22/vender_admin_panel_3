@@ -13,9 +13,9 @@ import 'package:samay_admin_plan/models/admin_model/admin_models.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
-import 'package:samay_admin_plan/widget/customtextfield.dart';
+import 'package:samay_admin_plan/widget/text_box/customtextfield.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({super.key});
@@ -90,18 +90,18 @@ class _AdminPageState extends State<AdminPage> {
                 child: Container(
                   margin: ResponsiveLayout.isMobile(context)
                       ? EdgeInsets.symmetric(
-                          horizontal: Dimensions.dimenisonNo12,
+                          horizontal: Dimensions.dimensionNo12,
                         )
                       : ResponsiveLayout.isTablet(context)
                           ? EdgeInsets.symmetric(
-                              horizontal: Dimensions.dimenisonNo60,
+                              horizontal: Dimensions.dimensionNo60,
                             )
                           : null,
                   padding: EdgeInsets.symmetric(
                       horizontal: ResponsiveLayout.isMobile(context)
-                          ? Dimensions.dimenisonNo10
-                          : Dimensions.dimenisonNo30,
-                      vertical: Dimensions.dimenisonNo20),
+                          ? Dimensions.dimensionNo10
+                          : Dimensions.dimensionNo30,
+                      vertical: Dimensions.dimensionNo20),
                   // color: Colors.green,
                   color: Colors.white,
                   width: ResponsiveLayout.isDesktop(context)
@@ -117,7 +117,7 @@ class _AdminPageState extends State<AdminPage> {
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: Dimensions.dimenisonNo36,
+                            fontSize: Dimensions.dimensionNo36,
                             fontWeight: FontWeight.w500,
                             height: 0,
                             letterSpacing: 0.15,
@@ -126,7 +126,7 @@ class _AdminPageState extends State<AdminPage> {
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(
-                            vertical: Dimensions.dimenisonNo10),
+                            vertical: Dimensions.dimensionNo10),
                         child: Divider(),
                       ),
                       Text.rich(
@@ -136,7 +136,7 @@ class _AdminPageState extends State<AdminPage> {
                               text: 'Upload admin Images ',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: Dimensions.dimenisonNo18,
+                                fontSize: Dimensions.dimensionNo18,
                                 fontFamily: GoogleFonts.roboto().fontFamily,
                                 fontWeight: FontWeight.w500,
                                 letterSpacing: 0.15,
@@ -146,7 +146,7 @@ class _AdminPageState extends State<AdminPage> {
                               text: '*',
                               style: TextStyle(
                                 color: const Color(0xFFFC0000),
-                                fontSize: Dimensions.dimenisonNo18,
+                                fontSize: Dimensions.dimensionNo18,
                                 fontFamily: GoogleFonts.roboto().fontFamily,
                                 fontWeight: FontWeight.w500,
                                 height: 0,
@@ -156,7 +156,7 @@ class _AdminPageState extends State<AdminPage> {
                           ],
                         ),
                       ),
-                      SizedBox(height: Dimensions.dimenisonNo10),
+                      SizedBox(height: Dimensions.dimensionNo10),
                       Center(
                         child: selectedImage == null
                             ? InkWell(
@@ -165,8 +165,8 @@ class _AdminPageState extends State<AdminPage> {
                                   // print("icon $selectedImage");
                                 },
                                 child: Container(
-                                  width: Dimensions.dimenisonNo70,
-                                  height: Dimensions.dimenisonNo70,
+                                  width: Dimensions.dimensionNo70,
+                                  height: Dimensions.dimensionNo70,
                                   clipBehavior: Clip.antiAlias,
                                   decoration: ShapeDecoration(
                                     shape: RoundedRectangleBorder(
@@ -174,7 +174,7 @@ class _AdminPageState extends State<AdminPage> {
                                     ),
                                   ),
                                   child: CircleAvatar(
-                                    radius: Dimensions.dimenisonNo35,
+                                    radius: Dimensions.dimensionNo35,
                                     child:
                                         appProvider.getAdminInformation.image !=
                                                 null
@@ -186,7 +186,7 @@ class _AdminPageState extends State<AdminPage> {
                                               )
                                             : Icon(
                                                 Icons.camera_alt,
-                                                size: Dimensions.dimenisonNo200,
+                                                size: Dimensions.dimensionNo200,
                                               ),
                                   ),
                                 ))
@@ -196,8 +196,8 @@ class _AdminPageState extends State<AdminPage> {
                                   // print("image $selectedImage");
                                 },
                                 child: Container(
-                                  width: Dimensions.dimenisonNo70,
-                                  height: Dimensions.dimenisonNo70,
+                                  width: Dimensions.dimensionNo70,
+                                  height: Dimensions.dimensionNo70,
                                   clipBehavior: Clip.antiAlias,
                                   decoration: ShapeDecoration(
                                     shape: RoundedRectangleBorder(
@@ -213,27 +213,27 @@ class _AdminPageState extends State<AdminPage> {
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(
-                            vertical: Dimensions.dimenisonNo12),
+                            vertical: Dimensions.dimensionNo12),
                         child: Center(
                           child: Text(
                             appProvider.getAdminInformation.email,
                             style: TextStyle(
-                                fontSize: Dimensions.dimenisonNo14,
+                                fontSize: Dimensions.dimensionNo14,
                                 fontWeight: FontWeight.w500),
                           ),
                         ),
                       ),
-                      SizedBox(height: Dimensions.dimenisonNo10),
+                      SizedBox(height: Dimensions.dimensionNo10),
                       FormCustomTextField(
                         controller: _nameController,
                         title: "Admin Name",
                       ),
-                      SizedBox(height: Dimensions.dimenisonNo10),
+                      SizedBox(height: Dimensions.dimensionNo10),
                       FormCustomTextField(
                         controller: _mobileController,
                         title: "Mobile No",
                       ),
-                      SizedBox(height: Dimensions.dimenisonNo20),
+                      SizedBox(height: Dimensions.dimensionNo20),
                       CustomAuthButton(
                         text: "Update",
                         ontap: () async {

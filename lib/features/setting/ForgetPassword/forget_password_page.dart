@@ -7,9 +7,9 @@ import 'package:samay_admin_plan/features/setting/widget/heading_text_of_page.da
 import 'package:samay_admin_plan/firebase_helper/firebase_auth_helper/firebase_auth_helper.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
-import 'package:samay_admin_plan/widget/customtextfield.dart';
+import 'package:samay_admin_plan/widget/text_box/customtextfield.dart';
 
 class ForgetPassword extends StatefulWidget {
   const ForgetPassword({super.key});
@@ -40,18 +40,18 @@ class _ForgetPasswordState extends State<ForgetPassword> {
           child: Container(
             margin: ResponsiveLayout.isMobile(context)
                 ? EdgeInsets.symmetric(
-                    horizontal: Dimensions.dimenisonNo12,
+                    horizontal: Dimensions.dimensionNo12,
                   )
                 : ResponsiveLayout.isTablet(context)
                     ? EdgeInsets.symmetric(
-                        horizontal: Dimensions.dimenisonNo60,
+                        horizontal: Dimensions.dimensionNo60,
                       )
                     : null,
             padding: EdgeInsets.symmetric(
                 horizontal: ResponsiveLayout.isMobile(context)
-                    ? Dimensions.dimenisonNo10
-                    : Dimensions.dimenisonNo30,
-                vertical: Dimensions.dimenisonNo20),
+                    ? Dimensions.dimensionNo10
+                    : Dimensions.dimensionNo30,
+                vertical: Dimensions.dimensionNo20),
             // color: Colors.green,
             color: Colors.white,
             width: ResponsiveLayout.isDesktop(context)
@@ -69,7 +69,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 ),
                 Padding(
                   padding:
-                      EdgeInsets.symmetric(vertical: Dimensions.dimenisonNo10),
+                      EdgeInsets.symmetric(vertical: Dimensions.dimensionNo10),
                   child: Divider(),
                 ),
                 Text(
@@ -78,19 +78,19 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: ResponsiveLayout.isMobile(context)
-                        ? Dimensions.dimenisonNo14
-                        : Dimensions.dimenisonNo18,
+                        ? Dimensions.dimensionNo14
+                        : Dimensions.dimensionNo18,
                     fontFamily: GoogleFonts.roboto().fontFamily,
                     fontWeight: FontWeight.w500,
                     letterSpacing: 0.15,
                   ),
                 ),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 FormCustomTextField(
                   controller: _emailController,
                   title: "Email",
                 ),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 CustomAuthButton(
                   text: "Send Email",
                   ontap: () async {

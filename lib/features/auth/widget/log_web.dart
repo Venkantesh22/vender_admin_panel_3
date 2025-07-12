@@ -7,9 +7,9 @@ import 'package:samay_admin_plan/features/auth/singup.dart';
 import 'package:samay_admin_plan/features/home/screen/loading_home_page/loading_home_page.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_auth_helper/firebase_auth_helper.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
-import 'package:samay_admin_plan/widget/customtextfield.dart';
+import 'package:samay_admin_plan/widget/text_box/customtextfield.dart';
 
 class LogWebWidget extends StatefulWidget {
   final TextEditingController emailController;
@@ -32,11 +32,11 @@ class _LogWebWidgetState extends State<LogWebWidget> {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        margin: EdgeInsets.all(Dimensions.dimenisonNo30),
-        padding: EdgeInsets.all(Dimensions.dimenisonNo20),
+        margin: EdgeInsets.all(Dimensions.dimensionNo30),
+        padding: EdgeInsets.all(Dimensions.dimensionNo20),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(Dimensions.dimenisonNo10),
+          borderRadius: BorderRadius.circular(Dimensions.dimensionNo10),
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -52,14 +52,14 @@ class _LogWebWidgetState extends State<LogWebWidget> {
             // Left Section: Login Form
             Container(
               padding: EdgeInsets.symmetric(
-                  horizontal: Dimensions.dimenisonNo20,
-                  vertical: Dimensions.dimenisonNo10),
+                  horizontal: Dimensions.dimensionNo20,
+                  vertical: Dimensions.dimensionNo10),
               decoration: BoxDecoration(
                 color: AppColor.bgForAdminCreateSec,
                 border: Border.all(color: Colors.black, width: 1),
-                borderRadius: BorderRadius.circular(Dimensions.dimenisonNo20),
+                borderRadius: BorderRadius.circular(Dimensions.dimensionNo20),
               ),
-              width: Dimensions.dimenisonNo400,
+              width: Dimensions.dimensionNo400,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -67,47 +67,47 @@ class _LogWebWidgetState extends State<LogWebWidget> {
                     'Admin Login',
                     style: TextStyle(
                       color: AppColor.createText,
-                      fontSize: Dimensions.dimenisonNo24,
+                      fontSize: Dimensions.dimensionNo24,
                       fontFamily: GoogleFonts.roboto().fontFamily,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-                  SizedBox(height: Dimensions.dimenisonNo20),
+                  SizedBox(height: Dimensions.dimensionNo20),
                   Container(
-                    height: Dimensions.dimenisonNo80,
-                    width: Dimensions.dimenisonNo80,
+                    height: Dimensions.dimensionNo80,
+                    width: Dimensions.dimensionNo80,
                     clipBehavior: Clip.antiAlias,
                     decoration: BoxDecoration(
                       borderRadius:
-                          BorderRadius.circular(Dimensions.dimenisonNo18),
+                          BorderRadius.circular(Dimensions.dimensionNo18),
                     ),
                     child: GlobalVariable.samayLogo.isNotEmpty
                         ? Image.asset(
                             GlobalVariable.samayLogo,
-                            height: Dimensions.dimenisonNo40,
+                            height: Dimensions.dimensionNo40,
                             errorBuilder: (context, error, stackTrace) => Icon(
                               Icons.broken_image,
-                              size: Dimensions.dimenisonNo60,
+                              size: Dimensions.dimensionNo60,
                               color: Colors.grey,
                             ),
                           )
                         : const Center(child: CircularProgressIndicator()),
                   ),
-                  SizedBox(height: Dimensions.dimenisonNo20),
+                  SizedBox(height: Dimensions.dimensionNo20),
                   CustomTextField(
                     controller: widget.emailController,
                     obscureForPassword: false,
                     keyboardType: TextInputType.emailAddress,
                     label: "Email",
                   ),
-                  SizedBox(height: Dimensions.dimenisonNo10),
+                  SizedBox(height: Dimensions.dimensionNo10),
                   CustomTextField(
                     controller: widget.passwordController,
                     obscureForPassword: true,
                     keyboardType: TextInputType.text,
                     label: "Password",
                   ),
-                  SizedBox(height: Dimensions.dimenisonNo20),
+                  SizedBox(height: Dimensions.dimensionNo20),
                   _isLoading
                       ? const CircularProgressIndicator() // Show loading indicator
                       : CustomAuthButton(
@@ -141,7 +141,7 @@ class _LogWebWidgetState extends State<LogWebWidget> {
                             });
                           },
                         ),
-                  SizedBox(height: Dimensions.dimenisonNo20),
+                  SizedBox(height: Dimensions.dimensionNo20),
                   InkWell(
                     onTap: () {
                       Routes.instance
@@ -152,7 +152,7 @@ class _LogWebWidgetState extends State<LogWebWidget> {
                       textAlign: TextAlign.end,
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: Dimensions.dimenisonNo16,
+                        fontSize: Dimensions.dimensionNo16,
                         fontFamily: GoogleFonts.roboto().fontFamily,
                         fontWeight: FontWeight.w500,
                         decoration: TextDecoration.underline,
@@ -163,7 +163,7 @@ class _LogWebWidgetState extends State<LogWebWidget> {
                 ],
               ),
             ),
-            SizedBox(width: Dimensions.dimenisonNo60),
+            SizedBox(width: Dimensions.dimensionNo60),
             // Right Section: Illustration or Branding
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -172,7 +172,7 @@ class _LogWebWidgetState extends State<LogWebWidget> {
                   'Main hu Samay,',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: Dimensions.dimenisonNo30,
+                    fontSize: Dimensions.dimensionNo30,
                     fontFamily: GoogleFonts.inknutAntiqua().fontFamily,
                     fontWeight: FontWeight.w400,
                     letterSpacing: 0.15,
@@ -182,7 +182,7 @@ class _LogWebWidgetState extends State<LogWebWidget> {
                   'mere Sath chalo.!',
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: Dimensions.dimenisonNo30,
+                    fontSize: Dimensions.dimensionNo30,
                     fontFamily: GoogleFonts.inknutAntiqua().fontFamily,
                     fontWeight: FontWeight.w400,
                     letterSpacing: 0.15,
@@ -192,11 +192,11 @@ class _LogWebWidgetState extends State<LogWebWidget> {
                   child: GlobalVariable.samayCartoon.isNotEmpty
                       ? Image.asset(
                           GlobalVariable.samayCartoon,
-                          height: Dimensions.dimenisonNo400,
+                          height: Dimensions.dimensionNo400,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) => Icon(
                             Icons.broken_image,
-                            size: Dimensions.dimenisonNo60,
+                            size: Dimensions.dimensionNo60,
                             color: Colors.grey,
                           ),
                         )

@@ -8,45 +8,12 @@ class FirebaseStorageHelper {
   static FirebaseStorageHelper instance = FirebaseStorageHelper();
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
+//!--- add Admin Profile Image---------
   Future<String?> uploadAdminProfileImageToStorage(
       String imageName, String folderName, Uint8List selectedImage) async {
     try {
-      Reference imageRef =
-          _storage.ref("admin_Profileimages/$folderName/$imageName.jpg");
-      UploadTask task = imageRef.putData(
-          selectedImage, SettableMetadata(contentType: 'image/jpeg'));
-      TaskSnapshot snapshot = await task;
-      String imageUrl = await snapshot.ref.getDownloadURL();
-      return imageUrl;
-    } catch (e) {
-      showMessage("Error uploading image: ${e.toString()}");
-      print("Error uploading image: $e");
-      return null;
-    }
-  }
-
-  Future<String?> uploadSalonImageToStorage(
-      String imageName, String folderName, Uint8List selectedImage) async {
-    try {
-      Reference imageRef =
-          _storage.ref("Salon_Images/$folderName/$imageName.jpg");
-      UploadTask task = imageRef.putData(
-          selectedImage, SettableMetadata(contentType: 'image/jpeg'));
-      TaskSnapshot snapshot = await task;
-      String imageUrl = await snapshot.ref.getDownloadURL();
-      return imageUrl;
-    } catch (e) {
-      showMessage("Error uploading image: ${e.toString()}");
-      print("Error uploading image: $e");
-      return null;
-    }
-  }
-
-  Future<String?> uploadSalonLogImageToStorage(
-      String imageName, String folderName, Uint8List selectedImage) async {
-    try {
-      Reference imageRef =
-          _storage.ref("Salon_Images/$folderName/$imageName.jpg");
+      Reference imageRef = _storage
+          .ref(" salon /admin/admin_Profile/$folderName/$imageName.jpg");
       UploadTask task = imageRef.putData(
           selectedImage, SettableMetadata(contentType: 'image/jpeg'));
       TaskSnapshot snapshot = await task;
@@ -67,9 +34,6 @@ class FirebaseStorageHelper {
       await deleteImageFromFirebase(oldImageUrl);
     }
 
-    // Then upload the new image
-    // String imageUrl =
-    //     await uploadUserImage(newImagePath, userModel.id, userModel.name);
     String? imageUrl = await uploadAdminProfileImageToStorage(
       adminModel.name,
       adminModel.id,
@@ -77,6 +41,24 @@ class FirebaseStorageHelper {
     );
 
     return imageUrl;
+  }
+
+//!--- add Salon Profile Image--------------
+  Future<String?> uploadSalonImageToStorage(
+      String imageName, String folderName, Uint8List selectedImage) async {
+    try {
+      Reference imageRef = _storage
+          .ref("salon/Salon_Profile/salon_Profile/$folderName/$imageName.jpg");
+      UploadTask task = imageRef.putData(
+          selectedImage, SettableMetadata(contentType: 'image/jpeg'));
+      TaskSnapshot snapshot = await task;
+      String imageUrl = await snapshot.ref.getDownloadURL();
+      return imageUrl;
+    } catch (e) {
+      showMessage("Error uploading image: ${e.toString()}");
+      print("Error uploading image: $e");
+      return null;
+    }
   }
 
   // update salon Profile Image
@@ -88,8 +70,7 @@ class FirebaseStorageHelper {
     }
 
     // Then upload the new image
-    // String imageUrl =
-    //     await uploadUserImage(newImagePath, userModel.id, userModel.name);
+
     String? imageUrl = await uploadSalonImageToStorage(
       salonModel.name,
       salonModel.id,
@@ -97,6 +78,24 @@ class FirebaseStorageHelper {
     );
 
     return imageUrl;
+  }
+
+//!--- add Salon log Image--------------
+  Future<String?> uploadSalonLogImageToStorage(
+      String imageName, String folderName, Uint8List selectedImage) async {
+    try {
+      Reference imageRef =
+          _storage.ref("salon/Salon_Profile/log/$folderName/$imageName.jpg");
+      UploadTask task = imageRef.putData(
+          selectedImage, SettableMetadata(contentType: 'image/jpeg'));
+      TaskSnapshot snapshot = await task;
+      String imageUrl = await snapshot.ref.getDownloadURL();
+      return imageUrl;
+    } catch (e) {
+      showMessage("Error uploading image: ${e.toString()}");
+      print("Error uploading image: $e");
+      return null;
+    }
   }
 
   //delete image from firebase\

@@ -36,20 +36,20 @@
 //                 : (_isHovering
 //                     ? const Color.fromARGB(255, 209, 207, 207).withOpacity(0.1)
 //                     : Colors.transparent),
-//             borderRadius: BorderRadius.circular(Dimensions.dimenisonNo10),
+//             borderRadius: BorderRadius.circular(Dimensions.dimensionNo10),
 //           ),
 //           margin: const EdgeInsets.all(3),
 //           padding: EdgeInsets.fromLTRB(
-//             Dimensions.dimenisonNo16,
-//             Dimensions.dimenisonNo10,
-//             Dimensions.dimenisonNo10,
-//             Dimensions.dimenisonNo10,
+//             Dimensions.dimensionNo16,
+//             Dimensions.dimensionNo10,
+//             Dimensions.dimensionNo10,
+//             Dimensions.dimensionNo10,
 //           ),
 //           child: Text(
 //             widget.text,
 //             style: TextStyle(
 //               color: Colors.white,
-//               fontSize: Dimensions.dimenisonNo16,
+//               fontSize: Dimensions.dimensionNo16,
 //               fontFamily: GoogleFonts.roboto().fontFamily,
 //               fontWeight: FontWeight.w400,
 //               letterSpacing: 0.15,
@@ -69,7 +69,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class CatergryButton extends StatefulWidget {
   final String text;
@@ -110,7 +110,7 @@ class _CatergryButtonState extends State<CatergryButton> {
         curve: Curves.easeInOut,
         decoration: BoxDecoration(
           color: _backgroundColor,
-          borderRadius: BorderRadius.circular(Dimensions.dimenisonNo10),
+          borderRadius: BorderRadius.circular(Dimensions.dimensionNo10),
         ),
         margin: const EdgeInsets.all(3),
         child: ListTile(
@@ -119,7 +119,7 @@ class _CatergryButtonState extends State<CatergryButton> {
             widget.text,
             style: TextStyle(
               color: Colors.white,
-              fontSize: Dimensions.dimenisonNo16,
+              fontSize: Dimensions.dimensionNo16,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w400,
               letterSpacing: 0.15,

@@ -9,9 +9,9 @@ import 'package:samay_admin_plan/models/category_model/category_model.dart';
 import 'package:samay_admin_plan/models/service_model/service_model.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
-import 'package:samay_admin_plan/widget/customtextfield.dart';
+import 'package:samay_admin_plan/widget/text_box/customtextfield.dart';
 
 class EditServicePage extends StatefulWidget {
   final int index;
@@ -126,14 +126,14 @@ class _EditServicePageState extends State<EditServicePage> {
                   width: ResponsiveLayout.isDesktop(context)
                       ? Dimensions.screenWidth / 1.5
                       : null,
-                  // margin: EdgeInsets.only(top: Dimensions.dimenisonNo30),
+                  // margin: EdgeInsets.only(top: Dimensions.dimensionNo30),
                   padding: EdgeInsets.symmetric(
-                      horizontal: Dimensions.dimenisonNo30,
-                      vertical: Dimensions.dimenisonNo30),
+                      horizontal: Dimensions.dimensionNo30,
+                      vertical: Dimensions.dimensionNo30),
                   decoration: const BoxDecoration(
                     // color: Colors.green,
                     color: Colors.white,
-                    // borderRadius: BorderRadius.circular(Dimensions.dimenisonNo20),
+                    // borderRadius: BorderRadius.circular(Dimensions.dimensionNo20),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -146,7 +146,7 @@ class _EditServicePageState extends State<EditServicePage> {
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black,
-                              fontSize: Dimensions.dimenisonNo24,
+                              fontSize: Dimensions.dimensionNo24,
                               fontFamily: GoogleFonts.roboto().fontFamily,
                               fontWeight: FontWeight.w500,
                               letterSpacing: 0.15,
@@ -162,29 +162,29 @@ class _EditServicePageState extends State<EditServicePage> {
                       ),
                       const Divider(),
                       SizedBox(
-                        height: Dimensions.dimenisonNo20,
+                        height: Dimensions.dimensionNo20,
                       ),
                       FormCustomTextField(
                           controller: _serviceController,
                           title: "Service name"),
                       SizedBox(
-                        height: Dimensions.dimenisonNo20,
+                        height: Dimensions.dimensionNo20,
                       ),
                       FormCustomTextField(
                           controller: _serviceCodeController,
                           title: "Service Code"),
 
                       SizedBox(
-                        height: Dimensions.dimenisonNo20,
+                        height: Dimensions.dimensionNo20,
                       ),
                       // Price fields: Original Price, Discount Percentage, and Final Price.
                       Wrap(
-                        spacing: Dimensions.dimenisonNo20,
-                        runSpacing: Dimensions.dimenisonNo20,
+                        spacing: Dimensions.dimensionNo20,
+                        runSpacing: Dimensions.dimensionNo20,
                         children: [
                           // Original Price field
                           SizedBox(
-                            width: Dimensions.dimenisonNo200,
+                            width: Dimensions.dimensionNo200,
                             child: FormCustomTextField(
                               controller: _originalPriceController,
                               title: "Original Price",
@@ -192,7 +192,7 @@ class _EditServicePageState extends State<EditServicePage> {
                           ),
                           // Discount Percentage field
                           SizedBox(
-                            width: Dimensions.dimenisonNo230,
+                            width: Dimensions.dimensionNo230,
                             child: FormCustomTextField(
                               requiredField: false,
                               controller: _discountInPer,
@@ -201,7 +201,7 @@ class _EditServicePageState extends State<EditServicePage> {
                           ),
                           // Final Price field (read-only, updated in real time)
                           SizedBox(
-                            width: Dimensions.dimenisonNo200,
+                            width: Dimensions.dimensionNo200,
                             child: FormCustomTextField(
                               requiredField: false,
                               controller: _priceController,
@@ -211,10 +211,10 @@ class _EditServicePageState extends State<EditServicePage> {
                           ),
                         ],
                       ),
-                      SizedBox(height: Dimensions.dimenisonNo10),
+                      SizedBox(height: Dimensions.dimensionNo10),
                       Wrap(
-                        spacing: Dimensions.dimenisonNo20,
-                        runSpacing: Dimensions.dimenisonNo12,
+                        spacing: Dimensions.dimensionNo20,
+                        runSpacing: Dimensions.dimensionNo12,
                         children: [
                           // Time Duration Column
                           Column(
@@ -224,7 +224,7 @@ class _EditServicePageState extends State<EditServicePage> {
                                 'Time duration',
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: Dimensions.dimenisonNo18,
+                                  fontSize: Dimensions.dimensionNo18,
                                   fontFamily: GoogleFonts.roboto().fontFamily,
                                   fontWeight: FontWeight.w500,
                                   letterSpacing: 0.15,
@@ -232,23 +232,23 @@ class _EditServicePageState extends State<EditServicePage> {
                               ),
                               Row(
                                 children: [
-                                  SizedBox(width: Dimensions.dimenisonNo10),
+                                  SizedBox(width: Dimensions.dimensionNo10),
                                   HeadingText('Timing'),
-                                  SizedBox(width: Dimensions.dimenisonNo10),
+                                  SizedBox(width: Dimensions.dimensionNo10),
                                   SizedBox(
-                                    height: Dimensions.dimenisonNo30,
-                                    width: Dimensions.dimenisonNo50,
+                                    height: Dimensions.dimensionNo30,
+                                    width: Dimensions.dimensionNo50,
                                     child:
                                         _TextFormTime(" HH ", _hoursController),
                                   ),
                                   Padding(
                                     padding: EdgeInsets.symmetric(
-                                        horizontal: Dimensions.dimenisonNo10),
+                                        horizontal: Dimensions.dimensionNo10),
                                     child: Text(
                                       ':',
                                       style: TextStyle(
                                         color: Colors.black,
-                                        fontSize: Dimensions.dimenisonNo20,
+                                        fontSize: Dimensions.dimensionNo20,
                                         fontFamily:
                                             GoogleFonts.roboto().fontFamily,
                                         fontWeight: FontWeight.bold,
@@ -257,30 +257,30 @@ class _EditServicePageState extends State<EditServicePage> {
                                     ),
                                   ),
                                   SizedBox(
-                                    height: Dimensions.dimenisonNo30,
-                                    width: Dimensions.dimenisonNo50,
+                                    height: Dimensions.dimensionNo30,
+                                    width: Dimensions.dimensionNo50,
                                     child:
                                         _TextFormTime(" MM ", _minController),
                                   ),
-                                  SizedBox(width: Dimensions.dimenisonNo10),
+                                  SizedBox(width: Dimensions.dimensionNo10),
                                 ],
                               ),
                             ],
                           ),
-                          // SizedBox(width: Dimensions.dimenisonNo30),
+                          // SizedBox(width: Dimensions.dimensionNo30),
                           // Service For Dropdown Column
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               HeadingText('Select for'),
                               SizedBox(
-                                width: Dimensions.dimenisonNo200,
+                                width: Dimensions.dimensionNo200,
                                 child: DropdownButtonFormField<String>(
                                   hint: Text(
                                     'Select for',
                                     style: TextStyle(
                                       color: Colors.grey,
-                                      fontSize: Dimensions.dimenisonNo12,
+                                      fontSize: Dimensions.dimensionNo12,
                                       fontFamily:
                                           GoogleFonts.roboto().fontFamily,
                                       fontWeight: FontWeight.w500,
@@ -311,14 +311,14 @@ class _EditServicePageState extends State<EditServicePage> {
                           ),
                         ],
                       ),
-                      SizedBox(height: Dimensions.dimenisonNo10),
+                      SizedBox(height: Dimensions.dimensionNo10),
 
                       FormCustomTextField(
                           maxline: 6,
                           controller: _descriptionController,
                           title: "Service Description"),
                       SizedBox(
-                        height: Dimensions.dimenisonNo10,
+                        height: Dimensions.dimensionNo10,
                       ),
                       CustomAuthButton(
                         text: "Save",
@@ -368,7 +368,7 @@ class _EditServicePageState extends State<EditServicePage> {
                                 return;
                               }
                               if (minutes == null && hours == null) {
-                                showBottonMessageError(
+                                showBottomMessageError(
                                     "Please enter valid numeric values for time duration.",
                                     context);
 
@@ -376,14 +376,14 @@ class _EditServicePageState extends State<EditServicePage> {
                               }
 
                               if (minutes != null && minutes < 0) {
-                                showBottonMessageError(
+                                showBottomMessageError(
                                   "Minutes cannot be negative.",
                                   context,
                                 );
                                 return;
                               }
                               if (minutes! >= 60) {
-                                showBottonMessageError(
+                                showBottomMessageError(
                                   "Minutes cannot be greater than or equal to 60.",
                                   context,
                                 );
@@ -391,7 +391,7 @@ class _EditServicePageState extends State<EditServicePage> {
                               }
                               if (_hoursController.text != null &&
                                   int.parse(_hoursController.text) < 0) {
-                                showBottonMessageError(
+                                showBottomMessageError(
                                   "Hours cannot be negative.",
                                   context,
                                 );
@@ -425,7 +425,7 @@ class _EditServicePageState extends State<EditServicePage> {
                             showMessage(
                                 "Successfully updated ${widget.serviceModel.servicesName} service");
                           } catch (e) {
-                            // showBottonMessageError(
+                            // showBottomMessageError(
                             //     "Something went wrong please add all fields",
                             //     context);
                           } finally {}
@@ -445,7 +445,7 @@ class _EditServicePageState extends State<EditServicePage> {
       heading,
       style: TextStyle(
         color: Colors.black,
-        fontSize: Dimensions.dimenisonNo18,
+        fontSize: Dimensions.dimensionNo18,
         fontFamily: GoogleFonts.roboto().fontFamily,
         fontWeight: FontWeight.w500,
         letterSpacing: 0.15,
@@ -457,9 +457,9 @@ class _EditServicePageState extends State<EditServicePage> {
   TextFormField _TextFormTime(
       String hintText, TextEditingController controller) {
     return TextFormField(
-      cursorHeight: Dimensions.dimenisonNo16,
+      cursorHeight: Dimensions.dimensionNo16,
       style: TextStyle(
-        fontSize: Dimensions.dimenisonNo12,
+        fontSize: Dimensions.dimensionNo12,
         fontFamily: GoogleFonts.roboto().fontFamily,
         fontWeight: FontWeight.bold,
         color: Colors.black,
@@ -468,16 +468,16 @@ class _EditServicePageState extends State<EditServicePage> {
       decoration: InputDecoration(
         hintText: hintText,
         hintStyle: TextStyle(
-          fontSize: Dimensions.dimenisonNo12,
+          fontSize: Dimensions.dimensionNo12,
           fontFamily: GoogleFonts.roboto().fontFamily,
           fontWeight: FontWeight.bold,
         ),
         contentPadding: EdgeInsets.symmetric(
-          horizontal: Dimensions.dimenisonNo10,
-          vertical: Dimensions.dimenisonNo10,
+          horizontal: Dimensions.dimensionNo10,
+          vertical: Dimensions.dimensionNo10,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(Dimensions.dimenisonNo16),
+          borderRadius: BorderRadius.circular(Dimensions.dimensionNo16),
         ),
       ),
     );

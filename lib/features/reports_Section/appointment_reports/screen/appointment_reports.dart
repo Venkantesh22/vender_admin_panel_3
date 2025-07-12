@@ -11,7 +11,7 @@ import 'package:samay_admin_plan/models/appoint_model/appoint_model.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/report_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/custom_button.dart';
 
 class AppointmentReportsScreen extends StatefulWidget {
@@ -173,7 +173,7 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
       AppProvider appProvider, BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.all(Dimensions.dimenisonNo16),
+        padding: EdgeInsets.all(Dimensions.dimensionNo16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -182,7 +182,7 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
               'Appointment List',
               style: TextStyle(
                 color: Colors.black,
-                fontSize: Dimensions.dimenisonNo16,
+                fontSize: Dimensions.dimensionNo16,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -190,11 +190,11 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
               'Show Appointment List information for sales',
               style: TextStyle(
                 color: Color(0xFF595959),
-                fontSize: Dimensions.dimenisonNo12,
+                fontSize: Dimensions.dimensionNo12,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            SizedBox(height: Dimensions.dimenisonNo20),
+            SizedBox(height: Dimensions.dimensionNo20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -203,29 +203,29 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
                   child: dateDropDownWidget(),
                 ),
                 SizedBox(
-                  width: Dimensions.dimenisonNo16,
+                  width: Dimensions.dimensionNo16,
                 ),
                 Expanded(
                   child: appointStateDropDownWidget(),
                 ),
                 SizedBox(
-                  width: Dimensions.dimenisonNo16,
+                  width: Dimensions.dimensionNo16,
                 ),
                 GeneratButtonWIdget(reportProvider, appProvider)
               ],
             ),
             if (_selectedOption == "Custom Time Period") ...[
-              SizedBox(height: Dimensions.dimenisonNo16),
+              SizedBox(height: Dimensions.dimensionNo16),
               textboxForDate(context),
             ],
             Padding(
               padding: EdgeInsets.only(
-                  bottom: Dimensions.dimenisonNo20,
-                  top: Dimensions.dimenisonNo12),
+                  bottom: Dimensions.dimensionNo20,
+                  top: Dimensions.dimensionNo12),
               child: Text(
                 "Data List",
                 style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
+                    fontSize: Dimensions.dimensionNo14,
                     fontWeight: FontWeight.w600),
               ),
             ),
@@ -255,7 +255,7 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
       AppProvider appProvider, BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.all(Dimensions.dimenisonNo12),
+        padding: EdgeInsets.all(Dimensions.dimensionNo12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -264,7 +264,7 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
               'Appointment List',
               style: TextStyle(
                 color: Colors.black,
-                fontSize: Dimensions.dimenisonNo16,
+                fontSize: Dimensions.dimensionNo16,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -272,14 +272,14 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
               'Show Appointment List information for sales',
               style: TextStyle(
                 color: Color(0xFF595959),
-                fontSize: Dimensions.dimenisonNo12,
+                fontSize: Dimensions.dimensionNo12,
                 fontWeight: FontWeight.w600,
               ),
             ),
-            SizedBox(height: Dimensions.dimenisonNo12),
+            SizedBox(height: Dimensions.dimensionNo12),
             Wrap(
-              spacing: Dimensions.dimenisonNo12,
-              runSpacing: Dimensions.dimenisonNo12,
+              spacing: Dimensions.dimensionNo12,
+              runSpacing: Dimensions.dimensionNo12,
               alignment: WrapAlignment.spaceBetween,
               crossAxisAlignment: WrapCrossAlignment.start,
               children: [
@@ -295,12 +295,12 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
             ),
             Padding(
               padding: EdgeInsets.only(
-                  bottom: Dimensions.dimenisonNo20,
-                  top: Dimensions.dimenisonNo12),
+                  bottom: Dimensions.dimensionNo20,
+                  top: Dimensions.dimensionNo12),
               child: Text(
                 "Data List",
                 style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
+                    fontSize: Dimensions.dimensionNo14,
                     fontWeight: FontWeight.w600),
               ),
             ),
@@ -363,16 +363,16 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
   Container headerOfAppointWebWidget() {
     return ResponsiveLayout.isMobile(context)
         ? Container(
-            padding: EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo5),
+            padding: EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo5),
             alignment: Alignment.topCenter,
-            height: Dimensions.dimenisonNo34,
+            height: Dimensions.dimensionNo34,
             decoration: BoxDecoration(
                 color: const Color.fromARGB(153, 215, 166, 166),
                 border: Border.all(
                   color: Colors.black,
                   width: 1,
                 ),
-                borderRadius: BorderRadius.circular(Dimensions.dimenisonNo5)),
+                borderRadius: BorderRadius.circular(Dimensions.dimensionNo5)),
             child: Center(
                 child: Row(
               children: [
@@ -383,7 +383,7 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
                   ),
                 ),
                 SizedBox(
-                  width: Dimensions.dimenisonNo50,
+                  width: Dimensions.dimensionNo50,
                   child: Center(
                     child: Text(
                       "Image",
@@ -391,9 +391,9 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
                     ),
                   ),
                 ),
-                SizedBox(width: Dimensions.dimenisonNo10),
+                SizedBox(width: Dimensions.dimensionNo10),
                 SizedBox(
-                  width: Dimensions.dimenisonNo40,
+                  width: Dimensions.dimensionNo40,
                   child: Text(
                     "Name",
                     textAlign: TextAlign.start,
@@ -402,7 +402,7 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
                 ),
                 const Spacer(),
                 SizedBox(
-                  width: Dimensions.dimenisonNo40,
+                  width: Dimensions.dimensionNo40,
                   child: Center(
                     child: Text(
                       "Status",
@@ -410,56 +410,56 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
                     ),
                   ),
                 ),
-                SizedBox(width: Dimensions.dimenisonNo20),
+                SizedBox(width: Dimensions.dimensionNo20),
               ],
             )),
           )
         : Container(
-            padding: EdgeInsets.symmetric(horizontal: Dimensions.dimenisonNo20),
+            padding: EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo20),
             alignment: Alignment.topCenter,
-            height: Dimensions.dimenisonNo34,
+            height: Dimensions.dimensionNo34,
             decoration: BoxDecoration(
                 color: const Color.fromARGB(153, 215, 166, 166),
                 border: Border.all(
                   color: Colors.black,
                   width: 1,
                 ),
-                borderRadius: BorderRadius.circular(Dimensions.dimenisonNo5)),
+                borderRadius: BorderRadius.circular(Dimensions.dimensionNo5)),
             child: Center(
               child: Row(
                 children: [
                   SizedBox(
-                    width: Dimensions.dimenisonNo30,
+                    width: Dimensions.dimensionNo30,
                     child: Center(
                       child: Text(
                         "No",
                         style: TextStyle(
-                          fontSize: Dimensions.dimenisonNo14,
+                          fontSize: Dimensions.dimensionNo14,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
                   ),
                   SizedBox(
-                    width: Dimensions.dimenisonNo50,
+                    width: Dimensions.dimensionNo50,
                     child: Center(
                       child: Text(
                         "Image",
                         style: TextStyle(
-                          fontSize: Dimensions.dimenisonNo14,
+                          fontSize: Dimensions.dimensionNo14,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(width: Dimensions.dimenisonNo10),
+                  SizedBox(width: Dimensions.dimensionNo10),
                   SizedBox(
-                    width: Dimensions.dimenisonNo200,
+                    width: Dimensions.dimensionNo200,
                     child: Text(
                       "Name",
                       textAlign: TextAlign.start,
                       style: TextStyle(
-                        fontSize: Dimensions.dimenisonNo14,
+                        fontSize: Dimensions.dimensionNo14,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -469,25 +469,25 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
                     child: Text(
                       "Date and Time",
                       style: TextStyle(
-                        fontSize: Dimensions.dimenisonNo14,
+                        fontSize: Dimensions.dimensionNo14,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                   ),
                   const Spacer(),
                   SizedBox(
-                    width: Dimensions.dimenisonNo80,
+                    width: Dimensions.dimensionNo80,
                     child: Center(
                       child: Text(
                         "Status",
                         style: TextStyle(
-                          fontSize: Dimensions.dimenisonNo14,
+                          fontSize: Dimensions.dimensionNo14,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(width: Dimensions.dimenisonNo30),
+                  SizedBox(width: Dimensions.dimensionNo30),
                 ],
               ),
             ),
@@ -496,7 +496,7 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
 
   TextStyle heardTextStyle() {
     return TextStyle(
-      fontSize: Dimensions.dimenisonNo12,
+      fontSize: Dimensions.dimensionNo12,
       fontWeight: FontWeight.w400,
     );
   }
@@ -598,13 +598,13 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
         Text(
           "Appointment Status",
           style: TextStyle(
-              fontSize: Dimensions.dimenisonNo14, fontWeight: FontWeight.w600),
+              fontSize: Dimensions.dimensionNo14, fontWeight: FontWeight.w600),
         ),
         DropdownButton<String>(
           hint: Text(
             "Select Status",
             style: TextStyle(
-              fontSize: Dimensions.dimenisonNo12,
+              fontSize: Dimensions.dimensionNo12,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -616,7 +616,7 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
               child: Text(
                 getDropdownLabel(option),
                 style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
+                    fontSize: Dimensions.dimensionNo14,
                     fontWeight: FontWeight.w600),
               ),
             );
@@ -639,13 +639,13 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
         Text(
           "Date",
           style: TextStyle(
-              fontSize: Dimensions.dimenisonNo14, fontWeight: FontWeight.w600),
+              fontSize: Dimensions.dimensionNo14, fontWeight: FontWeight.w600),
         ),
         DropdownButton<String>(
           hint: Text(
             "Select Date",
             style: TextStyle(
-              fontSize: Dimensions.dimenisonNo12,
+              fontSize: Dimensions.dimensionNo12,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -657,7 +657,7 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
               child: Text(
                 getDropdownLabel(option),
                 style: TextStyle(
-                    fontSize: Dimensions.dimenisonNo14,
+                    fontSize: Dimensions.dimensionNo14,
                     fontWeight: FontWeight.w600),
               ),
             );
@@ -697,20 +697,20 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "Starting Date",
-                  style: TextStyle(fontSize: Dimensions.dimenisonNo14),
+                  style: TextStyle(fontSize: Dimensions.dimensionNo14),
                 ),
               ),
               GestureDetector(
                 onTap: () => _selectDate(context, true),
                 child: Container(
-                  width: Dimensions.dimenisonNo200,
+                  width: Dimensions.dimensionNo200,
                   padding: EdgeInsets.symmetric(
-                      horizontal: Dimensions.dimenisonNo12,
-                      vertical: Dimensions.dimenisonNo8),
+                      horizontal: Dimensions.dimensionNo12,
+                      vertical: Dimensions.dimensionNo8),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
                     borderRadius:
-                        BorderRadius.circular(Dimensions.dimenisonNo5),
+                        BorderRadius.circular(Dimensions.dimensionNo5),
                   ),
                   child: Text(
                     _startDate != null
@@ -722,7 +722,7 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
             ],
           ),
         ),
-        SizedBox(width: Dimensions.dimenisonNo16),
+        SizedBox(width: Dimensions.dimensionNo16),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -731,20 +731,20 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "Ending Date",
-                  style: TextStyle(fontSize: Dimensions.dimenisonNo16),
+                  style: TextStyle(fontSize: Dimensions.dimensionNo16),
                 ),
               ),
               GestureDetector(
                 onTap: () => _selectDate(context, false),
                 child: Container(
-                  width: Dimensions.dimenisonNo200,
+                  width: Dimensions.dimensionNo200,
                   padding: EdgeInsets.symmetric(
-                      horizontal: Dimensions.dimenisonNo12,
-                      vertical: Dimensions.dimenisonNo8),
+                      horizontal: Dimensions.dimensionNo12,
+                      vertical: Dimensions.dimensionNo8),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
                     borderRadius:
-                        BorderRadius.circular(Dimensions.dimenisonNo5),
+                        BorderRadius.circular(Dimensions.dimensionNo5),
                   ),
                   child: Text(
                     _endDate != null

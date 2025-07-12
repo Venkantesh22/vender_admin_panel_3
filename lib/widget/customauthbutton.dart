@@ -6,7 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 
 class CustomAuthButton extends StatelessWidget {
   final String text;
@@ -29,12 +29,12 @@ class CustomAuthButton extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(
             horizontal: ResponsiveLayout.isMoAndTab(context)
-                ? Dimensions.dimenisonNo12
-                : Dimensions.dimenisonNo20),
+                ? Dimensions.dimensionNo12
+                : Dimensions.dimensionNo20),
         decoration: BoxDecoration(
             color: bgColor,
-            borderRadius: BorderRadius.circular(Dimensions.dimenisonNo30)),
-        height: Dimensions.dimenisonNo40,
+            borderRadius: BorderRadius.circular(Dimensions.dimensionNo30)),
+        height: Dimensions.dimensionNo40,
         width: buttonWidth,
         child: Center(
           child: Text(
@@ -42,8 +42,8 @@ class CustomAuthButton extends StatelessWidget {
             style: TextStyle(
               color: Colors.white,
               fontSize: ResponsiveLayout.isMoAndTab(context)
-                  ? Dimensions.dimenisonNo12
-                  : Dimensions.dimenisonNo16,
+                  ? Dimensions.dimensionNo12
+                  : Dimensions.dimensionNo16,
               fontFamily: GoogleFonts.roboto().fontFamily,
               fontWeight: FontWeight.w500,
               letterSpacing: 1.25,

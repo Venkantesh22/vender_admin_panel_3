@@ -10,10 +10,10 @@ import 'package:samay_admin_plan/features/Account_Create_Form/screen/account_cre
 import 'package:samay_admin_plan/features/auth/login.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_auth_helper/firebase_auth_helper.dart';
 import 'package:samay_admin_plan/utility/color.dart';
-import 'package:samay_admin_plan/utility/dimenison.dart';
+import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
-import 'package:samay_admin_plan/widget/customtextfield.dart';
+import 'package:samay_admin_plan/widget/text_box/customtextfield.dart';
 
 Center signUpWebWidget(
     BuildContext context,
@@ -25,24 +25,24 @@ Center signUpWebWidget(
     VoidCallback chooseImages) {
   return Center(
     child: Container(
-      margin: EdgeInsets.all(Dimensions.dimenisonNo30),
-      padding: EdgeInsets.all(Dimensions.dimenisonNo20),
+      margin: EdgeInsets.all(Dimensions.dimensionNo30),
+      padding: EdgeInsets.all(Dimensions.dimensionNo20),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(Dimensions.dimenisonNo10),
+        borderRadius: BorderRadius.circular(Dimensions.dimensionNo10),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
             padding: EdgeInsets.symmetric(
-                horizontal: Dimensions.dimenisonNo20,
-                vertical: Dimensions.dimenisonNo10),
+                horizontal: Dimensions.dimensionNo20,
+                vertical: Dimensions.dimensionNo10),
             decoration: BoxDecoration(
                 color: AppColor.bgForAdminCreateSec,
                 border: Border.all(color: Colors.black, width: 1),
-                borderRadius: BorderRadius.circular(Dimensions.dimenisonNo20)),
-            width: Dimensions.dimenisonNo400,
+                borderRadius: BorderRadius.circular(Dimensions.dimensionNo20)),
+            width: Dimensions.dimensionNo400,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -50,12 +50,12 @@ Center signUpWebWidget(
                   'Create an Admin Login',
                   style: TextStyle(
                     color: AppColor.createText,
-                    fontSize: Dimensions.dimenisonNo24,
+                    fontSize: Dimensions.dimensionNo24,
                     fontFamily: GoogleFonts.roboto().fontFamily,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(height: Dimensions.dimenisonNo5),
+                SizedBox(height: Dimensions.dimensionNo5),
                 selectedImage == null
                     ? InkWell(
                         onTap: () {
@@ -63,8 +63,8 @@ Center signUpWebWidget(
                           // print("icon $selectedImage");
                         },
                         child: Container(
-                          width: Dimensions.dimenisonNo70,
-                          height: Dimensions.dimenisonNo70,
+                          width: Dimensions.dimensionNo70,
+                          height: Dimensions.dimensionNo70,
                           clipBehavior: Clip.antiAlias,
                           decoration: ShapeDecoration(
                             shape: RoundedRectangleBorder(
@@ -72,7 +72,7 @@ Center signUpWebWidget(
                             ),
                           ),
                           child: CircleAvatar(
-                              radius: Dimensions.dimenisonNo36,
+                              radius: Dimensions.dimensionNo36,
                               child: const Icon(Icons.camera_alt)),
                         ),
                       )
@@ -82,8 +82,8 @@ Center signUpWebWidget(
                           print("image $selectedImage");
                         },
                         child: Container(
-                          width: Dimensions.dimenisonNo70,
-                          height: Dimensions.dimenisonNo70,
+                          width: Dimensions.dimensionNo70,
+                          height: Dimensions.dimensionNo70,
                           clipBehavior: Clip.antiAlias,
                           decoration: ShapeDecoration(
                             shape: RoundedRectangleBorder(
@@ -95,38 +95,38 @@ Center signUpWebWidget(
                             fit: BoxFit.cover,
                           ),
                         )),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 CustomTextField(
                     controller: nameController,
                     obscureForPassword: false,
                     keyboardType: TextInputType.name,
                     label: "Name"),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 CustomTextField(
                     controller: emailController,
                     obscureForPassword: false,
                     keyboardType: TextInputType.emailAddress,
                     label: "Email"),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 CustomTextField(
                     controller: mobileController,
                     obscureForPassword: false,
                     keyboardType: TextInputType.number,
                     label: "Mobile Number"),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
                 CustomTextField(
                     controller: passwordController,
                     obscureForPassword: true,
                     keyboardType: TextInputType.name,
                     label: "Password"),
-                SizedBox(height: Dimensions.dimenisonNo10),
+                SizedBox(height: Dimensions.dimensionNo10),
 
                 CustomAuthButton(
                   text: "Sign Up",
                   ontap: () async {
                     // 1️⃣ Check image first
                     if (selectedImage == null || selectedImage.isEmpty) {
-                      showBottonMessageError(
+                      showBottomMessageError(
                           "Please select a profile image", context);
                       return;
                     }
@@ -161,7 +161,7 @@ Center signUpWebWidget(
                     }
                   },
                 ),
-                // SizedBox(height: Dimensions.dimenisonNo10),
+                // SizedBox(height: Dimensions.dimensionNo10),
                 InkWell(
                   onTap: () {
                     Routes.instance
@@ -172,7 +172,7 @@ Center signUpWebWidget(
                     textAlign: TextAlign.end,
                     style: TextStyle(
                       color: Colors.black,
-                      fontSize: Dimensions.dimenisonNo16,
+                      fontSize: Dimensions.dimensionNo16,
                       fontFamily: GoogleFonts.roboto().fontFamily,
                       fontWeight: FontWeight.w500,
                       decoration: TextDecoration.underline,
@@ -184,7 +184,7 @@ Center signUpWebWidget(
             ),
           ),
           SizedBox(
-            width: Dimensions.dimenisonNo60,
+            width: Dimensions.dimensionNo60,
           ),
           Column(
             children: [
@@ -192,7 +192,7 @@ Center signUpWebWidget(
                 'Main hu Samay,                     ',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: Dimensions.dimenisonNo30,
+                  fontSize: Dimensions.dimensionNo30,
                   fontFamily: GoogleFonts.inknutAntiqua().fontFamily,
                   fontWeight: FontWeight.w400,
                   letterSpacing: 0.15,
@@ -202,7 +202,7 @@ Center signUpWebWidget(
                 '      mere Sath chalo.!',
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: Dimensions.dimenisonNo30,
+                  fontSize: Dimensions.dimensionNo30,
                   fontFamily: GoogleFonts.inknutAntiqua().fontFamily,
                   fontWeight: FontWeight.w400,
                   letterSpacing: 0.15,
@@ -212,11 +212,11 @@ Center signUpWebWidget(
                   child: GlobalVariable.samayCartoon.isNotEmpty
                       ? Image.asset(
                           GlobalVariable.samayCartoon,
-                          height: Dimensions.dimenisonNo400,
+                          height: Dimensions.dimensionNo400,
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) => Icon(
                             Icons.broken_image,
-                            size: Dimensions.dimenisonNo60,
+                            size: Dimensions.dimensionNo60,
                             color: Colors.grey,
                           ),
                         )
