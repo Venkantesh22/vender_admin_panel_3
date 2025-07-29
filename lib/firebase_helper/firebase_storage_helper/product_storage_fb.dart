@@ -38,6 +38,7 @@ class ProductStorageFb {
         productModel.name,
         newImagePath,
       );
+      return imageUrl;
     } catch (e) {
       print("Error updateProductImage image: $e");
       return null;

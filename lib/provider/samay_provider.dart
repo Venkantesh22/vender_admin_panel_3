@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/samay_fb.dart';
 import 'package:samay_admin_plan/models/image_model/image_model.dart';
 
 class SamayProvider with ChangeNotifier {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
   List<ImageModel> _superCateImageList = [];
   List<ImageModel> get getSupetCateImageList => _superCateImageList;
 
@@ -21,6 +24,26 @@ class SamayProvider with ChangeNotifier {
   ImageModel get getNailImg => nailImg;
   ImageModel get getMakeUpImg => makeUpImg;
   ImageModel get getMassageImg => massageImg;
+
+  String? samayId;
+  String? get getSamayId => samayId;
+
+  Future<void> getSamayIdPro() async {
+    try {
+      final samaySnapshot = await _firestore.collection('Samay').get();
+
+      if (samaySnapshot.docs.isEmpty) {
+        throw Exception('No documents found in the `Samay` collection.');
+      }
+
+      final samayDoc = samaySnapshot.docs.first;
+      GlobalVariable.samayCollectionId = samayDoc.id;
+      samayId = samayDoc.id;
+    } catch (e) {
+      print("Error getSamayIdPro() :- $e ");
+    }
+    notifyListeners();
+  }
 
 //! Image Super category images for firebase
   // Fetch log images with error handling

@@ -12,8 +12,8 @@ class FirebaseStorageHelper {
   Future<String?> uploadAdminProfileImageToStorage(
       String imageName, String folderName, Uint8List selectedImage) async {
     try {
-      Reference imageRef = _storage
-          .ref(" salon /admin/admin_Profile/$folderName/$imageName.jpg");
+      Reference imageRef =
+          _storage.ref("salon/admin/admin_Profile/$folderName/$imageName.jpg");
       UploadTask task = imageRef.putData(
           selectedImage, SettableMetadata(contentType: 'image/jpeg'));
       TaskSnapshot snapshot = await task;

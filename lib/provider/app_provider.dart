@@ -18,16 +18,6 @@ class AppProvider with ChangeNotifier {
   AdminModel? _adminModel;
   AdminModel get getAdminInformation => _adminModel!;
 
-  List<ImageModel> _logImageList = [];
-  List<ImageModel> get getLogImageList => _logImageList;
-
-  // Log images
-  // late ImageModel _logo;
-  // ImageModel get getLogo => _logo;
-
-  late ImageModel _cartoon;
-  ImageModel get getcartoon => _cartoon;
-
   bool _isDarkMode = true;
   bool get isDarkMode => _isDarkMode;
 
@@ -38,55 +28,6 @@ class AppProvider with ChangeNotifier {
     _themeMode =
         _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
     notifyListeners(); // Notify listeners when theme mode changes
-  }
-
-//! Image logo images for firebase
-  // Fetch log images with error handling
-  // Future<void> getLogImagePro() async {
-  //   try {
-  //     _logImageList = await SamayFB.instance.logimageFB();
-  //     if (_logImageList.isNotEmpty) {
-  //       notifyListeners();
-  //     } else {
-  //       print("Log image list is empty");
-  //     }
-  //   } catch (e) {
-  //     print("Error fetching log images: $e");
-  //   }
-  // }
-
-  // Set log images (e.g., main logo, cartoon) with error handling
-  // Future<void> setImagePro() async {
-  //   try {
-  //     if (_logImageList.isNotEmpty) {
-  //       for (var imageModel in _logImageList) {
-  //         if (imageModel.name == "main_logo") {
-  //           _logo = imageModel;
-  //         }
-  //         if (imageModel.name == "cartoon") {
-  //           _cartoon = imageModel;
-  //         }
-  //       }
-  //       notifyListeners();
-  //     } else {
-  //       print("No images available to set from log image list");
-  //     }
-  //   } catch (e) {
-  //     print("Error setting log images: $e");
-  //   }
-  // }
-
-  // Combined function to handle callback and update after images are fetched
-  Future<void> callBackFunction() async {
-    try {
-      // await getLogImagePro(); // Fetch log images
-
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        // await setImagePro(); // Set log images after build phase completes
-      });
-    } catch (e) {
-      print("Error in callback function: $e");
-    }
   }
 
   // Add a Salon infor to firebase

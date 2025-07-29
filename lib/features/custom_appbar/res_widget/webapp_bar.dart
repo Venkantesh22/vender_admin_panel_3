@@ -79,7 +79,7 @@ AppBar webAppBar(BuildContext context, AppProvider appProvider) {
             text: "Products",
             ontap: () {
               Routes.instance
-                  .push(widget: ProductAddScreen(), context: context);
+                  .push(widget: const ProductScreen(), context: context);
             },
           ),
           SizedBox(width: Dimensions.dimensionNo20),

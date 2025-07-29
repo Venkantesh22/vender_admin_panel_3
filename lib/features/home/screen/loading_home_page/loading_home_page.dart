@@ -5,12 +5,16 @@ import 'package:samay_admin_plan/features/home/screen/accountBanned/account_bann
 import 'package:samay_admin_plan/features/home/screen/accountNotValidate/account_not_validate.dart';
 import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart';
 import 'package:samay_admin_plan/features/product/screen/product_add_screen.dart';
+import 'package:samay_admin_plan/features/product/screen/product_screen.dart';
+import 'package:samay_admin_plan/features/product/screen/single_product_details_screen.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/firebase_firestore.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/one_time_update_fb.dart';
 import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
+import 'package:samay_admin_plan/provider/product_provider.dart';
+import 'package:samay_admin_plan/provider/samay_provider.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
 import 'package:samay_admin_plan/provider/setting_provider.dart';
 
@@ -90,28 +94,37 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
       SettingProvider settingProvider =
           Provider.of<SettingProvider>(context, listen: false);
 
+      SamayProvider samayProvider =
+          Provider.of<SamayProvider>(context, listen: false);
+
       debugPrint("Fetching salon and admin info...");
 
       await appProvider.getAdminInfoFirebase();
       await appProvider.getSalonInfoFirebase();
       _salonModel = appProvider.getSalonInformation;
-      await appProvider.callBackFunction();
-      await serviceProvider
-          .callBackFunction(appProvider.getSalonInformation.id);
+      // Fetch a Samay doc Id ==  GlobalVariable.samayCollectionId = samayDoc.id;
+      await samayProvider.getSamayIdPro();
+      // await serviceProvider
+      //     .callBackFunction(appProvider.getSalonInformation.id);
       await calenderProvider.setToday(_today);
 
-      await bookingProvider.setSamaySalonSetting();
-      settingProvider
-          .callbackSettingProvider(appProvider.getSalonInformation.id);
+      ProductProvider productProvider =
+          Provider.of<ProductProvider>(context, listen: false);
 
-      if (appProvider.getSalonInformation.isSettingAdd == true) {
-        await serviceProvider
-            .fetchSettingPro(appProvider.getSalonInformation.id);
-        await bookingProvider
-            .fetchSettingPro(appProvider.getSalonInformation.id);
-      }
+      await productProvider.getListProductPro();
 
-      updateFun();
+      // await bookingProvider.setSamaySalonSetting();
+      // settingProvider
+      //     .callbackSettingProvider(appProvider.getSalonInformation.id);
+
+      // if (appProvider.getSalonInformation.isSettingAdd == true) {
+      //   await serviceProvider
+      //       .fetchSettingPro(appProvider.getSalonInformation.id);
+      //   await bookingProvider
+      //       .fetchSettingPro(appProvider.getSalonInformation.id);
+      // }
+
+      // updateFun();
 
       if (FirebaseAuth.instance.currentUser == null) {
         throw Exception("User is not authenticated.");
@@ -130,6 +143,8 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    ProductProvider productProvider =
+        Provider.of<ProductProvider>(context, listen: false);
     return Scaffold(
       floatingActionButton:
           (!_isLoading && !_isupdateLoading && _isupdateLoading)
@@ -177,8 +192,11 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
                     if (salonInfo.isAccountBanBySamay) {
                       return const AccountBanPage();
                     } else if (salonInfo.isAccountValidBySamay) {
-                      return HomeScreen(date: DateTime.now());
+                      // return HomeScreen(date: DateTime.now());
                       // return ProductAddScreen();
+                      return ProductScreen();
+                      // return SingleProductDetailsScreen(
+                      //     productModel: productProvider.getProductList.first);
                     } else {
                       // to stop the loading dialog
                       return const AccountNotValidatePage();

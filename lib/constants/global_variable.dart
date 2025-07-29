@@ -102,4 +102,13 @@ class GlobalVariable {
   static String forMale = "Male";
   static String forFemale = "Female";
   static String forUnisex = "Unisex";
+
+  // Stock status
+  static const String lowStock = "Low Stock";
+  static const String outOfStock = "Out of Stock";
+  static const String nullOfStock = "null";
+
+  // Product visible  status
+  static const String productVisible = "visible";
+  static const String productHidden = "hidden";
 }

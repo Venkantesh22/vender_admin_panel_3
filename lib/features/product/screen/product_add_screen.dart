@@ -10,8 +10,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
+import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/constants/validation.dart';
 import 'package:samay_admin_plan/features/custom_appbar/screen/custom_appbar.dart';
+import 'package:samay_admin_plan/features/drawer/drawer.dart';
 import 'package:samay_admin_plan/models/Product/Product_Model/product_model.dart';
 import 'package:samay_admin_plan/models/Product/brand_model/brand_model.dart';
 import 'package:samay_admin_plan/models/Product/product%20category%20model/product_category_model.dart';
@@ -49,6 +51,18 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
   final TextEditingController _stockQuantityController =
       TextEditingController();
 
+  @override
+  void dispose() {
+    _productNameController.dispose();
+    _descripController.dispose();
+    _mRPPriceController.dispose();
+    _discountPriceController.dispose();
+    _discountPerController.dispose();
+    _productCodeController.dispose();
+    _stockQuantityController.dispose();
+    super.dispose();
+  }
+
   String? _category;
   String? _subCategory;
   String? _branch;
@@ -56,7 +70,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
   String? _productFor = GlobalVariable.forUnisex;
 
   // Dropdown options for "service for"
-  final List<String> _productForList = ["Male", "Female", "Unisex"];
+  // final List<String> _productForList = ["Male", "Female", "Unisex"];
   List<BrandCategoryModel> _categoryList = [];
   List<ProductSubCateModel> _subCategoryList = [];
   List<ProductBranchModel> _branchList = [];
@@ -141,6 +155,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
       ProductProvider productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       await productProvider.getListOfProductCategoryListPro();
+
       _categoryList = List.from(productProvider.getProductCategoryList)
         ..sort((a, b) => a.order.compareTo(b.order));
 
@@ -182,7 +197,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
         Provider.of<ProductProvider>(context, listen: false);
     return Scaffold(
       appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
-      // drawer: MobileDrawer(),
+      drawer: MobileDrawer(),
       key: _scaffoldKey,
       body: _loading
           ? const Center(
@@ -190,32 +205,54 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
             )
           : SafeArea(
               child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(
-                  vertical: Dimensions.dimensionNo20,
-                  horizontal: Dimensions.dimensionNo160),
+              padding: ResponsiveLayout.isMoAndTab(context)
+                  ? EdgeInsets.all(Dimensions.dimensionNo16)
+                  : EdgeInsets.symmetric(
+                      vertical: Dimensions.dimensionNo20,
+                      horizontal: Dimensions.dimensionNo160),
               child: Center(
                 child: Form(
                   key: _formKey,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  // onChanged: () {
-                  //   setState(() {});
-                  // },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: Dimensions.dimensionNo8),
+                        padding: ResponsiveLayout.isMoAndTab(context)
+                            ? EdgeInsets.zero
+                            : EdgeInsets.symmetric(
+                                vertical: Dimensions.dimensionNo8),
                         child: Row(
+                          // mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text(
-                              'Add New Product',
-                              style: TextStyle(
-                                color: const Color(0xFF0F1419),
-                                fontSize: Dimensions.dimensionNo30,
-                                fontFamily: GoogleFonts.inter().fontFamily,
-                                fontWeight: FontWeight.w700,
-                                height: 1.25,
+                            IconButton(
+                              padding: EdgeInsets.zero,
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              icon: Icon(
+                                Icons.arrow_back,
+                                size: ResponsiveLayout.isMoAndTab(context)
+                                    ? Dimensions.dimensionNo18
+                                    : Dimensions.dimensionNo30,
+                              ),
+                            ),
+                            SizedBox(
+                              width: Dimensions.dimensionNo10,
+                            ),
+                            Align(
+                              alignment: Alignment.topCenter,
+                              child: Text(
+                                'Add New Product',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  color: const Color(0xFF0F1419),
+                                  fontSize: ResponsiveLayout.isMoAndTab(context)
+                                      ? Dimensions.dimensionNo18
+                                      : Dimensions.dimensionNo30,
+                                  fontFamily: GoogleFonts.inter().fontFamily,
+                                  fontWeight: FontWeight.w700,
+                                  height: 1.25,
+                                ),
                               ),
                             ),
                           ],
@@ -358,7 +395,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                           hintText: "0%",
                           labelText: "Discount Percentage",
                           controller: _discountPerController,
-                          validator: nodValidator,
+                          validator: noValidator,
                           suffixWidget: const Icon(
                             Icons.percent,
                             color: Colors.black,
@@ -367,7 +404,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                           hintText: "Product Code",
                           labelText: "Product Code",
                           controller: _productCodeController,
-                          validator: nodValidator),
+                          validator: noValidator),
 
                       imageContainer(),
 
@@ -438,6 +475,8 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                                       _discountPerController.text.trim())!,
                                   discountPrice: double.tryParse(
                                       _discountPriceController.text.trim())!,
+                                  productCode:
+                                      _productCodeController.text.trim(),
                                   timeStampModel: timeStampModel,
                                 );
 
@@ -447,6 +486,9 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                                     "New Product  ${_productNameController.text.trim()} added! Successful",
                                     context);
                                 Navigator.pop(context); // Close the dialog,
+
+                                Navigator.pop(context); // go back,
+                                // _formKey.currentState?.reset();
                               }
                             } catch (e) {
                               print("Error in save new Product $e");
@@ -658,9 +700,13 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
     return CupertinoButton(
       onPressed: onPressed,
       child: Container(
-        padding: EdgeInsets.symmetric(
-            vertical: Dimensions.dimensionNo8,
-            horizontal: Dimensions.dimensionNo16),
+        padding: ResponsiveLayout.isMobile(context)
+            ? EdgeInsets.all(
+                Dimensions.dimensionNo8,
+              )
+            : EdgeInsets.symmetric(
+                vertical: Dimensions.dimensionNo8,
+                horizontal: Dimensions.dimensionNo16),
         decoration: textProductFor == _productFor
             ? BoxDecoration(
                 color: AppColor.buttonColor,

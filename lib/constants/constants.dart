@@ -117,6 +117,84 @@ void showDeleteAlertDialog(
   );
 }
 
+// Function to show a message Delete
+void showDeleteAlertDialogWithNo({
+  required final BuildContext context,
+  required final String noText,
+  required final String yesText,
+  required final String title,
+  required final String message,
+  required final VoidCallback ontap,
+  required final VoidCallback ontapForNoBut,
+}) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text(
+          title,
+          style: TextStyle(
+            fontSize: Dimensions.dimensionNo20,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        content: Text(
+          message,
+          style: TextStyle(
+            fontSize: Dimensions.dimensionNo14,
+            color: Colors.black,
+          ),
+        ),
+        actions: [
+          SizedBox(
+            height: Dimensions.dimensionNo36,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  child: CustomButtom(
+                    buttonColor: Colors.white,
+                    text: noText,
+                    ontap: ontapForNoBut,
+                    textColor: Colors.black,
+                  ),
+                ),
+                SizedBox(width: Dimensions.dimensionNo8),
+                Expanded(
+                  child: CustomButtom(
+                    buttonColor: Colors.red,
+                    text: yesText,
+                    ontap: ontap,
+                    textColor: Colors.white,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: Dimensions.dimensionNo12,
+          ),
+        ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: ResponsiveLayout.isMoAndTab(context)
+              ? Dimensions.dimensionNo16
+              : Dimensions.dimensionNo24,
+          vertical: Dimensions.dimensionNo16,
+        ),
+        actionsPadding: EdgeInsets.symmetric(
+          horizontal: ResponsiveLayout.isMoAndTab(context)
+              ? Dimensions.dimensionNo8
+              : Dimensions.dimensionNo16,
+        ),
+      );
+    },
+  );
+}
+
 // Function to show a message
 void showInforAlertDialog(
   BuildContext context,
