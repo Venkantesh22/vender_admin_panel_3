@@ -8,7 +8,6 @@ import 'package:samay_admin_plan/features/services_page/screen/services_page.dar
 import 'package:samay_admin_plan/firebase_helper/firebase_auth_helper/firebase_auth_helper.dart';
 import 'package:samay_admin_plan/firebase_options.dart';
 import 'package:samay_admin_plan/features/auth/login.dart';
-import 'package:samay_admin_plan/pitc.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
@@ -55,11 +54,10 @@ class MyApp extends StatelessWidget {
             stream: FirebaseAuthHelper.instance.getAuthChange,
             builder: (context, snapshot) {
               Dimensions.init(context); // Initialize dimensions
-              // if (snapshot.hasData) {
-              //   return const LoadingHomePage(); // Direct to LoadingHomePage if user is authenticated
-              // }
-              // return const LoginScreen(); // Show LoginScreen if user is not authenticated
-              return SamayPitchDeck();
+              if (snapshot.hasData) {
+                return const LoadingHomePage(); // Direct to LoadingHomePage if user is authenticated
+              }
+              return const LoginScreen(); // Show LoginScreen if user is not authenticated
             },
           ),
           initialRoute: '/',

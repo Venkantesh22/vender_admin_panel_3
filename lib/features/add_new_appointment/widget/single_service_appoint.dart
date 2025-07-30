@@ -90,7 +90,7 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
                   ),
                   // CustomChip(text: widget.serviceModel.categoryName),
 
-                  CustomButtom(
+                  CustomButton(
                     buttonColor: bookingProvider.getWatchList
                             .contains(widget.serviceModel)
                         ? Colors.red
@@ -163,7 +163,7 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
               //   children: [
               //     PriceRow(serviceModel: widget.serviceModel),
               //     const Spacer(),
-              //     CustomButtom(
+              //     CustomButton(
               //       buttonColor: bookingProvider.getWatchList
               //               .contains(widget.serviceModel)
               //           ? Colors.red
@@ -339,7 +339,7 @@ class _SingleServiceTapState extends State<SingleServiceTapAppoint> {
 //                 children: [
 //                   PriceRow(serviceModel: widget.serviceModel),
 //                   const Spacer(),
-//                   CustomButtom(
+//                   CustomButton(
 //                     buttonColor: bookingProvider.getWatchList
 //                             .contains(widget.serviceModel)
 //                         ? Colors.red

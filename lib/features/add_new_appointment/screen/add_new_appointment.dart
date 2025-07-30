@@ -12,6 +12,7 @@ import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/constants/router.dart';
 import 'package:samay_admin_plan/features/Calender/screen/calender.dart';
+import 'package:samay_admin_plan/features/add_new_appointment/widget/single_product_widget.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/widget/single_service_appoint.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/widget/single_service_tap_icon.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/widget/time_tap.dart';
@@ -21,6 +22,7 @@ import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/samay_fb.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/setting_fb.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/user_order_fb.dart';
+import 'package:samay_admin_plan/models/Product/Product_Model/product_model.dart';
 import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart';
 import 'package:samay_admin_plan/models/salon_setting_model/salon_setting_model.dart';
 import 'package:samay_admin_plan/models/samay_salon_settng_model/samay_salon_setting.dart';
@@ -30,6 +32,7 @@ import 'package:samay_admin_plan/models/user_model/user_model.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
+import 'package:samay_admin_plan/provider/product_provider.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
 import 'package:samay_admin_plan/utility/dimension.dart';
@@ -59,7 +62,10 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
   TextEditingController _serviceController = TextEditingController();
   TextEditingController _mobileController = TextEditingController();
   TextEditingController _userNote = TextEditingController();
+  TextEditingController _serviceAtControl = TextEditingController();
+  TextEditingController _productSearchControl = TextEditingController();
 
+  @override
   void dispose() {
     _nameController.dispose();
     _lastNameController.dispose();
@@ -68,32 +74,52 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
     _serviceController.dispose();
     _mobileController.dispose();
     _userNote.dispose();
+    _serviceAtControl.dispose();
+    _productSearchControl.dispose();
     super.dispose();
   }
 
-  List<ServiceModel> serchServiceList = [];
+// Service list
+  List<ServiceModel> searchServiceList = [];
   List<ServiceModel> allServiceList = [];
   List<ServiceModel> selectService = [];
 
+// For Product List
+  List<ProductModel> searchProductList = [];
+  List<ProductModel> allProductList = [];
+  List<ProductModel> selectProduct = [];
+
   bool _showCalender = false;
   bool _showServiceList = false;
-  bool _showTimeContaine = false;
+  bool _showProductList = false;
+  bool _showTimeContain = false;
   bool _isLoading = false;
 
   int _timediff = 30;
   int appointmentNO = 0;
-  bool isGSTAvaible = false;
 
   SamaySalonSettingModel? _samaySalonSettingModel;
   SettingModel? _settingModel;
 
-//Serching  Services base on service name and code
-  void serchService(String value) {
+//Searching  Services base on service name and code
+  void searchService(String value) {
     // Filtering based on both service name and service code
-    serchServiceList = allServiceList
+    searchServiceList = allServiceList
         .where((element) =>
             element.servicesName.toLowerCase().contains(value.toLowerCase()) ||
             element.serviceCode.toLowerCase().contains(value.toLowerCase()))
+        .toList();
+
+    setState(() {});
+  }
+
+  //Searching  product base on service name
+
+  void searchProduct(String value) {
+    // Filtering based on both service name and service code
+    searchProductList = allProductList
+        .where((element) =>
+            element.name.toLowerCase().contains(value.toLowerCase()))
         .toList();
 
     setState(() {});
@@ -128,6 +154,8 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
         Provider.of<BookingProvider>(context, listen: false);
     ServiceProvider serviceProvider =
         Provider.of<ServiceProvider>(context, listen: false);
+    ProductProvider productProvider =
+        Provider.of<ProductProvider>(context, listen: false);
 
     try {
       bookingProvider.setAllZero();
@@ -136,6 +164,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
       await bookingProvider.fetchSettingPro(appProvider.getSalonInformation.id);
       await appProvider.getSalonInfoFirebase();
       await serviceProvider.fetchSettingPro(appProvider.getSalonInformation.id);
+
       _timediff = int.parse(serviceProvider.getSettingModel!.diffbtwTimetap);
       setState(() {
         _appointmentDateController.text =
@@ -148,6 +177,9 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
       _samaySalonSettingModel = await SamayFB.instance.fetchSalonSettingData();
 
       // GlobalVariable.salonPlatformFee = _samaySalonSettingModel!.platformFee;
+// Get all Product and assign to allProductList list
+      await productProvider.getListProductPro();
+      allProductList = productProvider.getProductList;
 
       print("Gst is == ${_settingModel!.gSTIsIncludingOrExcluding}");
       print("Plact fee ${_samaySalonSettingModel!.platformFee}");
@@ -319,11 +351,13 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                   onTap: () {
                     if (_showCalender ||
                         _showServiceList ||
-                        _showTimeContaine == true) {
+                        _showProductList ||
+                        _showTimeContain == true) {
                       setState(() {
                         _showCalender = false;
                         _showServiceList = false;
-                        _showTimeContaine = false;
+                        _showProductList = false;
+                        _showTimeContain = false;
                       });
                     }
                   },
@@ -336,12 +370,16 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                               Padding(
                                 padding:
                                     EdgeInsets.all(Dimensions.dimensionNo16),
-                                child: Text(
-                                  "Add New Appointment",
-                                  style: TextStyle(
-                                    fontSize: Dimensions.dimensionNo20,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Add New Appointment",
+                                      style: TextStyle(
+                                        fontSize: Dimensions.dimensionNo20,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               // Container to User TextBox
@@ -351,11 +389,13 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                                 onTap: () {
                                   if (_showCalender ||
                                       _showServiceList ||
-                                      _showTimeContaine == true) {
+                                      _showProductList ||
+                                      _showTimeContain == true) {
                                     setState(() {
                                       _showCalender = false;
                                       _showServiceList = false;
-                                      _showTimeContaine = false;
+                                      _showProductList = false;
+                                      _showTimeContain = false;
                                     });
                                   }
                                 },
@@ -494,7 +534,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                               ),
                             ],
                           ),
-                          if (_showTimeContaine)
+                          if (_showTimeContain)
                             Positioned(
                               right: ResponsiveLayout.isMobile(context)
                                   ? Dimensions
@@ -615,128 +655,6 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                                 ),
                               ),
                             ),
-
-                          // if (_showTimeContaine)
-                          //   Positioned(
-                          //     right: ResponsiveLayout.isMobile(context)
-                          //         ? Dimensions
-                          //             .dimensionNo20 // Adjust for mobile
-                          //         : Dimensions
-                          //             .dimensionNo360, // Default for larger screens
-                          //     top: ResponsiveLayout.isMobile(context)
-                          //         ? Dimensions
-                          //             .dimensionNo150 // Adjust for mobile
-                          //         : Dimensions
-                          //             .dimensionNo150, // Default for larger screens
-                          //     left: ResponsiveLayout.isMobile(context)
-                          //         ? Dimensions
-                          //             .dimensionNo20 // Adjust for mobile
-                          //         : null, // Default for larger screens
-                          //     child: SingleChildScrollView(
-                          //       child: Container(
-                          //         padding:
-                          //             EdgeInsets.all(Dimensions.dimensionNo12),
-
-                          //         width: ResponsiveLayout.isMobile(context)
-                          //             ? Dimensions
-                          //                 .dimensionNo300 // Adjust width for mobile
-                          //             : Dimensions
-                          //                 .dimensionNo500, // Default for larger screens
-                          //         constraints: BoxConstraints(
-                          //           maxHeight: ResponsiveLayout.isMobile(
-                          //                   context)
-                          //               ? Dimensions
-                          //                   .dimensionNo400 // Adjust height for mobile
-                          //               : Dimensions
-                          //                   .dimensionNo500, // Default for larger screens
-                          //         ),
-                          //         decoration: BoxDecoration(
-                          //           color: Colors.white,
-                          //           borderRadius: BorderRadius.circular(
-                          //               Dimensions.dimensionNo10),
-                          //           border: Border.all(
-                          //               color: Colors.grey, width: 1),
-                          //         ),
-                          //         child: SingleChildScrollView(
-                          //           child: Column(
-                          //             children: [
-                          //               TimeSlot(
-                          //                 section: 'Morning',
-                          //                 timeSlots: _categorizedTimeSlots[
-                          //                         'Morning'] ??
-                          //                     [],
-                          //                 selectedTimeSlot: _selectedTimeSlot,
-                          //                 serviceDurationInMinutes:
-                          //                     serviceDurationInMinutes,
-                          //                 endTime: _endTime,
-                          //                 onTimeSlotSelected: (selectedSlot) {
-                          //                   setState(() {
-                          //                     _selectedTimeSlot = selectedSlot;
-                          //                     _appointmentTimeController.text =
-                          //                         selectedSlot;
-                          //                   });
-                          //                 },
-                          //               ),
-                          //               TimeSlot(
-                          //                 section: 'Afternoon',
-                          //                 timeSlots: _categorizedTimeSlots[
-                          //                         'Afternoon'] ??
-                          //                     [],
-                          //                 selectedTimeSlot: _selectedTimeSlot,
-                          //                 serviceDurationInMinutes:
-                          //                     serviceDurationInMinutes,
-                          //                 endTime: _endTime,
-                          //                 onTimeSlotSelected: (selectedSlot) {
-                          //                   setState(() {
-                          //                     _selectedTimeSlot = selectedSlot;
-                          //                     _appointmentTimeController.text =
-                          //                         selectedSlot;
-                          //                   });
-                          //                 },
-                          //               ),
-                          //               TimeSlot(
-                          //                 section: 'Evening',
-                          //                 timeSlots: _categorizedTimeSlots[
-                          //                         'Evening'] ??
-                          //                     [],
-                          //                 selectedTimeSlot: _selectedTimeSlot,
-                          //                 serviceDurationInMinutes:
-                          //                     serviceDurationInMinutes,
-                          //                 endTime: _endTime,
-                          //                 onTimeSlotSelected: (selectedSlot) {
-                          //                   setState(() {
-                          //                     _selectedTimeSlot = selectedSlot;
-                          //                     _appointmentTimeController.text =
-                          //                         selectedSlot;
-                          //                   });
-                          //                 },
-                          //               ),
-                          //               TimeSlot(
-                          //                 section: 'Night',
-                          //                 timeSlots:
-                          //                     _categorizedTimeSlots['Night'] ??
-                          //                         [],
-                          //                 selectedTimeSlot: _selectedTimeSlot,
-                          //                 serviceDurationInMinutes:
-                          //                     serviceDurationInMinutes,
-                          //                 endTime: _endTime,
-                          //                 onTimeSlotSelected: (selectedSlot) {
-                          //                   setState(() {
-                          //                     _selectedTimeSlot = selectedSlot;
-                          //                     _appointmentTimeController.text =
-                          //                         selectedSlot;
-                          //                   });
-                          //                 },
-                          //               ),
-                          //               SizedBox(
-                          //                 height: Dimensions.dimensionNo12,
-                          //               ),
-                          //             ],
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ),
-                          //   ),
                           if (_showCalender)
                             Positioned(
                               right: ResponsiveLayout.isMobile(context)
@@ -803,7 +721,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                                       Dimensions.dimensionNo10),
                                 ),
                                 child: _serviceController.text.isNotEmpty &&
-                                        serchServiceList.isEmpty
+                                        searchServiceList.isEmpty
                                     ? Padding(
                                         padding: EdgeInsets.only(
                                           top: Dimensions.dimensionNo12,
@@ -818,7 +736,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                                               fontWeight: FontWeight.w600),
                                         ),
                                       )
-                                    : serchServiceList.contains(
+                                    : searchServiceList.contains(
                                                 // ignore: iterable_contains_unrelated_type
                                                 _serviceController.text) ||
                                             _serviceController.text.isEmpty
@@ -838,16 +756,136 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                                           )
                                         : ListView.builder(
                                             shrinkWrap: true,
-                                            itemCount: serchServiceList.length,
+                                            itemCount: searchServiceList.length,
                                             itemBuilder: (context, index) {
                                               ServiceModel serviceModel =
-                                                  serchServiceList[index];
+                                                  searchServiceList[index];
                                               return
                                                   // !isSearched()
 
                                                   SingleServiceTapAppoint(
                                                       serviceModel:
                                                           serviceModel);
+                                            },
+                                          ),
+                              ),
+                            ),
+
+// Contain for show product search list
+                          if (_showProductList)
+                            Positioned(
+                              right: ResponsiveLayout.isMobile(context)
+                                  ? Dimensions
+                                      .dimensionNo20 // Adjust for mobile
+                                  : null,
+
+                              //     .dimensionNo360, // Default for larger screens
+                              top: ResponsiveLayout.isMobile(context)
+                                  ? Dimensions
+                                      .dimensionNo200 // Adjust for mobile
+                                  : Dimensions
+                                      .dimensionNo280, // Default for larger screens
+                              left: ResponsiveLayout.isMobile(context)
+                                  ? Dimensions
+                                      .dimensionNo20 // Adjust for mobile
+                                  : Dimensions
+                                      .dimensionNo90, // Default for larger screens
+                              child: Container(
+                                width: Dimensions.dimensionNo500,
+                                // height: Dimensions.dimensionNo400,
+                                constraints: const BoxConstraints(),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFFFFFFF),
+                                  borderRadius: BorderRadius.circular(
+                                      Dimensions.dimensionNo10),
+                                ),
+                                child: _productSearchControl.text.isNotEmpty &&
+                                        searchProductList.isEmpty
+                                    ? Padding(
+                                        padding: EdgeInsets.only(
+                                          top: Dimensions.dimensionNo12,
+                                          left: Dimensions.dimensionNo16,
+                                          bottom: Dimensions.dimensionNo12,
+                                        ),
+                                        child: Text(
+                                          "No product found",
+                                          style: TextStyle(
+                                              fontSize:
+                                                  Dimensions.dimensionNo14,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      )
+                                    : searchProductList.contains(
+                                                // ignore: iterable_contains_unrelated_type
+                                                _productSearchControl.text) ||
+                                            _productSearchControl.text.isEmpty
+                                        ? Padding(
+                                            padding: EdgeInsets.only(
+                                              top: Dimensions.dimensionNo12,
+                                              left: Dimensions.dimensionNo16,
+                                              bottom: Dimensions.dimensionNo12,
+                                            ),
+                                            child: Text(
+                                              "Enter a Product name ",
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      Dimensions.dimensionNo14,
+                                                  fontWeight: FontWeight.w600),
+                                            ),
+                                          )
+                                        : ListView.builder(
+                                            scrollDirection: Axis.vertical,
+                                            shrinkWrap: true,
+                                            itemCount: searchProductList.length,
+                                            itemBuilder: (context, index) {
+                                              ProductModel product =
+                                                  searchProductList[index];
+                                              return
+                                                  // !isSearched()
+
+                                                  singleProductName(
+                                                product: product,
+                                                bookingProvider:
+                                                    bookingProvider,
+                                                context: context,
+                                                ontap: () {
+                                                  // setState(() {
+                                                  //   _isAdd = !_isAdd;
+                                                  // });
+                                                  if (bookingProvider
+                                                      .selectBuyProductList
+                                                      .contains(product)) {
+                                                    bookingProvider
+                                                        .removeProductToListPro(
+                                                            product);
+                                                  } else {
+                                                    bookingProvider
+                                                        .addProductToListPro(
+                                                            product);
+                                                  }
+
+                                                  // setState(() {
+                                                  //     bookingProvider
+                                                  //         .removeServiceToWatchList(
+                                                  //             widget
+                                                  //                 .serviceModel);
+                                                  //     bookingProvider
+                                                  //         .calculateTotalBookingDuration();
+                                                  //     bookingProvider
+                                                  //         .calculateSubTotal();
+                                                  //   })
+                                                  // : setState(() {
+                                                  //     bookingProvider
+                                                  //         .addServiceToWatchList(
+                                                  //             widget
+                                                  //                 .serviceModel);
+                                                  //     bookingProvider
+                                                  //         .calculateTotalBookingDuration();
+                                                  //     bookingProvider
+                                                  //         .calculateSubTotal();
+                                                  //   });
+                                                },
+                                              );
                                             },
                                           ),
                               ),
@@ -874,7 +912,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
         child: ResponsiveLayout.isMobile(context)
             ? Column(
                 children: [
-                  //! Textbox for Moblie screen size
+                  //! Textbox for Mobile screen size
                   Wrap(
                     spacing: Dimensions.dimensionNo8,
                     runSpacing: Dimensions.dimensionNo5,
@@ -915,7 +953,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                                   Dimensions.dimensionNo10),
                             ),
                             child: _serviceController.text.isNotEmpty &&
-                                    serchServiceList.isEmpty
+                                    searchServiceList.isEmpty
                                 ? Padding(
                                     padding: EdgeInsets.only(
                                       top: Dimensions.dimensionNo12,
@@ -929,17 +967,17 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                                           fontWeight: FontWeight.w600),
                                     ),
                                   )
-                                : serchServiceList.contains(
+                                : searchServiceList.contains(
                                             // ignore: iterable_contains_unrelated_type
                                             _serviceController.text) ||
                                         _serviceController.text.isEmpty
                                     ? SizedBox()
                                     : ListView.builder(
                                         shrinkWrap: true,
-                                        itemCount: serchServiceList.length,
+                                        itemCount: searchServiceList.length,
                                         itemBuilder: (context, index) {
                                           ServiceModel serviceModel =
-                                              serchServiceList[index];
+                                              searchServiceList[index];
                                           return
                                               // !isSearched()
 
@@ -954,7 +992,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                   ),
                 ],
               )
-            //! Textbox for table and decktap screen size
+            //! Textbox for table and desktop screen size
 
             : Column(
                 children: [
@@ -998,6 +1036,30 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                       //! select time textbox
                       _timeSelectTextBox(),
                     ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: Dimensions.dimensionNo60),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        //! search box for product
+                        productSearchTextBox(),
+
+                        SizedBox(
+                          width: Dimensions.dimensionNo30,
+                        ),
+                        //! mobile text box
+
+                        // textBoxOfForm("Mobile No", _mobileController),
+
+                        // SizedBox(
+                        //   width: Dimensions.dimensionNo30,
+                        // ),
+
+                        // //! select time textbox
+                        // _timeSelectTextBox(),
+                      ],
+                    ),
                   ),
                 ],
               ),
@@ -1112,8 +1174,8 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
             child: TextFormField(
               onTap: () {
                 setState(() {
-                  _showTimeContaine = !_showTimeContaine;
-                  print("Time : $_showTimeContaine");
+                  _showTimeContain = !_showTimeContain;
+                  print("Time : $_showTimeContain");
                 });
               },
               cursorHeight: Dimensions.dimensionNo16,
@@ -1171,8 +1233,8 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
   //           child: TextFormField(
   //             onTap: () {
   //               setState(() {
-  //                 _showTimeContaine = !_showTimeContaine;
-  //                 print("Time : $_showTimeContaine");
+  //                 _showTimeContain = !_showTimeContain;
+  //                 print("Time : $_showTimeContain");
   //               });
   //             },
   //             cursorHeight: Dimensions.dimensionNo16,
@@ -1197,6 +1259,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
   //   );
   // }
 
+// Textbox for service search
   SizedBox serviceServiceTextBox() {
     return SizedBox(
       height: Dimensions.dimensionNo70,
@@ -1229,11 +1292,12 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                 : Dimensions.dimensionNo250,
             child: TextFormField(
               onChanged: (String value) {
-                serchService(value);
+                searchService(value);
 
                 if (ResponsiveLayout.isDesktop(context) ||
                     ResponsiveLayout.isTablet(context)) {
                   _showServiceList = true;
+                  _showProductList = false;
                 }
               },
               onTap: () {
@@ -1241,6 +1305,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                     ResponsiveLayout.isTablet(context)) {
                   setState(() {
                     _showServiceList = !_showServiceList;
+                    _showProductList = false;
                   });
                 }
               },
@@ -1253,6 +1318,81 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
               controller: _serviceController,
               decoration: InputDecoration(
                 hintText: "Search Service...",
+                contentPadding: EdgeInsets.symmetric(
+                    horizontal: Dimensions.dimensionNo10,
+                    vertical: Dimensions.dimensionNo10),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(Dimensions.dimensionNo16),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // Textbox for product search
+
+  SizedBox productSearchTextBox() {
+    return SizedBox(
+      height: Dimensions.dimensionNo70,
+      width:
+          ResponsiveLayout.isMobile(context) ? null : Dimensions.dimensionNo250,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Product",
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimensionNo14
+                  : Dimensions.dimensionNo18,
+              fontFamily: GoogleFonts.roboto().fontFamily,
+              fontWeight: FontWeight.w500,
+              letterSpacing: 0.90,
+            ),
+          ),
+          SizedBox(
+            height: Dimensions.dimensionNo5,
+          ),
+          SizedBox(
+            height: ResponsiveLayout.isDesktop(context)
+                ? Dimensions.dimensionNo30
+                : Dimensions.dimensionNo40,
+            width: ResponsiveLayout.isMobile(context)
+                ? null
+                : Dimensions.dimensionNo250,
+            child: TextFormField(
+              onChanged: (String value) {
+                searchProduct(value);
+
+                if (ResponsiveLayout.isDesktop(context) ||
+                    ResponsiveLayout.isTablet(context)) {
+                  // _showServiceList = true;
+                  _showProductList = true;
+                  _showServiceList = false;
+                }
+              },
+              onTap: () {
+                if (ResponsiveLayout.isDesktop(context) ||
+                    ResponsiveLayout.isTablet(context)) {
+                  setState(() {
+                    _showProductList = !_showProductList;
+                    _showServiceList = false;
+                  });
+                }
+              },
+              cursorHeight: Dimensions.dimensionNo16,
+              style: TextStyle(
+                  fontSize: Dimensions.dimensionNo12,
+                  fontFamily: GoogleFonts.roboto().fontFamily,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black),
+              controller: _productSearchControl,
+              decoration: InputDecoration(
+                hintText: "Search Product...",
                 contentPadding: EdgeInsets.symmetric(
                     horizontal: Dimensions.dimensionNo10,
                     vertical: Dimensions.dimensionNo10),

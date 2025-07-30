@@ -1,9 +1,12 @@
+// ignore_for_file: prefer_const_constructors, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/samay_fb.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/setting_fb.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/user_order_fb.dart';
+import 'package:samay_admin_plan/models/Product/Product_Model/product_model.dart';
 import 'package:samay_admin_plan/models/salon_setting_model/salon_setting_model.dart';
 import 'package:samay_admin_plan/models/samay_salon_settng_model/samay_salon_setting.dart';
 import 'package:samay_admin_plan/models/service_model/service_model.dart';
@@ -370,24 +373,6 @@ class BookingProvider with ChangeNotifier {
 
   // //!------------ calculate Time Of Appointment Start and End time --------------
 
-  // void calAppointEndTime(DateTime startTime) {
-  //   int parseDuration(String duration) {
-  //     final regex = RegExp(r'(\d+)h (\d+)m');
-  //     final match = regex.firstMatch(duration);
-
-  //     if (match != null) {
-  //       final hours = int.parse(match.group(1)!);
-  //       final minutes = int.parse(match.group(2)!);
-  //       return hours * 60 + minutes;
-  //     }
-
-  //     return 0; // Default to 0 if parsing fails
-  //   }
-
-  //   _appointStartTimeCal = startTime
-  //       .add(Duration(minutes: parseDuration(_serviceBookingDuration)));
-  // }
-
   // ----------------- Utility Methods -----------------
 
   /// Converts a TimeOfDay to a formatted string.
@@ -468,6 +453,29 @@ class BookingProvider with ChangeNotifier {
     print(" -------------Extra Discount Amount: $_extraDiscountAmount");
     notifyListeners();
   }
+
+//!-------------- PRODUCT FUNCTION ----------------------------------
+
+  List<ProductModel> selectBuyProductList = [];
+  List<ProductModel> get getSelectBuyProductList => selectBuyProductList;
+
+  // add Product to List
+  void addProductToListPro(ProductModel value) {
+    selectBuyProductList.add(value);
+    print(
+        " add selectBuyProductList = ${selectBuyProductList.length} , ${value.name}");
+    notifyListeners();
+  }
+
+  // remove Product to List
+  void removeProductToListPro(ProductModel value) {
+    selectBuyProductList.removeWhere((product) => product.id == value.id);
+    print(
+        "remove selectBuyProductList = ${selectBuyProductList.length} , ${value.name}");
+    notifyListeners();
+  }
+
+//!-------------- RESET PRODUCT  ----------------------------------
 
   void setAllZero() {
     _discountInPer = 0.0;

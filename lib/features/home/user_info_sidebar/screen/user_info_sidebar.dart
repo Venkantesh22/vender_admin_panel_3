@@ -285,7 +285,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                     padding: EdgeInsets.symmetric(
                         horizontal: Dimensions.dimensionNo16),
                     width: double.infinity,
-                    child: CustomButtom(
+                    child: CustomButton(
                         text: "CheckOut",
                         ontap: () {
                           Routes.instance.push(

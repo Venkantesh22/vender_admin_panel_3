@@ -501,9 +501,9 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
     );
   }
 
-  CustomButtom GeneratButtonWIdget(
+  CustomButton GeneratButtonWIdget(
       ReportProvider reportProvider, AppProvider appProvider) {
-    return CustomButtom(
+    return CustomButton(
       text: "Generate",
       ontap: () async {
         setState(() {

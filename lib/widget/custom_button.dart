@@ -3,14 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/utility/dimension.dart';
 
-class CustomButtom extends StatelessWidget {
+class CustomButton extends StatelessWidget {
   final String text;
   final VoidCallback ontap;
   final Color buttonColor;
   final Color textColor;
   double? width;
 
-  CustomButtom({
+  CustomButton({
     Key? key,
     required this.text,
     required this.ontap,

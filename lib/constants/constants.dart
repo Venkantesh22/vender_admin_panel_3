@@ -73,7 +73,7 @@ void showDeleteAlertDialog(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Expanded(
-                  child: CustomButtom(
+                  child: CustomButton(
                     buttonColor: Colors.white,
                     text: "No",
                     ontap: () {
@@ -84,7 +84,7 @@ void showDeleteAlertDialog(
                 ),
                 SizedBox(width: Dimensions.dimensionNo8),
                 Expanded(
-                  child: CustomButtom(
+                  child: CustomButton(
                     buttonColor: Colors.red,
                     text: "Yes",
                     ontap: ontap,
@@ -153,7 +153,7 @@ void showDeleteAlertDialogWithNo({
               mainAxisSize: MainAxisSize.min,
               children: [
                 Expanded(
-                  child: CustomButtom(
+                  child: CustomButton(
                     buttonColor: Colors.white,
                     text: noText,
                     ontap: ontapForNoBut,
@@ -162,7 +162,7 @@ void showDeleteAlertDialogWithNo({
                 ),
                 SizedBox(width: Dimensions.dimensionNo8),
                 Expanded(
-                  child: CustomButtom(
+                  child: CustomButton(
                     buttonColor: Colors.red,
                     text: yesText,
                     ontap: ontap,
@@ -217,7 +217,7 @@ void showInforAlertDialog(
               fontSize: Dimensions.dimensionNo16, color: Colors.black),
         ),
         actions: [
-          CustomButtom(
+          CustomButton(
             buttonColor: AppColor.buttonColor,
             text: "OK",
             ontap: () {
