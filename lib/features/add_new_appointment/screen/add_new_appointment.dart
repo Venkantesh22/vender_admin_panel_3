@@ -12,6 +12,7 @@ import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/constants/router.dart';
 import 'package:samay_admin_plan/features/Calender/screen/calender.dart';
+import 'package:samay_admin_plan/features/add_new_appointment/widget/budge.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/widget/single_product_widget.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/widget/single_service_appoint.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/widget/single_service_tap_icon.dart';
@@ -371,7 +372,9 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                                 padding:
                                     EdgeInsets.all(Dimensions.dimensionNo16),
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
+                                    Spacer(),
                                     Text(
                                       "Add New Appointment",
                                       style: TextStyle(
@@ -379,6 +382,8 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),
+                                    Spacer(),
+                                    badgeFloatingActionButton(bookingProvider),
                                   ],
                                 ),
                               ),
@@ -849,11 +854,8 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                                                     bookingProvider,
                                                 context: context,
                                                 ontap: () {
-                                                  // setState(() {
-                                                  //   _isAdd = !_isAdd;
-                                                  // });
                                                   if (bookingProvider
-                                                      .selectBuyProductList
+                                                      .budgetProductList
                                                       .contains(product)) {
                                                     bookingProvider
                                                         .removeProductToListPro(
@@ -863,27 +865,6 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                                                         .addProductToListPro(
                                                             product);
                                                   }
-
-                                                  // setState(() {
-                                                  //     bookingProvider
-                                                  //         .removeServiceToWatchList(
-                                                  //             widget
-                                                  //                 .serviceModel);
-                                                  //     bookingProvider
-                                                  //         .calculateTotalBookingDuration();
-                                                  //     bookingProvider
-                                                  //         .calculateSubTotal();
-                                                  //   })
-                                                  // : setState(() {
-                                                  //     bookingProvider
-                                                  //         .addServiceToWatchList(
-                                                  //             widget
-                                                  //                 .serviceModel);
-                                                  //     bookingProvider
-                                                  //         .calculateTotalBookingDuration();
-                                                  //     bookingProvider
-                                                  //         .calculateSubTotal();
-                                                  //   });
                                                 },
                                               );
                                             },
@@ -1836,7 +1817,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
               widget.salonModel.id);
           Navigator.of(context, rootNavigator: true).pop();
 
-          showMessage("Successfull add the appointment");
+          showMessage("Successful add the appointment");
 
           if (value) {
             showLoaderDialog(context);
@@ -1865,7 +1846,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                               height: Dimensions.dimensionNo20,
                             ),
                             Text(
-                              'Appointment Book Successfull',
+                              'Appointment Book Successful',
                               style: TextStyle(
                                 fontSize: Dimensions.dimensionNo16,
                                 fontWeight: FontWeight.w700,

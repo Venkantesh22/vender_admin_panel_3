@@ -68,12 +68,15 @@ Widget singleProductName(
             ),
           ),
         ),
+        const SizedBox(
+          width: 6,
+        ),
         CustomButton(
-          buttonColor: bookingProvider.getSelectBuyProductList.contains(product)
+          buttonColor: bookingProvider.getBudgetProductList.contains(product)
               ? Colors.red
               : AppColor.buttonColor,
           ontap: ontap,
-          text: bookingProvider.getSelectBuyProductList.contains(product)
+          text: bookingProvider.getBudgetProductList.contains(product)
               ? "Remove -"
               : "Add+",
           width: ResponsiveLayout.isMobile(context)

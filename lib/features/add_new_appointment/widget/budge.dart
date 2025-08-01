@@ -4,12 +4,12 @@ import 'package:samay_admin_plan/utility/color.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:samay_admin_plan/utility/dimension.dart';
 
-Widget? _buildFloatingActionButton(BookingProvider bookingProvider) {
-  if (bookingProvider.getWatchList.isEmpty) return null;
+Widget badgeFloatingActionButton(BookingProvider bookingProvider) {
+  if (bookingProvider.budgetProductList.isEmpty) return const SizedBox();
 
   return badges.Badge(
     badgeContent: Text(
-      bookingProvider.getWatchList.length.toString(),
+      bookingProvider.budgetProductList.length.toString(),
       style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
     ),
     badgeStyle: const badges.BadgeStyle(
@@ -18,7 +18,7 @@ Widget? _buildFloatingActionButton(BookingProvider bookingProvider) {
     ),
     child: GestureDetector(
       onTap: () {},
-      child: Icon(Icons.watch_later_rounded, size: Dimensions.dimensionNo40),
+      child: Icon(Icons.shopping_cart, size: Dimensions.dimensionNo22),
     ),
   );
 }

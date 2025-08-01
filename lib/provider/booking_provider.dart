@@ -162,6 +162,7 @@ class BookingProvider with ChangeNotifier {
   /// Adds a service to the watch list.
   void addServiceToWatchList(ServiceModel serviceModel) {
     _watchList.add(serviceModel);
+    print("_watchList :- ${_watchList.length}");
     notifyListeners();
   }
 
@@ -456,22 +457,22 @@ class BookingProvider with ChangeNotifier {
 
 //!-------------- PRODUCT FUNCTION ----------------------------------
 
-  List<ProductModel> selectBuyProductList = [];
-  List<ProductModel> get getSelectBuyProductList => selectBuyProductList;
+  List<ProductModel> budgetProductList = [];
+  List<ProductModel> get getBudgetProductList => budgetProductList;
 
   // add Product to List
   void addProductToListPro(ProductModel value) {
-    selectBuyProductList.add(value);
+    budgetProductList.add(value);
     print(
-        " add selectBuyProductList = ${selectBuyProductList.length} , ${value.name}");
+        " add selectBuyProductList = ${budgetProductList.length} , ${value.name}");
     notifyListeners();
   }
 
   // remove Product to List
   void removeProductToListPro(ProductModel value) {
-    selectBuyProductList.removeWhere((product) => product.id == value.id);
+    budgetProductList.removeWhere((product) => product.id == value.id);
     print(
-        "remove selectBuyProductList = ${selectBuyProductList.length} , ${value.name}");
+        "remove selectBuyProductList = ${budgetProductList.length} , ${value.name}");
     notifyListeners();
   }
 

@@ -105,8 +105,8 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
       _salonModel = appProvider.getSalonInformation;
       // Fetch a Samay doc Id ==  GlobalVariable.samayCollectionId = samayDoc.id;
       await samayProvider.getSamayIdPro();
-      // await serviceProvider
-      //     .callBackFunction(appProvider.getSalonInformation.id);
+      await serviceProvider
+          .callBackFunction(appProvider.getSalonInformation.id);
       await calenderProvider.setToday(_today);
 
       ProductProvider productProvider =
@@ -114,18 +114,18 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
 
       await productProvider.getListProductPro();
 
-      // await bookingProvider.setSamaySalonSetting();
-      // settingProvider
-      //     .callbackSettingProvider(appProvider.getSalonInformation.id);
+      await bookingProvider.setSamaySalonSetting();
+      settingProvider
+          .callbackSettingProvider(appProvider.getSalonInformation.id);
 
-      // if (appProvider.getSalonInformation.isSettingAdd == true) {
-      //   await serviceProvider
-      //       .fetchSettingPro(appProvider.getSalonInformation.id);
-      //   await bookingProvider
-      //       .fetchSettingPro(appProvider.getSalonInformation.id);
-      // }
+      if (appProvider.getSalonInformation.isSettingAdd == true) {
+        await serviceProvider
+            .fetchSettingPro(appProvider.getSalonInformation.id);
+        await bookingProvider
+            .fetchSettingPro(appProvider.getSalonInformation.id);
+      }
 
-      // updateFun();
+      updateFun();
 
       if (FirebaseAuth.instance.currentUser == null) {
         throw Exception("User is not authenticated.");
@@ -194,11 +194,11 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
                     if (salonInfo.isAccountBanBySamay) {
                       return const AccountBanPage();
                     } else if (salonInfo.isAccountValidBySamay) {
-                      // return HomeScreen(date: DateTime.now());
+                      return HomeScreen(date: DateTime.now());
                       // return ProductAddScreen();
                       // return ProductScreen();
-                      return AddNewAppointment(
-                          salonModel: appProvider.getSalonInformation);
+                      // return AddNewAppointment(
+                      //     salonModel: appProvider.getSalonInformation);
                       // return SingleProductDetailsScreen(
                       //     productModel: productProvider.getProductList.first);
                     } else {
