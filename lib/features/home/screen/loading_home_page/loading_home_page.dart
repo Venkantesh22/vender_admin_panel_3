@@ -197,8 +197,8 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
                       return HomeScreen(date: DateTime.now());
                       // return ProductAddScreen();
                       // return ProductScreen();
-                      // return AddNewAppointment(
-                      //     salonModel: appProvider.getSalonInformation);
+                      return AddNewAppointment(
+                          salonModel: appProvider.getSalonInformation);
                       // return SingleProductDetailsScreen(
                       //     productModel: productProvider.getProductList.first);
                     } else {

@@ -108,7 +108,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
     searchServiceList = allServiceList
         .where((element) =>
             element.servicesName.toLowerCase().contains(value.toLowerCase()) ||
-            element.serviceCode.toLowerCase().contains(value.toLowerCase()))
+            element.serviceCode.contains(value))
         .toList();
 
     setState(() {});
@@ -120,7 +120,10 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
     // Filtering based on both service name and service code
     searchProductList = allProductList
         .where((element) =>
-            element.name.toLowerCase().contains(value.toLowerCase()))
+            element.name.toLowerCase().contains(value.toLowerCase()) ||
+            element.name.contains(value)
+            
+            )
         .toList();
 
     setState(() {});
