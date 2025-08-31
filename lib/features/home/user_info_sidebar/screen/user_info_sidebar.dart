@@ -8,6 +8,7 @@ import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/router.dart';
 import 'package:samay_admin_plan/features/Direct%20Billing/screen/edit_direct_billing.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/screen/edit_appointment.dart';
+import 'package:samay_admin_plan/features/add_new_appointment/widget/single_product_delete_icon_widget.dart';
 import 'package:samay_admin_plan/features/home/user_info_sidebar/widget/infor.dart';
 import 'package:samay_admin_plan/features/home/user_info_sidebar/widget/infor_text_timedate.dart';
 import 'package:samay_admin_plan/features/home/user_info_sidebar/widget/row_of_state.dart';
@@ -48,6 +49,8 @@ class UserInfoSideBar extends StatefulWidget {
 
 class _UserInfoSideBarState extends State<UserInfoSideBar> {
   bool isLoading = false;
+  bool showServiceList = false;
+  bool showProductList = false;
 
   late SalonModel salonModel;
   late SettingModel _settingModel;
@@ -58,19 +61,51 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
     getData();
   }
 
+  @override
+  void didUpdateWidget(covariant UserInfoSideBar oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // If the appointModel changes, refetch data
+    if (oldWidget.appointModel.orderId != widget.appointModel.orderId) {
+      getData();
+    }
+  }
+
   getData() async {
     setState(() {
       isLoading = true;
     });
+
     ServiceProvider serviceProvider =
         Provider.of<ServiceProvider>(context, listen: false);
     AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
     BookingProvider bookingProvider =
         Provider.of<BookingProvider>(context, listen: false);
     bookingProvider.getWatchList.clear();
+
     salonModel = appProvider.getSalonInformation;
 
-    await serviceProvider.fetchSettingPro(salonModel.id);
+    // Null checks for serviceBillModel and productBillModel
+    if (widget.appointModel.serviceBillModel != null) {
+      // if (widget.appointModel.serviceBillModel != null &&  appProvider.selectAppointModel != null &&  appProvider.selectAppointModel!.orderId != widget.appointModel.orderId  )  {
+      await appProvider.fetchServiceListByListId(
+          serviceIds: widget.appointModel.serviceBillModel!.serviceListId);
+    }
+
+    if (widget.appointModel.productBillModel != null) {
+      // if (widget.appointModel.productBillModel != null  && appProvider.selectAppointModel != null &&     appProvider.selectAppointModel!.orderId != widget.appointModel.orderId) {
+      await appProvider.fetchProductListByListId(
+        productIds: widget
+            .appointModel.productBillModel!.productListIdQty.entries
+            .map((e) => e.key)
+            .toList(),
+        productIdQtyMap: widget.appointModel.productBillModel!.productListIdQty,
+      );
+      print("fetch product for ${widget.appointModel!.userModel.name}");
+    }
+
+    if (serviceProvider.getSettingModel == null) {
+      await serviceProvider.fetchSettingPro(salonModel.id);
+    }
     _settingModel = serviceProvider.getSettingModel!;
 
     setState(() {
@@ -81,11 +116,11 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
   @override
   Widget build(BuildContext context) {
     Duration? appointDuration =
-        Duration(minutes: widget.appointModel.serviceDuration);
+        Duration(minutes: widget.appointModel.appointmentInfo!.serviceDuration);
     UserModel userModel = widget.user;
 
     // Method to open WhatsApp with the phone number
-    Future<void> _openWhatsApp(String phoneNumber) async {
+    Future<void> openWhatsApp(String phoneNumber) async {
       try {
         final Uri whatsappUrl = Uri.parse('https://wa.me/$phoneNumber');
         await launchUrl(whatsappUrl);
@@ -173,7 +208,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                           CustomIconButton(
                             icon: FontAwesomeIcons.whatsapp,
                             ontap: () {
-                              _openWhatsApp(
+                              openWhatsApp(
                                   "${GlobalVariable.indiaCode}${widget.appointModel.userModel.phone.toString()}");
                             },
                             iconSize: Dimensions.dimensionNo30,
@@ -184,7 +219,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                   ],
                 ),
               ),
-              Divider(),
+              const Divider(),
               Padding(
                 padding: EdgeInsets.only(left: Dimensions.dimensionNo16),
                 child: Center(
@@ -220,9 +255,9 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                             left: Dimensions.dimensionNo5,
                             bottom: Dimensions.dimensionNo10),
                         child: Text(
-                          "${DateFormat('hh:mm a').format(widget.appointModel.serviceStartTime)} To ${DateFormat('hh:mm a').format(widget.appointModel.serviceEndTime)} (${appointDuration.inHours}h : ${appointDuration.inMinutes % 60}m)",
+                          "${DateFormat('hh:mm a').format(widget.appointModel.appointmentInfo!.serviceStartTime)} To ${DateFormat('hh:mm a').format(widget.appointModel.appointmentInfo!.serviceEndTime)} (${appointDuration.inHours}h : ${appointDuration.inMinutes % 60}m)",
                           style: TextStyle(
-                            color: Color(0xFF1F1616),
+                            color: const Color(0xFF1F1616),
                             fontSize: Dimensions.dimensionNo14,
                             fontWeight: FontWeight.w400,
                             letterSpacing: 0.90,
@@ -233,35 +268,48 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
               ),
               UserInfoDateTimeColumn(
                 title: "Appointment Date",
-                time: widget.appointModel.serviceDate,
+                time: widget.appointModel.appointmentInfo!.serviceDate,
                 isTime: false,
               ),
               userInfoColumn(
                 title: "Appointment No.",
-                infoText: ' 000${widget.appointModel.appointmentNo.toString()}',
+                infoText:
+                    ' 000${widget.appointModel.appointmentInfo!.appointmentNo.toString()}',
               ),
               userInfoColumn(
                 title: "Service At.",
-                infoText: widget.appointModel.serviceAt,
+                infoText: widget.appointModel.appointmentInfo!.serviceAt,
               ),
-              widget.appointModel.serviceAt == GlobalVariable.serviceAtHome
+              widget.appointModel.appointmentInfo!.serviceAt ==
+                      GlobalVariable.serviceAtHome
                   ? userInfoColumn(
                       title: "Address",
-                      infoText: widget.appointModel.serviceAddress!,
+                      infoText:
+                          widget.appointModel.appointmentInfo!.serviceAddress!,
                     )
-                  : SizedBox(),
-              Divider(thickness: Dimensions.dimensionNo5),
+                  : const SizedBox(),
+              const Divider(thickness: 3),
               //Service List
-              servicerLIst(),
+              servicerList(),
               SizedBox(height: Dimensions.dimensionNo10),
+              const Divider(thickness: 3),
+              //Service List
+              productList(),
 
-              const Divider(),
-              widget.appointModel.userNote.length >= 2
-                  ? userInfoColumn(
-                      title: "Client Note",
-                      infoText: widget.appointModel.userNote)
-                  : const userInfoColumn(
-                      title: "Client Note", infoText: "No user note"),
+              widget.appointModel.appointmentInfo!.userNote.length != 0
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: Dimensions.dimensionNo10),
+                        const Divider(),
+                        userInfoColumn(
+                            title: "Client Note",
+                            infoText:
+                                widget.appointModel.appointmentInfo!.userNote),
+                      ],
+                    )
+                  : const SizedBox(),
+
               //payment section
               SizedBox(height: Dimensions.dimensionNo10),
 
@@ -276,11 +324,14 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
               appointBookingInfor(userModel),
               SizedBox(height: Dimensions.dimensionNo20),
               Opacity(
-                // opacity: widget.appointModel.status != "Completed" ? 0.5 : 1.0,
-                opacity: widget.appointModel.status == "Pen" ? 0.5 : 1.0,
+                // opacity: widget.appointModel.appointmentInfo!.status != "Completed" ? 0.5 : 1.0,
+                opacity: widget.appointModel.appointmentInfo!.status == "Pen"
+                    ? 0.5
+                    : 1.0,
                 child: IgnorePointer(
-                  // ignoring: widget.appointModel.status != "Completed",
-                  ignoring: widget.appointModel.status == "Pen",
+                  // ignoring: widget.appointModel.appointmentInfo!.status != "Completed",
+                  ignoring:
+                      widget.appointModel.appointmentInfo!.status == "Pen",
                   child: Container(
                     padding: EdgeInsets.symmetric(
                         horizontal: Dimensions.dimensionNo16),
@@ -291,7 +342,6 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                           Routes.instance.push(
                               widget: UserSideBarPaymentScreen(
                                 appointModel: widget.appointModel,
-                                index: widget.index,
                               ),
                               context: context);
                         },
@@ -310,7 +360,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
   }
 
   Row appointHeadingPart(BuildContext context, UserModel userModel) {
-    final status = widget.appointModel.status ?? "";
+    final status = widget.appointModel.appointmentInfo!.status ?? "";
     final isCancelled = status == "(Cancel)";
     final isUpdated = widget.appointModel.isUpdate == true;
     final isBillGenerated = status == "Bill Generate";
@@ -342,6 +392,9 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                       if (isBillGenerated)
                         IconButton(
                           onPressed: () async {
+                            AppProvider appProvider = Provider.of<AppProvider>(
+                                context,
+                                listen: false);
                             try {
                               Navigator.push(
                                 context,
@@ -350,6 +403,11 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                                     appointModel: widget.appointModel,
                                     salonModel: salonModel,
                                     settingModel: _settingModel,
+                                    productList:
+                                        appProvider.getProductListWithQty,
+                                    serviceList:
+                                        appProvider.getServiceListFetchID,
+                                        vendorLogo: appProvider.getSalonInformation.logImage,
                                   ),
                                 ),
                               );
@@ -380,24 +438,26 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
         BookingProvider bookingProvider =
             Provider.of<BookingProvider>(context, listen: false);
         bookingProvider.getWatchList.clear();
-        bookingProvider.getWatchList.addAll(widget.appointModel.services);
+        // bookingProvider.getWatchList.addAll(widget.appointModel.services);
 
-        widget.appointModel.status == GlobalVariable.billGenerateAppointState
-            ? Routes.instance.push(
-                widget: EditDirectBillingScreen(
-                  salonModel: salonModel,
-                  appointModel: widget.appointModel,
-                  userModel: userModel,
-                ),
-                context: context)
-            : Routes.instance.push(
-                widget: EditAppointment(
-                  index: widget.index,
-                  appintModel: widget.appointModel,
-                  userModel: userModel,
-                  salonModel: salonModel,
-                ),
-                context: context);
+        // widget.appointModel.appointmentInfo!.status == GlobalVariable.billGenerateAppointState
+        //     ? Routes.instance.push(
+        //         widget: EditDirectBillingScreen(
+        //           salonModel: salonModel,
+        //           appointModel: widget.appointModel,
+        //           userModel: userModel,
+        //         ),
+        //         context: context)
+        //     :
+
+        Routes.instance.push(
+            widget: EditAppointment(
+              index: widget.index,
+              appointModel: widget.appointModel,
+              userModel: userModel,
+              salonModel: salonModel,
+            ),
+            context: context);
       },
       icon: const Icon(
         Icons.edit_square,
@@ -415,16 +475,20 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
           try {
             showLoaderDialog(context);
             //create emptye list of timeDateList and add currently time for update
-            List<TimeStampModel> _timeStampList = [];
-            _timeStampList.addAll(widget.appointModel.timeStampList);
-            TimeStampModel _timeStampModel = TimeStampModel(
+            List<TimeStampModel> timeStampList = [];
+            timeStampList.addAll(widget.appointModel.timeStampList);
+            TimeStampModel timeStampModel = TimeStampModel(
                 id: widget.appointModel.orderId,
                 dateAndTime: GlobalVariable.today,
                 updateBy: "${userModel.name} (Appointment has been canceled.)");
-            _timeStampList.add(_timeStampModel);
+            timeStampList.add(timeStampModel);
 
-            AppointModel orderUpdate = widget.appointModel
-                .copyWith(status: "(Cancel)", timeStampList: _timeStampList);
+            AppointModel orderUpdate = widget.appointModel.copyWith(
+              appointmentInfo: widget.appointModel.appointmentInfo!.copyWith(
+                status: "(Cancel)",
+              ),
+              timeStampList: timeStampList,
+            );
             BookingProvider bookingProvider =
                 Provider.of<BookingProvider>(context, listen: false);
 
@@ -447,32 +511,110 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
     );
   }
 
-  Padding servicerLIst() {
+  Padding servicerList() {
+    AppProvider appProvider = Provider.of<AppProvider>(context);
     return Padding(
       padding: EdgeInsets.only(left: Dimensions.dimensionNo16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Service List",
-            style: TextStyle(
-              fontSize: Dimensions.dimensionNo15,
-              fontWeight: FontWeight.w600,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Service List",
+                style: TextStyle(
+                  fontSize: Dimensions.dimensionNo15,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    showServiceList = !showServiceList;
+                  });
+                },
+                icon: FaIcon(
+                  showServiceList
+                      ? FontAwesomeIcons.minus
+                      : FontAwesomeIcons.plus,
+                ),
+              ),
+            ],
           ),
           SizedBox(height: Dimensions.dimensionNo10),
-          ...widget.appointModel.services.map(
-            (singleService) {
-              return Padding(
-                padding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.dimensionNo18_5),
-                child: SingleServiceOrderList(
-                  serviceModel: singleService,
-                  showDelectIcon: false,
+          if (showServiceList) ...[
+            ...appProvider.getServiceListFetchID.map(
+              (singleService) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: Dimensions.dimensionNo18_5,
+                  ),
+                  child: SingleServiceOrderList(
+                    serviceModel: singleService,
+                    showDelectIcon: false,
+                  ),
+                );
+              },
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Padding productList() {
+    AppProvider appProvider = Provider.of<AppProvider>(context);
+    return Padding(
+      padding: EdgeInsets.only(left: Dimensions.dimensionNo16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                "Product List",
+                style: TextStyle(
+                  fontSize: Dimensions.dimensionNo15,
+                  fontWeight: FontWeight.w600,
                 ),
-              );
-            },
-          ).toList(),
+              ),
+              IconButton(
+                onPressed: () {
+                  setState(() {
+                    showProductList = !showProductList;
+                  });
+                },
+                icon: FaIcon(
+                  showProductList
+                      ? FontAwesomeIcons.minus
+                      : FontAwesomeIcons.plus,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: Dimensions.dimensionNo10),
+          if (showProductList) ...[
+            ...appProvider.getProductListFetchID.map(
+              (singleProduct) {
+                final qty = widget
+                    .appointModel.productBillModel!.productListIdQty.entries
+                    .firstWhere((e) => e.key == singleProduct.id,
+                        orElse: () => MapEntry('', 0))
+                    .value;
+                return Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: Dimensions.dimensionNo18_5,
+                    ),
+                    child: singleProductNameWithIncrOrDecrIcon(
+                        product: singleProduct,
+                        context: context,
+                        showProductWithQty: true,
+                        productQty: qty));
+              },
+            ),
+          ],
         ],
       ),
     );
@@ -492,7 +634,8 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
             ),
           ),
           ListView.builder(
-            padding: EdgeInsets.only(left: Dimensions.dimensionNo5),
+            padding: EdgeInsets.only(
+                left: Dimensions.dimensionNo5, top: Dimensions.dimensionNo5),
             shrinkWrap: true,
             itemCount: widget.appointModel.timeStampList.length,
             itemBuilder: (context, index) {
@@ -507,7 +650,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                     ),
                   if (index > 0) // Display remaining elements separately
                     Padding(
-                      padding: EdgeInsets.only(
+                      padding: const EdgeInsets.only(
                           top: 4), // Adds spacing for readability
                       child: Text(
                         "Update on ${DateFormat('dd MMM yyyy').format(singleTimeDate.dateAndTime)} at ${DateFormat('hh:mm a').format(singleTimeDate.dateAndTime)} by ${singleTimeDate.updateBy}",
@@ -586,7 +729,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                     ),
                     SizedBox(width: Dimensions.dimensionNo5),
                     Text(
-                      '(services ${widget.appointModel.services.length})',
+                      '(services ${widget.appointModel.serviceBillModel!.serviceListId.length})',
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: Dimensions.dimensionNo14,
@@ -594,13 +737,13 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                         letterSpacing: 0.90,
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Icon(
                       Icons.currency_rupee,
                       size: Dimensions.dimensionNo18,
                     ),
                     Text(
-                      widget.appointModel.subtatal.toString(),
+                      widget.appointModel.subTotalBill.toString(),
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: Dimensions.dimensionNo14,
@@ -613,11 +756,13 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                 SizedBox(height: Dimensions.dimensionNo10),
 
 // Item Discount
-                widget.appointModel.discountInPer != 0.0
+                widget.appointModel.discountBill != 0.0
                     ? Row(
                         children: [
                           Text(
-                            'item Discount ${widget.appointModel.discountInPer!.round().toString()}%',
+                            // 'item Discount ${widget.appointModel.discountInPer!.round().toString()}%',
+                            'item Discount',
+
                             style: TextStyle(
                               fontSize: Dimensions.dimensionNo14,
                               fontWeight: FontWeight.w500,
@@ -626,7 +771,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                           ),
                           const Spacer(),
                           Text(
-                            "-₹${widget.appointModel.discountAmount!.round().toString()}",
+                            "-₹${widget.appointModel.discountBill.round().toString()}",
                             style: TextStyle(
                               fontSize: Dimensions.dimensionNo14,
                               fontWeight: FontWeight.w500,
@@ -696,39 +841,6 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                         ),
                       )
                     : const SizedBox(),
-// // Extra Discount
-//                 (hasFlat || hasPer)
-//                     ? Padding(
-//                         padding:
-//                             EdgeInsets.only(bottom: Dimensions.dimensionNo10),
-//                         child: Row(
-//                           children: [
-//                             Text(
-//                               (hasFlat && hasPer)
-//                                   ? "Flat Discount"
-//                                   : hasFlat
-//                                       ? "Flat Discount"
-//                                       : "Extra Discount ${widget.appointModel.extraDiscountInPer ?? 0} %",
-//                               style: TextStyle(
-//                                 fontSize: Dimensions.dimensionNo14,
-//                                 fontWeight: FontWeight.w500,
-//                                 letterSpacing: 0.90,
-//                               ),
-//                             ),
-//                             const Spacer(),
-//                             Text(
-//                               "-₹${((widget.appointModel.extraDiscountInPerAMT ?? 0.0) + (widget.appointModel.extraDiscountInAmount ?? 0.0)).toStringAsFixed(2)}",
-//                               style: TextStyle(
-//                                 fontSize: Dimensions.dimensionNo14,
-//                                 fontWeight: FontWeight.w500,
-//                                 color: Colors.green,
-//                                 letterSpacing: 0.90,
-//                               ),
-//                             ),
-//                           ],
-//                         ),
-//                       )
-//                     : const SizedBox(),
 
                 Row(
                   children: [
@@ -742,7 +854,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                     ),
                     const Spacer(),
                     Text(
-                      "₹${widget.appointModel.netPrice.toStringAsFixed(2)}",
+                      "₹${widget.appointModel.netPriceBill.toStringAsFixed(2)}",
                       style: TextStyle(
                         fontSize: Dimensions.dimensionNo14,
                         fontWeight: FontWeight.w500,
@@ -752,8 +864,9 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                   ],
                 ),
                 SizedBox(height: Dimensions.dimensionNo10),
-                // GST Price
-                widget.appointModel.gstAmount != 0.0
+                //
+                // Price
+                widget.appointModel.gstAmountBill != 0.0
                     ? Column(
                         children: [
                           Row(
@@ -767,13 +880,13 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                                   letterSpacing: 0.90,
                                 ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Icon(
                                 Icons.currency_rupee,
                                 size: Dimensions.dimensionNo14,
                               ),
                               Text(
-                                widget.appointModel.gstAmount
+                                widget.appointModel.gstAmountBill
                                     .toStringAsFixed(2),
                                 style: TextStyle(
                                   color: Colors.black,
@@ -787,7 +900,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                           SizedBox(height: Dimensions.dimensionNo10),
                         ],
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
                 Row(
                   children: [
                     Text(
@@ -799,13 +912,13 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                         letterSpacing: 0.90,
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Icon(
                       Icons.currency_rupee,
                       size: Dimensions.dimensionNo14,
                     ),
                     Text(
-                      widget.appointModel.platformFees.toString(),
+                      widget.appointModel.platformFeeBill.toString(),
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: Dimensions.dimensionNo14,
@@ -829,13 +942,13 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
                         letterSpacing: 0.90,
                       ),
                     ),
-                    Spacer(),
+                    const Spacer(),
                     Icon(
                       Icons.currency_rupee,
                       size: Dimensions.dimensionNo18,
                     ),
                     Text(
-                      widget.appointModel.totalPrice.round().toString(),
+                      widget.appointModel.finalTotalBill.round().toString(),
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: Dimensions.dimensionNo16,

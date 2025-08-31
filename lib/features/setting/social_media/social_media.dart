@@ -116,7 +116,7 @@ class _SocialMediaPageState extends State<SocialMediaPage> {
                       Padding(
                         padding: EdgeInsets.symmetric(
                             vertical: Dimensions.dimensionNo10),
-                        child: Divider(),
+                        child: const Divider(),
                       ),
                       SizedBox(height: Dimensions.dimensionNo10),
                       Text(

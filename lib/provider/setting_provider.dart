@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/setting_fb.dart';
-import 'package:samay_admin_plan/models/appoint_model/appoint_model.dart';
 import 'package:samay_admin_plan/models/message_model/message_model.dart';
-import 'package:samay_admin_plan/models/salon_setting_model/salon_setting_model.dart';
 import 'package:samay_admin_plan/models/vender_payent_details/vender_payment_detail.dart';
 
 class SettingProvider with ChangeNotifier {
@@ -37,10 +35,10 @@ class SettingProvider with ChangeNotifier {
   //Fatch Messages for Firebase
   Future<bool> updateMessagesDetailsPro(
       String salonId, messageModelId, MessageModel messageModel) async {
-    bool _isUpdate = await settingFb.updateMessagesPaymentFB(
+    bool isUpdate = await settingFb.updateMessagesPaymentFB(
         messageModel, salonId, messageModelId);
     print("i have messages Details ");
-    if (_isUpdate) {
+    if (isUpdate) {
       _messageModel = messageModel;
     }
 
@@ -64,11 +62,11 @@ class SettingProvider with ChangeNotifier {
       String salonId,
       String venderPaymentId,
       VenderPaymentDetailsModel venderPaymentModel) async {
-    bool _isUpdate = await settingFb.updateVenderPaymentFB(
+    bool isUpdate = await settingFb.updateVenderPaymentFB(
         venderPaymentModel, salonId, venderPaymentId);
 
     print("i have Vender Payment Details  ");
-    if (_isUpdate) {
+    if (isUpdate) {
       _venderPaymentDetailsModel = venderPaymentModel;
     }
 

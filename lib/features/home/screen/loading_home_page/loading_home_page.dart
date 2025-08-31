@@ -1,13 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:samay_admin_plan/features/Direct%20Billing/screen/direct_billing.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/screen/add_new_appointment.dart';
 import 'package:samay_admin_plan/features/home/screen/accountBanned/account_banned.dart';
 import 'package:samay_admin_plan/features/home/screen/accountNotValidate/account_not_validate.dart';
 import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart';
-import 'package:samay_admin_plan/features/product/screen/product_add_screen.dart';
-import 'package:samay_admin_plan/features/product/screen/product_screen.dart';
-import 'package:samay_admin_plan/features/product/screen/single_product_details_screen.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/firebase_firestore.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/one_time_update_fb.dart';
 import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart';
@@ -84,7 +82,7 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
 
   Future<void> _initializeData() async {
     try {
-      DateTime _today = DateTime.now();
+      DateTime today = DateTime.now();
       final appProvider = Provider.of<AppProvider>(context, listen: false);
       ServiceProvider serviceProvider =
           Provider.of<ServiceProvider>(context, listen: false);
@@ -107,7 +105,7 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
       await samayProvider.getSamayIdPro();
       await serviceProvider
           .callBackFunction(appProvider.getSalonInformation.id);
-      await calenderProvider.setToday(_today);
+      await calenderProvider.setToday(today);
 
       ProductProvider productProvider =
           Provider.of<ProductProvider>(context, listen: false);
@@ -125,7 +123,7 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
             .fetchSettingPro(appProvider.getSalonInformation.id);
       }
 
-      updateFun();
+      // updateFun();
 
       if (FirebaseAuth.instance.currentUser == null) {
         throw Exception("User is not authenticated.");
@@ -194,11 +192,12 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
                     if (salonInfo.isAccountBanBySamay) {
                       return const AccountBanPage();
                     } else if (salonInfo.isAccountValidBySamay) {
+                      // return DirectBillingScreen(salonModel: appProvider.getSalonInformation);
                       return HomeScreen(date: DateTime.now());
                       // return ProductAddScreen();
                       // return ProductScreen();
-                      return AddNewAppointment(
-                          salonModel: appProvider.getSalonInformation);
+                      // return AddNewAppointment(
+                      //     salonModel: appProvider.getSalonInformation);
                       // return SingleProductDetailsScreen(
                       //     productModel: productProvider.getProductList.first);
                     } else {

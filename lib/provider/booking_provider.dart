@@ -30,10 +30,10 @@ class BookingProvider with ChangeNotifier {
   Duration? _appointDuration;
   Duration? get getAppointDuration => _appointDuration;
 
-  DateTime _appointStartTimeCal = DateTime.now();
+  final DateTime _appointStartTimeCal = DateTime.now();
   DateTime get getAppointStartTimeCal => _appointStartTimeCal;
 
-  DateTime _appointEndTimeCal = DateTime.now();
+  final DateTime _appointEndTimeCal = DateTime.now();
   DateTime get getAppointEndTimeCal => _appointEndTimeCal;
 
   Duration? _appointDurationCal;
@@ -56,9 +56,9 @@ class BookingProvider with ChangeNotifier {
   double _subTotal = 0.0;
   double get getSubTotal => _subTotal;
 
-  // GST calculation.
-  double _calGstAmount = 0.0;
-  double get getCalGSTAmount => _calGstAmount;
+  // // GST calculation.
+  // double _calGstAmount = 0.0;
+  // double get getCalGSTAmount => _calGstAmount;
 
   bool _isGSTApply = false;
   bool get getIsGSTApply => _isGSTApply;
@@ -118,6 +118,11 @@ class BookingProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void addServiceListTOServiceList(List<ServiceModel> value) {
+    _watchList.addAll(value);
+    notifyListeners();
+  }
+
   /// Updates the selected date (normalized to year/month/day only).
   void updateSelectedDate(DateTime newDate) {
     _appointSelectedDate = DateTime(newDate.year, newDate.month, newDate.day);
@@ -174,7 +179,7 @@ class BookingProvider with ChangeNotifier {
 
   /// Removes a service from the watch list.
   void removeServiceToWatchList(ServiceModel serviceModel) {
-    _watchList.remove(serviceModel);
+    _watchList.removeWhere((service) => service.id == serviceModel.id);
     notifyListeners();
   }
 
@@ -189,6 +194,7 @@ class BookingProvider with ChangeNotifier {
 
       _bookinglist =
           await _userBookingFB.getUserBookingListFB(normalizedDate, salonId);
+      print("_bookinglist ${_bookinglist.length}");
       print("Fetched bookings for date: $normalizedDate");
       notifyListeners();
     } catch (e) {
@@ -237,7 +243,7 @@ class BookingProvider with ChangeNotifier {
   void calculateSubTotal() {
     try {
       if (_settingModel!.gSTIsIncludingOrExcluding ==
-          GlobalVariable.GstExclusive) {
+          GlobalVariable.exclusiveGST) {
         //! Calculate GST for "Exclusive"
         print("Calculate GST for Exclusive pro---------");
         // Calculate subtotal: sum of prices of all services.
@@ -256,8 +262,7 @@ class BookingProvider with ChangeNotifier {
             calculateDiscountPercentage(_subTotal, _discountAmount!);
         // print("Discount Percentage: $_discountInPer");
 
-        calNetPirce();
-        // calTotalExtraDicPer();
+        calNetPrice();
 
         // Calculate final total without GST.
         double platformFee =
@@ -274,7 +279,7 @@ class BookingProvider with ChangeNotifier {
         _finalPayableAMT = _taxAbleAmount! + _excludingGSTAMT!;
         print("Final Payable Amount: $_finalPayableAMT");
       } else if (_settingModel!.gSTIsIncludingOrExcluding ==
-          GlobalVariable.GstInclusive) {
+          GlobalVariable.inclusiveGST) {
         print("Calculate GST for incl pro----------");
         // _isGSTApply = true;
 
@@ -295,7 +300,7 @@ class BookingProvider with ChangeNotifier {
         // Calculate final total without GST.
         double platformFee =
             double.tryParse(getSamaySalonSettingModel.platformFee) ?? 0.0;
-        calNetPirce();
+        calNetPrice();
 
         print("incl NetPRice $_netPrice");
 
@@ -329,14 +334,16 @@ class BookingProvider with ChangeNotifier {
 
         double platformFee =
             double.tryParse(getSamaySalonSettingModel.platformFee) ?? 0.0;
-        calNetPirce();
+        calNetPrice();
+
         print("incl NetPRice withoutGST $_netPrice");
 
         _taxAbleAmount = _netPrice! + platformFee;
 
         _finalPayableAMT = _taxAbleAmount!;
       }
-
+      // calenderGrantTotal();
+      setBill();
       notifyListeners();
     } catch (e) {
       debugPrint("Error in calculateSubTotal: $e");
@@ -350,15 +357,15 @@ class BookingProvider with ChangeNotifier {
     return (discountAmountValue / subtotalValue) * 100;
   }
 
-  void calNetPirce() {
+  void calNetPrice() {
     if (_settingModel!.gSTIsIncludingOrExcluding ==
-        GlobalVariable.GstExclusive) {
+        GlobalVariable.exclusiveGST) {
       _netPrice = _subTotal -
           _discountAmount! -
           _extraDiscountAmount! -
           _extraDiscountInPerAmount!;
     } else if (_settingModel!.gSTIsIncludingOrExcluding ==
-        GlobalVariable.GstInclusive) {
+        GlobalVariable.inclusiveGST) {
       _netPrice = _subTotal -
           _discountAmount! -
           _extraDiscountAmount! -
@@ -369,6 +376,7 @@ class BookingProvider with ChangeNotifier {
           _extraDiscountAmount! -
           _extraDiscountInPerAmount!);
     }
+
     notifyListeners();
   }
 
@@ -425,19 +433,20 @@ class BookingProvider with ChangeNotifier {
   }
 
   // Select Appointment and user
-  UserModel? selectAppointUser;
-  UserModel get getSelectAppointUser => selectAppointUser!;
+  // UserModel? selectAppointUser;
+  // UserModel get getSelectAppointUser => selectAppointUser!;
 
-  void selectAppointUserPro(UserModel userModel) {
-    selectAppointUser = userModel;
-    print("select Appoint User ${selectAppointUser!.name}");
-    notifyListeners();
-  }
+  // void selectAppointUserPro(UserModel userModel) {
+  //   selectAppointUser = userModel;
+  //   print("select Appoint User ${selectAppointUser!.name}");
+  //   notifyListeners();
+  // }
 
   // select Appoint
   void selectAppoint(AppointModel appointValue) {
     _appointModel = appointValue;
-    print("select Appoint ${_appointModel!.appointmentNo.toString()}");
+    print(
+        "select Appoint ${_appointModel!.appointmentInfo!.appointmentNo.toString()}");
     notifyListeners();
   }
 
@@ -457,23 +466,209 @@ class BookingProvider with ChangeNotifier {
 
 //!-------------- PRODUCT FUNCTION ----------------------------------
 
-  List<ProductModel> budgetProductList = [];
-  List<ProductModel> get getBudgetProductList => budgetProductList;
+  Map<ProductModel, int> budgetProductQuantityMap = {};
+  Map<ProductModel, int> get getBudgetProductQuantityMap =>
+      budgetProductQuantityMap;
+
+  double subTotalProduct = 0.0;
+  double get getSubTotalProduct => subTotalProduct;
+
+  double totalProductDisco = 0.0;
+  double get getTotalProductDisco => totalProductDisco;
+
+  double totalProductDiscoPer = 0.0;
+  double get getTotalProductDiscoPer => totalProductDiscoPer;
+
+  double taxableAmountProduct = 0.0;
+  double get getTaxableAmountProduct => taxableAmountProduct;
+
+  double netAmountProduct = 0.0;
+  double get getNetAmountProduct => netAmountProduct;
+
+  double gstAmountProduct = 0.0;
+  double get getGstAmountProduct => gstAmountProduct;
+
+  double finalProductTotal = 0.0;
+  double get getFinalProductTotal => finalProductTotal;
 
   // add Product to List
+
   void addProductToListPro(ProductModel value) {
-    budgetProductList.add(value);
-    print(
-        " add selectBuyProductList = ${budgetProductList.length} , ${value.name}");
+    // Try to find an existing product with the same id
+    final existingEntry = budgetProductQuantityMap.entries.firstWhere(
+      (entry) => entry.key.id == value.id,
+      orElse: () => MapEntry<ProductModel, int>(value, -1),
+    );
+
+    if (existingEntry.value != -1) {
+      // If already in cart, increase quantity
+      budgetProductQuantityMap[existingEntry.key] = existingEntry.value + 1;
+    } else {
+      // If new product, add with quantity 1
+      budgetProductQuantityMap[value] = 1;
+    }
+
+    print(budgetProductQuantityMap);
+    callCalSubTotalAndDicFun();
+    notifyListeners();
+  }
+
+  void addProductMapPro(Map<ProductModel, int> value) {
+    budgetProductQuantityMap.addAll(value);
+    callCalSubTotalAndDicFun();
     notifyListeners();
   }
 
   // remove Product to List
   void removeProductToListPro(ProductModel value) {
-    budgetProductList.removeWhere((product) => product.id == value.id);
-    print(
-        "remove selectBuyProductList = ${budgetProductList.length} , ${value.name}");
+    // Try to find an existing product with the same id
+    final existingEntry = budgetProductQuantityMap.entries.firstWhere(
+      (entry) => entry.key.id == value.id,
+      orElse: () => MapEntry<ProductModel, int>(value, -1),
+    );
+
+    if (existingEntry.value != -1) {
+      budgetProductQuantityMap[existingEntry.key] = existingEntry.value - 1;
+      if (budgetProductQuantityMap[existingEntry.key] == 0) {
+        budgetProductQuantityMap.remove(existingEntry.key);
+      }
+    }
+
+    print(budgetProductQuantityMap);
+
+    callCalSubTotalAndDicFun();
     notifyListeners();
+  }
+
+  void addProductListToMap(
+    List<ProductModel> productListFetchID,
+    Map<String, int> productListIdQty,
+  ) {
+    // Clear previous data
+    budgetProductQuantityMap.clear();
+
+    if (productListFetchID.isEmpty || productListIdQty.isEmpty) return;
+
+    // Iterate product list and add only those present in productListIdQty.
+    for (final product in productListFetchID) {
+      final String pid = product.id;
+      if (productListIdQty.containsKey(pid)) {
+        final int qty = productListIdQty[pid] ?? 0;
+        budgetProductQuantityMap[product] = qty;
+      }
+    }
+  }
+
+  // Calculates the subtotal for product
+  void calculateSubTotalProduct() {
+    subTotalProduct = budgetProductQuantityMap.entries.fold(
+      0.0,
+      (sum, entry) => sum + (entry.key.originalPrice * entry.value),
+    );
+
+    print("SubTotal for Product : $subTotalProduct");
+    notifyListeners();
+  }
+
+  // Calculates the total discount for product
+  void calculateTotalProdDiscRs() {
+    finalProductTotal = 0.0;
+    totalProductDisco = budgetProductQuantityMap.entries.fold(
+        0.0,
+        (sum, entry) =>
+            sum +
+            (entry.key.originalPrice - entry.key.discountPrice) * entry.value);
+    finalProductTotal = subTotalProduct - totalProductDisco;
+    print("Discount for Product : $subTotalProduct");
+    notifyListeners();
+  }
+
+  // Calculates GST amount for all products (assuming discountPrice is GST-inclusive)
+  void calculateGstAmountProduct() {
+    double totalGst = 0.0;
+    taxableAmountProduct = 0.0;
+    gstAmountProduct = 0.0;
+    netAmountProduct = 0.0;
+
+    final r = GlobalVariable.productGST18 / 100.0;
+
+    for (var entry in budgetProductQuantityMap.entries) {
+      final qty = entry.value;
+      final sellingPriceIncl = entry.key.discountPrice; // already GST-inclusive
+
+      // Back-calc taxable + gst
+      final taxablePerUnit = sellingPriceIncl / (1 + r);
+      final gstPerUnit = sellingPriceIncl - taxablePerUnit;
+
+      taxableAmountProduct += taxablePerUnit * qty;
+      totalGst += gstPerUnit * qty;
+    }
+
+    netAmountProduct = subTotalProduct - totalProductDisco;
+    gstAmountProduct = totalGst;
+
+    print("Total Taxable Amount: $taxableAmountProduct");
+    print("GST Amount for Product : $gstAmountProduct");
+    print("netAmountProduct : $netAmountProduct");
+
+    notifyListeners();
+  }
+
+  void callCalSubTotalAndDicFun() {
+    calculateSubTotalProduct();
+    calculateTotalProdDiscRs();
+    calculateGstAmountProduct();
+    // calenderGrantTotal();
+    setBill();
+    notifyListeners();
+  }
+
+  //!-------------- Final Total Both Price and Services  ----------------------------------
+
+  // double grantTotal = 0.0;
+  // double get getGrantTotal => grantTotal;
+
+  // void calenderGrantTotal() {
+  //   print("_finalPayableAMT:  $_finalPayableAMT");
+  //   grantTotal = ;
+  //   notifyListeners();
+  // }
+
+  double subTotalBill = 0.0; // 17,300
+  double discountBill = 0.0; // -3,351
+  double discountBillPer = 0.0; // -3,351
+  double netPriceBill = 0.0; // 13,949
+  double platformFeeBill = 0.0; // 0
+  double taxableAmountBill = 0.0; // 11,965.25
+  double gstAmountBill = 0.0; // 2,154.75
+  double finalTotalBill = 0.0; // 15,104
+
+  double get getSubTotalBill => subTotalBill;
+  double get getDiscountBill => discountBill;
+  double get getDiscountBillPer => discountBillPer;
+  double get getNetPriceBill => netPriceBill;
+  double get getPlatformFeeBill => platformFeeBill;
+  double get getTaxableAmountBill => taxableAmountBill;
+  double get getGstAmountBill => gstAmountBill;
+  double get getFinalTotalBill => finalTotalBill;
+
+  void setBill() {
+    double serviceGSTAMT = 0.0;
+    serviceGSTAMT =
+        _settingModel!.gSTIsIncludingOrExcluding == GlobalVariable.exclusiveGST
+            ? _excludingGSTAMT!
+            : _settingModel!.gSTIsIncludingOrExcluding ==
+                    GlobalVariable.inclusiveGST
+                ? _includingGSTAMT!
+                : 0.0;
+    subTotalBill = subTotalProduct + _subTotal;
+    discountBill = totalProductDisco + _discountAmount!;
+    discountBillPer = (discountBill / subTotalBill) * 100;
+    platformFeeBill = GlobalVariable.platformFee;
+    netPriceBill = netAmountProduct + _netPrice!;
+    taxableAmountBill = taxableAmountProduct + _taxAbleAmount!;
+    gstAmountBill = gstAmountProduct + serviceGSTAMT;
+    finalTotalBill = finalProductTotal + _finalPayableAMT! + platformFeeBill;
   }
 
 //!-------------- RESET PRODUCT  ----------------------------------
@@ -483,7 +678,7 @@ class BookingProvider with ChangeNotifier {
     _subTotal = 0.0;
     _taxAbleAmount = 0.0;
     _netPrice = 0.0;
-    _calGstAmount = 0.0;
+    // _calGstAmount = 0.0;
     _discountInPer = 0.0;
     _discountAmount = 0.0;
     _extraDiscountAmount = 0.0;
@@ -493,14 +688,33 @@ class BookingProvider with ChangeNotifier {
     _bookinglist.clear();
 
     _serviceBookingDuration = "0h 0m";
+
+    // budgetProductList.clear();
+    budgetProductQuantityMap.clear();
+    subTotalProduct = 0.0;
+    totalProductDisco = 0.0;
+    finalProductTotal = 0.0;
+    taxableAmountProduct = 0.0;
+    netAmountProduct = 0.0;
+    gstAmountProduct = 0.0;
+
+    // grantTotal = 0.0;
+
+    subTotalBill = 0.0;
+    discountBill = 0.0;
+    discountBillPer = 0.0;
+    netPriceBill = 0.0;
+    taxableAmountBill = 0.0;
+    gstAmountBill = 0.0;
+    finalTotalBill = 0.0;
     notifyListeners();
   }
 
   void setAppointEditAllData(
     AppointModel appointModel,
   ) {
-    _netPrice = appointModel.netPrice;
-    _calFinalAmountWithGST = appointModel.totalPrice;
+    _netPrice = appointModel.netPriceBill;
+    _calFinalAmountWithGST = appointModel.serviceBillModel!.finalAMTService;
 
     notifyListeners();
   }

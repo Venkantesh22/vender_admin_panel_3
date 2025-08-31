@@ -9,7 +9,7 @@ class UserInfoDateTimeColumn extends StatelessWidget {
   final DateTime? serviceStartTime;
   final DateTime? serviceEndTime;
 
-  UserInfoDateTimeColumn({
+  const UserInfoDateTimeColumn({
     super.key,
     required this.title,
     required this.time,
@@ -42,7 +42,7 @@ class UserInfoDateTimeColumn extends StatelessWidget {
                   ? Text(
                       "${DateFormat('hh:mm a').format(serviceStartTime!)} To ${DateFormat('hh:mm a').format(serviceEndTime!)}",
                       style: TextStyle(
-                        color: Color(0xFF1F1616),
+                        color: const Color(0xFF1F1616),
                         fontSize: Dimensions.dimensionNo14,
                         fontWeight: FontWeight.w400,
                         letterSpacing: 0.90,

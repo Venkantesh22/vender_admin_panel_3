@@ -17,6 +17,7 @@ class UserBookingTap extends StatefulWidget {
   final int index;
   bool? isUseForReportSce;
   bool? applyMarginMobile;
+  void Function()? onTap;
 
   UserBookingTap({
     super.key,
@@ -25,6 +26,7 @@ class UserBookingTap extends StatefulWidget {
     required this.index,
     this.isUseForReportSce = false,
     this.applyMarginMobile = true,
+    required this.onTap,
   });
 
   @override
@@ -66,10 +68,10 @@ class _UserBookingTapState extends State<UserBookingTap> {
       return const Center(child: Text('No user data available.'));
     }
 
-    return _buildUserContainer(userModel);
+    return _buildUserContainer(userModel, widget.onTap);
   }
 
-  Widget _buildUserContainer(UserModel? userModel) {
+  Widget _buildUserContainer(UserModel? userModel , void Function()? onTap) {
     return ResponsiveLayout(
         mobile: userBookingMobileWidget(
           widget.appointModel,
@@ -79,123 +81,126 @@ class _UserBookingTapState extends State<UserBookingTap> {
           context,
           applyMargin: widget.applyMarginMobile!,
         ),
-        tablet: userBookingWebWiget(userModel),
-        desktop: userBookingWebWiget(userModel));
+        tablet: userBookingWebWidget(userModel, onTap),
+        desktop: userBookingWebWidget(userModel, onTap));
   }
 
   // Mobile Widget
 
-  Container userBookingWebWiget(UserModel? userModel) {
-    return Container(
-      margin: EdgeInsets.only(
-          left: Dimensions.dimensionNo12,
-          right: Dimensions.dimensionNo12,
-          top: Dimensions.dimensionNo8),
-      padding: EdgeInsets.all(Dimensions.dimensionNo8),
-      height: Dimensions.dimensionNo60,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: AppColor.mainColor,
-        borderRadius: BorderRadius.circular(Dimensions.dimensionNo12),
-      ),
-      child: Row(
-        children: [
-          SizedBox(
-            // color: Colors.red,
-            width: Dimensions.dimensionNo30,
-            child: Center(
-              child: Text(
-                "${widget.index.toString()}.",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: Dimensions.dimensionNo14,
-                ),
-              ),
-            ),
-          ),
-          // SizedBox(width: Dimensions.dimensionNo8),
-          SizedBox(
-            // color: Colors.yellow,
-            width: Dimensions.dimensionNo50,
-            child: CircleAvatar(
-              radius: Dimensions.dimensionNo20,
-              backgroundColor: Colors.green[100],
-              backgroundImage:
-                  (userModel?.image != null && userModel!.image.isNotEmpty)
-                      ? NetworkImage(userModel.image)
-                      : null,
-              onBackgroundImageError: (error, stackTrace) {
-                debugPrint('Image load error: $error');
-              },
-              child: userModel == null || userModel.image.isEmpty
-                  ? Icon(Icons.person, color: Colors.grey[600])
-                  : null,
-            ),
-          ),
-          SizedBox(width: Dimensions.dimensionNo8),
-          SizedBox(
-            width: Dimensions.dimensionNo200,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  userModel?.name ?? 'Unknown User',
-                  style: TextStyle(
-                    overflow: TextOverflow.ellipsis,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: Dimensions.dimensionNo16,
-                  ),
-                ),
-                Text(
-                  userModel?.phone.toString() ?? 'No phone available',
+  Widget userBookingWebWidget(UserModel? userModel, void Function()? onTap) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        margin: EdgeInsets.only(
+            left: Dimensions.dimensionNo12,
+            right: Dimensions.dimensionNo12,
+            top: Dimensions.dimensionNo8),
+        padding: EdgeInsets.all(Dimensions.dimensionNo8),
+        height: Dimensions.dimensionNo60,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: AppColor.mainColor,
+          borderRadius: BorderRadius.circular(Dimensions.dimensionNo12),
+        ),
+        child: Row(
+          children: [
+            SizedBox(
+              // color: Colors.red,
+              width: Dimensions.dimensionNo30,
+              child: Center(
+                child: Text(
+                  "${widget.index.toString()}.",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: Dimensions.dimensionNo14,
                   ),
                 ),
-              ],
+              ),
             ),
-          ),
-          const Spacer(),
-          widget.isUseForReportSce!
-              ? Center(
-                  child: Column(
-                    children: [
-                      Text(
-                        DateFormat('dd MMM yyyy')
-                            .format(widget.appointModel.serviceDate),
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: Dimensions.dimensionNo14,
-                        ),
-                      ),
-                      Text(
-                        '${DateFormat('hh:mm a').format(widget.appointModel.serviceStartTime).toString()} To ${DateFormat('hh:mm a').format(widget.appointModel.serviceEndTime).toString()}',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: Dimensions.dimensionNo14,
-                        ),
-                      ),
-                    ],
+            // SizedBox(width: Dimensions.dimensionNo8),
+            SizedBox(
+              // color: Colors.yellow,
+              width: Dimensions.dimensionNo50,
+              child: CircleAvatar(
+                radius: Dimensions.dimensionNo20,
+                backgroundColor: Colors.green[100],
+                backgroundImage:
+                    (userModel?.image != null && userModel!.image.isNotEmpty)
+                        ? NetworkImage(userModel.image)
+                        : null,
+                onBackgroundImageError: (error, stackTrace) {
+                  debugPrint('Image load error: $error');
+                },
+                child: userModel == null || userModel.image.isEmpty
+                    ? Icon(Icons.person, color: Colors.grey[600])
+                    : null,
+              ),
+            ),
+            SizedBox(width: Dimensions.dimensionNo8),
+            SizedBox(
+              width: Dimensions.dimensionNo200,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    userModel?.name ?? 'Unknown User',
+                    style: TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: Dimensions.dimensionNo16,
+                    ),
                   ),
-                )
-              : Center(
-                  child: Text(
-                    '${DateFormat('hh:mm a').format(widget.appointModel.serviceStartTime).toString()} To ${DateFormat('hh:mm a').format(widget.appointModel.serviceEndTime).toString()}',
+                  Text(
+                    userModel?.phone.toString() ?? 'No phone available',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: Dimensions.dimensionNo14,
                     ),
                   ),
-                ),
-          const Spacer(),
-          SizedBox(
-              width: Dimensions.dimensionNo110,
-              child:
-                  Center(child: StateText(status: widget.appointModel.status))),
-          SizedBox(width: Dimensions.dimensionNo16),
-        ],
+                ],
+              ),
+            ),
+            const Spacer(),
+            widget.isUseForReportSce!
+                ? Center(
+                    child: Column(
+                      children: [
+                        Text(
+                          DateFormat('dd MMM yyyy')
+                              .format(widget.appointModel.appointmentInfo!.serviceDate),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: Dimensions.dimensionNo14,
+                          ),
+                        ),
+                        Text(
+                          '${DateFormat('hh:mm a').format(widget.appointModel.appointmentInfo!.serviceStartTime).toString()} To ${DateFormat('hh:mm a').format(widget.appointModel.appointmentInfo!.serviceEndTime).toString()}',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: Dimensions.dimensionNo14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : Center(
+                    child: Text(
+                      '${DateFormat('hh:mm a').format(widget.appointModel.appointmentInfo!.serviceStartTime).toString()} To ${DateFormat('hh:mm a').format(widget.appointModel.appointmentInfo!.serviceEndTime).toString()}',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: Dimensions.dimensionNo14,
+                      ),
+                    ),
+                  ),
+            const Spacer(),
+            SizedBox(
+                width: Dimensions.dimensionNo110,
+                child:
+                    Center(child: StateText(status: widget.appointModel.appointmentInfo!.status))),
+            SizedBox(width: Dimensions.dimensionNo16),
+          ],
+        ),
       ),
     );
   }

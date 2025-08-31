@@ -9,7 +9,7 @@ class SalonSocialMediaAdd extends StatelessWidget {
   final IconData icon;
   final TextEditingController controller;
 
-  SalonSocialMediaAdd({
+  const SalonSocialMediaAdd({
     super.key,
     required this.text,
     required this.icon,

@@ -75,7 +75,7 @@ class _ProductScreenState extends State<ProductScreen> {
         Provider.of<ProductProvider>(context, listen: false);
     return Scaffold(
       appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
-      drawer: MobileDrawer(),
+      drawer: const MobileDrawer(),
       key: _scaffoldKey,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -515,7 +515,7 @@ class _ProductScreenState extends State<ProductScreen> {
     return _productList.asMap().entries.map((entry) {
       int index = entry.key;
       ProductModel product = entry.value;
-      bool _isVisibility = product.visibility;
+      bool isVisibility = product.visibility;
       return DataRow(
         cells: [
           //1. Sr.no Cell Row
@@ -555,7 +555,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           BorderRadius.circular(Dimensions.dimensionNo8),
                     ),
                     clipBehavior: Clip.antiAlias,
-                    child: product.imgUrl != null && product.imgUrl.isNotEmpty
+                    child: product.imgUrl.isNotEmpty
                         ? Image.network(
                             product.imgUrl,
                             fit: BoxFit.cover,
@@ -630,17 +630,17 @@ class _ProductScreenState extends State<ProductScreen> {
                 try {
                   showLoaderDialog(context);
                   Uint8List? updateImage;
-                  ProductModel _updateProduct =
+                  ProductModel updateProduct =
                       product.copyWith(visibility: !product.visibility);
                   await productProvider.updateProductPro(
-                      _updateProduct, updateImage);
+                      updateProduct, updateImage);
                   Navigator.pop(context);
-                  _updateProduct.visibility
+                  updateProduct.visibility
                       ? showBottomMessage(
-                          "Product ${_updateProduct.name} visible  successfully",
+                          "Product ${updateProduct.name} visible  successfully",
                           context)
                       : showBottomMessage(
-                          "Product ${_updateProduct.name} hidden  successfully",
+                          "Product ${updateProduct.name} hidden  successfully",
                           context);
                 } catch (e) {
                   print("Error: In Product screen on Visibility Button: $e ");
@@ -656,7 +656,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   color: const Color(0xFFEAEDF2),
                   borderRadius: BorderRadius.circular(Dimensions.dimensionNo16),
                   border: Border.all(
-                    color: _isVisibility
+                    color: isVisibility
                         ? const Color(0xFF4CAF50)
                         : const Color(0xFFF44336),
                     width: 1,
@@ -667,19 +667,19 @@ class _ProductScreenState extends State<ProductScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Icon(
-                        _isVisibility
+                        isVisibility
                             ? Icons.remove_red_eye_outlined
                             : Icons.visibility_off_outlined,
-                        color: _isVisibility
+                        color: isVisibility
                             ? const Color(0xFF4CAF50)
                             : const Color(0xFFF44336)),
                     SizedBox(
                       width: Dimensions.dimensionNo10,
                     ),
                     Text(
-                      _isVisibility ? "Visible" : "Hidden",
+                      isVisibility ? "Visible" : "Hidden",
                       style: TextStyle(
-                        color: _isVisibility
+                        color: isVisibility
                             ? const Color(0xFF4CAF50)
                             : const Color(0xFFF44336),
                         fontSize: Dimensions.dimensionNo12,

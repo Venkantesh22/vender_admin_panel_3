@@ -47,9 +47,10 @@ class _UserListState extends State<UserList> {
   @override
   void initState() {
     super.initState();
-    // Initialize the date controller with the current date
     _dateController.text = DateFormat('dd MMMM').format(widget.date);
-    _fetchBookings(); // Fetch initial bookings on load
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _fetchBookings();
+    });
   }
 
   // Function to format the date for display
@@ -77,11 +78,15 @@ class _UserListState extends State<UserList> {
 
   Future<void> _fetchBookings() async {
     AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
+    BookingProvider bookingProvider =
+        Provider.of<BookingProvider>(context, listen: false);
     setState(() {
       _isLoading = true;
     });
-    await Provider.of<BookingProvider>(context, listen: false)
-        .getBookingListPro(widget.date, appProvider.getSalonInformation.id);
+    bookingProvider.setAllZero();
+    await bookingProvider.getBookingListPro(
+        widget.date, appProvider.getSalonInformation.id);
+
     setState(() {
       _isLoading = false;
     });
@@ -112,7 +117,6 @@ class _UserListState extends State<UserList> {
 
   @override
   Widget build(BuildContext context) {
-    BookingProvider bookingProvider = Provider.of<BookingProvider>(context);
     return userListWebWidget(context);
   }
 
@@ -242,9 +246,9 @@ class _UserListState extends State<UserList> {
                           }
                           return ListView.builder(
                             itemCount: bookingProvider.getBookingList.length,
-                            itemBuilder: (context, _index) {
+                            itemBuilder: (context, index) {
                               AppointModel order =
-                                  bookingProvider.getBookingList[_index];
+                                  bookingProvider.getBookingList[index];
 
                               return FutureBuilder<UserModel>(
                                 future: setUser(order),
@@ -255,21 +259,21 @@ class _UserListState extends State<UserList> {
                                     );
                                   }
                                   UserModel user = snapshot.data!;
-                                  int _no = _index + 1;
+                                  int no = index + 1;
 
-                                  return GestureDetector(
+                                  return UserBookingTap(
+                                    appointModel: order,
+                                    userModel: user,
+                                    index: no,
                                     onTap: () {
-                                      widget.onBookingSelected(
-                                          order, user, _index);
-                                      print("User: ${user.name}");
-                                      // bookingProvider
-                                      //     .selectAppointUserPro(user);
-                                    },
-                                    child: UserBookingTap(
-                                      appointModel: order,
-                                      userModel: user,
-                                      index: _no,
-                                    ),
+                                    print("Tapped!");
+                                    Provider.of<AppProvider>(context,
+                                            listen: false)
+                                        .updateSelectAppointModel(order);
+                                    widget.onBookingSelected(
+                                        order, user, index);
+                                    print("User: ${user.name}");
+                                  },
                                   );
                                 },
                               );
@@ -395,7 +399,7 @@ class _UserListState extends State<UserList> {
                       ),
                     ),
                     ResponsiveLayout.isMobile(context)
-                        ? SizedBox()
+                        ? const SizedBox()
                         : Text(
                             widget.salonModel.name ?? 'Salon Name',
                             style: TextStyle(
@@ -442,9 +446,9 @@ class _UserListState extends State<UserList> {
                           }
                           return ListView.builder(
                             itemCount: bookingProvider.getBookingList.length,
-                            itemBuilder: (context, _index) {
+                            itemBuilder: (context, index) {
                               AppointModel order =
-                                  bookingProvider.getBookingList[_index];
+                                  bookingProvider.getBookingList[index];
 
                               return FutureBuilder<UserModel>(
                                 future: setUser(order),
@@ -455,18 +459,21 @@ class _UserListState extends State<UserList> {
                                     );
                                   }
                                   UserModel user = snapshot.data!;
-                                  int _no = _index + 1;
+                                  int no = index + 1;
 
-                                  return GestureDetector(
+                                  return UserBookingTap(
+                                    appointModel: order,
+                                    userModel: user,
+                                    index: no,
                                     onTap: () {
-                                      widget.onBookingSelected(
-                                          order, user, _index);
-                                    },
-                                    child: UserBookingTap(
-                                      appointModel: order,
-                                      userModel: user,
-                                      index: _no,
-                                    ),
+                                    print("Tapped!");
+                                    Provider.of<AppProvider>(context,
+                                            listen: false)
+                                        .updateSelectAppointModel(order);
+                                    widget.onBookingSelected(
+                                        order, user, index);
+                                    print("User: ${user.name}");
+                                  },
                                   );
                                 },
                               );
@@ -552,7 +559,7 @@ class _UserListState extends State<UserList> {
 
 // Update `setUser` function to return Future<UserModel>
   Future<UserModel> setUser(AppointModel order) async {
-    return order.isMadual
+    return order.isManual
         ? order.userModel
         : await UserBookingFB.instance.getUserInforOrderFB(order.userId);
   }

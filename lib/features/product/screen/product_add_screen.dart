@@ -197,7 +197,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
         Provider.of<ProductProvider>(context, listen: false);
     return Scaffold(
       appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
-      drawer: MobileDrawer(),
+      drawer: const MobileDrawer(),
       key: _scaffoldKey,
       body: _loading
           ? const Center(
@@ -275,7 +275,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                           validator: addProductdescptValidator),
 
                       // Dropdown for Product For category
-                      dropDownlist(
+                      dropDownList(
                         heading: "Category",
                         value: _category,
                         labelText: "Select Category",
@@ -300,7 +300,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
 
                       // Dropdown for Product For Subcategory
 
-                      dropDownlist(
+                      dropDownList(
                         heading: "Subcategory",
                         value: _subCategory,
                         labelText: "Select Subcategory",
@@ -325,7 +325,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                       ),
                       // Dropdown for Product For Subcategory branch
 
-                      dropDownlist(
+                      dropDownList(
                         heading: "Branch",
                         value: _branch,
                         labelText: "Select Branch",
@@ -352,7 +352,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                       selectProductFor(),
 
                       // Dropdown for Product For  brand
-                      dropDownlist(
+                      dropDownList(
                         heading: "Brand",
                         value: _brand,
                         labelText: "Select Brand",
@@ -580,7 +580,7 @@ class _ProductAddScreenState extends State<ProductAddScreen> {
                                 'Upload Images',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: Color(0xFF0F1416),
+                                  color: const Color(0xFF0F1416),
                                   fontSize: Dimensions.dimensionNo18,
                                   fontFamily: 'Inter',
                                   fontWeight: FontWeight.w700,

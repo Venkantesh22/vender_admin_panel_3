@@ -121,10 +121,10 @@ Widget userBookingMobileWidget(
                           ),
                         ],
                       ),
-                      Spacer(),
+                      const Spacer(),
                       // Centered Status
                       Center(
-                        child: StateText(status: appointModel.status),
+                        child: StateText(status: appointModel.appointmentInfo!.status),
                       ),
                     ],
                   ),
@@ -139,8 +139,8 @@ Widget userBookingMobileWidget(
                           color: Colors.white),
                       SizedBox(width: Dimensions.dimensionNo5),
                       Text(
-                        '${DateFormat('hh:mm a').format(appointModel.serviceStartTime)} - '
-                        '${DateFormat('hh:mm a').format(appointModel.serviceEndTime)}',
+                        '${DateFormat('hh:mm a').format(appointModel.appointmentInfo!.serviceStartTime)} - '
+                        '${DateFormat('hh:mm a').format(appointModel.appointmentInfo!.serviceEndTime)}',
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: Dimensions.dimensionNo14,

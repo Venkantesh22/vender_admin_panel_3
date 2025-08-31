@@ -9,12 +9,12 @@ class CustomText extends StatelessWidget {
   IconData? icon;
 
   CustomText({
-    Key? key,
+    super.key,
     required this.firstText,
     required this.lastText,
     this.showicon = false,
     this.icon = Icons.currency_rupee_rounded,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class CustomText extends StatelessWidget {
               letterSpacing: 0.80,
             ),
           ),
-          Spacer(),
+          const Spacer(),
           if (showicon)
             Icon(icon, size: Dimensions.dimensionNo18, color: Colors.black),
           Text(

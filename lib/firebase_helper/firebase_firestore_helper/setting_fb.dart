@@ -21,7 +21,7 @@ class SettingFb {
     try {
       String? adminUid = FirebaseAuth.instance.currentUser?.uid;
 
-      DocumentReference _reference = _firebaseFirestore
+      DocumentReference reference = _firebaseFirestore
           .collection("admins")
           .doc(adminUid)
           .collection("salon")
@@ -30,13 +30,13 @@ class SettingFb {
           .doc();
 
       MessageModel messageModel = MessageModel(
-        id: _reference.id,
+        id: reference.id,
         adminId: adminUid!,
         salonId: salonId,
         wMasForbillPFD: wMessForBillPDF,
       );
 
-      await _reference.set(messageModel.toJson());
+      await reference.set(messageModel.toJson());
       print("Message Setting save Successfully ");
       // showMessage("messageModel save Successfully ");
       return messageModel;
@@ -62,17 +62,17 @@ class SettingFb {
           .collection("MessageInfor");
 
       // Get the first document (since there's only one document)
-      QuerySnapshot _querySnapshot = await settingCollection.limit(1).get();
+      QuerySnapshot querySnapshot = await settingCollection.limit(1).get();
 
-      if (_querySnapshot.docs.isNotEmpty) {
+      if (querySnapshot.docs.isNotEmpty) {
         // Get the first document snapshot
-        DocumentSnapshot docSnapshot = _querySnapshot.docs.first;
+        DocumentSnapshot docSnapshot = querySnapshot.docs.first;
 
         // Convert the document to a SettingModel
-        MessageModel _mesagesDetails =
+        MessageModel mesagesDetails =
             MessageModel.fromJson(docSnapshot.data() as Map<String, dynamic>);
 
-        return _mesagesDetails;
+        return mesagesDetails;
       } else {
         print("No _mesagesDetails found for the given salonId.");
         return null; // No setting found
@@ -124,7 +124,7 @@ class SettingFb {
     try {
       String? adminUid = FirebaseAuth.instance.currentUser?.uid;
 
-      DocumentReference _reference = _firebaseFirestore
+      DocumentReference reference = _firebaseFirestore
           .collection("admins")
           .doc(adminUid)
           .collection("salon")
@@ -134,7 +134,7 @@ class SettingFb {
 
       VenderPaymentDetailsModel venderPaymentDetailsModel =
           VenderPaymentDetailsModel(
-              id: _reference.id,
+              id: reference.id,
               upiID: upiID,
               // bankName: bankName,
               // bankIFSCCode: bankIFSCCode,
@@ -142,7 +142,7 @@ class SettingFb {
               salonID: salonId,
               adminId: adminUid!);
 
-      await _reference.set(venderPaymentDetailsModel.toJson());
+      await reference.set(venderPaymentDetailsModel.toJson());
       print("Setting save Successfully ");
       // showMessage("venderPaymentDetailsModel save Successfully ");
       return venderPaymentDetailsModel;
@@ -169,18 +169,18 @@ class SettingFb {
           .collection("VenderPaymentDetails");
 
       // Get the first document (since there's only one document)
-      QuerySnapshot _querySnapshot = await settingCollection.limit(1).get();
+      QuerySnapshot querySnapshot = await settingCollection.limit(1).get();
 
-      if (_querySnapshot.docs.isNotEmpty) {
+      if (querySnapshot.docs.isNotEmpty) {
         // Get the first document snapshot
-        DocumentSnapshot docSnapshot = _querySnapshot.docs.first;
+        DocumentSnapshot docSnapshot = querySnapshot.docs.first;
 
         // Convert the document to a SettingModel
-        VenderPaymentDetailsModel _venderPaymentDetails =
+        VenderPaymentDetailsModel venderPaymentDetails =
             VenderPaymentDetailsModel.fromJson(
                 docSnapshot.data() as Map<String, dynamic>);
 
-        return _venderPaymentDetails;
+        return venderPaymentDetails;
       } else {
         print("No _venderPaymentDetails found for the given salonId.");
         return null; // No setting found

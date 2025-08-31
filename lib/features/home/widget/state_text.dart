@@ -7,24 +7,13 @@ import 'package:samay_admin_plan/utility/dimension.dart';
 class StateText extends StatelessWidget {
   final String status; // Mark appointModel as final
   const StateText({
-    Key? key,
+    super.key,
     required this.status,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     // Check if appointModel is null and handle it gracefully
-    if (status == null) {
-      return Text(
-        'Status not available',
-        style: GoogleFonts.roboto(
-          fontSize: Dimensions.dimensionNo16,
-          color: Colors.grey,
-          fontWeight: FontWeight.w500,
-        ),
-      );
-    }
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

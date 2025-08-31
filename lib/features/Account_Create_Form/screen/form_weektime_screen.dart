@@ -74,7 +74,7 @@ class _FormTimeSectionState extends State<FormTimeSection> {
                         letterSpacing: 0.15,
                       ),
                     ),
-                    Divider(),
+                    const Divider(),
                     SizedBox(
                       height: Dimensions.dimensionNo10,
                     ),
@@ -93,7 +93,7 @@ class _FormTimeSectionState extends State<FormTimeSection> {
                         text: "Save",
                         ontap: () async {
                           try {
-                            bool _isVaildated = formWeekdayVaildation(
+                            bool isVaildated = formWeekdayVaildation(
                                 mondayController.text,
                                 tuesdayController.text,
                                 wednesdayController.text,
@@ -102,7 +102,7 @@ class _FormTimeSectionState extends State<FormTimeSection> {
                                 saturdayController.text,
                                 sundayController.text);
 
-                            if (_isVaildated) {
+                            if (isVaildated) {
                               SalonModel salonModel =
                                   appProvider.getSalonInformation.copyWith(
                                 monday: mondayController.text.trim(),

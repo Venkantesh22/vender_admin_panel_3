@@ -27,17 +27,17 @@ class _WeekRowState extends State<WeekRow> {
   Widget build(BuildContext context) {
     AppProvider appProvider = Provider.of<AppProvider>(context);
 
-    String? _Timing;
-    final List<String> _timeOrClose = [
+    String? Timing;
+    final List<String> timeOrClose = [
       "${appProvider.getSalonInformation.openTime?.format(context).toString()} To ${appProvider.getSalonInformation.closeTime!.format(context).toString()}",
       'Close',
     ];
     String? dropdownValue = widget.value.isNotEmpty
-        ? _timeOrClose.contains(widget.value)
+        ? timeOrClose.contains(widget.value)
             ? widget.value
             : null
         : (widget.time.text.isNotEmpty &&
-                _timeOrClose.contains(widget.time.text))
+                timeOrClose.contains(widget.time.text))
             ? widget.time.text
             : null;
 
@@ -80,7 +80,7 @@ class _WeekRowState extends State<WeekRow> {
                 ),
               ),
               value: dropdownValue, // ✅ Ensured valid value
-              items: _timeOrClose.map((String value) {
+              items: timeOrClose.map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),

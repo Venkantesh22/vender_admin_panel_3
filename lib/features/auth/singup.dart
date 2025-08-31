@@ -9,7 +9,7 @@ import 'package:samay_admin_plan/features/auth/widget/signup_web.dart';
 import 'package:samay_admin_plan/utility/color.dart';
 
 class SingupScreen extends StatefulWidget {
-  const SingupScreen({Key? key}) : super(key: key);
+  const SingupScreen({super.key});
 
   @override
   State<SingupScreen> createState() => _SingupScreenState();

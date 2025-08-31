@@ -8,7 +8,8 @@ Widget validateTextBoxWithHeading(
     required String labelText,
     required TextEditingController controller,
     required String? Function(String?)? validator,
-    Widget? suffixWidget}) {
+    Widget? suffixWidget,
+    final bool readOnly = false}) {
   return Padding(
     padding: EdgeInsets.only(bottom: Dimensions.dimensionNo8),
     child: Column(
@@ -30,6 +31,7 @@ Widget validateTextBoxWithHeading(
           ),
         ),
         TextFormField(
+          readOnly: readOnly,
           maxLines: maxLin,
           controller: controller,
           style: TextStyle(
@@ -51,7 +53,7 @@ Widget validateTextBoxWithHeading(
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.dimensionNo16),
             ),
-            suffixIcon: suffixWidget != null ? suffixWidget : null,
+            suffixIcon: suffixWidget,
           ),
           validator: validator,
         ),

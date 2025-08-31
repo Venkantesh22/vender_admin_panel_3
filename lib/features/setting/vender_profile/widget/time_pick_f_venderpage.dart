@@ -41,12 +41,12 @@ class _PickTimeSectionForVenderPageState
 
     if (widget.openController.text.isEmpty) {
       widget.openController.text = GlobalVariable.OpenTime != null
-          ? _formatTimeOfDay(GlobalVariable.OpenTime!)
+          ? _formatTimeOfDay(GlobalVariable.OpenTime)
           : _formatTimeOfDay(TimeOfDay.now());
     }
     if (widget.closeController.text.isEmpty) {
       widget.closeController.text = GlobalVariable.CloseTime != null
-          ? _formatTimeOfDay(GlobalVariable.CloseTime!)
+          ? _formatTimeOfDay(GlobalVariable.CloseTime)
           : _formatTimeOfDay(TimeOfDay.now());
     }
 

@@ -42,7 +42,7 @@ class _EditCategoryPopupState extends State<EditCategoryPopup> {
   @override
   Widget build(BuildContext context) {
     ServiceProvider serviceProvider = Provider.of<ServiceProvider>(context);
-    final List<String> _serviceForList = ["Male", "Female", "Both"];
+    final List<String> serviceForList = ["Male", "Female", "Both"];
 
     // Determine dialog width based on screen size
     double dialogWidth = MediaQuery.of(context).size.width * 0.8;
@@ -130,7 +130,7 @@ class _EditCategoryPopupState extends State<EditCategoryPopup> {
                   ),
                 ),
                 value: _serviceFor, // <-- This will select the correct value
-                items: _serviceForList.map((String value) {
+                items: serviceForList.map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),

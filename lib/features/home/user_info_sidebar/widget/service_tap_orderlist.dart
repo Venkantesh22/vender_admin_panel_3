@@ -13,15 +13,15 @@ class SingleServiceOrderList extends StatelessWidget {
   final bool showDelectIcon;
 
   const SingleServiceOrderList({
-    Key? key,
+    super.key,
     required this.serviceModel,
     required this.showDelectIcon,
-  }) : super(key: key);
+  });
 
   // @override
   @override
   Widget build(BuildContext context) {
-    Duration? _serviceDuration =
+    Duration? serviceDuration =
         Duration(minutes: serviceModel.serviceDurationMin);
     return Container(
       margin: EdgeInsets.only(bottom: Dimensions.dimensionNo12),
@@ -95,9 +95,9 @@ class SingleServiceOrderList extends StatelessWidget {
                           letterSpacing: 1,
                         ),
                       ),
-                      _serviceDuration.inHours >= 1
+                      serviceDuration.inHours >= 1
                           ? Text(
-                              ' ${_serviceDuration.inHours.toString()}h : ',
+                              ' ${serviceDuration.inHours.toString()}h : ',
                               style: TextStyle(
                                 color: AppColor.serviceTapTextColor,
                                 fontSize: Dimensions.dimensionNo12,
@@ -106,9 +106,9 @@ class SingleServiceOrderList extends StatelessWidget {
                                 letterSpacing: 1,
                               ),
                             )
-                          : SizedBox(),
+                          : const SizedBox(),
                       Text(
-                        "${(_serviceDuration.inMinutes % 60).toString()}min",
+                        "${(serviceDuration.inMinutes % 60).toString()}min",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: Dimensions.dimensionNo12,
@@ -149,7 +149,7 @@ class SingleServiceOrderList extends StatelessWidget {
                         size: Dimensions.dimensionNo30,
                       ),
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
               SizedBox(
                 width: Dimensions.dimensionNo20,
               )

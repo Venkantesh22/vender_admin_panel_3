@@ -102,14 +102,13 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
 
     try {
       final info = appProvider.getSalonInformation;
-      if (info == null) throw Exception("Salon information is not available.");
 
       // Safely assign with fallbacks
       _selectedSalonType = info.salonType ?? _salonTypeOptions.first;
       _salonName.text = info.name ?? '';
       _email.text = info.email ?? '';
-      _mobile.text = info.number?.toString() ?? '';
-      _whatApp.text = info.whatApp?.toString() ?? '';
+      _mobile.text = info.number.toString() ?? '';
+      _whatApp.text = info.whatApp.toString() ?? '';
       _descrition.text = info.description ?? '';
       _address.text = info.address ?? '';
       _pincode.text = info.pinCode ?? '';
@@ -212,7 +211,7 @@ class _SalonProfilePageState extends State<SalonProfilePage> {
                         Padding(
                           padding: EdgeInsets.symmetric(
                               vertical: Dimensions.dimensionNo10),
-                          child: Divider(),
+                          child: const Divider(),
                         ),
                         imageAndLogPart(appProvider),
                         SizedBox(height: Dimensions.dimensionNo10),

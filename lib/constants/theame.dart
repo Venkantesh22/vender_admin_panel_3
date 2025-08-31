@@ -42,15 +42,15 @@ final ThemeData darkThemeData = ThemeData(
   brightness: Brightness.dark,
   primaryColor: Colors.black,
   scaffoldBackgroundColor: Colors.black,
-  colorScheme: ColorScheme.dark(),
-  textTheme: TextTheme(
+  colorScheme: const ColorScheme.dark(),
+  textTheme: const TextTheme(
     bodyLarge: TextStyle(color: Colors.white),
     bodyMedium: TextStyle(color: Colors.white70),
   ),
-  appBarTheme: AppBarTheme(
+  appBarTheme: const AppBarTheme(
     backgroundColor: Colors.black,
   ),
-  buttonTheme: ButtonThemeData(
+  buttonTheme: const ButtonThemeData(
     buttonColor: Colors.grey, // Customize button color in dark mode
   ),
 );

@@ -5,11 +5,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_storage_helper/firebase_storage_helper.dart';
+import 'package:samay_admin_plan/models/Product/Product_Model/product_model.dart';
 import 'package:samay_admin_plan/models/admin_model/admin_models.dart';
-import 'package:samay_admin_plan/models/image_model/image_model.dart';
+import 'package:samay_admin_plan/models/appoint_model/appoint_model.dart';
 import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart';
 import 'package:flutter/material.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/firebase_firestore.dart';
+import 'package:samay_admin_plan/models/service_model/service_model.dart';
 
 class AppProvider with ChangeNotifier {
   SalonModel? _salonModel;
@@ -18,7 +20,7 @@ class AppProvider with ChangeNotifier {
   AdminModel? _adminModel;
   AdminModel get getAdminInformation => _adminModel!;
 
-  bool _isDarkMode = true;
+  final bool _isDarkMode = true;
   bool get isDarkMode => _isDarkMode;
 
   ThemeMode _themeMode = ThemeMode.dark; // Initialize with a default value
@@ -29,6 +31,18 @@ class AppProvider with ChangeNotifier {
         _themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
     notifyListeners(); // Notify listeners when theme mode changes
   }
+
+  List<ServiceModel> serviceListFetchID = [];
+  List<ServiceModel> get getServiceListFetchID => serviceListFetchID;
+
+  List<ProductModel> productListFetchID = [];
+  List<ProductModel> get getProductListFetchID => productListFetchID;
+
+  Map<ProductModel, int> productListWithQty = {};
+  Map<ProductModel, int> get getProductListWithQty => productListWithQty;
+
+  AppointModel? selectAppointModel;
+  AppointModel? get getSelectAppointModel => selectAppointModel;
 
   // Add a Salon infor to firebase
   Future<void> addsalonInfoForm(
@@ -126,7 +140,7 @@ class AppProvider with ChangeNotifier {
             await FirebaseStorageHelper.instance.uploadSalonLogImageToStorage(
           "${salonModel.id}log",
           "${GlobalVariable.salon}${salonModel.id}Image",
-          imageLogo!,
+          imageLogo,
         );
         salonModel.logImage = uploadLogoUrl;
       }
@@ -171,7 +185,7 @@ class AppProvider with ChangeNotifier {
       showLoaderDialog(context);
       _adminModel = adminModel;
       String? uploadImageUrl = await FirebaseStorageHelper.instance
-          .updateAdminImage(image, adminModel.image!, _adminModel!);
+          .updateAdminImage(image, adminModel.image, _adminModel!);
 
       _adminModel!.image = uploadImageUrl!;
       await FirebaseFirestore.instance
@@ -186,4 +200,47 @@ class AppProvider with ChangeNotifier {
       return true;
     }
   }
+
+  // Fetch appoint Service List by Service id list
+  Future<void> fetchServiceListByListId({
+    required List<String> serviceIds,
+  }) async {
+    if (serviceIds != null && serviceIds.isNotEmpty) {
+      serviceListFetchID = await FirebaseFirestoreHelper.instance
+          .fetchServicesByListIds(serviceIds: serviceIds);
+    }{
+      serviceListFetchID = [];
+    }
+  }
+
+  // Fetch appoint Product List by Product id list
+
+  Future<void> fetchProductListByListId({
+    required List<String> productIds,
+    required Map<String, int>? productIdQtyMap, // <-- Add this parameter
+  }) async {
+    productListFetchID.clear(); // Clear previous data
+    productListFetchID = await FirebaseFirestoreHelper.instance
+        .fetchProductByListIds(productIds: productIds);
+    // Clear and update productListWithQty
+
+    productListWithQty.clear();
+
+    if (productIdQtyMap != null) {
+      for (final product in productListFetchID) {
+        final qty = productIdQtyMap[product.id] ?? 0;
+        productListWithQty[product] = qty; // Use a List as key
+      }
+    }
+    notifyListeners();
+  }
+
+  //? update select appoint model
+  void updateSelectAppointModel(AppointModel appointModel) {
+    selectAppointModel = appointModel;
+    print("update ${selectAppointModel!.appointmentInfo!.appointmentNo}");
+    notifyListeners();
+  }
+
+  //? Fetch single appoint
 }

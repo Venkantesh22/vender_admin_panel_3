@@ -16,10 +16,10 @@ class LogWebWidget extends StatefulWidget {
   final TextEditingController passwordController;
 
   const LogWebWidget({
-    Key? key,
+    super.key,
     required this.emailController,
     required this.passwordController,
-  }) : super(key: key);
+  });
 
   @override
   State<LogWebWidget> createState() => _LogWebWidgetState();
@@ -130,7 +130,7 @@ class _LogWebWidgetState extends State<LogWebWidget> {
                               );
                               if (isLoggedIn) {
                                 Routes.instance.pushAndRemoveUntil(
-                                  widget: LoadingHomePage(),
+                                  widget: const LoadingHomePage(),
                                   context: context,
                                 );
                               }

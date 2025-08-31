@@ -323,7 +323,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             validator: addProductdescptValidator),
 
                         // Dropdown for Product For category
-                        dropDownlist(
+                        dropDownList(
                           heading: "Category",
                           value: _category,
                           labelText: "Select Category",
@@ -350,7 +350,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
 
                         // Dropdown for Product For Subcategory
 
-                        dropDownlist(
+                        dropDownList(
                           heading: "Subcategory",
                           value: _subCategory,
                           labelText: "Select Subcategory",
@@ -376,7 +376,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         ),
                         // Dropdown for Product For Subcategory branch
 
-                        dropDownlist(
+                        dropDownList(
                           heading: "Branch",
                           value: _branch,
                           labelText: "Select Branch",
@@ -403,7 +403,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         selectProductFor(),
 
                         // Dropdown for Product For  brand
-                        dropDownlist(
+                        dropDownList(
                           heading: "Brand",
                           value: _brand,
                           labelText: "Select Brand",
@@ -492,7 +492,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   //         dateAndTime: GlobalVariable.today,
                                   //         updateBy: "Vender");
 
-                                  ProductModel _updateProduct =
+                                  ProductModel updateProduct =
                                       widget.productModel.copyWith(
                                     name: _productNameController.text.trim(),
                                     description: _descripController.text.trim(),
@@ -527,7 +527,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                                   );
 
                                   await productProvider.updateProductPro(
-                                      _updateProduct, selectedImage);
+                                      updateProduct, selectedImage);
 
                                   showBottomMessage(
                                       "Product  ${_productNameController.text.trim()} updated! Successful",
@@ -611,8 +611,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                         fit: BoxFit.fill,
                       ),
                     )
-                  else if (widget.productModel.imgUrl != null &&
-                      widget.productModel.imgUrl.isNotEmpty)
+                  else if (widget.productModel.imgUrl.isNotEmpty)
                     CupertinoButton(
                       padding: EdgeInsets.zero,
                       onPressed: () {
@@ -638,7 +637,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                             'Upload Images',
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Color(0xFF0F1416),
+                              color: const Color(0xFF0F1416),
                               fontSize: Dimensions.dimensionNo18,
                               fontFamily: 'Inter',
                               fontWeight: FontWeight.w700,

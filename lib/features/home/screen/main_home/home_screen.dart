@@ -45,22 +45,13 @@ class _HomeScreenState extends State<HomeScreen> {
     AppProvider appProvider = Provider.of<AppProvider>(context);
     SalonModel? salonModal = appProvider.getSalonInformation;
 
-    // Show fallback UI if salonModal is null (though ideally, it shouldn't be after loading)
-    if (salonModal == null) {
-      return const Scaffold(
-        body: Center(
-          child: const Text("Failed to load salon information."),
-        ),
-      );
-    }
-
     return Scaffold(
       backgroundColor: AppColor.whileColor,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60.0),
         child: CustomAppBar(scaffoldKey: _scaffoldKey),
       ),
-      drawer: MobileDrawer(),
+      drawer: const MobileDrawer(),
       key: _scaffoldKey,
       body: ResponsiveLayout(
         mobile: homeMobileWidget(salonModal),

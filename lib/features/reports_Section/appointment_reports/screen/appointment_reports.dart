@@ -189,7 +189,7 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
             Text(
               'Show Appointment List information for sales',
               style: TextStyle(
-                color: Color(0xFF595959),
+                color: const Color(0xFF595959),
                 fontSize: Dimensions.dimensionNo12,
                 fontWeight: FontWeight.w600,
               ),
@@ -271,7 +271,7 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
             Text(
               'Show Appointment List information for sales',
               style: TextStyle(
-                color: Color(0xFF595959),
+                color: const Color(0xFF595959),
                 fontSize: Dimensions.dimensionNo12,
                 fontWeight: FontWeight.w600,
               ),
@@ -340,19 +340,20 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
           shrinkWrap:
               true, // Ensure the ListView only takes up the space it needs
           itemCount: _appointemtnList.length,
-          itemBuilder: (context, _index) {
-            AppointModel order = _appointemtnList[_index];
+          itemBuilder: (context, index) {
+            AppointModel order = _appointemtnList[index];
 
             // Use data directly from the `AppointModel` or preload user data into the `ReportProvider`
             UserModel user =
                 order.userModel; // Assuming user data is part of the order
-            int _no = _index + 1;
+            int no = index + 1;
             return UserBookingTap(
               appointModel: order,
               userModel: user,
-              index: _no,
+              index: no,
               isUseForReportSce: true,
               applyMarginMobile: false,
+              onTap: (){},
             );
           },
         );
@@ -565,8 +566,8 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
             _lastDayLastMonth,
             appProvider.getSalonInformation.id,
           );
-          print("Selected Option: start ${_firstDayLastMonth}");
-          print("Selected Option: end ${_lastDayLastMonth}");
+          print("Selected Option: start $_firstDayLastMonth");
+          print("Selected Option: end $_lastDayLastMonth");
 
           setState(() {
             addProListToAppoint(reportProvider);
@@ -679,7 +680,7 @@ class _AppointmentReportsScreenState extends State<AppointmentReportsScreen> {
                 return order.isUpdate == true;
               }).toList()
             : reportProvider.getAppointmentList.where((order) {
-                return order.status == _selectedStatus!;
+                return order.appointmentInfo!.status == _selectedStatus!;
               }).toList()
         : reportProvider.getAppointmentList;
 

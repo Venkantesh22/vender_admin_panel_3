@@ -104,7 +104,7 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
                 icon: const Icon(Icons.settings_outlined, color: Colors.black),
                 onPressed: () {
                   Routes.instance
-                      .push(widget: SettingsPage(), context: context);
+                      .push(widget: const SettingsPage(), context: context);
                 },
               ),
             ),
@@ -192,7 +192,7 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
       ),
       actions: [
         Padding(
-          padding: EdgeInsets.symmetric(vertical: 4),
+          padding: const EdgeInsets.symmetric(vertical: 4),
           child: Row(
             children: [
               Container(
@@ -205,7 +205,7 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
                       const Icon(Icons.settings_outlined, color: Colors.black),
                   onPressed: () {
                     Routes.instance
-                        .push(widget: SettingsPage(), context: context);
+                        .push(widget: const SettingsPage(), context: context);
                   },
                 ),
               ),
@@ -217,7 +217,7 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
               ),
               // SizedBox(width: Dimensions.dimensionNo16),
               Container(
-                padding: EdgeInsets.all(6),
+                padding: const EdgeInsets.all(6),
 
                 clipBehavior: Clip.antiAlias,
                 width: Dimensions.dimensionNo50 * 2, // Diameter of the circle
@@ -254,7 +254,7 @@ class _AppBarForBanValiPageState extends State<AppBarForBanValiPage> {
                         fontWeight: FontWeight.w700,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 2,
                     ),
                     Text(

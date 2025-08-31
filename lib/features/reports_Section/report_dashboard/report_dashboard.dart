@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
@@ -44,7 +43,6 @@ class _ReportDashboardState extends State<ReportDashboard> {
     await appProvider.getSalonInfoFirebase();
 
     try {
-      ;
     } catch (e) {
       print("Error fetching or updating settings data: $e");
       showMessage("Error fetching settings. Please try again.");
@@ -58,7 +56,7 @@ class _ReportDashboardState extends State<ReportDashboard> {
   @override
   Widget build(BuildContext context) {
     AppProvider appProvider = Provider.of<AppProvider>(context);
-    final List<Widget> _pages = [
+    final List<Widget> pages = [
       const AppointmentReportsScreen(),
       const SalesReportsScreen(),
       const CancelReportsScreen(),
@@ -97,7 +95,7 @@ class _ReportDashboardState extends State<ReportDashboard> {
                       )
                     : const SizedBox(),
                 Expanded(
-                  child: _pages[_selectedIndex],
+                  child: pages[_selectedIndex],
                 ),
               ],
             ),

@@ -5,11 +5,11 @@ import 'package:badges/badges.dart' as badges;
 import 'package:samay_admin_plan/utility/dimension.dart';
 
 Widget badgeFloatingActionButton(BookingProvider bookingProvider) {
-  if (bookingProvider.budgetProductList.isEmpty) return const SizedBox();
-
+  if (bookingProvider.budgetProductQuantityMap.isEmpty) return const SizedBox();
+int badgeCount = bookingProvider.getBudgetProductQuantityMap.values.reduce((a, b) => a + b);
   return badges.Badge(
     badgeContent: Text(
-      bookingProvider.budgetProductList.length.toString(),
+      badgeCount.toString(),
       style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
     ),
     badgeStyle: const badges.BadgeStyle(

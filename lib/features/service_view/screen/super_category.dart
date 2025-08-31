@@ -68,7 +68,7 @@ class _SuperCategoryPageState extends State<SuperCategoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
     AppProvider appProvider = Provider.of<AppProvider>(context);
     ServiceProvider serviceProvider = Provider.of<ServiceProvider>(context);
@@ -78,9 +78,9 @@ class _SuperCategoryPageState extends State<SuperCategoryPage> {
         ? isLoading
             ? const Center(child: CircularProgressIndicator())
             : Scaffold(
-                appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
-                drawer: MobileDrawer(),
-                key: _scaffoldKey,
+                appBar: CustomAppBar(scaffoldKey: scaffoldKey),
+                drawer: const MobileDrawer(),
+                key: scaffoldKey,
                 body: SingleChildScrollView(
                   child: Padding(
                     padding: EdgeInsets.all(Dimensions.dimensionNo8),
@@ -184,7 +184,7 @@ class _SuperCategoryPageState extends State<SuperCategoryPage> {
                                                 serviceProvider
                                                     .selectSuperCatePro(cate);
                                                 Routes.instance.push(
-                                                  widget: ServicesPages(),
+                                                  widget: const ServicesPages(),
                                                   context: context,
                                                 );
                                               },
@@ -207,7 +207,7 @@ class _SuperCategoryPageState extends State<SuperCategoryPage> {
                                             serviceProvider
                                                 .selectSuperCatePro(cate);
                                             Routes.instance.push(
-                                              widget: ServicesPages(),
+                                              widget: const ServicesPages(),
                                               context: context,
                                             );
                                           },

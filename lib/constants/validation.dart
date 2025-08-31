@@ -115,3 +115,39 @@ String? addProductStockValidator(value) {
   }
   return null;
 }
+
+//! Billing From 
+// Enter a First name
+String? addFirstNameValidator(value) {
+  if (value == null || value.trim().isEmpty) {
+    return 'First name is required';
+  }
+  
+  return null;
+}
+// Enter a Last name
+String? addLastNameValidator(value) {
+  if (value == null || value.trim().isEmpty) {
+    return 'Last name is required';
+  }
+  
+  return null;
+}
+
+// Enter a Mobile number
+String? addMobileValidator(value) {
+  final mobile = value?.toString().trim();
+  if (mobile == null || mobile.isEmpty) {
+    return 'Mobile is required';
+  }
+  if (mobile.length != 10) {
+    return 'Mobile must be 10 digits';
+  }
+  final intValue = int.tryParse(mobile);
+  if (intValue == null) {
+    return 'Mobile must be a number';
+  }
+  return null;
+}
+
+

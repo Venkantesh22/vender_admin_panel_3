@@ -18,11 +18,11 @@ class EditServicePage extends StatefulWidget {
   final ServiceModel serviceModel;
   final CategoryModel categoryModel;
   const EditServicePage({
-    Key? key,
+    super.key,
     required this.index,
     required this.serviceModel,
     required this.categoryModel,
-  }) : super(key: key);
+  });
 
   @override
   State<EditServicePage> createState() => _EditServicePageState();
@@ -96,7 +96,6 @@ class _EditServicePageState extends State<EditServicePage> {
       _serviceFor = widget.serviceModel.serviceFor;
       _originalPriceController.addListener(_updateFinalPrice);
       _discountInPer.addListener(_updateFinalPrice);
-    } catch (e) {
     } finally {
       setStates() {
         _isLoading = false;
@@ -152,7 +151,7 @@ class _EditServicePageState extends State<EditServicePage> {
                               letterSpacing: 0.15,
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
                           IconButton(
                               onPressed: () {
                                 Navigator.pop(context);
@@ -360,13 +359,6 @@ class _EditServicePageState extends State<EditServicePage> {
                                   hours: hours,
                                   minutes:
                                       int.parse(_minController.text.trim()));
-                              if (originalPrice == null ||
-                                  discountPercentage == null ||
-                                  finalPrice == null) {
-                                showMessage(
-                                    "Please enter valid numeric values for price and discount.");
-                                return;
-                              }
                               if (minutes == null && hours == null) {
                                 showBottomMessageError(
                                     "Please enter valid numeric values for time duration.",
@@ -389,8 +381,7 @@ class _EditServicePageState extends State<EditServicePage> {
                                 );
                                 return;
                               }
-                              if (_hoursController.text != null &&
-                                  int.parse(_hoursController.text) < 0) {
+                              if (int.parse(_hoursController.text) < 0) {
                                 showBottomMessageError(
                                   "Hours cannot be negative.",
                                   context,

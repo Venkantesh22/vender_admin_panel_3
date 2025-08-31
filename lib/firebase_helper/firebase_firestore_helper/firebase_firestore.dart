@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_storage_helper/firebase_storage_helper.dart';
+import 'package:samay_admin_plan/models/Product/Product_Model/product_model.dart';
 import 'package:samay_admin_plan/models/category_model/category_model.dart';
 import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart';
 import 'package:samay_admin_plan/models/service_model/service_model.dart';
@@ -59,7 +60,7 @@ class FirebaseFirestoreHelper {
           .doc(adminUid)
           .collection("salon")
           .doc();
-      TimeStampModel _timeStampModel = TimeStampModel(
+      TimeStampModel timeStampModel = TimeStampModel(
           id: referenceTime.id,
           dateAndTime: GlobalVariable.today,
           updateBy: "vender");
@@ -91,7 +92,7 @@ class FirebaseFirestoreHelper {
           friday: '',
           saturday: '',
           sunday: '',
-          timeStampModel: _timeStampModel,
+          timeStampModel: timeStampModel,
           isSettingAdd: false,
           isAccountValidBySamay: false);
       // upload image of create new folder then upload
@@ -117,7 +118,7 @@ class FirebaseFirestoreHelper {
 
   Future<SalonModel?> getSalonInformationFB() async {
     try {
-      CollectionReference salonCollection = await _firebaseFirestore
+      CollectionReference salonCollection = _firebaseFirestore
           .collection("admins")
           .doc(FirebaseAuth.instance.currentUser!.uid)
           .collection('salon');
@@ -164,12 +165,12 @@ class FirebaseFirestoreHelper {
           .collection('salon')
           .doc(salonID)
           .get();
-      SalonModel _salonModel =
+      SalonModel salonModel =
           SalonModel.fromJson(doc.data() as Map<String, dynamic>, doc.id);
       showMessage('fetching salon');
       print("salon data fetching");
 
-      return _salonModel;
+      return salonModel;
     } catch (e) {
       showMessage('Error fetching salon: $e');
     }
@@ -450,6 +451,7 @@ class FirebaseFirestoreHelper {
     String categoryId,
     String categoryName,
     String superCategoryName,
+    String superCategoryId,
     String servicesName,
     String serviceCode,
     double price,
@@ -460,20 +462,15 @@ class FirebaseFirestoreHelper {
     String description,
     String serviceFor,
   ) async {
-    DocumentReference reference = _firebaseFirestore
-        .collection("admins")
-        .doc(adminId)
-        .collection("salon")
-        .doc(salonId)
-        .collection("category")
-        .doc(categoryId)
-        .collection("service")
-        .doc();
+    DocumentReference reference =
+        _firebaseFirestore.collection("SalonService").doc();
 
-    ServiceModel addserviceModel = ServiceModel(
+    ServiceModel addServiceModel = ServiceModel(
+      adminId: adminId,
       salonId: salonId,
       categoryId: categoryId,
       categoryName: categoryName,
+      superCategoryId: superCategoryId,
       superCategoryName: superCategoryName,
       id: reference.id,
       servicesName: servicesName,
@@ -487,8 +484,8 @@ class FirebaseFirestoreHelper {
       serviceFor: serviceFor,
     );
 
-    await reference.set(addserviceModel.toJson());
-    return addserviceModel;
+    await reference.set(addServiceModel.toJson());
+    return addServiceModel;
   }
 
 //Update Single Service for firebase
@@ -496,13 +493,7 @@ class FirebaseFirestoreHelper {
     String? adminUid = FirebaseAuth.instance.currentUser?.uid;
 
     await _firebaseFirestore
-        .collection("admins")
-        .doc(adminUid)
-        .collection("salon")
-        .doc(serviceModel.salonId)
-        .collection("category")
-        .doc(serviceModel.categoryId)
-        .collection("service")
+        .collection("SalonService")
         .doc(serviceModel.id)
         .update(serviceModel.toJson());
     return true;
@@ -514,13 +505,8 @@ class FirebaseFirestoreHelper {
       String? adminUid = FirebaseAuth.instance.currentUser?.uid;
 
       await _firebaseFirestore
-          .collection("admins")
-          .doc(adminUid)
-          .collection("salon")
-          .doc(serviceModel.salonId)
-          .collection("category")
-          .doc(serviceModel.categoryId)
-          .collection("service")
+        
+          .collection("SalonService")
           .doc(serviceModel.id)
           .delete();
       return true;
@@ -528,6 +514,151 @@ class FirebaseFirestoreHelper {
       return false;
     }
   }
+
+  // Fetch single service by id
+
+  /// Fetch ServiceModel documents by their document IDs using collectionGroup.
+  /// - serviceIds: list of service document IDs (doc IDs)
+  /// - adminId / salonId optional filters (include in query if provided)
+  /// Notes:
+  /// - Firestore `whereIn` supports up to 10 items per query; we chunk accordingly.
+  /// - We preserve the order of serviceIds in the returned list where possible.
+  
+Future<List<ServiceModel>> fetchServicesByListIds({
+  required List<String> serviceIds,
+  String? adminId,
+  String? salonId,
+  int chunkSize = 10, // Firestore whereIn limit
+}) async {
+  if (serviceIds.isEmpty) return <ServiceModel>[];
+
+  final firestore = FirebaseFirestore.instance;
+
+  // chunk helper
+  List<List<T>> _chunk<T>(List<T> list, int size) {
+    final chunks = <List<T>>[];
+    for (var i = 0; i < list.length; i += size) {
+      final end = (i + size < list.length) ? i + size : list.length;
+      chunks.add(list.sublist(i, end));
+    }
+    return chunks;
+  }
+
+  try {
+    final chunks = _chunk<String>(serviceIds, chunkSize);
+    final futures = <Future<QuerySnapshot<Map<String, dynamic>>>>[];
+
+    for (final chunk in chunks) {
+      // Use root collection 'SalonService' and apply optional filters
+      Query<Map<String, dynamic>> q =
+          firestore.collection('SalonService').where(FieldPath.documentId, whereIn: chunk);
+
+      if (adminId != null && adminId.isNotEmpty) {
+        q = q.where('adminId', isEqualTo: adminId);
+      }
+      if (salonId != null && salonId.isNotEmpty) {
+        q = q.where('salonId', isEqualTo: salonId);
+      }
+
+      futures.add(q.get());
+    }
+
+    // Run queries in parallel
+    final snapshots = await Future.wait(futures);
+
+    // collect docs by id
+    final Map<String, QueryDocumentSnapshot<Map<String, dynamic>>> docsById = {};
+    for (final snap in snapshots) {
+      for (final doc in snap.docs) {
+        docsById[doc.id] = doc;
+      }
+    }
+
+    // Build result preserving input order
+    final List<ServiceModel> result = [];
+    for (final id in serviceIds) {
+      final doc = docsById[id];
+      if (doc != null) {
+        final data = Map<String, dynamic>.from(doc.data());
+        data['id'] = doc.id;
+        result.add(ServiceModel.fromJson(data));
+      }
+    }
+
+    return result;
+  } catch (e, st) {
+    print('fetchServicesByListIds error: $e\n$st');
+    return <ServiceModel>[];
+  }
+}
+
+Future<List<ProductModel>> fetchProductByListIds({
+  required List<String> productIds,
+  String? adminId,
+  String? salonId,
+  int chunkSize = 10, // Firestore whereIn limit
+}) async {
+  if (productIds.isEmpty) return <ProductModel>[];
+
+  final firestore = FirebaseFirestore.instance;
+
+  // chunk helper
+  List<List<T>> _chunk<T>(List<T> list, int size) {
+    final chunks = <List<T>>[];
+    for (var i = 0; i < list.length; i += size) {
+      final end = (i + size < list.length) ? i + size : list.length;
+      chunks.add(list.sublist(i, end));
+    }
+    return chunks;
+  }
+
+  try {
+    final chunks = _chunk<String>(productIds, chunkSize);
+    final futures = <Future<QuerySnapshot<Map<String, dynamic>>>>[];
+
+    for (final chunk in chunks) {
+      // Use root collection 'SalonService' and apply optional filters
+      Query<Map<String, dynamic>> q =
+          firestore.collection('SalonProduct').where(FieldPath.documentId, whereIn: chunk);
+
+      if (adminId != null && adminId.isNotEmpty) {
+        q = q.where('adminId', isEqualTo: adminId);
+      }
+      if (salonId != null && salonId.isNotEmpty) {
+        q = q.where('salonId', isEqualTo: salonId);
+      }
+
+      futures.add(q.get());
+    }
+
+    // Run queries in parallel
+    final snapshots = await Future.wait(futures);
+
+    // collect docs by id
+    final Map<String, QueryDocumentSnapshot<Map<String, dynamic>>> docsById = {};
+    for (final snap in snapshots) {
+      for (final doc in snap.docs) {
+        docsById[doc.id] = doc;
+      }
+    }
+
+    // Build result preserving input order
+    final List<ProductModel> result = [];
+    for (final id in productIds) {
+      final doc = docsById[id];
+      if (doc != null) {
+        final data = Map<String, dynamic>.from(doc.data());
+        data['id'] = doc.id;
+        result.add(ProductModel.fromJson(data));
+      }
+    }
+
+    return result;
+  } catch (e, st) {
+    print('fetchServicesByListIds error: $e\n$st');
+    return <ProductModel>[];
+  }
+}
 
 //! Get Admin information
 // Get Admin information

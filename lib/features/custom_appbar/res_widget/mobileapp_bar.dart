@@ -11,7 +11,7 @@ import 'package:samay_admin_plan/utility/dimension.dart';
 class MobileAppBar extends StatelessWidget implements PreferredSizeWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-  MobileAppBar({required this.scaffoldKey});
+  const MobileAppBar({super.key, required this.scaffoldKey});
 
   @override
   Widget build(BuildContext context) {

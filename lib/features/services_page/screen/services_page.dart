@@ -8,8 +8,8 @@ import 'package:samay_admin_plan/provider/service_provider.dart';
 
 class ServicesPages extends StatefulWidget {
   const ServicesPages({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<ServicesPages> createState() => _ServicesPagesState();

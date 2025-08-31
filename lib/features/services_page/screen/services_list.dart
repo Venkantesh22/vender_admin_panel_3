@@ -214,7 +214,7 @@ class _ServicesListState extends State<ServicesList> {
                         ),
                 ],
               ),
-              Divider()
+              const Divider()
             ],
           ),
 

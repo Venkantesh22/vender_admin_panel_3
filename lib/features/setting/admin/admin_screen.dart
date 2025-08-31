@@ -83,7 +83,7 @@ class _AdminPageState extends State<AdminPage> {
 
     return Scaffold(
       body: _isLoading
-          ? CircularProgressIndicator()
+          ? const CircularProgressIndicator()
           : Container(
               color: AppColor.bgForAdminCreateSec,
               child: Center(
@@ -127,7 +127,7 @@ class _AdminPageState extends State<AdminPage> {
                       Padding(
                         padding: EdgeInsets.symmetric(
                             vertical: Dimensions.dimensionNo10),
-                        child: Divider(),
+                        child: const Divider(),
                       ),
                       Text.rich(
                         TextSpan(
@@ -180,7 +180,7 @@ class _AdminPageState extends State<AdminPage> {
                                                 null
                                             ? Image.network(
                                                 appProvider
-                                                    .getAdminInformation.image!,
+                                                    .getAdminInformation.image,
                                                 fit: BoxFit
                                                     .cover, // Change BoxFit.fill to BoxFit.cover
                                               )
@@ -238,13 +238,13 @@ class _AdminPageState extends State<AdminPage> {
                         text: "Update",
                         ontap: () async {
                           try {
-                            bool _isVaildated = adminUpdateVaildation(
+                            bool isVaildated = adminUpdateVaildation(
                               _nameController.text,
                               _mobileController.text,
                               selectedImage!,
                             );
 
-                            if (_isVaildated) {
+                            if (isVaildated) {
                               AdminModel adminModelUpdate =
                                   appProvider.getAdminInformation.copyWith(
                                 name: _nameController.text.trim(),

@@ -91,7 +91,7 @@ Center signUpWebWidget(
                             ),
                           ),
                           child: Image.memory(
-                            selectedImage!,
+                            selectedImage,
                             fit: BoxFit.cover,
                           ),
                         )),

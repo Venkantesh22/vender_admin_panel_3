@@ -23,10 +23,10 @@ class _AddNewBrandProductState extends State<AddNewBrandProduct> {
     ServiceProvider serviceProvider = Provider.of<ServiceProvider>(context);
 
     // Dropdown options for "service for"
-    final List<String> _serviceForList = ["Male", "Female", "Both"];
-    String? _serviceFor = _serviceForList.last; // Default value
+    final List<String> serviceForList = ["Male", "Female", "Both"];
+    String? serviceFor = serviceForList.last; // Default value
 
-    final TextEditingController _superCategoryController =
+    final TextEditingController superCategoryController =
         TextEditingController();
 
     // Determine the dialog width based on screen size
@@ -86,7 +86,7 @@ class _AddNewBrandProductState extends State<AddNewBrandProduct> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             FormCustomTextField(
-              controller: _superCategoryController,
+              controller: superCategoryController,
               title: "Super Category",
             ),
             Padding(
@@ -115,8 +115,8 @@ class _AddNewBrandProductState extends State<AddNewBrandProduct> {
                     letterSpacing: 0.40,
                   ),
                 ),
-                value: _serviceFor,
-                items: _serviceForList.map((String value) {
+                value: serviceFor,
+                items: serviceForList.map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),
@@ -124,7 +124,7 @@ class _AddNewBrandProductState extends State<AddNewBrandProduct> {
                 }).toList(),
                 onChanged: (newValue) {
                   setState(() {
-                    _serviceFor = newValue!;
+                    serviceFor = newValue!;
                   });
                 },
                 validator: (value) {

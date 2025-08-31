@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:samay_admin_plan/utility/dimension.dart';
 
-Padding dropDownlist({
+Padding dropDownList({
   required String heading,
   required String? value,
   required String labelText,
   required List<String> valueList,
   required String? Function(String?)? validator,
-  required void Function(dynamic?) onChanged, // <-- add this
+  required void Function(dynamic) onChanged, // <-- add this
 }) {
   return Padding(
     padding: EdgeInsets.only(bottom: Dimensions.dimensionNo8),

@@ -8,12 +8,12 @@ class TimeSlotGrid extends StatelessWidget {
   final Function(DateTime) onSlotTapped;
 
   const TimeSlotGrid({
-    Key? key,
+    super.key,
     required this.openTime,
     required this.closeTime,
     required this.selectedTimeSlots,
     required this.onSlotTapped,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,21 +26,21 @@ class TimeSlotGrid extends StatelessWidget {
     } catch (e) {
       // Handle parsing error
       print('Error parsing time: $e');
-      return Center(child: Text('Invalid time format.'));
+      return const Center(child: Text('Invalid time format.'));
     }
 
     // Generate time slots
     List<DateTime> timeSlots = [];
     for (var slot = open;
         slot.isBefore(close);
-        slot = slot.add(Duration(minutes: 30))) {
+        slot = slot.add(const Duration(minutes: 30))) {
       timeSlots.add(slot);
     }
 
     return GridView.builder(
       shrinkWrap: true,
-      physics: NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 4,
         childAspectRatio: 2,
       ),
@@ -52,7 +52,7 @@ class TimeSlotGrid extends StatelessWidget {
         return GestureDetector(
           onTap: () => onSlotTapped(slot),
           child: Container(
-            margin: EdgeInsets.all(4.0),
+            margin: const EdgeInsets.all(4.0),
             decoration: BoxDecoration(
               color: isSelected ? Colors.green : Colors.grey[200],
               borderRadius: BorderRadius.circular(8),
@@ -78,7 +78,7 @@ class TimeSlotGrid extends StatelessWidget {
       return DateFormat('h:mm a').parse(normalizedTime);
     } catch (e) {
       print('Error initializing time: $e');
-      throw FormatException('Invalid time format');
+      throw const FormatException('Invalid time format');
     }
   }
 

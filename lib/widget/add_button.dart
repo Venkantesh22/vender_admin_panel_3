@@ -88,13 +88,13 @@ class AddButton extends StatelessWidget {
   final VoidCallback onTap;
 
   AddButton({
-    Key? key,
+    super.key,
     required this.text,
     this.bgColor = AppColor.mainColor,
     this.textColor = Colors.white,
     this.iconColor = const Color(0xFF08BA85),
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

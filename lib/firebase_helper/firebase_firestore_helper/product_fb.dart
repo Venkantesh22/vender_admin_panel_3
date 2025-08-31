@@ -113,7 +113,7 @@ class ProductFb {
   Future<ProductModel> addNewProductFB(
       ProductModel productModel, Uint8List image) async {
     try {
-      DocumentReference reference = await _firebaseFirestore
+      DocumentReference reference = _firebaseFirestore
           .collection('SalonProduct')
           // .doc(productModel.salonId)
           // .collection("salonProductSave")

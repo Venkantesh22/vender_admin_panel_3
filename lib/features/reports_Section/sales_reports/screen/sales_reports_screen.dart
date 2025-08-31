@@ -10,7 +10,7 @@ class SalesReportsScreen extends StatefulWidget {
 class _SalesReportsScreenState extends State<SalesReportsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: Text("Saler Page"),
       ),

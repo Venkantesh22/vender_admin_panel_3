@@ -7,12 +7,12 @@ class AccountNotValidatePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(60.0),
-        child: AppBarForBanValiPage(scaffoldKey: _scaffoldKey),
+        preferredSize: const Size.fromHeight(60.0),
+        child: AppBarForBanValiPage(scaffoldKey: scaffoldKey),
       ),
       body: Center(
         child: Padding(

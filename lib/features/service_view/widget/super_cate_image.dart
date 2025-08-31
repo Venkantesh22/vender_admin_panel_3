@@ -24,7 +24,7 @@ class SuperCateImage extends StatefulWidget {
 }
 
 class _SuperCateImageState extends State<SuperCateImage> {
-  bool _hasImageError = false;
+  final bool _hasImageError = false;
 
   void deleteSuperCategory(
       ServiceProvider serviceProvider, AppProvider appProvider) async {

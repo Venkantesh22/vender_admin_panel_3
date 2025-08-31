@@ -42,7 +42,7 @@ class _EditSuperCategoryPopupState extends State<EditSuperCategoryPopup> {
   @override
   Widget build(BuildContext context) {
     ServiceProvider serviceProvider = Provider.of<ServiceProvider>(context);
-    final List<String> _serviceForList = ["Male", "Female", "Both"];
+    final List<String> serviceForList = ["Male", "Female", "Both"];
 
     // Determine dialog width based on screen size
     double dialogWidth = MediaQuery.of(context).size.width * 0.8;
@@ -131,7 +131,7 @@ class _EditSuperCategoryPopupState extends State<EditSuperCategoryPopup> {
                   ),
                 ),
                 value: _serviceFor, // <-- This will select the correct value
-                items: _serviceForList.map((String value) {
+                items: serviceForList.map((String value) {
                   return DropdownMenuItem<String>(
                     value: value,
                     child: Text(value),

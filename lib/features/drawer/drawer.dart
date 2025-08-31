@@ -59,8 +59,8 @@ class MobileDrawer extends StatelessWidget {
             ),
           ),
           ListTile(
-            leading: Icon(Icons.calendar_today),
-            title: Text("Calendar"),
+            leading: const Icon(Icons.calendar_today),
+            title: const Text("Calendar"),
             onTap: () {
               Routes.instance.push(
                 widget: HomeScreen(
@@ -72,28 +72,28 @@ class MobileDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.design_services),
-            title: Text("Services"),
+            leading: const Icon(Icons.design_services),
+            title: const Text("Services"),
             onTap: () {
               Routes.instance.push(
-                widget: SuperCategoryPage(),
+                widget: const SuperCategoryPage(),
                 context: context,
               );
             },
           ),
           ListTile(
-            leading: Icon(Icons.bar_chart),
-            title: Text("Reports"),
+            leading: const Icon(Icons.bar_chart),
+            title: const Text("Reports"),
             onTap: () {
               Routes.instance.push(
-                widget: ReportDashboard(),
+                widget: const ReportDashboard(),
                 context: context,
               );
             },
           ),
           ListTile(
-            leading: Icon(Icons.production_quantity_limits_rounded),
-            title: Text("Product"),
+            leading: const Icon(Icons.production_quantity_limits_rounded),
+            title: const Text("Product"),
             onTap: () {
               Routes.instance.push(
                 widget: const ProductScreen(),
@@ -102,11 +102,11 @@ class MobileDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: Icon(Icons.settings),
-            title: Text("Settings"),
+            leading: const Icon(Icons.settings),
+            title: const Text("Settings"),
             onTap: () {
               Routes.instance.push(
-                widget: SettingsPage(),
+                widget: const SettingsPage(),
                 context: context,
               );
             },

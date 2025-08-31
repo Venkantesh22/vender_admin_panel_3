@@ -9,19 +9,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
 
   const CustomAppBar({
-    Key? key,
+    super.key,
     required this.scaffoldKey,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
     AppProvider appProvider = Provider.of<AppProvider>(context);
-
-    if (appProvider.getAdminInformation == null ||
-        appProvider.getSalonInformation == null) {
-      return const SizedBox
-          .shrink(); // Return empty widget if data is not available
-    }
 
     return ResponsiveLayout(
       mobile: MobileAppBar(

@@ -8,7 +8,6 @@ import 'package:samay_admin_plan/constants/router.dart';
 import 'package:samay_admin_plan/features/Direct%20Billing/screen/direct_billing.dart';
 import 'package:samay_admin_plan/features/custom_appbar/widget/appbar_item.dart';
 import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart';
-import 'package:samay_admin_plan/features/product/screen/product_add_screen.dart';
 import 'package:samay_admin_plan/features/product/screen/product_screen.dart';
 import 'package:samay_admin_plan/features/reports_Section/report_dashboard/report_dashboard.dart';
 import 'package:samay_admin_plan/features/service_view/screen/super_category.dart';
@@ -71,7 +70,7 @@ AppBar webAppBar(BuildContext context, AppProvider appProvider) {
             text: "Services",
             ontap: () {
               Routes.instance
-                  .push(widget: SuperCategoryPage(), context: context);
+                  .push(widget: const SuperCategoryPage(), context: context);
             },
           ),
           SizedBox(width: Dimensions.dimensionNo20),
@@ -86,7 +85,7 @@ AppBar webAppBar(BuildContext context, AppProvider appProvider) {
           Appbaritem(
             text: "Reports",
             ontap: () {
-              Routes.instance.push(widget: ReportDashboard(), context: context);
+              Routes.instance.push(widget: const ReportDashboard(), context: context);
             },
           ),
           const Spacer(),
@@ -117,7 +116,7 @@ AppBar webAppBar(BuildContext context, AppProvider appProvider) {
             child: IconButton(
               icon: const Icon(Icons.settings_outlined, color: Colors.black),
               onPressed: () {
-                Routes.instance.push(widget: SettingsPage(), context: context);
+                Routes.instance.push(widget: const SettingsPage(), context: context);
               },
             ),
           ),

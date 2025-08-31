@@ -108,7 +108,6 @@ class ProductProvider with ChangeNotifier {
       _productSubCategoryList.sort((a, b) => a.order.compareTo(b.order));
       print("Sub category list : -${_productSubCategoryList.length}");
       notifyListeners();
-    } catch (e) {
     } finally {
       updateProductSubCategoryLoading(false);
     }

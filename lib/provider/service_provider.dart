@@ -15,10 +15,10 @@ class ServiceProvider extends ChangeNotifier {
   List<SuperCategoryModel> _superCategoryList = [];
   List<SuperCategoryModel> get getSuperCategoryList => _superCategoryList;
 
-  List<ServiceModel> _servicesList = [];
+  final List<ServiceModel> _servicesList = [];
   CategoryModel? _selectedCategory;
   CategoryModel? _category;
-  bool _isLoading = false;
+  final bool _isLoading = false;
 
   bool get isLoading => _isLoading;
   List<CategoryModel> get getCategoryList => _categoryList;
@@ -185,13 +185,11 @@ class ServiceProvider extends ChangeNotifier {
     String categoryId,
   ) {
     return FirebaseFirestore.instance
-        .collection("admins")
-        .doc(FirebaseAuth.instance.currentUser!.uid)
-        .collection('salon')
-        .doc(salonId)
-        .collection("category")
-        .doc(categoryId)
-        .collection("service")
+        
+        .collection("SalonService")
+        .where('adminId' , isEqualTo:  FirebaseAuth.instance.currentUser?.uid,)
+        .where('salonId', isEqualTo: salonId)
+        .where("categoryId", isEqualTo: categoryId)
         .snapshots()
         .map((snapshots) => snapshots.docs
             .map((doc) => ServiceModel.fromJson(doc.data()))
@@ -200,7 +198,7 @@ class ServiceProvider extends ChangeNotifier {
 
   // Update a Single Services
   void updateSingleServicePro(ServiceModel serviceModel) async {
-    bool _val = await FirebaseFirestoreHelper.instance
+    bool val = await FirebaseFirestoreHelper.instance
         .updateSingleServiceFirebae(serviceModel);
 
     // Find the index and update the item
@@ -266,6 +264,8 @@ class ServiceProvider extends ChangeNotifier {
     String categoryId,
     String categoryName,
     String superCategoryName,
+        String superCategoryId,
+
     String servicesName,
     String serviceCode,
     double price,
@@ -277,8 +277,8 @@ class ServiceProvider extends ChangeNotifier {
     String description,
     String serviceFor,
   ) async {
-    int _serviceDurationMin = 0;
-    Duration _serviceDurMin = Duration(hours: hours, minutes: min);
+    int serviceDurationMin = 0;
+    Duration serviceDurMin = Duration(hours: hours, minutes: min);
     ServiceModel serviceModel =
         await FirebaseFirestoreHelper.instance.addServiceFirebase(
       adminId,
@@ -286,13 +286,14 @@ class ServiceProvider extends ChangeNotifier {
       categoryId,
       categoryName,
       superCategoryName,
+      superCategoryId,
       servicesName,
       serviceCode,
       price,
       originalPrice,
       discountInPer,
       discountAmount,
-      _serviceDurMin.inMinutes,
+      serviceDurMin.inMinutes,
       description,
       serviceFor,
     );

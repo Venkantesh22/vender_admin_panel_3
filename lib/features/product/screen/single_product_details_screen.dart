@@ -306,7 +306,7 @@ class SingleProductDetailsScreen extends StatelessWidget {
                 productModel.branchName != null ||
                         productModel.branchName.isNotEmpty
                     ? Text(
-                        '${productModel.branchName}',
+                        productModel.branchName,
                         style: cateRowTextStyle(context),
                       )
                     : const SizedBox(),
@@ -328,7 +328,7 @@ class SingleProductDetailsScreen extends StatelessWidget {
                 productModel.branchName != null ||
                         productModel.branchName.isNotEmpty
                     ? Text(
-                        '${productModel.branchName}',
+                        productModel.branchName,
                         style: cateRowTextStyle(context),
                       )
                     : const SizedBox(),

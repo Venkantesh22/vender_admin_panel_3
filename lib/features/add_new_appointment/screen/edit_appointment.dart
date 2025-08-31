@@ -10,15 +10,22 @@ import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/constants/router.dart';
+import 'package:samay_admin_plan/constants/validation.dart';
 import 'package:samay_admin_plan/features/Calender/screen/calender.dart';
-import 'package:samay_admin_plan/features/add_new_appointment/widget/single_service_appoint.dart';
+import 'package:samay_admin_plan/features/add_new_appointment/widget/from_widget/drop_down_service.dart';
+import 'package:samay_admin_plan/features/add_new_appointment/widget/from_widget/product_searchbar.dart';
+import 'package:samay_admin_plan/features/add_new_appointment/widget/from_widget/select_apppint_date.dart';
+import 'package:samay_admin_plan/features/add_new_appointment/widget/from_widget/service_searchbar.dart';
+import 'package:samay_admin_plan/features/add_new_appointment/widget/single_product_delete_icon_widget.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/widget/single_service_tap_icon.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/widget/time_tap.dart';
 import 'package:samay_admin_plan/features/custom_appbar/screen/custom_appbar.dart';
 import 'package:samay_admin_plan/features/drawer/drawer.dart';
 import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart';
+import 'package:samay_admin_plan/features/payment/user_payment_screen.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/samay_fb.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/user_order_fb.dart';
+import 'package:samay_admin_plan/models/Product/Product_Model/product_model.dart';
 import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart';
 import 'package:samay_admin_plan/models/salon_setting_model/salon_setting_model.dart';
 import 'package:samay_admin_plan/models/samay_salon_settng_model/samay_salon_setting.dart';
@@ -29,21 +36,23 @@ import 'package:samay_admin_plan/models/appoint_model/appoint_model.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
+import 'package:samay_admin_plan/provider/product_provider.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
 import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
 import 'package:samay_admin_plan/widget/text_box/customtextfield.dart';
+import 'package:samay_admin_plan/widget/text_box/validate_textbox_heading.dart';
 
 class EditAppointment extends StatefulWidget {
   final int index;
-  final AppointModel appintModel;
+  final AppointModel appointModel;
   final UserModel userModel;
   final SalonModel salonModel;
   const EditAppointment({
     super.key,
     required this.index,
-    required this.appintModel,
+    required this.appointModel,
     required this.userModel,
     required this.salonModel,
   });
@@ -54,6 +63,7 @@ class EditAppointment extends StatefulWidget {
 
 class _EditAppointmentState extends State<EditAppointment> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   DateTime _time = DateTime.now();
   DateFormat _dateFormat = DateFormat("dd MMM yyyy");
@@ -65,19 +75,20 @@ class _EditAppointmentState extends State<EditAppointment> {
   TextEditingController _appointmentDateController = TextEditingController();
   TextEditingController _appointmentTimeController =
       TextEditingController(text: "Select Time");
-  TextEditingController _serviceController = TextEditingController();
+  // TextEditingController serviceSearchControl = TextEditingController();
   TextEditingController _mobileController = TextEditingController();
   TextEditingController _userNote = TextEditingController();
+  SearchController productSearchControl1 = SearchController();
+  SearchController serviceSearchControl = SearchController();
 
-  List<ServiceModel> serchServiceList = [];
   List<ServiceModel> allServiceList = [];
-  List<ServiceModel> selectService = [];
   final List<TimeStampModel> _timeStampList = [];
+  List<ProductModel> allProductList = [];
 
   bool _showCalender = false;
   bool _showServiceList = false;
   bool _showTimeContaine = false;
-  bool _isLoading = false;
+  bool _isLoading = true;
 
   double extraDiscountInPer = 0.0;
   double extraDiscountInAmount = 0.0;
@@ -85,17 +96,12 @@ class _EditAppointmentState extends State<EditAppointment> {
   SettingModel? _settingModel;
   int _timeDiffInTap = 30;
 
-//Serching  Services base on service name and code
-  void serchService(String value) {
-    // Filtering based on both service name and service code
-    serchServiceList = allServiceList
-        .where((element) =>
-            element.servicesName.toLowerCase().contains(value.toLowerCase()) ||
-            element.serviceCode.toLowerCase().contains(value.toLowerCase()))
-        .toList();
-
-    setState(() {});
-  }
+  // For Select Service at Salon or home-- Default value is Salon
+  String serviceAt = GlobalVariable.serviceAtSalon;
+  List<String> serviceAtList = [
+    GlobalVariable.serviceAtHome,
+    GlobalVariable.serviceAtSalon
+  ];
 
   @override
   void initState() {
@@ -113,10 +119,23 @@ class _EditAppointmentState extends State<EditAppointment> {
     });
   }
 
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _lastNameController.dispose();
+    _appointmentDateController.dispose();
+    _appointmentTimeController.dispose();
+    _mobileController.dispose();
+    _userNote.dispose();
+    productSearchControl1.dispose();
+    serviceSearchControl.dispose();
+    super.dispose();
+  }
+
   void updateDate() {
     Provider.of<BookingProvider>(context, listen: false)
         .updateSelectedDate(_time);
-    print("Initial Date :- ${_time}");
+    print("Initial Date :- $_time");
   }
 
   getData() async {
@@ -125,82 +144,89 @@ class _EditAppointmentState extends State<EditAppointment> {
     });
 
     AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
+    ProductProvider productProvider =
+        Provider.of<ProductProvider>(context, listen: false);
 
     try {
-      // bookingProvider.getWatchList.addAll(widget.appintModel.services);
+      // bookingProvider.getWatchList.addAll(widget.appointModel.services);
       await appProvider.getSalonInfoFirebase();
+
       List<ServiceModel> fetchedServices = await UserBookingFB.instance
           .getAllServicesFromCategories(appProvider.getSalonInformation.id);
       _nameController.text = widget.userModel.name;
-      // _appointmentDateController.text = widget.appintModel.serviceDate;
-      _appointmentDateController.text =
-          DateFormat('dd MMM yyyy').format(widget.appintModel.serviceDate);
+      // _appointmentDateController.text = widget.appointModel.appointmentInfo!.serviceDate;
+      _appointmentDateController.text = DateFormat('dd MMM yyyy')
+          .format(widget.appointModel.appointmentInfo!.serviceDate);
       _mobileController.text = widget.userModel.phone.toString();
 
-      if (widget.appintModel.userNote.length >= 3) {
-        _userNote.text = widget.appintModel.userNote;
+      if (widget.appointModel.appointmentInfo!.userNote.length >= 3) {
+        _userNote.text = widget.appointModel.appointmentInfo!.userNote;
       }
+      _samaySalonSettingModel = await SamayFB.instance.fetchSalonSettingData();
+      // Get all Product and assign to allProductList list
+      await productProvider.getListProductPro();
+      allProductList = productProvider.getProductList;
+      print("Print all Product ${allProductList.length}");
 
       setState(() {
         allServiceList = fetchedServices;
+        _isLoading = false;
       });
     } catch (e) {
       print("Error fetching data: $e");
     }
 
-    setState(() {
-      _isLoading = false;
-    });
+    setState(() {});
   }
 
   void getSalonSetting() async {
     try {
       ServiceProvider serviceProvider =
           Provider.of<ServiceProvider>(context, listen: false);
-      serviceProvider.fetchSettingPro(widget.salonModel.id);
+      await serviceProvider.fetchSettingPro(widget.salonModel.id);
       _settingModel = serviceProvider.getSettingModel;
-      String salonTimetapDiff = _settingModel!.diffbtwTimetap ?? "30";
-      _samaySalonSettingModel = await SamayFB.instance.fetchSalonSettingData();
-      _timeDiffInTap = int.parse(salonTimetapDiff) ?? 30;
+      String salonTimeTapDiff = _settingModel!.diffbtwTimetap ?? "30";
+      _timeDiffInTap = int.parse(salonTimeTapDiff) ?? 30;
 
-      if (widget.appintModel.gstNo.isEmpty == _settingModel!.gstNo.isNotEmpty) {
+      if (widget.appointModel.gstNo.isEmpty ==
+          _settingModel!.gstNo.isNotEmpty) {
         showDialog(
           context: context,
           barrierDismissible: false,
           builder: (context) {
-            return warnigAlertDialogBox(
+            return waringAlertDialogBox(
                 "Appointment do not have GST No but ${GlobalVariable.salon} save have GST No. if appointment is update then GST is apply",
                 context);
           },
         );
       } else if (_settingModel!.gSTIsIncludingOrExcluding !=
-          widget.appintModel.gstIsIncludingOrExcluding) {
+          widget.appointModel.serviceBillModel!.gstIsIncludingOrExcluding) {
         showDialog(
           context: context,
           barrierDismissible: false,
           builder: (context) {
-            return warnigAlertDialogBox(
-                "When an appointment is booked, the price ${widget.appintModel.gstIsIncludingOrExcluding} GST, while the ${GlobalVariable.salon} saves the price ${_settingModel!.gSTIsIncludingOrExcluding} GST.If the appointment is updated, then it applies the price ${_settingModel!.gSTIsIncludingOrExcluding} GST.",
+            return waringAlertDialogBox(
+                "When an appointment is booked, the price ${widget.appointModel.serviceBillModel!.gstIsIncludingOrExcluding} GST, while the ${GlobalVariable.salon} saves the price ${_settingModel!.gSTIsIncludingOrExcluding} GST.If the appointment is updated, then it applies the price ${_settingModel!.gSTIsIncludingOrExcluding} GST.",
                 context);
           },
         );
-      } else if (widget.appintModel.gstNo != _settingModel!.gstNo) {
+      } else if (widget.appointModel.gstNo != _settingModel!.gstNo) {
         showDialog(
           context: context,
           barrierDismissible: false,
           builder: (context) {
-            return warnigAlertDialogBox(
+            return waringAlertDialogBox(
                 "Appointment GST No. is not same to ${GlobalVariable.salon} have GST No.",
                 context);
           },
         );
-      } else if (widget.appintModel.gstNo.isNotEmpty ==
+      } else if (widget.appointModel.gstNo.isNotEmpty ==
           _settingModel!.gstNo.isEmpty) {
         showDialog(
           context: context,
           barrierDismissible: false,
           builder: (context) {
-            return warnigAlertDialogBox(
+            return waringAlertDialogBox(
                 "Appointment do have GST No but ${GlobalVariable.salon} do not save GST No. if appointment is update then GST is not apply",
                 context);
           },
@@ -213,17 +239,25 @@ class _EditAppointmentState extends State<EditAppointment> {
   }
 
   //function to add Booking Service to Watch List
-  void addBookingServiceToWatchList() {
+  Future<void> addBookingServiceToWatchList() async {
     BookingProvider bookingProvider =
         Provider.of<BookingProvider>(context, listen: false);
+    AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
     bookingProvider.getWatchList.clear();
     bookingProvider.setAllZero();
-    bookingProvider.getWatchList.addAll(widget.appintModel.services);
+
+    bookingProvider
+        .addServiceListTOServiceList(appProvider.getServiceListFetchID);
+    bookingProvider.addProductMapPro(appProvider.getProductListWithQty);
+
     bookingProvider.calculateTotalBookingDuration();
     bookingProvider.calculateSubTotal();
-    // timeDateList.addAll(widget.appintModel.timeDateList);
-    _timeStampList.addAll(widget.appintModel.timeStampList);
+    bookingProvider.callCalSubTotalAndDicFun();
+    _timeStampList.addAll(widget.appointModel.timeStampList);
     print("Length of watch list ${bookingProvider.getWatchList.length}");
+
+    // Add this to force UI update
+    setState(() {});
   }
 
   String? _selectedTimeSlot;
@@ -336,7 +370,7 @@ class _EditAppointmentState extends State<EditAppointment> {
         preferredSize: const Size.fromHeight(60.0),
         child: CustomAppBar(scaffoldKey: _scaffoldKey),
       ),
-      drawer: MobileDrawer(),
+      drawer: const MobileDrawer(),
       key: _scaffoldKey,
       body: _isLoading
           ? const Center(
@@ -375,7 +409,7 @@ class _EditAppointmentState extends State<EditAppointment> {
                                 ),
                               ),
                               // Container to User TextBox
-                              _formOfAppoint(),
+                              _formOfAppoint(bookingProvider),
                               //! Genarate List of Service which in Watch list
                               GestureDetector(
                                 onTap: () {
@@ -402,101 +436,19 @@ class _EditAppointmentState extends State<EditAppointment> {
                                         CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.start,
                                     children: [
-                                      Row(
-                                        children: [
-                                          Text(
-                                            "Select Serivce",
-                                            style: TextStyle(
-                                              fontSize: ResponsiveLayout
-                                                      .isMobile(context)
-                                                  ? Dimensions.dimensionNo14
-                                                  : Dimensions.dimensionNo18,
-                                              fontWeight:
-                                                  ResponsiveLayout.isMobile(
-                                                          context)
-                                                      ? FontWeight.bold
-                                                      : FontWeight.w600,
-                                            ),
-                                          ),
-                                          const Spacer(),
-                                          Text(
-                                            "Service Duration ${bookingProvider.getServiceBookingDuration}",
-                                            style: TextStyle(
-                                              fontSize: ResponsiveLayout
-                                                      .isMobile(context)
-                                                  ? Dimensions.dimensionNo14
-                                                  : Dimensions.dimensionNo18,
-                                              fontWeight:
-                                                  ResponsiveLayout.isMobile(
-                                                          context)
-                                                      ? FontWeight.bold
-                                                      : FontWeight.w600,
-                                            ),
-                                          ),
-                                        ],
+                                      selectServiceList(
+                                        context,
+                                        bookingProvider,
                                       ),
                                       SizedBox(
-                                        height: Dimensions.dimensionNo10,
-                                      ),
-                                      Padding(
-                                        padding:
-                                            ResponsiveLayout.isMobile(context)
-                                                ? EdgeInsets.zero
-                                                : EdgeInsets.symmetric(
-                                                    horizontal: Dimensions
-                                                        .dimensionNo12),
-                                        child: Wrap(
-                                          spacing: Dimensions
-                                              .dimensionNo12, // Horizontal space between items
-                                          runSpacing: Dimensions
-                                              .dimensionNo12, // Vertical space between rows
-                                          alignment: WrapAlignment.center,
-                                          runAlignment: WrapAlignment.start,
-                                          children: List.generate(
-                                            bookingProvider.getWatchList.length,
-                                            (index) {
-                                              ServiceModel servicelist =
-                                                  bookingProvider
-                                                      .getWatchList[index];
-                                              return SizedBox(
-                                                width: ResponsiveLayout
-                                                        .isMobile(context)
-                                                    ? Dimensions.dimensionNo210
-                                                    : Dimensions.dimensionNo300,
-                                                child:
-                                                    SingleServiceTapDeleteIcon(
-                                                  serviceModel: servicelist,
-                                                  onTap: () {
-                                                    try {
-                                                      showLoaderDialog(context);
-                                                      setState(() {
-                                                        bookingProvider
-                                                            .removeServiceToWatchList(
-                                                                servicelist);
+                                          height: Dimensions.dimensionNo12),
 
-                                                        bookingProvider
-                                                            .calculateTotalBookingDuration();
-                                                        bookingProvider
-                                                            .calculateSubTotal();
-                                                      });
+                                      //? Select Product List
 
-                                                      Navigator.of(context,
-                                                              rootNavigator:
-                                                                  true)
-                                                          .pop();
-                                                      showMessage(
-                                                          'Service is removed from Watch List');
-                                                    } catch (e) {
-                                                      showMessage(
-                                                          'Error occurred while removing service from Watch List: ${e.toString()}');
-                                                    }
-                                                  },
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                      ),
+                                      bookingProvider.budgetProductQuantityMap
+                                              .isNotEmpty
+                                          ? selectProductLists(context)
+                                          : const SizedBox(),
                                       SizedBox(
                                           height: Dimensions.dimensionNo12),
                                       //! TextBox for user note
@@ -515,9 +467,17 @@ class _EditAppointmentState extends State<EditAppointment> {
                                           height: Dimensions.dimensionNo12),
                                       // Detail of appointment
                                       //! Appointment Details
-                                      if (_appointmentDateController != null)
-                                        AppointDetailsSummer(bookingProvider,
-                                            serviceDurationInMinutes, context),
+                                      appointDetailsSummer(bookingProvider,
+                                          serviceDurationInMinutes, context),
+                                      SizedBox(
+                                        height: Dimensions.dimensionNo8,
+                                      ),
+                                      saveButton(
+                                          context,
+                                          serviceDurationInMinutes,
+                                          bookingProvider),
+                                      SizedBox(
+                                          height: Dimensions.dimensionNo12),
                                     ],
                                   ),
                                 ),
@@ -684,85 +644,6 @@ class _EditAppointmentState extends State<EditAppointment> {
                                 ),
                               ),
                             ),
-                          if (_showServiceList)
-                            Positioned(
-                              right: ResponsiveLayout.isMobile(context)
-                                  ? Dimensions
-                                      .dimensionNo20 // Adjust for mobile
-                                  : null,
-
-                              //     .dimensionNo360, // Default for larger screens
-                              top: ResponsiveLayout.isMobile(context)
-                                  ? Dimensions
-                                      .dimensionNo200 // Adjust for mobile
-                                  : Dimensions
-                                      .dimensionNo210, // Default for larger screens
-                              left: ResponsiveLayout.isMobile(context)
-                                  ? Dimensions
-                                      .dimensionNo20 // Adjust for mobile
-                                  : Dimensions
-                                      .dimensionNo90, // Default for larger screens
-                              child: Container(
-                                width: Dimensions.dimensionNo500,
-                                constraints: const BoxConstraints(
-                                  maxHeight:
-                                      320, // Set a max height to make it scrollable
-                                ),
-                                decoration: BoxDecoration(
-                                  color: const Color(0xFFFFFFFF),
-                                  borderRadius: BorderRadius.circular(
-                                      Dimensions.dimensionNo10),
-                                ),
-                                child: _serviceController.text.isNotEmpty &&
-                                        serchServiceList.isEmpty
-                                    ? Padding(
-                                        padding: EdgeInsets.only(
-                                          top: Dimensions.dimensionNo12,
-                                          left: Dimensions.dimensionNo16,
-                                          bottom: Dimensions.dimensionNo12,
-                                        ),
-                                        child: Text(
-                                          "No service found",
-                                          style: TextStyle(
-                                              fontSize:
-                                                  Dimensions.dimensionNo14,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      )
-                                    : serchServiceList.contains(
-                                                // ignore: iterable_contains_unrelated_type
-                                                _serviceController.text) ||
-                                            _serviceController.text.isEmpty
-                                        ? Padding(
-                                            padding: EdgeInsets.only(
-                                              top: Dimensions.dimensionNo12,
-                                              left: Dimensions.dimensionNo16,
-                                              bottom: Dimensions.dimensionNo12,
-                                            ),
-                                            child: Text(
-                                              "Enter a Service name or Code",
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      Dimensions.dimensionNo14,
-                                                  fontWeight: FontWeight.w600),
-                                            ),
-                                          )
-                                        : ListView.builder(
-                                            shrinkWrap: true,
-                                            itemCount: serchServiceList.length,
-                                            itemBuilder: (context, index) {
-                                              ServiceModel serviceModel =
-                                                  serchServiceList[index];
-                                              return
-                                                  // !isSearched()
-
-                                                  SingleServiceTapAppoint(
-                                                      serviceModel:
-                                                          serviceModel);
-                                            },
-                                          ),
-                              ),
-                            ),
                         ],
                       ),
                     ],
@@ -773,7 +654,7 @@ class _EditAppointmentState extends State<EditAppointment> {
     );
   }
 
-  Container _formOfAppoint() {
+  Container _formOfAppoint(BookingProvider bookingProvider) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo16),
       padding: EdgeInsets.all(Dimensions.dimensionNo16),
@@ -781,136 +662,174 @@ class _EditAppointmentState extends State<EditAppointment> {
         border: Border.all(width: 1.5),
         borderRadius: BorderRadius.circular(Dimensions.dimensionNo8),
       ),
-      child: Center(
-        child: ResponsiveLayout.isMobile(context)
-            // Textbox for screen screen size
+      child: Form(
+        key: _formKey,
+        child: Center(
+          child: ResponsiveLayout.isMobile(context)
+              // Textbox for screen screen size
 
-            ? Column(
-                children: [
-                  //! User Name textbox
-                  Wrap(
-                    spacing: Dimensions.dimensionNo8,
-                    runSpacing: Dimensions.dimensionNo5,
-                    alignment: WrapAlignment.start, // Align items to the left
-                    children: [
-                      textBoxOfForm("First Name", _nameController),
+              ? Column(
+                  children: [
+                    //! User Name textbox
+                    Wrap(
+                      spacing: Dimensions.dimensionNo8,
+                      runSpacing: Dimensions.dimensionNo5,
+                      alignment: WrapAlignment.start, // Align items to the left
+                      children: [
+                        textBoxOfForm("First Name", "Enter First name",
+                            _nameController, addFirstNameValidator),
 
-                      //! User last Name textbox
+                        //! User last Name textbox
 
-                      textBoxOfForm("Last Name", _lastNameController),
+                        textBoxOfForm("Last Name", "Enter Last name",
+                            _lastNameController, noValidator,
+                            readOnly: true),
+                        //! select Date text box
+                        // selectAppointDateTextBox(),
+                        selectAppointDateTextBoxWidget(
+                            appointmentDateController:
+                                _appointmentDateController,
+                            showCalender: _showCalender,
+                            onTap: () {
+                              setState(() {
+                                _showCalender = !_showCalender;
+                              });
+                              print(_showCalender);
+                            },
+                            context: context),
 
-                      //! select Date text box
-                      _selectAppointDateTextBox(),
-                      textBoxOfForm("Mobile No", _mobileController),
+                        textBoxOfForm("Mobile No", "Enter a Mobile NO",
+                            _mobileController, addMobileValidator),
 
-                      //! select time textbox
-                      _timeSelectTextBox(),
+                        //! select time textbox
+                        _timeSelectTextBox(),
 
-                      //! Search box for Services  text box
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
+                        //! Search box for Services  text box
+
+                        serviceSearchBar(
+                          serviceSearchControl,
+                          context,
+                          bookingProvider,
+                          allServiceList,
+                        ),
+                        //! search box for product
+
+                        // productSearchTextBox(),
+                        productSearchBar(
+                          productSearchControl1,
+                          context,
+                          bookingProvider,
+                          allProductList,
+                        ),
+                        dropDownListSelectServiceAt(
+                            serviceAt, serviceAtList, context, (value) {
+                          setState(() {
+                            serviceAt = value;
+                          });
+                        }),
+                      ],
+                    ),
+                  ],
+                )
+              //! Textbox for table and decktap screen size
+              : Column(
+                  children: [
+                    // User Name textbox
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        textBoxOfForm("First Name", "Enter First name",
+                            _nameController, addFirstNameValidator),
+
+                        SizedBox(
+                          width: Dimensions.dimensionNo30,
+                        ),
+                        //! User last Name textbox
+
+                        textBoxOfForm("Last Name", "Enter Last name",
+                            _lastNameController, noValidator,
+                            readOnly: true),
+                        SizedBox(
+                          width: Dimensions.dimensionNo30,
+                        ),
+                        //! select Date text box
+                        selectAppointDateTextBoxWidget(
+                            appointmentDateController:
+                                _appointmentDateController,
+                            showCalender: _showCalender,
+                            onTap: () {
+                              setState(() {
+                                _showCalender = !_showCalender;
+                              });
+                              print(_showCalender);
+                            },
+                            context: context),
+                      ],
+                    ),
+                    //! Search box for Services  text box
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        // _serviceServiceTextBox(),
+                        serviceSearchBar(
+                          serviceSearchControl,
+                          context,
+                          bookingProvider,
+                          allServiceList,
+                        ),
+                        SizedBox(
+                          width: Dimensions.dimensionNo30,
+                        ),
+                        //! mobile text box
+                        textBoxOfForm("Mobile No", "Enter a Mobile NO",
+                            _mobileController, addMobileValidator,
+                            readOnly: true),
+                        SizedBox(
+                          width: Dimensions.dimensionNo30,
+                        ),
+
+                        //! select time textbox
+                        _timeSelectTextBox(),
+                      ],
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(left: Dimensions.dimensionNo60),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          _serviceServiceTextBox(),
-                          SizedBox(
-                            height: Dimensions.dimensionNo8,
+                          //! search box for product
+                          // productSearchTextBox(),
+                          productSearchBar(
+                            productSearchControl1,
+                            context,
+                            bookingProvider,
+                            allProductList,
                           ),
-                          Container(
-                            width: Dimensions.dimensionNo500,
-                            constraints: const BoxConstraints(
-                              maxHeight:
-                                  320, // Set a max height to make it scrollable
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFFFFFFF),
-                              borderRadius: BorderRadius.circular(
-                                  Dimensions.dimensionNo10),
-                            ),
-                            child: _serviceController.text.isNotEmpty &&
-                                    serchServiceList.isEmpty
-                                ? Padding(
-                                    padding: EdgeInsets.only(
-                                      top: Dimensions.dimensionNo12,
-                                      left: Dimensions.dimensionNo16,
-                                      bottom: Dimensions.dimensionNo12,
-                                    ),
-                                    child: Text(
-                                      "No service found",
-                                      style: TextStyle(
-                                          fontSize: Dimensions.dimensionNo14,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  )
-                                : serchServiceList.contains(
-                                            // ignore: iterable_contains_unrelated_type
-                                            _serviceController.text) ||
-                                        _serviceController.text.isEmpty
-                                    ? SizedBox()
-                                    : ListView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: serchServiceList.length,
-                                        itemBuilder: (context, index) {
-                                          ServiceModel serviceModel =
-                                              serchServiceList[index];
-                                          return
-                                              // !isSearched()
 
-                                              SingleServiceTapAppoint(
-                                                  serviceModel: serviceModel);
-                                        },
-                                      ),
+                          SizedBox(
+                            width: Dimensions.dimensionNo30,
+                          ),
+                          const Spacer(),
+                          //! DropdownList select Service
+
+                          dropDownListSelectServiceAt(
+                              serviceAt, serviceAtList, context, (value) {
+                            setState(() {
+                              serviceAt = value;
+                            });
+                          }),
+                          SizedBox(
+                            width: Dimensions.dimensionNo60,
                           ),
                         ],
                       ),
-                    ],
-                  ),
-                ],
-              )
-            //! Textbox for table and decktap screen size
-            : Column(
-                children: [
-                  // User Name textbox
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      textBoxOfForm("First Name", _nameController),
-                      SizedBox(
-                        width: Dimensions.dimensionNo30,
-                      ),
-                      //! User last Name textbox
+                    ),
 
-                      textBoxOfForm("Last Name", _lastNameController),
-                      SizedBox(
-                        width: Dimensions.dimensionNo30,
-                      ),
-                      //! select Date text box
-                      _selectAppointDateTextBox(),
-                    ],
-                  ),
-                  //! Search box for Services  text box
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _serviceServiceTextBox(),
-                      SizedBox(
-                        width: Dimensions.dimensionNo30,
-                      ),
-                      //! mobile text box
-                      textBoxOfForm("Mobile No", _mobileController),
-
-                      SizedBox(
-                        width: Dimensions.dimensionNo30,
-                      ),
-
-                      //! select time textbox
-                      _timeSelectTextBox(),
-                    ],
-                  ),
-
-                  // SizedBox(height: Dimensions.dimensionNo16),
-                ],
-              ),
+                    // SizedBox(height: Dimensions.dimensionNo16),
+                  ],
+                ),
+        ),
       ),
     );
   }
@@ -972,152 +891,26 @@ class _EditAppointmentState extends State<EditAppointment> {
     );
   }
 
-  SizedBox _serviceServiceTextBox() {
-    return SizedBox(
-      height: Dimensions.dimensionNo70,
-      width:
-          ResponsiveLayout.isMobile(context) ? null : Dimensions.dimensionNo250,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Service",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: ResponsiveLayout.isMobile(context)
-                  ? Dimensions.dimensionNo14
-                  : Dimensions.dimensionNo18,
-              fontFamily: GoogleFonts.roboto().fontFamily,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 0.90,
-            ),
-          ),
-          SizedBox(
-            height: Dimensions.dimensionNo5,
-          ),
-          SizedBox(
-            height: ResponsiveLayout.isDesktop(context)
-                ? Dimensions.dimensionNo30
-                : Dimensions.dimensionNo40,
-            width: ResponsiveLayout.isMobile(context)
-                ? null
-                : Dimensions.dimensionNo250,
-            child: TextFormField(
-              onChanged: (String value) {
-                serchService(value);
-                if (ResponsiveLayout.isDesktop(context) ||
-                    ResponsiveLayout.isTablet(context)) {
-                  _showServiceList = true;
-                }
-              },
-              onTap: () {
-                if (ResponsiveLayout.isDesktop(context) ||
-                    ResponsiveLayout.isTablet(context)) {
-                  setState(() {
-                    _showServiceList = !_showServiceList;
-                  });
-                }
-              },
-              cursorHeight: Dimensions.dimensionNo16,
-              style: TextStyle(
-                  fontSize: Dimensions.dimensionNo12,
-                  fontFamily: GoogleFonts.roboto().fontFamily,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-              controller: _serviceController,
-              decoration: InputDecoration(
-                hintText: "Search Service...",
-                contentPadding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.dimensionNo10,
-                    vertical: Dimensions.dimensionNo10),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Dimensions.dimensionNo16),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  SizedBox _selectAppointDateTextBox() {
-    return SizedBox(
-      height: Dimensions.dimensionNo70,
-      width:
-          ResponsiveLayout.isMobile(context) ? null : Dimensions.dimensionNo250,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Appointment Date",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: ResponsiveLayout.isMobile(context)
-                  ? Dimensions.dimensionNo14
-                  : Dimensions.dimensionNo18,
-              fontFamily: GoogleFonts.roboto().fontFamily,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 0.90,
-            ),
-          ),
-          SizedBox(
-            height: Dimensions.dimensionNo5,
-          ),
-          SizedBox(
-            height: ResponsiveLayout.isDesktop(context)
-                ? Dimensions.dimensionNo30
-                : Dimensions.dimensionNo40,
-            width: ResponsiveLayout.isMobile(context)
-                ? null
-                : Dimensions.dimensionNo250,
-            child: TextFormField(
-              onTap: () {
-                setState(() {
-                  _showCalender = !_showCalender;
-                });
-                print(_showCalender);
-              },
-              readOnly: true,
-              cursorHeight: Dimensions.dimensionNo16,
-              style: TextStyle(
-                  fontSize: Dimensions.dimensionNo12,
-                  fontFamily: GoogleFonts.roboto().fontFamily,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-              controller: _appointmentDateController,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.dimensionNo10,
-                    vertical: Dimensions.dimensionNo10),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Dimensions.dimensionNo16),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   SizedBox textBoxOfForm(
     String title,
+    String hindText,
     TextEditingController controller,
-  ) {
+    String? Function(String?)? validator, {
+    final bool readOnly = false,
+  }) {
     return SizedBox(
-      height: Dimensions.dimensionNo70,
       width:
           ResponsiveLayout.isMobile(context) ? null : Dimensions.dimensionNo250,
-      child: FormCustomTextField(
-        requiredField: false,
-        controller: controller,
-        title: title,
-      ),
+      child: validateTextBoxWithHeading(
+          hintText: hindText,
+          labelText: title,
+          controller: controller,
+          validator: validator,
+          readOnly: readOnly),
     );
   }
 
-  Container AppointDetailsSummer(
+  Container appointDetailsSummer(
     BookingProvider bookingProvider,
     int serviceDurationInMinutes,
     BuildContext context,
@@ -1138,314 +931,268 @@ class _EditAppointmentState extends State<EditAppointment> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: Dimensions.dimensionNo16),
-          if (_selectedTimeSlot != null)
-            Text(
-              'Appointment Duration',
+          // if (_selectedTimeSlot != null)
+          Text(
+            'Appointment Summary.',
+            style: TextStyle(
+              fontSize: Dimensions.dimensionNo16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          const Divider(
+            color: Colors.white,
+          ),
+          // if (_selectedTimeSlot != null) ...[
+          SizedBox(height: Dimensions.dimensionNo10),
+          Row(
+            children: [
+              Text(
+                'Appointment Date',
+                style: appointSummerTextStyle(),
+              ),
+              const Spacer(),
+              Text(
+                _appointmentDateController.text,
+                style: appointSummerTextStyle(),
+              ),
+            ],
+          ),
+          SizedBox(height: Dimensions.dimensionNo10),
+          Row(
+            children: [
+              Text(
+                'Appointment Duration',
+                style: appointSummerTextStyle(),
+              ),
+              const Spacer(),
+              Text(
+                bookingProvider.getServiceBookingDuration,
+                style: appointSummerTextStyle(),
+              ),
+            ],
+          ),
+          SizedBox(height: Dimensions.dimensionNo10),
+          Row(
+            children: [
+              Text(
+                'Appointment Start Time',
+                style: appointSummerTextStyle(),
+              ),
+              const Spacer(),
+              _selectedTimeSlot != null && _selectedTimeSlot!.isNotEmpty
+                  ? Text(
+                      '$_selectedTimeSlot',
+                      style: appointSummerTextStyle(),
+                    )
+                  : const SizedBox(),
+            ],
+          ),
+          SizedBox(height: Dimensions.dimensionNo10),
+          Row(
+            children: [
+              Text(
+                'Appointment End Time',
+                style: appointSummerTextStyle(),
+              ),
+              const Spacer(),
+              _selectedTimeSlot != null && _selectedTimeSlot!.isNotEmpty
+                  ? Text(
+                      DateFormat('hh:mm a').format(
+                        DateFormat('hh:mm a').parse(_selectedTimeSlot!).add(
+                              Duration(minutes: serviceDurationInMinutes),
+                            ),
+                      ),
+                      style: appointSummerTextStyle(),
+                    )
+                  : const SizedBox(),
+            ],
+          ),
+
+          SizedBox(height: Dimensions.dimensionNo10),
+          const Divider(
+            color: Colors.white,
+          ),
+          Center(
+            child: Text(
+              'Price Details',
               style: TextStyle(
                 fontSize: Dimensions.dimensionNo16,
                 fontWeight: FontWeight.bold,
               ),
             ),
+          ),
           const Divider(
             color: Colors.white,
           ),
-          if (_selectedTimeSlot != null) ...[
-            SizedBox(height: Dimensions.dimensionNo10),
-            Row(
-              children: [
-                Text(
-                  'Appointment Date',
-                  style: _appointSummTextSyle(),
-                ),
-                Spacer(),
-                Text(
-                  _appointmentDateController.text,
-                  style: _appointSummTextSyle(),
-                ),
-              ],
-            ),
-            SizedBox(height: Dimensions.dimensionNo10),
-            Row(
-              children: [
-                Text(
-                  'Appointment Duration',
-                  style: _appointSummTextSyle(),
-                ),
-                const Spacer(),
-                Text(
-                  bookingProvider.getServiceBookingDuration,
-                  style: _appointSummTextSyle(),
-                ),
-              ],
-            ),
-            SizedBox(height: Dimensions.dimensionNo10),
-            Row(
-              children: [
-                Text(
-                  'Appointment Start Time',
-                  style: _appointSummTextSyle(),
-                ),
-                const Spacer(),
-                Text(
-                  '$_selectedTimeSlot',
-                  style: _appointSummTextSyle(),
-                ),
-              ],
-            ),
-            SizedBox(height: Dimensions.dimensionNo10),
-            Row(
-              children: [
-                Text(
-                  'Appointment End Time',
-                  style: _appointSummTextSyle(),
-                ),
-                const Spacer(),
-                Text(
-                  DateFormat('hh:mm a').format(
-                    DateFormat('hh:mm a').parse(_selectedTimeSlot!).add(
-                          Duration(minutes: serviceDurationInMinutes),
-                        ),
+
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // SubTotal
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'SubTotal',
+                      style: appointSummaryTextStyle(context),
+                    ),
                   ),
-                  style: _appointSummTextSyle(),
-                ),
-              ],
-            ),
-            SizedBox(height: Dimensions.dimensionNo10),
-            const Divider(
-              color: Colors.white,
-            ),
-            Center(
-              child: Text(
-                'Price Details',
-                style: TextStyle(
-                  fontSize: Dimensions.dimensionNo16,
-                  fontWeight: FontWeight.bold,
-                ),
+                  Icon(Icons.currency_rupee, size: Dimensions.dimensionNo16),
+                  Text(
+                    bookingProvider.getSubTotalBill.toString(),
+                    style: appointSummaryTextStyle(context, bold: true),
+                  ),
+                ],
               ),
-            ),
-            const Divider(
-              color: Colors.white,
-            ),
-            SizedBox(height: Dimensions.dimensionNo10),
+              lineOfGrey(),
 
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // SubTotal
+              //  Discount
+              if (bookingProvider.getDiscountBill != 0.0) ...[
                 Row(
                   children: [
                     Expanded(
                       child: Text(
-                        _settingModel!.gSTIsIncludingOrExcluding ==
-                                GlobalVariable.GstInclusive
-                            ? 'Subtotal (incl. GST ${_samaySalonSettingModel!.gstPer.toString()} %) '
-                            : 'SubTotal',
-                        style: appointSummaryTextStyle(context),
-                      ),
-                    ),
-                    Icon(Icons.currency_rupee, size: Dimensions.dimensionNo16),
-                    Text(
-                      bookingProvider.getSubTotal.toString(),
-                      style: appointSummaryTextStyle(context, bold: true),
-                    ),
-                  ],
-                ),
-                lineOfGrey(),
-
-                // Item Discount
-                if (bookingProvider.getDiscountInPer != 0.0) ...[
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Item Discount ${bookingProvider.getDiscountInPer!.round()}%',
-                          style: appointSummaryTextStyle(context,
-                              color: Colors.green),
-                        ),
-                      ),
-                      Text(
-                        "-₹${bookingProvider.getDiscountAmount.toString()}",
+                        'Discount ${bookingProvider.discountBillPer.toStringAsFixed(2)}%',
                         style: appointSummaryTextStyle(context,
-                            color: Colors.green, bold: true),
-                      ),
-                    ],
-                  ),
-                  lineOfGrey(),
-                ],
-
-                // Extra Discount
-                if (bookingProvider.getExtraDiscountAmount != 0.0) ...[
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'Extra Discount ',
-                          // 'Extra Discount ${bookingProvider.getExtraDiscountInPer!.round()}%',
-                          style: appointSummaryTextStyle(context,
-                              color: Colors.blueGrey),
-                        ),
-                      ),
-                      Text(
-                        "-₹${bookingProvider.getExtraDiscountAmount.toString()}",
-                        style: appointSummaryTextStyle(context,
-                            color: Colors.blueGrey, bold: true),
-                      ),
-                    ],
-                  ),
-                  lineOfGrey(),
-                ],
-
-                // Net Price
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        _settingModel!.gSTIsIncludingOrExcluding ==
-                                GlobalVariable.GstInclusive
-                            ? 'Net Price (incl. GST)'
-                            : 'Net Price',
-                        style: appointSummaryTextStyle(context),
+                            color: Colors.green),
                       ),
                     ),
                     Text(
-                      "₹${bookingProvider.getNetPrice!.toStringAsFixed(2)}",
-                      style: appointSummaryTextStyle(context, bold: true),
-                    ),
-                  ],
-                ),
-                lineOfGrey(),
-
-                // Platform Fee
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        _settingModel!.gSTIsIncludingOrExcluding ==
-                                GlobalVariable.GstInclusive
-                            ? 'Platform fee (incl. GST)'
-                            : 'Platform fee',
-                        style: appointSummaryTextStyle(context),
-                      ),
-                    ),
-                    Icon(Icons.currency_rupee, size: Dimensions.dimensionNo16),
-                    Text(
-                      _samaySalonSettingModel!.platformFee,
-                      style: appointSummaryTextStyle(context, bold: true),
-                    ),
-                  ],
-                ),
-                lineOfGrey(),
-
-                // Taxable Amount
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        _settingModel!.gSTIsIncludingOrExcluding == null ||
-                                _settingModel!
-                                    .gSTIsIncludingOrExcluding!.isEmpty
-                            ? "Total Amount"
-                            : 'Taxable Amount',
-                        style: appointSummaryTextStyle(context),
-                      ),
-                    ),
-                    Icon(Icons.currency_rupee, size: Dimensions.dimensionNo16),
-                    Text(
-                      bookingProvider.getTaxAbleAmount!
-                          .round()
-                          .toStringAsFixed(2),
-                      style: appointSummaryTextStyle(context, bold: true),
-                    ),
-                  ],
-                ),
-                lineOfGrey(),
-
-                // GST
-                if (_settingModel!.gstNo.length == 15) ...[
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          'GST 18% (SGST & CGST)',
-                          style: appointSummaryTextStyle(context),
-                        ),
-                      ),
-                      Icon(Icons.currency_rupee,
-                          size: Dimensions.dimensionNo16),
-                      Text(
-                        _settingModel!.gSTIsIncludingOrExcluding ==
-                                GlobalVariable.GstExclusive
-                            ? bookingProvider.getExcludingGSTAMT!
-                                .toStringAsFixed(2)
-                            : bookingProvider.getIncludingGSTAMT!
-                                .toStringAsFixed(2),
-                        style: appointSummaryTextStyle(context, bold: true),
-                      ),
-                    ],
-                  ),
-                  lineOfGrey(),
-                ],
-
-                // Final Payable Amount
-                Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        'Final Payable amount',
-                        style: appointSummaryTextStyle(context, bold: true),
-                      ),
-                    ),
-                    Icon(Icons.currency_rupee,
-                        size: Dimensions.dimensionNo18,
-                        color: Colors.green.shade700),
-                    Text(
-                      bookingProvider.getFinalPayableAMT!.round().toString(),
+                      "-₹ ${bookingProvider.getDiscountBill.toString()}",
                       style: appointSummaryTextStyle(context,
-                          color: Colors.green.shade700, bold: true),
+                          color: Colors.green, bold: true),
                     ),
                   ],
                 ),
                 lineOfGrey(),
               ],
-            ),
 
-            // //! Save Button
-            // CustomAuthButton(
-            //     text: "Check value",
-            //     ontap: () {
-            // //! Convert time and Date to save fb
-            // String _inputDate = _appointmentDateController.text.trim();
-            // // Parse the input date string into a DateTime object
-            // DateTime appointmentDate = _dateFormat.parse(_inputDate);
-            // // Ensure the time is set to midnight (00:00:00)
-            // DateTime _selectAppointDate = DateTime(
-            //   appointmentDate.year,
-            //   appointmentDate.month,
-            //   appointmentDate.day,
-            // );
-            //! Convert Date to save fb
-            // Get the trimmed input time
-            // String _inputStartime =
-            //     _appointmentTimeController.text.trim();
-            // // Parse the input time string into a DateTime object
-            // DateTime _parsedStartime =
-            //     _timeFormat12hr.parse(_inputStartime);
-            // // Combine today's date with the parsed time
-            // DateTime _appointStartTime = DateTime(
-            //   appointmentDate.year,
-            //   appointmentDate.month,
-            //   appointmentDate.day,
-            //   _parsedStartime.hour,
-            //   _parsedStartime.minute,
-            // );
-            // print("Appointment Date $_selectAppointDate");
-            // print("Appointment Time $_appointStartTime");
-            // }),
+              // Extra Discount
+              if (bookingProvider.getExtraDiscountAmount != 0.0) ...[
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Extra Discount ',
+                        // 'Extra Discount ${bookingProvider.getExtraDiscountInPer!.round()}%',
+                        style: appointSummaryTextStyle(context,
+                            color: Colors.blueGrey),
+                      ),
+                    ),
+                    Text(
+                      "-₹${bookingProvider.getExtraDiscountAmount.toString()}",
+                      style: appointSummaryTextStyle(context,
+                          color: Colors.blueGrey, bold: true),
+                    ),
+                  ],
+                ),
+                lineOfGrey(),
+              ],
 
-            saveButton(context, serviceDurationInMinutes, bookingProvider),
-            SizedBox(height: Dimensions.dimensionNo12),
-          ],
+              // Net Price
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Net Price',
+                      style: appointSummaryTextStyle(context),
+                    ),
+                  ),
+                  Text(
+                    "₹ ${bookingProvider.getNetPriceBill.toStringAsFixed(2)}",
+                    style: appointSummaryTextStyle(context, bold: true),
+                  ),
+                ],
+              ),
+              lineOfGrey(),
+
+              // Platform Fee
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      _settingModel!.gSTIsIncludingOrExcluding ==
+                              GlobalVariable.inclusiveGST
+                          ? 'Platform fee (incl. GST)'
+                          : 'Platform fee',
+                      style: appointSummaryTextStyle(context),
+                    ),
+                  ),
+                  Icon(Icons.currency_rupee, size: Dimensions.dimensionNo16),
+                  Text(
+                    _samaySalonSettingModel!.platformFee,
+                    style: appointSummaryTextStyle(context, bold: true),
+                  ),
+                ],
+              ),
+              lineOfGrey(),
+
+              // Taxable Amount
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Taxable Amount',
+                      style: appointSummaryTextStyle(context),
+                    ),
+                  ),
+                  Icon(Icons.currency_rupee, size: Dimensions.dimensionNo16),
+                  Text(
+                    bookingProvider.getTaxableAmountBill
+                        .round()
+                        .toStringAsFixed(2),
+                    style: appointSummaryTextStyle(context, bold: true),
+                  ),
+                ],
+              ),
+              lineOfGrey(),
+
+              // GST
+              if (_settingModel!.gstNo.length == 15) ...[
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'GST 18% (SGST & CGST)',
+                        style: appointSummaryTextStyle(context),
+                      ),
+                    ),
+                    Icon(Icons.currency_rupee, size: Dimensions.dimensionNo16),
+                    Text(
+                      bookingProvider.getGstAmountBill.toStringAsFixed(2),
+                      style: appointSummaryTextStyle(context, bold: true),
+                    ),
+                  ],
+                ),
+                lineOfGrey(),
+              ],
+
+              // Final Payable Amount
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      'Final Payable amount',
+                      style: appointSummaryTextStyle(context, bold: true),
+                    ),
+                  ),
+                  Icon(Icons.currency_rupee,
+                      size: Dimensions.dimensionNo18,
+                      color: Colors.green.shade700),
+                  Text(
+                    bookingProvider.getFinalTotalBill.round().toString(),
+                    style: appointSummaryTextStyle(context,
+                        color: Colors.green.shade700, bold: true),
+                  ),
+                ],
+              ),
+              SizedBox(
+                height: Dimensions.dimensionNo12,
+              )
+            ],
+          ),
         ],
+        // ],
       ),
     );
   }
@@ -1479,7 +1226,7 @@ class _EditAppointmentState extends State<EditAppointment> {
     );
   }
 
-  TextStyle _appointSummTextSyle() {
+  TextStyle appointSummerTextStyle() {
     return TextStyle(
       fontSize: Dimensions.dimensionNo14,
       fontWeight: FontWeight.w500,
@@ -1487,165 +1234,226 @@ class _EditAppointmentState extends State<EditAppointment> {
     );
   }
 
-  CustomAuthButton saveButton(BuildContext context,
-      int serviceDurationInMinutes, BookingProvider bookingProvider) {
-    return CustomAuthButton(
-      text: "Update Appointment",
-      ontap: () async {
-        showLoaderDialog(context);
-// update appoint ent to BookingProvider
-        // // Calculating service end time.
-        DateTime _endTime = DateFormat('hh:mm a')
-            .parse(_selectedTimeSlot!)
-            .add(Duration(minutes: serviceDurationInMinutes));
+  Widget saveButton(BuildContext context, int serviceDurationInMinutes,
+      BookingProvider bookingProvider) {
+    return Container(
+      margin: ResponsiveLayout.isMobile(context)
+          ? EdgeInsets.zero
+          : EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo250),
+      padding: EdgeInsets.symmetric(
+          horizontal: ResponsiveLayout.isMobile(context)
+              ? Dimensions.dimensionNo5
+              : Dimensions.dimensionNo20),
+      child: CustomAuthButton(
+        text: "Update Appointment",
+        ontap: () async {
+          if (_selectedTimeSlot == null || _selectedTimeSlot!.isEmpty) {
+            showBottomMessageError("Please select a time slot", context);
+            return;
+          }
 
-        bookingProvider.updateAppointEndTime(_endTime);
+          if (_formKey.currentState!.validate()) {
+            showLoaderDialog(context);
+            // update appoint ent-time to BookingProvider
+            DateTime _endTime = DateFormat('hh:mm a')
+                .parse(_selectedTimeSlot!)
+                .add(Duration(minutes: serviceDurationInMinutes));
 
-        // Create the time and date model
-        TimeStampModel _timeStampModel = TimeStampModel(
-          id: widget.appintModel.orderId,
-          dateAndTime: GlobalVariable.today,
-          updateBy: "${widget.salonModel.name} (Appointment update)",
-        );
+            bookingProvider.updateAppointEndTime(_endTime);
 
-        _timeStampList.add(_timeStampModel);
+            // Create the time and date model
+            TimeStampModel _timeStampModel = TimeStampModel(
+              id: widget.appointModel.orderId,
+              dateAndTime: GlobalVariable.today,
+              updateBy: "${widget.salonModel.name} (Appointment update)",
+            );
 
-        //! Convert Date to save fb
-        String _inputDate = _appointmentDateController.text.trim();
-        // Parse the input date string into a DateTime object
+            _timeStampList.add(_timeStampModel);
 
-        DateTime appointmentDate = _dateFormat.parse(_inputDate);
-        // Ensure the time is set to midnight (00:00:00)
-        DateTime _selectAppointDate = DateTime(
-          appointmentDate.year,
-          appointmentDate.month,
-          appointmentDate.day,
-        );
+            //! Convert Date to save fb
+            String _inputDate = _appointmentDateController.text.trim();
+            // Parse the input date string into a DateTime object
 
-        // Declare the appointModel variable before using it
-        AppointModel appointModel = widget.appintModel.copyWith(
-          services: bookingProvider.getWatchList,
-          subtatal: bookingProvider.getSubTotal,
-          totalPrice: bookingProvider.getFinalPayableAMT!,
-          netPrice: bookingProvider.getNetPrice!,
-          gstAmount: _settingModel!.gstNo.length == 15
-              ? _settingModel!.gSTIsIncludingOrExcluding ==
-                      GlobalVariable.GstExclusive
-                  ? bookingProvider.getExcludingGSTAMT!
-                  : bookingProvider.getIncludingGSTAMT!
-              : 0.0,
-          payment: "PAP (Pay At Place)",
-          discountInPer: bookingProvider.getDiscountInPer!,
-          discountAmount: bookingProvider.getDiscountAmount,
-          extraDiscountInAmount: 0.0,
-          extraDiscountInPer: 0.0,
-          serviceDuration: bookingProvider.getAppointDuration!.inMinutes,
-          serviceDate: _selectAppointDate,
-          serviceStartTime: bookingProvider.getAppointStartTime,
-          serviceEndTime: bookingProvider.getAppointEndTime,
-          userNote: _userNote.text.trim(),
-          timeStampList: _timeStampList,
-          isUpdate: true,
-        );
+            DateTime appointmentDate = _dateFormat.parse(_inputDate);
+            // Ensure the time is set to midnight (00:00:00)
+            DateTime _selectAppointDate = DateTime(
+              appointmentDate.year,
+              appointmentDate.month,
+              appointmentDate.day,
+            );
+            List<String>? _serviceListId = [];
+            _serviceListId =
+                bookingProvider.getWatchList.map((e) => e.id).toList();
 
-        // Now use appointModel in the updateAppointment function
-        Future<bool> isUpdate = bookingProvider.updateAppointment(
-          widget.userModel.id,
-          widget.appintModel.orderId,
-          appointModel,
-        );
+            final Map<String, int> productListIdQty1;
+            productListIdQty1 = bookingProvider.getBudgetProductQuantityMap.map(
+              (key, value) => MapEntry(key.id, value),
+            );
 
-        await UserBookingFB.instance.updateDateFB(
-          widget.appintModel.serviceDate,
-          widget.appintModel.serviceDate,
-          widget.appintModel.adminId,
-          widget.appintModel.vendorId,
-        );
+            //** Product Bill Model
+            ProductBillModel productBillModelUpdate =
+                widget.appointModel.productBillModel!.copyWith(
+              productListIdQty: productListIdQty1,
+              subTotalProduct: bookingProvider.getSubTotalProduct,
+              discountATMProduct: bookingProvider.getTotalProductDisco,
+              netPriceProduct: bookingProvider.getNetAmountProduct,
+              taxableAMTProduct: bookingProvider.getTaxableAmountProduct,
+              gSTAMTProduct: bookingProvider.getGstAmountProduct,
+              finalAMTProduct: bookingProvider.getFinalProductTotal,
+            );
 
-        Navigator.of(context, rootNavigator: true).pop();
-        showMessage("Successfully updated the appointment");
+            ServiceBillModel serviceBillModelUpdate =
+                widget.appointModel.serviceBillModel!.copyWith(
+              serviceListId: _serviceListId,
+              subTotalService: bookingProvider.getSubTotal,
+              discountATMService: bookingProvider.getDiscountAmount!,
+              netPriceService: bookingProvider.getNetPrice!,
+              taxableAMTService: bookingProvider.getTaxAbleAmount!,
+              gSTAMTService: _settingModel!.gstNo.length == 15
+                  ? _settingModel!.gSTIsIncludingOrExcluding ==
+                          GlobalVariable.exclusiveGST
+                      ? bookingProvider.getExcludingGSTAMT!
+                      : bookingProvider.getIncludingGSTAMT!
+                  : 0.0,
+              finalAMTService: bookingProvider.getFinalPayableAMT!,
+              gstIsIncludingOrExcluding:
+                  _settingModel!.gSTIsIncludingOrExcluding!,
+            );
 
-        if (await isUpdate) {
-          showLoaderDialog(context);
-          Future.delayed(
-            const Duration(microseconds: 50),
-            () {
-              showDialog(
-                context: context,
-                barrierDismissible: false,
-                builder: (context) {
-                  return AlertDialog(
-                    content: SizedBox(
-                      height: Dimensions.dimensionNo250,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(height: Dimensions.dimensionNo12),
-                          Icon(
-                            FontAwesomeIcons.solidHourglassHalf,
-                            size: Dimensions.dimensionNo40,
-                            color: AppColor.buttonColor,
+            //** AppointmentInfo Model */
+            AppointmentInfo appointmentInfoUpdate =
+                widget.appointModel.appointmentInfo!.copyWith(
+              serviceAt: serviceAt,
+              serviceDuration: bookingProvider.getAppointDuration!.inMinutes,
+              serviceDate: bookingProvider.getAppointSelectedDate,
+              serviceStartTime: bookingProvider.getAppointStartTime,
+              serviceEndTime: bookingProvider.getAppointEndTime,
+              userNote: _userNote.text.isEmpty ? " " : _userNote.text.trim(),
+            );
+
+            AppointModel updateAppointModel = widget.appointModel.copyWith(
+              subTotalBill: bookingProvider.getSubTotalBill,
+              discountBill: bookingProvider.getDiscountBill,
+              netPriceBill: bookingProvider.getNetPriceBill,
+              platformFeeBill: GlobalVariable.platformFee,
+              taxableAmountBill: bookingProvider.getTaxableAmountBill,
+              gstAmountBill: bookingProvider.getGstAmountBill,
+              finalTotalBill: bookingProvider.getFinalTotalBill,
+              appointmentInfo: appointmentInfoUpdate,
+              serviceBillModel: serviceBillModelUpdate,
+              productBillModel: productBillModelUpdate,
+              timeStampList: _timeStampList,
+              isUpdate: true,
+            );
+
+            // Now use appointModel in the updateAppointment function
+            Future<bool> isUpdate = bookingProvider.updateAppointment(
+              widget.userModel.id,
+              widget.appointModel.orderId,
+              updateAppointModel,
+            );
+
+            await UserBookingFB.instance.updateDateFB(
+              widget.appointModel.appointmentInfo!.serviceDate,
+              widget.appointModel.appointmentInfo!.serviceDate,
+              widget.appointModel.adminId,
+              widget.appointModel.vendorId,
+            );
+
+            Navigator.of(context, rootNavigator: true).pop();
+            showMessage("Successfully updated the appointment");
+
+            if (await isUpdate) {
+              showLoaderDialog(context);
+              Future.delayed(
+                const Duration(microseconds: 50),
+                () {
+                  showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (context) {
+                      return AlertDialog(
+                        content: SizedBox(
+                          height: Dimensions.dimensionNo250,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              SizedBox(height: Dimensions.dimensionNo12),
+                              Icon(
+                                FontAwesomeIcons.solidHourglassHalf,
+                                size: Dimensions.dimensionNo40,
+                                color: AppColor.buttonColor,
+                              ),
+                              SizedBox(height: Dimensions.dimensionNo20),
+                              Text(
+                                'Appointment update Successfully',
+                                style: TextStyle(
+                                  fontSize: Dimensions.dimensionNo16,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              SizedBox(height: Dimensions.dimensionNo16),
+                              Text(
+                                'Appointment update has been processed!\nDetails of the appointment are included below',
+                                style: TextStyle(
+                                  fontSize: Dimensions.dimensionNo12,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              SizedBox(height: Dimensions.dimensionNo20),
+                              Text(
+                                'Appointment No : ${widget.appointModel.appointmentInfo!.appointmentNo}',
+                                style: TextStyle(
+                                  fontSize: Dimensions.dimensionNo14,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(height: Dimensions.dimensionNo20),
-                          Text(
-                            'Appointment update Successfully',
-                            style: TextStyle(
-                              fontSize: Dimensions.dimensionNo16,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          SizedBox(height: Dimensions.dimensionNo16),
-                          Text(
-                            'Appointment update has been processed!\nDetails of the appointment are included below',
-                            style: TextStyle(
-                              fontSize: Dimensions.dimensionNo12,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                          SizedBox(height: Dimensions.dimensionNo20),
-                          Text(
-                            'Appointment No : ${widget.appintModel.appointmentNo}',
-                            style: TextStyle(
-                              fontSize: Dimensions.dimensionNo14,
-                              fontWeight: FontWeight.w500,
+                        ),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              updateAppointModel.appointmentInfo!.status ==
+                                      GlobalVariable.billGenerateAppointState
+                                  ? Routes.instance.push(
+                                      widget: UserSideBarPaymentScreen(
+                                        appointModel: updateAppointModel,
+                                      ),
+                                      context: context)
+                                  : Routes.instance.push(
+                                      widget: HomeScreen(
+                                          date: Provider.of<CalenderProvider>(
+                                                  context,
+                                                  listen: false)
+                                              .getSelectDate),
+                                      context: context,
+                                    );
+                            },
+                            child: Text(
+                              'OK',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: Dimensions.dimensionNo18,
+                                fontWeight: FontWeight.w700,
+                              ),
                             ),
                           ),
                         ],
-                      ),
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Routes.instance.push(
-                            widget: HomeScreen(
-                                date: Provider.of<CalenderProvider>(context,
-                                        listen: false)
-                                    .getSelectDate),
-                            context: context,
-                          );
-                        },
-                        child: Text(
-                          'OK',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: Dimensions.dimensionNo18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                    ],
+                      );
+                    },
                   );
                 },
               );
-            },
-          );
-          Navigator.of(context, rootNavigator: true).pop();
-        }
-      },
+              Navigator.of(context, rootNavigator: true).pop();
+            }
+          }
+        },
+      ),
     );
   }
 
-  AlertDialog warnigAlertDialogBox(String messages, BuildContext context) {
+  AlertDialog waringAlertDialogBox(String messages, BuildContext context) {
     return AlertDialog(
       content: SizedBox(
         width: Dimensions.dimensionNo360,

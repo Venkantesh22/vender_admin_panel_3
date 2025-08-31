@@ -70,7 +70,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
                 Padding(
                   padding:
                       EdgeInsets.symmetric(vertical: Dimensions.dimensionNo10),
-                  child: Divider(),
+                  child: const Divider(),
                 ),
                 Text(
                   'Enter your registered email address',

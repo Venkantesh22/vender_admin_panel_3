@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class GlobalVariable {
-  static TimeOfDay OpenTime = TimeOfDay(hour: 6, minute: 0);
-  static TimeOfDay CloseTime = TimeOfDay(hour: 21, minute: 0);
-  static TimeOfDay openTimeGlo = TimeOfDay(hour: 6, minute: 0);
-  static TimeOfDay closerTimeGlo = TimeOfDay(hour: 6, minute: 0);
+  static TimeOfDay OpenTime = const TimeOfDay(hour: 6, minute: 0);
+  static TimeOfDay CloseTime = const TimeOfDay(hour: 21, minute: 0);
+  static TimeOfDay openTimeGlo = const TimeOfDay(hour: 6, minute: 0);
+  static TimeOfDay closerTimeGlo = const TimeOfDay(hour: 6, minute: 0);
   static String salonID = '';
 
   static const String salon = "Salon";
@@ -22,9 +22,21 @@ class GlobalVariable {
   static String customerGmail = "helpquickjet@gmail.com";
   static String diffbtwTimetap = "30";
   static int dayForBooking = 10;
+
+  // GST 18% for salon services
   static double salonGST0_18 = 0.18;
   static double salonGST18Per = 18;
   static double salonGST1_18 = 1.18;
+
+  // GST 18% for salon products
+  static double productGST18 = 18;
+  static double productGST1_18 = 1.18;
+
+    static double gST18 = 18;
+
+
+  // Platform fee
+  static double platformFee = 0.00; // 5% of the total bill
 
   // Function to get current date and time in a formatted string
   static String getCurrentDate() {
@@ -51,15 +63,15 @@ class GlobalVariable {
   }
 
   // Formate DateTime (dd MMM yyy) to  DateTime
-  static DateTime DateTimeFomate(DateTime _date) {
-    String _formatted = DateFormat("dd MMM yyyy").format(_date);
-    DateTime _FormateDate = DateFormat("dd MMM yyyy").parse(_formatted);
-    return _FormateDate;
+  static DateTime DateTimeFomate(DateTime date) {
+    String formatted = DateFormat("dd MMM yyyy").format(date);
+    DateTime FormateDate = DateFormat("dd MMM yyyy").parse(formatted);
+    return FormateDate;
   }
 
-  static String DateTimeDateToString(DateTime _date) {
-    String _formatted = DateFormat("dd MMM yyyy").format(_date);
-    return _formatted;
+  static String DateTimeDateToString(DateTime date) {
+    String formatted = DateFormat("dd MMM yyyy").format(date);
+    return formatted;
   }
 
   // Asstes,
@@ -71,8 +83,10 @@ class GlobalVariable {
   static String indiaCode = "+91";
 
   //
-  static String GstExclusive = "Exclusive";
-  static String GstInclusive = "Inclusive";
+  static String exclusiveGST = "Exclusive";
+  static String inclusiveGST = "Inclusive";
+  static String noGST = "noGST";
+
 
   // super Category
   static String supCatHair = "Hair Services";
@@ -111,4 +125,11 @@ class GlobalVariable {
   // Product visible  status
   static const String productVisible = "visible";
   static const String productHidden = "hidden";
+
+  // Product type
+
+  static const String cashPayment = "Cash";
+  static const String qRPayment = "QR";
+  static const String customPayment = "Custom";
+  static const String pAPPayment = "PAP (Pay At Place)";
 }

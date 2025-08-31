@@ -9,10 +9,10 @@ class Appbaritem extends StatelessWidget {
   final VoidCallback ontap;
 
   const Appbaritem({
-    Key? key,
+    super.key,
     required this.text,
     required this.ontap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

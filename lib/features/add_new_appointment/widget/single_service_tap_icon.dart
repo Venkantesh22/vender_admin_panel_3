@@ -1,24 +1,110 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:samay_admin_plan/constants/constants.dart';
 import 'package:samay_admin_plan/constants/custom_chip.dart';
+import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/models/service_model/service_model.dart';
+import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
 import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/pricerow.dart';
+
+Column selectServiceList(
+  BuildContext context,
+  BookingProvider bookingProvider,
+) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Row(
+        children: [
+          Text(
+            "Select Services List",
+            style: TextStyle(
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimensionNo14
+                  : Dimensions.dimensionNo18,
+              fontWeight: ResponsiveLayout.isMobile(context)
+                  ? FontWeight.bold
+                  : FontWeight.w600,
+            ),
+          ),
+          const Spacer(),
+          Text(
+            "Service Duration ${bookingProvider.getServiceBookingDuration}",
+            style: TextStyle(
+              fontSize: ResponsiveLayout.isMobile(context)
+                  ? Dimensions.dimensionNo14
+                  : Dimensions.dimensionNo18,
+              fontWeight: ResponsiveLayout.isMobile(context)
+                  ? FontWeight.bold
+                  : FontWeight.w600,
+            ),
+          ),
+        ],
+      ),
+      SizedBox(
+        height: Dimensions.dimensionNo10,
+      ),
+      Padding(
+        padding: ResponsiveLayout.isMobile(context)
+            ? EdgeInsets.zero
+            : EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo12),
+        child: Wrap(
+          spacing: Dimensions.dimensionNo12, // Horizontal space between items
+          runSpacing: Dimensions.dimensionNo12, // Vertical space between rows
+          alignment: WrapAlignment.center,
+          runAlignment: WrapAlignment.start,
+          children: List.generate(
+            bookingProvider.getWatchList.length,
+            (index) {
+              ServiceModel servicelist = bookingProvider.getWatchList[index];
+              return SizedBox(
+                width: ResponsiveLayout.isMobile(context)
+                    ? Dimensions.dimensionNo300
+                    : Dimensions.dimensionNo400,
+                child: SingleServiceTapDeleteIcon(
+                  serviceModel: servicelist,
+                  onTap: () {
+                    try {
+                      showLoaderDialog(context);
+                      // setState(() {
+                      bookingProvider.removeServiceToWatchList(servicelist);
+
+                      bookingProvider.calculateTotalBookingDuration();
+                      bookingProvider.calculateSubTotal();
+                      // });
+
+                      Navigator.of(context, rootNavigator: true).pop();
+                      showMessage('Service is removed from Watch List');
+                    } catch (e) {
+                      showMessage(
+                          'Error occurred while removing service from Watch List: ${e.toString()}');
+                    }
+                  },
+                ),
+              );
+            },
+          ),
+        ),
+      ),
+    ],
+  );
+}
 
 class SingleServiceTapDeleteIcon extends StatelessWidget {
   final ServiceModel serviceModel;
   final VoidCallback onTap;
 
   const SingleServiceTapDeleteIcon({
-    Key? key,
+    super.key,
     required this.serviceModel,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    Duration? _serviceDuration =
+    Duration? serviceDuration =
         Duration(minutes: serviceModel.serviceDurationMin);
 
     // Determine if the screen is mobile
@@ -105,9 +191,9 @@ class SingleServiceTapDeleteIcon extends StatelessWidget {
                           letterSpacing: 1,
                         ),
                       ),
-                      _serviceDuration.inHours >= 1
+                      serviceDuration.inHours >= 1
                           ? Text(
-                              ' ${_serviceDuration.inHours.toString()}h : ',
+                              ' ${serviceDuration.inHours.toString()}h : ',
                               style: TextStyle(
                                 color: AppColor.serviceTapTextColor,
                                 fontSize: isMobile
@@ -120,7 +206,7 @@ class SingleServiceTapDeleteIcon extends StatelessWidget {
                             )
                           : const SizedBox(),
                       Text(
-                        "${(_serviceDuration.inMinutes % 60).toString()}min",
+                        "${(serviceDuration.inMinutes % 60).toString()}min",
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: isMobile

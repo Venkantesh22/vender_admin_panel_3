@@ -14,13 +14,13 @@ class CustomTextField extends StatefulWidget {
 
   final String label;
   CustomTextField({
-    Key? key,
+    super.key,
     required this.controller,
     required this.obscureForPassword,
     this.keyboardType,
     this.maxline = 1,
     required this.label,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();

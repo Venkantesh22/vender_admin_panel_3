@@ -39,7 +39,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
   // Dropdown options for "service for"
   final List<String> _serviceForList = ["Male", "Female", "Both"];
   String? _serviceFor; // Default selection
-  bool _loadingSave = false; // Loader state for save button
+  final bool _loadingSave = false; // Loader state for save button
 
   double discountAmount = 0.0;
 
@@ -333,22 +333,21 @@ class _AddServiceFormState extends State<AddServiceForm> {
                       return;
                     }
 
-                    if (minutes != null && minutes < 0) {
+                    if (minutes < 0) {
                       showBottomMessageError(
                         "Minutes cannot be negative.",
                         context,
                       );
                       return;
                     }
-                    if (minutes! >= 60) {
+                    if (minutes >= 60) {
                       showBottomMessageError(
                         "Minutes cannot be greater than or equal to 60.",
                         context,
                       );
                       return;
                     }
-                    if (_hoursController.text != null &&
-                        int.parse(_hoursController.text) < 0) {
+                    if (int.parse(_hoursController.text) < 0) {
                       showBottomMessageError(
                         "Hours cannot be negative.",
                         context,
@@ -371,7 +370,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                         Provider.of<AppProvider>(context, listen: false);
                     final serviceProvider =
                         Provider.of<ServiceProvider>(context, listen: false);
-                    hours != 0 && hours != null ? minutes = 0 : minutes;
+                    hours != 0 ? minutes = 0 : minutes;
 
                     // Add new service via provider method
                     await serviceProvider.addSingleServicePro(
@@ -381,6 +380,9 @@ class _AddServiceFormState extends State<AddServiceForm> {
                       widget.categoryModel.categoryName,
                       serviceProvider
                           .getSelectSuperCategoryModel!.superCategoryName,
+                      serviceProvider
+                          .getSelectSuperCategoryModel!.id,
+
                       _serviceController.text.trim(),
                       _serviceCodeController.text.trim(),
                       finalPrice,
@@ -388,7 +390,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                       discountPercentage,
                       discountAmount,
                       hours,
-                      minutes!,
+                      minutes,
                       _descriptionController.text.trim(),
                       _serviceFor!,
                     );

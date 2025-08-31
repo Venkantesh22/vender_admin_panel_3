@@ -5,9 +5,9 @@ import 'package:samay_admin_plan/utility/dimension.dart';
 class CustomChip extends StatefulWidget {
   final String text;
   const CustomChip({
-    Key? key,
+    super.key,
     required this.text,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomChip> createState() => _CustomChipState();

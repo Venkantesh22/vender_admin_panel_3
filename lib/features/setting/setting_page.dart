@@ -108,7 +108,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     AppProvider appProvider = Provider.of<AppProvider>(context);
-    final List<Widget> _pages = [
+    final List<Widget> pages = [
       const SalonProfilePage(),
       const AdminPage(),
       appProvider.getSalonInformation.monday!.isEmpty
@@ -156,9 +156,9 @@ class _SettingsPageState extends State<SettingsPage> {
                           });
                         },
                       )
-                    : SizedBox(),
+                    : const SizedBox(),
                 Expanded(
-                  child: _pages[_selectedIndex],
+                  child: pages[_selectedIndex],
                 ),
               ],
             ),

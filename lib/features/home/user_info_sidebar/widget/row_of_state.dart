@@ -40,15 +40,15 @@ class RowOfStates extends StatelessWidget {
     bool update = false;
 
     TimeStampModel timeStampModelFunction(String updateBy) {
-      TimeStampModel _timeStampModel = TimeStampModel(
+      TimeStampModel timeStampModel = TimeStampModel(
           id: appointModel.orderId,
           dateAndTime: GlobalVariable.today,
           updateBy: "${salonModel.name} $updateBy");
-      return _timeStampModel;
+      return timeStampModel;
     }
 
 //!update to Pending to Confirmed
-    return appointModel.status == "Pending"
+    return appointModel.appointmentInfo!.status == "Pending"
         ? Padding(
             padding: EdgeInsets.only(
               top: Dimensions.dimensionNo16,
@@ -66,7 +66,8 @@ class RowOfStates extends StatelessWidget {
                     CupertinoButton(
                         padding: EdgeInsets.zero,
                         onPressed: () {},
-                        child: StateText(status: appointModel.status)),
+                        child: StateText(
+                            status: appointModel.appointmentInfo!.status)),
                   ],
                 ),
                 const Spacer(),
@@ -79,15 +80,19 @@ class RowOfStates extends StatelessWidget {
                     CupertinoButton(
                       padding: EdgeInsets.zero,
                       onPressed: () {
-                        TimeStampModel _timeStampModel =
+                        TimeStampModel timeStampModel =
                             timeStampModelFunction("(Confirmed)");
 
-                        timeStampList.add(_timeStampModel);
-                        if (appointModel.status == "Pending") {
+                        timeStampList.add(timeStampModel);
+                        if (appointModel.appointmentInfo!.status == "Pending") {
                           AppointModel orderUpdate = appointModel.copyWith(
-                            status: "Confirmed",
+                            appointmentInfo:
+                                appointModel.appointmentInfo!.copyWith(
+                              status: "Confirmed",
+                            ),
                             timeStampList: timeStampList,
                           );
+
                           bookingProvider.updateAppointment(
                             userModel.id,
                             appointModel.orderId,
@@ -134,7 +139,7 @@ class RowOfStates extends StatelessWidget {
 
         //!update to  Confirmed to Check-in
 
-        : appointModel.status == "Confirmed"
+        : appointModel.appointmentInfo!.status == "Confirmed"
             ? Padding(
                 padding: EdgeInsets.only(
                   top: Dimensions.dimensionNo16,
@@ -161,7 +166,7 @@ class RowOfStates extends StatelessWidget {
                               ),
                               SizedBox(width: Dimensions.dimensionNo5),
                               Text(
-                                appointModel.status,
+                                appointModel.appointmentInfo!.status,
                                 style: GoogleFonts.roboto(
                                   fontSize: Dimensions.dimensionNo16,
                                   color: AppColor.buttonColor,
@@ -183,12 +188,15 @@ class RowOfStates extends StatelessWidget {
                         CupertinoButton(
                           padding: EdgeInsets.zero,
                           onPressed: () {
-                            TimeStampModel _timeStampModel =
+                            TimeStampModel timeStampModel =
                                 timeStampModelFunction("(Check-In)");
 
-                            timeStampList.add(_timeStampModel);
+                            timeStampList.add(timeStampModel);
                             AppointModel orderUpdate = appointModel.copyWith(
-                                status: "Check-In",
+                                appointmentInfo:
+                                    appointModel.appointmentInfo!.copyWith(
+                                  status: "Check-In",
+                                ),
                                 timeStampList: timeStampList);
                             bookingProvider.updateAppointment(
                               userModel.id,
@@ -230,7 +238,7 @@ class RowOfStates extends StatelessWidget {
               )
 
 //!update to Check-in to InServices
-            : appointModel.status == "Check-In"
+            : appointModel.appointmentInfo!.status == "Check-In"
                 ? Padding(
                     padding: EdgeInsets.only(
                       top: Dimensions.dimensionNo16,
@@ -249,7 +257,9 @@ class RowOfStates extends StatelessWidget {
                             CupertinoButton(
                                 padding: EdgeInsets.zero,
                                 onPressed: () {},
-                                child: StateText(status: appointModel.status)),
+                                child: StateText(
+                                    status:
+                                        appointModel.appointmentInfo!.status)),
                           ],
                         ),
                         const Spacer(),
@@ -263,15 +273,18 @@ class RowOfStates extends StatelessWidget {
                             CupertinoButton(
                               padding: EdgeInsets.zero,
                               onPressed: () {
-                                TimeStampModel _timeStampModel =
+                                TimeStampModel timeStampModel =
                                     timeStampModelFunction("(InServices)");
 
-                                timeStampList.add(_timeStampModel);
-                                if (appointModel.status == "Check-In") {
+                                timeStampList.add(timeStampModel);
+                                if (appointModel.appointmentInfo!.status ==
+                                    "Check-In") {
                                   AppointModel orderUpdate =
                                       appointModel.copyWith(
-                                    status: "InServices",
-                                    // status: "Confirmed",
+                                    appointmentInfo:
+                                        appointModel.appointmentInfo!.copyWith(
+                                      status: "InServices",
+                                    ),
                                     timeStampList: timeStampList,
                                   );
                                   bookingProvider.updateAppointment(
@@ -318,7 +331,7 @@ class RowOfStates extends StatelessWidget {
 
                 //!update  InServices to Completed
 
-                : appointModel.status == "InServices"
+                : appointModel.appointmentInfo!.status == "InServices"
                     ? Padding(
                         padding: EdgeInsets.only(
                           top: Dimensions.dimensionNo16,
@@ -345,7 +358,7 @@ class RowOfStates extends StatelessWidget {
                                       ),
                                       SizedBox(width: Dimensions.dimensionNo10),
                                       Text(
-                                        appointModel.status,
+                                        appointModel.appointmentInfo!.status,
                                         style: GoogleFonts.roboto(
                                           fontSize: Dimensions.dimensionNo16,
                                           color: AppColor.buttonColor,
@@ -368,13 +381,17 @@ class RowOfStates extends StatelessWidget {
                                 CupertinoButton(
                                   padding: EdgeInsets.zero,
                                   onPressed: () {
-                                    TimeStampModel _timeStampModel =
+                                    TimeStampModel timeStampModel =
                                         timeStampModelFunction("(Completed)");
 
-                                    timeStampList.add(_timeStampModel);
+                                    timeStampList.add(timeStampModel);
                                     AppointModel orderUpdate =
                                         appointModel.copyWith(
-                                            status: "Completed",
+                                          appointmentInfo:
+                                        appointModel.appointmentInfo!.copyWith(
+                                     status: "Completed",
+                                    ),
+                                            
                                             timeStampList: timeStampList);
                                     bookingProvider.updateAppointment(
                                       userModel.id,
@@ -417,7 +434,7 @@ class RowOfStates extends StatelessWidget {
 
 //!  Complete Appointment
 
-                    : appointModel.status == "Completed"
+                    : appointModel.appointmentInfo!.status == "Completed"
                         ? Container(
                             height: Dimensions.dimensionNo60,
                             padding: EdgeInsets.only(
@@ -434,11 +451,13 @@ class RowOfStates extends StatelessWidget {
                                 SizedBox(
                                   height: Dimensions.dimensionNo10,
                                 ),
-                                StateText(status: appointModel.status),
+                                StateText(
+                                    status:
+                                        appointModel.appointmentInfo!.status),
                               ],
                             ),
                           )
-                        : appointModel.status == "(Cancel)"
+                        : appointModel.appointmentInfo!.status == "(Cancel)"
                             ? Container(
                                 height: Dimensions.dimensionNo60,
                                 padding: EdgeInsets.only(
@@ -455,11 +474,14 @@ class RowOfStates extends StatelessWidget {
                                     SizedBox(
                                       height: Dimensions.dimensionNo10,
                                     ),
-                                    StateText(status: appointModel.status),
+                                    StateText(
+                                        status: appointModel
+                                            .appointmentInfo!.status),
                                   ],
                                 ),
                               )
-                            : appointModel.status == "Bill Generate"
+                            : appointModel.appointmentInfo!.status ==
+                                    "Bill Generate"
                                 ? Container(
                                     height: Dimensions.dimensionNo60,
                                     padding: EdgeInsets.only(
@@ -478,7 +500,9 @@ class RowOfStates extends StatelessWidget {
                                         SizedBox(
                                           height: Dimensions.dimensionNo10,
                                         ),
-                                        StateText(status: appointModel.status),
+                                        StateText(
+                                            status: appointModel
+                                                .appointmentInfo!.status),
                                       ],
                                     ),
                                   )
@@ -500,7 +524,9 @@ class RowOfStates extends StatelessWidget {
                                         SizedBox(
                                           height: Dimensions.dimensionNo10,
                                         ),
-                                        StateText(status: appointModel.status),
+                                        StateText(
+                                            status: appointModel
+                                                .appointmentInfo!.status),
                                       ],
                                     ),
                                   );

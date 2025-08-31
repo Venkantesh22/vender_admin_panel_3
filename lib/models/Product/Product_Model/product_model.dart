@@ -25,6 +25,7 @@ class ProductModel {
   final double discountPrice;
   final String? productCode;
   final TimeStampModel? timeStampModel;
+  int? buyQuantity;
 
   ProductModel({
     required this.id,
@@ -50,6 +51,7 @@ class ProductModel {
     required this.discountPrice,
     this.productCode,
     this.timeStampModel,
+    this.buyQuantity,
   }) : expiryDate = expiryDate ?? DateTime.now();
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
@@ -80,6 +82,8 @@ class ProductModel {
       timeStampModel: json['timeStampModel'] != null
           ? TimeStampModel.fromJson(json['timeStampModel'])
           : null,
+
+      buyQuantity: json['buyQuantity'] ?? 0,
     );
   }
 
@@ -108,34 +112,35 @@ class ProductModel {
       'discountPrice': discountPrice,
       'productCode': productCode,
       'timeStampModel': timeStampModel?.toJson(),
+      'buyQuantity': buyQuantity,
     };
   }
 
-  ProductModel copyWith({
-    String? id,
-    String? name,
-    String? description,
-    String? imgUrl,
-    String? productFor,
-    String? salonId,
-    String? adminId,
-    String? brandName,
-    String? brandID,
-    String? cateName, // renamed
-    String? cateId, // renamed
-    String? subCateName, // added
-    String? subCateId, // added
-    String? branchName, // added
-    String? branchId, // added
-    int? stockQuantity,
-    bool? visibility,
-    DateTime? expiryDate,
-    double? originalPrice,
-    double? discountPer,
-    double? discountPrice,
-    String? productCode,
-    TimeStampModel? timeStampModel,
-  }) {
+  ProductModel copyWith(
+      {String? id,
+      String? name,
+      String? description,
+      String? imgUrl,
+      String? productFor,
+      String? salonId,
+      String? adminId,
+      String? brandName,
+      String? brandID,
+      String? cateName, // renamed
+      String? cateId, // renamed
+      String? subCateName, // added
+      String? subCateId, // added
+      String? branchName, // added
+      String? branchId, // added
+      int? stockQuantity,
+      bool? visibility,
+      DateTime? expiryDate,
+      double? originalPrice,
+      double? discountPer,
+      double? discountPrice,
+      String? productCode,
+      TimeStampModel? timeStampModel,
+      int? buyQuantity}) {
     return ProductModel(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -160,6 +165,7 @@ class ProductModel {
       discountPrice: discountPrice ?? this.discountPrice,
       productCode: productCode ?? this.productCode,
       timeStampModel: timeStampModel ?? this.timeStampModel,
+      buyQuantity: buyQuantity ?? this.buyQuantity,
     );
   }
 }

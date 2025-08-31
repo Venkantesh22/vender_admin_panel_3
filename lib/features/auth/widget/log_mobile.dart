@@ -17,7 +17,7 @@ StatefulBuilder logMobileWidget(
   TextEditingController passwordController,
 ) {
   // Add a loading state
-  bool _isLoading = false;
+  bool isLoading = false;
 
   return StatefulBuilder(
     builder: (BuildContext context, StateSetter setState) {
@@ -86,13 +86,13 @@ StatefulBuilder logMobileWidget(
                   label: "Password",
                 ),
                 SizedBox(height: Dimensions.dimensionNo20),
-                _isLoading
+                isLoading
                     ? const CircularProgressIndicator() // Show loading indicator
                     : CustomAuthButton(
                         text: "Login",
                         ontap: () async {
                           setState(() {
-                            _isLoading = true; // Start loading
+                            isLoading = true; // Start loading
                           });
 
                           bool isValidated = loginVaildation(
@@ -109,19 +109,19 @@ StatefulBuilder logMobileWidget(
                             );
                             if (isLoggedIn) {
                               Routes.instance.pushAndRemoveUntil(
-                                widget: LoadingHomePage(),
+                                widget: const LoadingHomePage(),
                                 context: context,
                               );
                             }
                           }
 
                           setState(() {
-                            _isLoading = false; // Stop loading
+                            isLoading = false; // Stop loading
                           });
                         },
                       ),
                 SizedBox(height: Dimensions.dimensionNo12),
-                Text("Version 1.0.0.4"),
+                const Text("Version 1.0.0.4"),
                 SizedBox(height: Dimensions.dimensionNo12),
                 InkWell(
                   onTap: () {

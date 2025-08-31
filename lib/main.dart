@@ -9,6 +9,7 @@ import 'package:samay_admin_plan/firebase_helper/firebase_auth_helper/firebase_a
 import 'package:samay_admin_plan/firebase_options.dart';
 import 'package:samay_admin_plan/features/auth/login.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
+import 'package:samay_admin_plan/provider/billing_provider.dart';
 import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
 import 'package:samay_admin_plan/provider/payment_provider.dart';
@@ -41,9 +42,10 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ReportProvider()),
         ChangeNotifierProvider(create: (context) => CalenderProvider()),
         ChangeNotifierProvider(create: (context) => SettingProvider()),
-        ChangeNotifierProvider(create: (context) => EditProvider()),
+        // ChangeNotifierProvider(create: (context) => EditProvider()),
         ChangeNotifierProvider(create: (context) => SamayProvider()),
         ChangeNotifierProvider(create: (context) => ProductProvider()),
+        ChangeNotifierProvider(create: (context) => BillingProvider()),
       ],
       builder: (context, child) {
         return MaterialApp(
@@ -58,6 +60,7 @@ class MyApp extends StatelessWidget {
                 return const LoadingHomePage(); // Direct to LoadingHomePage if user is authenticated
               }
               return const LoginScreen(); // Show LoginScreen if user is not authenticated
+                // return const egScreeen(); // Show LoginScreen if user is not authenticated
             },
           ),
           initialRoute: '/',
@@ -77,7 +80,7 @@ class MyApp extends StatelessWidget {
           },
           onUnknownRoute: (settings) {
             return MaterialPageRoute(
-              builder: (context) => Scaffold(
+              builder: (context) => const Scaffold(
                 body: Center(child: Text('Page not found')),
               ),
             );
