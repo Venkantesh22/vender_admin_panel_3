@@ -18,6 +18,7 @@ import 'package:samay_admin_plan/features/product/screen/single_product_details_
 import 'package:samay_admin_plan/features/product/widget/filter_bar_widget.dart';
 import 'package:samay_admin_plan/features/product/widget/mobile_botton_filter_bar.dart';
 import 'package:samay_admin_plan/models/Product/Product_Model/product_model.dart';
+import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/product_provider.dart';
 import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/add_button.dart';
@@ -44,11 +45,11 @@ class _ProductScreenState extends State<ProductScreen> {
       setState(() {
         _isLoading = true;
       });
+      AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
       ProductProvider productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       if (productProvider.getProductList.isEmpty) {
-        await productProvider.getListProductPro();
-      }
+        await productProvider.getListProductPro(appProvider.getSalonInformation.id);      }
       productProvider.applySearch('');
       // _productList = productProvider.getProductList;
       print("Length of Product List: ${_productList.length}");

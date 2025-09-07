@@ -432,16 +432,6 @@ class BookingProvider with ChangeNotifier {
     }
   }
 
-  // Select Appointment and user
-  // UserModel? selectAppointUser;
-  // UserModel get getSelectAppointUser => selectAppointUser!;
-
-  // void selectAppointUserPro(UserModel userModel) {
-  //   selectAppointUser = userModel;
-  //   print("select Appoint User ${selectAppointUser!.name}");
-  //   notifyListeners();
-  // }
-
   // select Appoint
   void selectAppoint(AppointModel appointValue) {
     _appointModel = appointValue;
@@ -520,7 +510,7 @@ class BookingProvider with ChangeNotifier {
   }
 
   // remove Product to List
-  void removeProductToListPro(ProductModel value) {
+  void removeProductToListPro(ProductModel value, {bool isRemoveAll = false}) {
     // Try to find an existing product with the same id
     final existingEntry = budgetProductQuantityMap.entries.firstWhere(
       (entry) => entry.key.id == value.id,
@@ -528,8 +518,13 @@ class BookingProvider with ChangeNotifier {
     );
 
     if (existingEntry.value != -1) {
-      budgetProductQuantityMap[existingEntry.key] = existingEntry.value - 1;
-      if (budgetProductQuantityMap[existingEntry.key] == 0) {
+      if (!isRemoveAll) {
+        budgetProductQuantityMap[existingEntry.key] = existingEntry.value - 1;
+
+        if (budgetProductQuantityMap[existingEntry.key] == 0) {
+          budgetProductQuantityMap.remove(existingEntry.key);
+        }
+      } else {
         budgetProductQuantityMap.remove(existingEntry.key);
       }
     }
@@ -624,15 +619,6 @@ class BookingProvider with ChangeNotifier {
   }
 
   //!-------------- Final Total Both Price and Services  ----------------------------------
-
-  // double grantTotal = 0.0;
-  // double get getGrantTotal => grantTotal;
-
-  // void calenderGrantTotal() {
-  //   print("_finalPayableAMT:  $_finalPayableAMT");
-  //   grantTotal = ;
-  //   notifyListeners();
-  // }
 
   double subTotalBill = 0.0; // 17,300
   double discountBill = 0.0; // -3,351

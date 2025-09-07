@@ -32,8 +32,7 @@ class GlobalVariable {
   static double productGST18 = 18;
   static double productGST1_18 = 1.18;
 
-    static double gST18 = 18;
-
+  static double gST18 = 18;
 
   // Platform fee
   static double platformFee = 0.00; // 5% of the total bill
@@ -87,7 +86,6 @@ class GlobalVariable {
   static String inclusiveGST = "Inclusive";
   static String noGST = "noGST";
 
-
   // super Category
   static String supCatHair = "Hair Services";
   static String supCatSkin = "Skin Services";
@@ -132,4 +130,40 @@ class GlobalVariable {
   static const String qRPayment = "QR";
   static const String customPayment = "Custom";
   static const String pAPPayment = "PAP (Pay At Place)";
+
+//! Function of List
+//? check two list are same or not
+  static bool twoListsEqual(
+      {required List<String>? a, required List<String>? b}) {
+    if (a == null && b == null) return true;
+    if (a == null || b == null) return false;
+    if (a.length != b.length) return false;
+    final aSorted = List<String>.from(a)..sort();
+    final bSorted = List<String>.from(b)..sort();
+    for (int i = 0; i < aSorted.length; i++) {
+      if (aSorted[i] != bSorted[i]) return false;
+    }
+    return true;
+  }
+
+//! Function of Maps
+//? check two Map are same or not
+
+static  bool areMapsEqual<K, V>(Map<K, V>? map1, Map<K, V>? map2) {
+    // 1. Check for nulls
+    if (map1 == null && map2 == null) return true;
+    if (map1 == null || map2 == null) return false;
+
+    // 2. Check length
+    if (map1.length != map2.length) return false;
+
+    // 3. Iterate keys and compare values
+    for (final key in map1.keys) {
+      if (!map2.containsKey(key)) return false;
+      if (map1[key] != map2[key]) return false;
+    }
+
+    // 4. All checks passed
+    return true;
+  }
 }

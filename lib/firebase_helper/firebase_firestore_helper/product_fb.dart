@@ -138,10 +138,10 @@ class ProductFb {
   }
 
 // get  product List
-  Future<List<ProductModel>> getListOfProductFB(String samayId) async {
+  Future<List<ProductModel>> getListOfProductFB(String salonId) async {
     try {
       final querySnapshot =
-          await _firebaseFirestore.collection('SalonProduct').get();
+          await _firebaseFirestore.collection('SalonProduct').where("salonId", isEqualTo:salonId ).get();
 
       return querySnapshot.docs
           .map((doc) => ProductModel.fromJson(doc.data()))

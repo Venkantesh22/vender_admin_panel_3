@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/router.dart';
 import 'package:samay_admin_plan/features/Direct%20Billing/screen/direct_billing.dart';
+import 'package:samay_admin_plan/features/add_new_appointment/screen/add_new_appointment.dart';
 import 'package:samay_admin_plan/features/custom_appbar/widget/appbar_item.dart';
 import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart';
 import 'package:samay_admin_plan/features/product/screen/product_screen.dart';
@@ -98,12 +99,8 @@ AppBar webAppBar(BuildContext context, AppProvider appProvider) {
               icon:
                   const Icon(FontAwesomeIcons.fileInvoice, color: Colors.black),
               onPressed: () {
-                Routes.instance.push(
-                  widget: DirectBillingScreen(
-                      salonModel: appProvider.getSalonInformation),
-                  context: context,
-                );
-                // Handle invoice button press
+              
+                Routes.instance.push( widget: AddNewAppointment(isDirectBilling: true,  salonModel: appProvider.getSalonInformation), context: context);
               },
             ),
           ),

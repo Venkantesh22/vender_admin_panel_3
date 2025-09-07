@@ -19,14 +19,11 @@ import 'package:samay_admin_plan/features/add_new_appointment/widget/from_widget
 import 'package:samay_admin_plan/features/add_new_appointment/widget/from_widget/select_apppint_date.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/widget/from_widget/service_searchbar.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/widget/single_product_delete_icon_widget.dart';
-import 'package:samay_admin_plan/features/add_new_appointment/widget/single_service_appoint.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/widget/single_service_tap_icon.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/widget/time_tap.dart';
 import 'package:samay_admin_plan/features/custom_appbar/screen/custom_appbar.dart';
 import 'package:samay_admin_plan/features/drawer/drawer.dart';
-import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart';
 import 'package:samay_admin_plan/features/payment/user_payment_screen.dart';
-import 'package:samay_admin_plan/features/payment/user_payment_screen_qb.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/samay_fb.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/setting_fb.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/user_order_fb.dart';
@@ -41,7 +38,6 @@ import 'package:samay_admin_plan/models/user_model/user_model.dart';
 import 'package:samay_admin_plan/models/vender_payent_details/vender_payment_detail.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/booking_provider.dart';
-import 'package:samay_admin_plan/provider/calender_provider.dart';
 import 'package:samay_admin_plan/provider/product_provider.dart';
 import 'package:samay_admin_plan/provider/service_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
@@ -49,7 +45,6 @@ import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
 import 'package:samay_admin_plan/widget/text_box/customtextfield.dart';
 import 'package:samay_admin_plan/widget/text_box/validate_textbox_heading.dart';
-import 'package:upi_payment_qrcode_generator/upi_payment_qrcode_generator.dart';
 
 class DirectBillingScreen extends StatefulWidget {
   final SalonModel salonModel;
@@ -88,7 +83,7 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
 
   // final List<String> _paymentOptions = ["Cash", "QR", "Custom"];
   // String _selectedPaymentMethod = "Cash";
-  // late VenderPaymentDetailsModel? _venderPaymentDetailsModel;
+  late VenderPaymentDetailsModel? _venderPaymentDetailsModel;
   // UPIDetails? upiDetails;
   // double _netPriceLocal = 0.0;
 
@@ -175,8 +170,8 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
       await bookingProvider.fetchSettingPro(appProvider.getSalonInformation.id);
       await appProvider.getSalonInfoFirebase();
       await serviceProvider.fetchSettingPro(appProvider.getSalonInformation.id);
-      // _venderPaymentDetailsModel = await SettingFb.instance
-      //     .fetchVenderPaymentFB(appProvider.getSalonInformation.id);
+      _venderPaymentDetailsModel = await SettingFb.instance
+          .fetchVenderPaymentFB(appProvider.getSalonInformation.id);
       _timediff = int.parse(serviceProvider.getSettingModel!.diffbtwTimetap);
       setState(() {
         _appointmentDateController.text =
@@ -194,7 +189,8 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
       print("Plact fee ${_samaySalonSettingModel!.platformFee}");
 
       // Get all Product and assign to allProductList list
-      await productProvider.getListProductPro();
+      await productProvider
+          .getListProductPro(appProvider.getSalonInformation.id);
       allProductList = productProvider.getProductList;
       print("Print all Product ${allProductList.length}");
 
@@ -395,7 +391,7 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
           child: GestureDetector(
             onTap: () {
               if (_showCalender ||
-                  // _showServiceList ||
+                  //
                   _showTimeContaine == true) {
                 setState(() {
                   _showCalender = false;
@@ -426,7 +422,7 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
                         GestureDetector(
                           onTap: () {
                             if (_showCalender ||
-                                // _showServiceList ||
+                                //
                                 _showTimeContaine == true) {
                               setState(() {
                                 _showCalender = false;
@@ -486,71 +482,6 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
                                 saveAppointButton(context,
                                     serviceDurationInMinutes, bookingProvider),
                                 SizedBox(height: Dimensions.dimensionNo10),
-                                // Row(
-                                //   children: [
-                                //     Text(
-                                //       "Select Services",
-                                //       style: TextStyle(
-                                //         fontSize:
-                                //             ResponsiveLayout.isMobile(context)
-                                //                 ? Dimensions.dimensionNo14
-                                //                 : Dimensions.dimensionNo18,
-                                //         fontWeight:
-                                //             ResponsiveLayout.isMobile(context)
-                                //                 ? FontWeight.bold
-                                //                 : FontWeight.w600,
-                                //       ),
-                                //     ),
-                                //     const Spacer(),
-                                //     Text(
-                                //       "Service Duration ${bookingProvider.getServiceBookingDuration}",
-                                //       style: TextStyle(
-                                //         fontSize:
-                                //             ResponsiveLayout.isMobile(context)
-                                //                 ? Dimensions.dimensionNo14
-                                //                 : Dimensions.dimensionNo18,
-                                //         fontWeight:
-                                //             ResponsiveLayout.isMobile(context)
-                                //                 ? FontWeight.bold
-                                //                 : FontWeight.w600,
-                                //       ),
-                                //     ),
-                                //   ],
-                                // ),
-                                // SizedBox(
-                                //   height: Dimensions.dimensionNo10,
-                                // ),
-                                // Padding(
-                                //   padding: ResponsiveLayout.isMobile(context)
-                                //       ? EdgeInsets.zero
-                                //       : EdgeInsets.symmetric(
-                                //           horizontal: Dimensions.dimensionNo12),
-                                //   child: ResponsiveLayout.isMobile(context)
-                                //       ? selectServiceListMobile(
-                                //           context, bookingProvider)
-                                //       : selectServiceListWeb(
-                                //           bookingProvider, context),
-                                // ),
-                                // SizedBox(height: Dimensions.dimensionNo12),
-                                // //! TextBox for user note
-                                // SizedBox(
-                                //   width: Dimensions.screenWidth,
-                                //   child: FormCustomTextField(
-                                //     requiredField: false,
-                                //     controller: _userNote,
-                                //     title: "User Note",
-                                //     maxline: 2,
-                                //     hintText: "Instruction of for appointment",
-                                //   ),
-                                // ),
-                                // SizedBox(height: Dimensions.dimensionNo12),
-                                // // Detail of appointment
-                                // //! Appointment Details
-                                // AppointDetailsSummer(
-                                //     bookingProvider,
-                                //     serviceDurationInMinutes,
-                                //     appProvider,
-                                //     context),
                               ],
                             ),
                           ),
@@ -2136,7 +2067,6 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
 
             List<String>? _serviceListId = [];
             _serviceListId =
-
                 bookingProvider.getWatchList.map((e) => e.id).toList() ?? [];
 
             //** Product Bill Model
@@ -2150,23 +2080,6 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
               finalAMTProduct: bookingProvider.getFinalProductTotal,
             );
 
-            //** Service Bill Model
-            // ServiceBillModel serviceBillModel = ServiceBillModel(
-            //   serviceListId: _serviceListId,
-            //   subTotalService: bookingProvider.getSubTotal,
-            //   discountATMService: bookingProvider.getDiscountAmount!,
-            //   netPriceService: bookingProvider.getNetPrice!,
-            //   taxableAMTService: bookingProvider.getTaxAbleAmount!,
-            //   gSTAMTService: _settingModel!.gstNo.length == 15
-            //       ? _settingModel!.gSTIsIncludingOrExcluding ==
-            //               GlobalVariable.exclusiveGST
-            //           ? bookingProvider.getExcludingGSTAMT!
-            //           : bookingProvider.getIncludingGSTAMT!
-            //       : 0.0,
-            //   finalAMTService: bookingProvider.getFinalPayableAMT!,
-            //   gstIsIncludingOrExcluding:
-            //       _settingModel!.gSTIsIncludingOrExcluding!,
-            // );
             ServiceBillModel? serviceBillModel;
             if (bookingProvider.getWatchList.isNotEmpty) {
               serviceBillModel = ServiceBillModel(
@@ -2230,13 +2143,6 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
 
             showLoaderDialog(context);
 
-            // await UserBookingFB.instance.saveAppointmentForQuicKBill(
-
-            // bool value =
-            //     await UserBookingFB.instance.saveAppointmentManual(
-            //   context: context,
-            //   appointModel: appointModel,
-            // );
             print("before save appoint");
             String? appointID =
                 await UserBookingFB.instance.saveAppointmentForQuicKBill(
@@ -2313,36 +2219,6 @@ class _DirectBillingScreenState extends State<DirectBillingScreen> {
                         ),
                         actions: [
                           TextButton(
-                            // onPressed: () async {
-                            //   showLoaderDialog(context);
-                            //   AppProvider appProvider =
-                            //       Provider.of<AppProvider>(context,
-                            //           listen: false);
-                            //   AppointModel fetchAppointId = await UserBookingFB
-                            //       .instance
-                            //       .getSingleAppointByIdFB(
-                            //           userInfo.id, appointID);
-                            //   appProvider
-                            //       .updateSelectAppointModel(fetchAppointId);
-                            //   await appProvider.fetchServiceListByListId(
-                            //       serviceIds: fetchAppointId
-                            //           .serviceBillModel!.serviceListId);
-                            //   await appProvider.fetchProductListByListId(
-                            //       productIds: fetchAppointId.productBillModel!
-                            //           .productListIdQty.entries
-                            //           .map((product) => product.key)
-                            //           .toList(),
-                            //       productIdQtyMap: fetchAppointId
-                            //           .productBillModel!.productListIdQty);
-
-                            //   Navigator.of(context, rootNavigator: true).pop();
-
-                            //   // appProvider.fetchServiceListByListId(serviceIds: serviceIds)
-                            //   Routes.instance.push(
-                            //       widget: UserSideBarPaymentScreen(
-                            //           appointModel: fetchAppointId),
-                            //       context: context);
-                            // },
                             onPressed: () async {
                               showLoaderDialog(context);
                               AppProvider appProvider =

@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/router.dart';
-import 'package:samay_admin_plan/features/Direct%20Billing/screen/direct_billing.dart';
+import 'package:samay_admin_plan/features/add_new_appointment/screen/add_new_appointment.dart';
 import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart';
 import 'package:samay_admin_plan/features/product/screen/product_screen.dart';
 import 'package:samay_admin_plan/features/reports_Section/report_dashboard/report_dashboard.dart';
@@ -115,11 +115,16 @@ class MobileDrawer extends StatelessWidget {
             leading: const Icon(FontAwesomeIcons.fileInvoice),
             title: const Text("Quick Billing"),
             onTap: () {
+              // Routes.instance.push(
+              //   widget: DirectBillingScreen(
+              //       salonModel: appProvider.getSalonInformation),
+              //   context: context,
+              // );
               Routes.instance.push(
-                widget: DirectBillingScreen(
-                    salonModel: appProvider.getSalonInformation),
-                context: context,
-              );
+                  widget: AddNewAppointment(
+                      isDirectBilling: true,
+                      salonModel: appProvider.getSalonInformation),
+                  context: context);
             },
           ),
         ],

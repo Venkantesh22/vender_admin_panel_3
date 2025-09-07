@@ -435,7 +435,7 @@
 //           child: GestureDetector(
 //             onTap: () {
 //               if (_showCalender ||
-//                   _showServiceList ||
+//                  
 //                   _showTimeContaine == true) {
 //                 setState(() {
 //                   _showCalender = false;
@@ -466,7 +466,7 @@
 //                         GestureDetector(
 //                           onTap: () {
 //                             if (_showCalender ||
-//                                 _showServiceList ||
+//                                
 //                                 _showTimeContaine == true) {
 //                               setState(() {
 //                                 _showCalender = false;

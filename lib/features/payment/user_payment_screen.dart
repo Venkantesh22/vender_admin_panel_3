@@ -988,25 +988,7 @@ class _UserSideBarPaymentScreenState extends State<UserSideBarPaymentScreen> {
             timeStampList: _timeStampList,
           );
 
-// Update Appointment Payment information
-          // AppointModel _updataAppointModel = widget.appointModel!.copyWith(
-          //   extraDiscountInPer: _extraDiscountInPerLocal ?? 0.0,
-          //   extraDiscountInPerAMT: billingProvider.getTotalDiscount,
-          //   extraDiscountInAmount: _extraDiscountInAmountLocal ?? 0.0,
-          //   transactionId: _transactionIdController.text.trim().isNotEmpty
-          //       ? _transactionIdController.text.trim()
-          //       : "00",
-          //   gstAmountBill: _settingModel!.gstNo.length == 15
-          //       ? _bookingProvider.gstAmountBill
-          //       : 0.0,
-          //   finalTotalBill: _bookingProvider.getFinalTotalBill,
-          //   netPriceBill: _bookingProvider.getNetPriceBill,
-          //   appointmentInfo: widget.appointModel!.appointmentInfo!
-          //       .copyWith(status: GlobalVariable.billGenerateAppointState),
-          //   payment:
-          //       _selectedPaymentMethod == "QR" ? "UPI" : _selectedPaymentMethod,
-          //   timeStampList: _timeStampList,
-          // );
+
           print(
               "Extra Discount in update %: ${_updataAppointModel.extraDiscountInPer}");
 

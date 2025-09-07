@@ -5,6 +5,8 @@ library;
 
 // ignore_for_file: use_build_context_synchronously, prefer_final_fields
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -22,12 +24,12 @@ import 'package:samay_admin_plan/features/add_new_appointment/widget/from_widget
 import 'package:samay_admin_plan/features/add_new_appointment/widget/from_widget/select_apppint_date.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/widget/from_widget/service_searchbar.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/widget/single_product_delete_icon_widget.dart';
-import 'package:samay_admin_plan/features/add_new_appointment/widget/single_service_appoint.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/widget/single_service_tap_icon.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/widget/time_tap.dart';
 import 'package:samay_admin_plan/features/custom_appbar/screen/custom_appbar.dart';
 import 'package:samay_admin_plan/features/drawer/drawer.dart';
 import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart';
+import 'package:samay_admin_plan/features/payment/user_payment_screen.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/samay_fb.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/setting_fb.dart';
 import 'package:samay_admin_plan/firebase_helper/firebase_firestore_helper/user_order_fb.dart';
@@ -47,13 +49,14 @@ import 'package:samay_admin_plan/provider/service_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
 import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/customauthbutton.dart';
-import 'package:samay_admin_plan/widget/dropdownlist/dopdownlist.dart';
 import 'package:samay_admin_plan/widget/text_box/customtextfield.dart';
 import 'package:samay_admin_plan/widget/text_box/validate_textbox_heading.dart';
 
 class AddNewAppointment extends StatefulWidget {
   final SalonModel salonModel;
+  final bool isDirectBilling;
   const AddNewAppointment({
+    this.isDirectBilling = false,
     super.key,
     required this.salonModel,
   });
@@ -94,22 +97,18 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
     _userNote.dispose();
     productSearchControl1.dispose();
     serviceSearchControl.dispose();
-    // _serviceAtControl.dispose();
 
     super.dispose();
   }
 
-// Service list
-//   List<ServiceModel> searchServiceList = [];
+// for Service List
   List<ServiceModel> allServiceList = [];
-//   List<ServiceModel> selectService = [];
 
 // For Product List
   List<ProductModel> allProductList = [];
 
   bool _showCalender = false;
-  // bool _showServiceList = false;
-  // bool _showProductList = false;
+
   bool _showTimeContain = false;
   bool _isLoading = false;
 
@@ -121,9 +120,9 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
 
   @override
   void initState() {
-    // TODO: implement initState
-
     super.initState();
+
+    _selectedTimeSlot = GlobalVariable.getCurrentTime() ;
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getData();
@@ -150,6 +149,8 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
         Provider.of<ServiceProvider>(context, listen: false);
     ProductProvider productProvider =
         Provider.of<ProductProvider>(context, listen: false);
+    debugPrint(
+        "---------------Appoint state ---------- ${widget.isDirectBilling}");
 
     try {
       bookingProvider.setAllZero();
@@ -172,7 +173,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
 
       // GlobalVariable.salonPlatformFee = _samaySalonSettingModel!.platformFee;
 // Get all Product and assign to allProductList list
-      await productProvider.getListProductPro();
+      await productProvider.getListProductPro(appProvider.getSalonInformation.id);
       allProductList = productProvider.getProductList;
       print("Print all Product ${allProductList.length}");
 
@@ -308,9 +309,7 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
 
         // Move to the next time slot
         currentTime = currentTime.add(
-            Duration(minutes: _timediff)); // Adjust as neededjust as needed
-        // currentTime = currentTime
-        //     .add(Duration(minutes: 30)); // Adjust as neededjust as needed
+            Duration(minutes: _timediff)); // Adjust as needed just as needed
       }
 
       // Ensure the last slot includes the closing time
@@ -323,11 +322,6 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
 
   @override
   Widget build(BuildContext context) {
-    // BookingProvider bookingProvider = Provider.of<BookingProvider>(context);
-    // final serviceBookingDuration = bookingProvider.getServiceBookingDuration;
-    // final serviceDurationInMinutes = parseDuration(serviceBookingDuration);
-    // _generateTimeSlots(serviceDurationInMinutes);
-
     BookingProvider bookingProvider = Provider.of<BookingProvider>(context);
     // Avoid running generation/nullable-dependent logic while loader is shown.
     int serviceDurationInMinutes = 0;
@@ -353,14 +347,10 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
               child: SingleChildScrollView(
                 child: GestureDetector(
                   onTap: () {
-                    if (_showCalender ||
-                        // _showServiceList ||
-                        // _showProductList ||
-                        _showTimeContain == true) {
+                    if (_showCalender || _showTimeContain == true) {
                       setState(() {
                         _showCalender = false;
-                        // _showServiceList = false;
-                        // _showProductList = false;
+
                         _showTimeContain = false;
                       });
                     }
@@ -396,13 +386,10 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                               GestureDetector(
                                 onTap: () {
                                   if (_showCalender ||
-                                      // _showServiceList ||
-                                      // _showProductList ||
                                       _showTimeContain == true) {
                                     setState(() {
                                       _showCalender = false;
-                                      // _showServiceList = false;
-                                      // _showProductList = false;
+
                                       _showTimeContain = false;
                                     });
                                   }
@@ -646,81 +633,6 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                                 ),
                               ),
                             ),
-                          // if (_showServiceList)
-                          //   Positioned(
-                          //     right: ResponsiveLayout.isMobile(context)
-                          //         ? Dimensions
-                          //             .dimensionNo20 // Adjust for mobile
-                          //         : null,
-
-                          //     //     .dimensionNo360, // Default for larger screens
-                          //     top: ResponsiveLayout.isMobile(context)
-                          //         ? Dimensions
-                          //             .dimensionNo200 // Adjust for mobile
-                          //         : Dimensions
-                          //             .dimensionNo210, // Default for larger screens
-                          //     left: ResponsiveLayout.isMobile(context)
-                          //         ? Dimensions
-                          //             .dimensionNo20 // Adjust for mobile
-                          //         : Dimensions
-                          //             .dimensionNo90, // Default for larger screens
-                          //     child: Container(
-                          //       width: Dimensions.dimensionNo500,
-                          //       constraints: const BoxConstraints(),
-                          //       decoration: BoxDecoration(
-                          //         color: const Color(0xFFFFFFFF),
-                          //         borderRadius: BorderRadius.circular(
-                          //             Dimensions.dimensionNo10),
-                          //       ),
-                          //       child: serviceSearchControl.text.isNotEmpty &&
-                          //               searchServiceList.isEmpty
-                          //           ? Padding(
-                          //               padding: EdgeInsets.only(
-                          //                 top: Dimensions.dimensionNo12,
-                          //                 left: Dimensions.dimensionNo16,
-                          //                 bottom: Dimensions.dimensionNo12,
-                          //               ),
-                          //               child: Text(
-                          //                 "No service found",
-                          //                 style: TextStyle(
-                          //                     fontSize:
-                          //                         Dimensions.dimensionNo14,
-                          //                     fontWeight: FontWeight.w600),
-                          //               ),
-                          //             )
-                          //           : searchServiceList.contains(
-                          //                       // ignore: iterable_contains_unrelated_type
-                          //                       serviceSearchControl.text) ||
-                          //                   serviceSearchControl.text.isEmpty
-                          //               ? Padding(
-                          //                   padding: EdgeInsets.only(
-                          //                     top: Dimensions.dimensionNo12,
-                          //                     left: Dimensions.dimensionNo16,
-                          //                     bottom: Dimensions.dimensionNo12,
-                          //                   ),
-                          //                   child: Text(
-                          //                     "Enter a Service name or Code",
-                          //                     style: TextStyle(
-                          //                         fontSize:
-                          //                             Dimensions.dimensionNo14,
-                          //                         fontWeight: FontWeight.w600),
-                          //                   ),
-                          //                 )
-                          //               : ListView.builder(
-                          //                   shrinkWrap: true,
-                          //                   itemCount: searchServiceList.length,
-                          //                   itemBuilder: (context, index) {
-                          //                     ServiceModel serviceModel =
-                          //                         searchServiceList[index];
-                          //                     return
-                          //                         // !isSearched()
-
-                          //                         serviceTapAddRemoveButton(
-                          //                             serviceModel, context);
-                          //                   },
-                          //                 ),
-                          //     ),
-                          //   ),
                         ],
                       ),
                     ],
@@ -939,58 +851,67 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
   }
 
   SizedBox _timeSelectTextBox() {
+    final isDisabled = widget.isDirectBilling; // Shortcut for readability
+
     return SizedBox(
-      // height: Dimensions.dimensionNo70,
       width:
           ResponsiveLayout.isMobile(context) ? null : Dimensions.dimensionNo250,
-
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Text(
-            "Time",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: ResponsiveLayout.isMobile(context)
-                  ? Dimensions.dimensionNo14
-                  : Dimensions.dimensionNo18,
-              fontFamily: GoogleFonts.roboto().fontFamily,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 0.90,
-            ),
-          ),
-          SizedBox(
-            height: Dimensions.dimensionNo5,
-          ),
-          Padding(
-            padding:
-                EdgeInsetsGeometry.symmetric(vertical: Dimensions.dimensionNo8),
-            child: TextFormField(
-              onTap: () {
-                setState(() {
-                  _showTimeContain = !_showTimeContain;
-                  print("Time : $_showTimeContain");
-                });
-              },
-              cursorHeight: Dimensions.dimensionNo16,
-              style: TextStyle(
-                  fontSize: Dimensions.dimensionNo12,
+      child: Opacity(
+        opacity: isDisabled ? 0.5 : 1.0, // 🔹 Fade entire widget if disabled
+        child: IgnorePointer(
+          ignoring: isDisabled, // 🔹 Prevent all interaction
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text(
+                "Time",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: ResponsiveLayout.isMobile(context)
+                      ? Dimensions.dimensionNo14
+                      : Dimensions.dimensionNo18,
                   fontFamily: GoogleFonts.roboto().fontFamily,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-              controller: _appointmentTimeController,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.dimensionNo10,
-                    vertical: Dimensions.dimensionNo10),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Dimensions.dimensionNo16),
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.90,
                 ),
               ),
-            ),
+              SizedBox(height: Dimensions.dimensionNo5),
+              Padding(
+                padding:
+                    EdgeInsets.symmetric(vertical: Dimensions.dimensionNo8),
+                child: TextFormField(
+                  readOnly:
+                      true, // Always read-only because we handle tap manually
+                  onTap: () {
+                    setState(() {
+                      _showTimeContain = !_showTimeContain;
+                      print("Time : $_showTimeContain");
+                    });
+                  },
+                  cursorHeight: Dimensions.dimensionNo16,
+                  style: TextStyle(
+                    fontSize: Dimensions.dimensionNo12,
+                    fontFamily: GoogleFonts.roboto().fontFamily,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                  controller: _appointmentTimeController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: Dimensions.dimensionNo10,
+                      vertical: Dimensions.dimensionNo10,
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(Dimensions.dimensionNo16),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -1056,53 +977,54 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
               ),
             ],
           ),
-          _selectedTimeSlot != null
-              ? Column(
-                  children: [
-                    SizedBox(height: Dimensions.dimensionNo10),
-                    Row(
-                      children: [
-                        Text(
-                          'Appointment Start Time',
-                          style: appointSummerTextStyle(),
-                        ),
-                        const Spacer(),
-                        _selectedTimeSlot != null &&
-                                _selectedTimeSlot!.isNotEmpty
-                            ? Text(
-                                '$_selectedTimeSlot',
-                                style: appointSummerTextStyle(),
-                              )
-                            : const SizedBox(),
-                      ],
+          // _selectedTimeSlot != null
+          //     ?
+          Column(
+            children: [
+              SizedBox(height: Dimensions.dimensionNo10),
+              Row(
+                children: [
+                  Text(
+                    'Appointment Start Time',
+                    style: appointSummerTextStyle(),
+                  ),
+                  const Spacer(),
+                  // _selectedTimeSlot != null &&
+                  //         _selectedTimeSlot!.isNotEmpty
+                  //     ?
+                  Text(
+                    '$_selectedTimeSlot',
+                    style: appointSummerTextStyle(),
+                  )
+                  // : const SizedBox(),
+                ],
+              ),
+              SizedBox(height: Dimensions.dimensionNo10),
+              Row(
+                children: [
+                  Text(
+                    'Appointment End Time',
+                    style: appointSummerTextStyle(),
+                  ),
+                  const Spacer(),
+                  // _selectedTimeSlot != null &&
+                  //         _selectedTimeSlot!.isNotEmpty
+                  // ?
+
+                  Text(
+                    DateFormat('hh:mm a').format(
+                      DateFormat('hh:mm a').parse(_selectedTimeSlot!).add(
+                            Duration(minutes: serviceDurationInMinutes),
+                          ),
                     ),
-                    SizedBox(height: Dimensions.dimensionNo10),
-                    Row(
-                      children: [
-                        Text(
-                          'Appointment End Time',
-                          style: appointSummerTextStyle(),
-                        ),
-                        const Spacer(),
-                        _selectedTimeSlot != null &&
-                                _selectedTimeSlot!.isNotEmpty
-                            ? Text(
-                                DateFormat('hh:mm a').format(
-                                  DateFormat('hh:mm a')
-                                      .parse(_selectedTimeSlot!)
-                                      .add(
-                                        Duration(
-                                            minutes: serviceDurationInMinutes),
-                                      ),
-                                ),
-                                style: appointSummerTextStyle(),
-                              )
-                            : const SizedBox(),
-                      ],
-                    ),
-                  ],
-                )
-              : SizedBox(),
+                    style: appointSummerTextStyle(),
+                  )
+                  // : const SizedBox(),
+                ],
+              ),
+            ],
+          ),
+          // : SizedBox(),
           SizedBox(height: Dimensions.dimensionNo10),
           const Divider(
             color: Colors.white,
@@ -1342,149 +1264,203 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
       child: CustomAuthButton(
         text: "Save Appointment",
         ontap: () async {
-          print("serviceAt home $serviceAt");
-          if (_selectedTimeSlot == null || _selectedTimeSlot!.isEmpty) {
+          // Basic validation
+         if (_selectedTimeSlot == null || _selectedTimeSlot!.isEmpty || _selectedTimeSlot == "No ")   {
             showBottomMessageError("Please select a time slot", context);
             return;
           }
-          if (_formKey.currentState!.validate()) {
-            showLoaderDialog(context);
+          if (!_formKey.currentState!.validate()) return;
 
-            // update appoint ent to BookingProvider
-
-            DateTime endTime = DateFormat('hh:mm a')
-                .parse(_selectedTimeSlot!)
-                .add(Duration(minutes: serviceDurationInMinutes));
+          // Start guarded async work
+          showLoaderDialog(context);
+          try {
+            // Calculate end time — guarded parsing
+            DateTime endTime;
+            try {
+              endTime = DateFormat('hh:mm a')
+                  .parse(_selectedTimeSlot!)
+                  .add(Duration(minutes: serviceDurationInMinutes));
+            } catch (e) {
+              endTime = DateTime.now()
+                  .add(Duration(minutes: serviceDurationInMinutes));
+              print("Time parse failed, fallback endTime: $e");
+            }
             bookingProvider.updateAppointEndTime(endTime);
 
-            print("End time Pro--${bookingProvider.getAppointEndTime}");
-
-            //! Format in Appointment Date
-
+            // Timestamps / user
             TimeStampModel timeStampModel = TimeStampModel(
-                id: "",
-                dateAndTime: GlobalVariable.today,
-                updateBy: "${widget.salonModel.name} (Create a Appointment)");
+              id: "",
+              dateAndTime: GlobalVariable.today,
+              updateBy: "${widget.salonModel.name} (Create a Appointment)",
+            );
 
-            List<TimeStampModel> timeStampList = [];
-            timeStampList.add(timeStampModel);
-            //! user full name
+            List<TimeStampModel> timeStampList = [timeStampModel];
+
             String fullName =
-                "${_nameController.text.trim()} ${_lastNameController.text.trim()}";
+                "${_nameController.text.trim()} ${_lastNameController.text.trim()}"
+                    .trim();
 
-            //! user model
             UserModel userInfo = UserModel(
-                id: _mobileController.text.trim(),
-                name: fullName,
-                phone: _mobileController.text.trim(),
-                image:
-                    'https://static-00.iconduck.com/assets.00/profile-circle-icon-512x512-zxne30hp.png',
-                email: "No email",
-                password: " ",
-                timeStampModel: timeStampModel);
+              id: _mobileController.text.trim(),
+              name: fullName.isEmpty ? "Guest" : fullName,
+              phone: _mobileController.text.trim(),
+              image:
+                  'https://static-00.iconduck.com/assets.00/profile-circle-icon-512x512-zxne30hp.png',
+              email: "No email",
+              password: " ",
+              timeStampModel: timeStampModel,
+            );
 
-            //get appointmentNo by add 1
+            // get appointmentNo
             appointmentNO =
                 await SamayFB.instance.incrementSalonAppointmentNo();
+            print("appointmentNo incremented -> $appointmentNO");
 
-            final Map<String, int> productListIdQty1;
-            productListIdQty1 = bookingProvider.getBudgetProductQuantityMap.map(
-              (key, value) => MapEntry(key.id, value),
-            );
+            // Products map -> ensure non-null Map<String,int>
+            final Map<String, int> productListIdQty1 =
+                (bookingProvider.getBudgetProductQuantityMap ?? {}).map(
+                    (key, value) => MapEntry(key.id ?? key.toString(), value));
 
-            List<String>? _serviceListId = [];
-            _serviceListId =
-                bookingProvider.getWatchList.map((e) => e.id).toList();
+            // Service List IDs (guarantee non-null list)
+            List<String> _serviceListId = [];
+            final watchList = bookingProvider.getWatchList ?? [];
+            if (watchList.isNotEmpty) {
+              _serviceListId = watchList
+                  .map((e) => e.id ?? "")
+                  .where((s) => s.isNotEmpty)
+                  .toList();
+            }
 
-            //** Product Bill Model
+            // Product Bill Model (use null-aware defaults)
             ProductBillModel productBillModel = ProductBillModel(
               productListIdQty: productListIdQty1,
-              subTotalProduct: bookingProvider.getSubTotalProduct,
-              discountATMProduct: bookingProvider.getTotalProductDisco,
-              netPriceProduct: bookingProvider.getNetAmountProduct,
-              taxableAMTProduct: bookingProvider.getTaxableAmountProduct,
-              gSTAMTProduct: bookingProvider.getGstAmountProduct,
-              finalAMTProduct: bookingProvider.getFinalProductTotal,
+              subTotalProduct: bookingProvider.getSubTotalProduct ?? 0.0,
+              discountATMProduct: bookingProvider.getTotalProductDisco ?? 0.0,
+              netPriceProduct: bookingProvider.getNetAmountProduct ?? 0.0,
+              taxableAMTProduct: bookingProvider.getTaxableAmountProduct ?? 0.0,
+              gSTAMTProduct: bookingProvider.getGstAmountProduct ?? 0.0,
+              finalAMTProduct: bookingProvider.getFinalProductTotal ?? 0.0,
             );
 
-            //** Service Bill Model
-            ServiceBillModel serviceBillModel = ServiceBillModel(
+            // Service Bill Model (only if there are services)
+            ServiceBillModel? serviceBillModel;
+            // if (_serviceListId.isNotEmpty) {
+            // Use safe defaults instead of force unwrap
+            final discountAmt = bookingProvider.getDiscountAmount ?? 0.0;
+            final netPrice = bookingProvider.getNetPrice ?? 0.0;
+            final taxableAmount = bookingProvider.getTaxAbleAmount ?? 0.0;
+            final gstExcludingAmt = bookingProvider.getExcludingGSTAMT ?? 0.0;
+            final gstIncludingAmt = bookingProvider.getIncludingGSTAMT ?? 0.0;
+            final finalAmt = bookingProvider.getFinalPayableAMT ?? 0.0;
+
+            // Determine gstAMT safely — check _settingModel exists
+            double gstAMT = 0.0;
+            if (_settingModel != null && (_settingModel!.gstNo.length == 15)) {
+              final gstFlag = _settingModel!.gSTIsIncludingOrExcluding ??
+                  GlobalVariable.noGST;
+              gstAMT = (gstFlag == GlobalVariable.exclusiveGST)
+                  ? gstExcludingAmt
+                  : gstIncludingAmt;
+            }
+
+            serviceBillModel = ServiceBillModel(
               serviceListId: _serviceListId,
-              subTotalService: bookingProvider.getSubTotal,
-              discountATMService: bookingProvider.getDiscountAmount!,
-              netPriceService: bookingProvider.getNetPrice!,
-              taxableAMTService: bookingProvider.getTaxAbleAmount!,
-              gSTAMTService: _settingModel!.gstNo.length == 15
-                  ? _settingModel!.gSTIsIncludingOrExcluding ==
-                          GlobalVariable.exclusiveGST
-                      ? bookingProvider.getExcludingGSTAMT!
-                      : bookingProvider.getIncludingGSTAMT!
-                  : 0.0,
-              finalAMTService: bookingProvider.getFinalPayableAMT!,
+              subTotalService: bookingProvider.getSubTotal ?? 0.0,
+              discountATMService: discountAmt,
+              netPriceService: netPrice,
+              taxableAMTService: taxableAmount,
+              gSTAMTService: gstAMT,
+              finalAMTService: finalAmt,
               gstIsIncludingOrExcluding:
-                  _settingModel!.gSTIsIncludingOrExcluding!,
+                  _settingModel?.gSTIsIncludingOrExcluding ??
+                      GlobalVariable.noGST,
             );
+            // }
 
-            //** AppointmentInfo Model */
+            // AppointmentInfo — guard nullable bookingProvider fields
+            final duration =
+                bookingProvider.getAppointDuration ?? Duration.zero;
+            final selectedDate =
+                bookingProvider.getAppointSelectedDate ?? GlobalVariable.today;
+            final startTime =
+                bookingProvider.getAppointStartTime ?? _selectedTimeSlot ?? "";
+            final endTimeFinal = bookingProvider.getAppointEndTime ?? endTime;
+
             AppointmentInfo appointmentInfo = AppointmentInfo(
               serviceAt: serviceAt,
-              serviceDuration: bookingProvider.getAppointDuration!.inMinutes,
-              serviceDate: bookingProvider.getAppointSelectedDate,
-              serviceStartTime: bookingProvider.getAppointStartTime,
-              serviceEndTime: bookingProvider.getAppointEndTime,
-              // userNote: _userNote.text.trim(),
+              serviceDuration: duration.inMinutes,
+              serviceDate: selectedDate,
+              serviceStartTime: startTime as DateTime,
+              serviceEndTime: endTimeFinal,
               userNote: _userNote.text.isEmpty ? "" : _userNote.text.trim(),
-
               appointmentNo: appointmentNO,
-              status: GlobalVariable.pendingAppointState,
+              status: widget.isDirectBilling
+                  ? GlobalVariable.billGenerateAppointState
+                  : GlobalVariable.pendingAppointState,
             );
 
+            // Final AppointModel
             AppointModel appointModel = AppointModel(
-                orderId: "",
-                userId: userInfo.id,
-                vendorId: widget.salonModel.id,
-                adminId: widget.salonModel.adminId,
-                userModel: userInfo,
-                timeStampList: timeStampList,
-                gstNo: _settingModel!.gstNo.isEmpty ? "" : _settingModel!.gstNo,
-                // gstNo: "gstNo",
-                transactionId: '',
-                billingId: '',
-                subTotalBill: bookingProvider.getSubTotalBill,
-                discountBill: bookingProvider.getDiscountBill,
-                netPriceBill: bookingProvider.getNetPriceBill,
-                platformFeeBill: GlobalVariable.platformFee,
-                taxableAmountBill: bookingProvider.getTaxableAmountBill,
-                gstAmountBill: bookingProvider.getGstAmountBill,
-                finalTotalBill: bookingProvider.getFinalTotalBill,
-                payment: GlobalVariable.pAPPayment,
-                appointmentInfo: appointmentInfo,
-                serviceBillModel: serviceBillModel,
-                productBillModel: productBillModel,
-                isManual: true);
-                print(appointModel);
+              orderId: "",
+              userId: userInfo.id,
+              vendorId: widget.salonModel.id,
+              adminId: widget.salonModel.adminId,
+              userModel: userInfo,
+              timeStampList: timeStampList,
+              gstNo: _settingModel?.gstNo ?? "",
+              transactionId: '',
+              billingId: '',
+              subTotalBill: bookingProvider.getSubTotalBill ?? 0.0,
+              discountBill: bookingProvider.getDiscountBill ?? 0.0,
+              netPriceBill: bookingProvider.getNetPriceBill ?? 0.0,
+              platformFeeBill: GlobalVariable.platformFee,
+              taxableAmountBill: bookingProvider.getTaxableAmountBill ?? 0.0,
+              gstAmountBill: bookingProvider.getGstAmountBill ?? 0.0,
+              finalTotalBill: bookingProvider.getFinalTotalBill ?? 0.0,
+              payment: GlobalVariable.pAPPayment,
+              appointmentInfo: appointmentInfo,
+              serviceBillModel: serviceBillModel,
+              productBillModel: productBillModel,
+              isManual: true,
+            );
 
-            showLoaderDialog(context);
-
-            bool value =
-                // ignore: use_build_context_synchronously
+            // Save appointment
+            AppointModel? updateAppointModel =
                 await UserBookingFB.instance.saveAppointmentManual(
               context: context,
               appointModel: appointModel,
             );
-            print(" ${_samaySalonSettingModel!.platformFee} platformFee");
 
+            // Save date mapping
             UserBookingFB.instance.saveDateFB(
-                bookingProvider.getAppointSelectedDate,
-                GlobalVariable.today,
-                widget.salonModel.adminId,
-                widget.salonModel.id);
-            Navigator.of(context, rootNavigator: true).pop();
+              bookingProvider.getAppointSelectedDate ?? GlobalVariable.today,
+              GlobalVariable.today,
+              widget.salonModel.adminId,
+              widget.salonModel.id,
+            );
+
+            Navigator.of(context, rootNavigator: true).pop(); // pop loader
 
             showMessage("Successful add the appointment");
+            if (widget.isDirectBilling) {
+              AppProvider appProvider =
+                  Provider.of<AppProvider>(context, listen: false);
+              if (bookingProvider.getWatchList != null &&
+                  bookingProvider.getWatchList.isNotEmpty) {
+                appProvider.updateServiceTOserviceListFetchID(
+                    serviceList: bookingProvider.getWatchList);
+              }
+              if (bookingProvider.budgetProductQuantityMap != null &&
+                  bookingProvider.budgetProductQuantityMap.isNotEmpty) {
+                appProvider.updateProductToProductListWithQty(
+                    productMap: bookingProvider.budgetProductQuantityMap);
+              }
+            }
 
-            if (value) {
+            // Post-save dialog / navigation (existing logic)
+            if (updateAppointModel != null) {
               showLoaderDialog(context);
+
               Future.delayed(
                 const Duration(seconds: 1),
                 () {
@@ -1542,13 +1518,20 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                         actions: [
                           TextButton(
                             onPressed: () {
-                              Routes.instance.push(
-                                  widget: HomeScreen(
-                                    date: Provider.of<CalenderProvider>(context,
-                                            listen: false)
-                                        .getSelectDate,
-                                  ),
-                                  context: context);
+                              widget.isDirectBilling
+                                  ? Routes.instance.push(
+                                      widget: UserSideBarPaymentScreen(
+                                        appointModel: updateAppointModel,
+                                      ),
+                                      context: context)
+                                  : Routes.instance.push(
+                                      widget: HomeScreen(
+                                        date: Provider.of<CalenderProvider>(
+                                                context,
+                                                listen: false)
+                                            .getSelectDate,
+                                      ),
+                                      context: context);
                             },
                             child: Text(
                               'OK',
@@ -1565,8 +1548,17 @@ class _AddNewAppointmentState extends State<AddNewAppointment> {
                   );
                 },
               );
-              Navigator.of(context, rootNavigator: true).pop();
+              // Navigator.of(context, rootNavigator: true).pop();
+
+              // show success dialog (existing code)...
+              // (Keep your current dialog code here; omitted for brevity)
             }
+          } catch (err, stack) {
+            print("Save appointment failed: $err\n$stack");
+            Navigator.of(context, rootNavigator: true)
+                .pop(); // ensure loader removed
+            showBottomMessageError(
+                "Failed to save appointment: ${err.toString()}", context);
           }
         },
       ),

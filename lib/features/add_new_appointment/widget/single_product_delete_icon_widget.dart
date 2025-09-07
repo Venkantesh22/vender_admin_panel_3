@@ -162,9 +162,8 @@ Widget singleProductNameDeleteIcon({
               quantAddRemoveWidget(quantity, bookingProvider, product, context),
               IconButton(
                 onPressed: () {
-                  // bookingProvider.budgetProductQuantityMap.remove(product);
-                  bookingProvider.removeProductToListPro(product);
-                  // print(bookingProvider.budgetProductQuantityMap);
+                  bookingProvider.removeProductToListPro(product,
+                      isRemoveAll: true);
                 },
                 padding:
                     EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo8),

@@ -196,7 +196,6 @@ class AppProvider with ChangeNotifier {
       Navigator.of(context).pop();
       notifyListeners();
 
-      // showMessage("Successfully updated ${GlobalVariable.salon} profile");
       return true;
     }
   }
@@ -205,12 +204,18 @@ class AppProvider with ChangeNotifier {
   Future<void> fetchServiceListByListId({
     required List<String> serviceIds,
   }) async {
+    print("serviceIds length ${serviceIds.length}");
+
     if (serviceIds != null && serviceIds.isNotEmpty) {
       serviceListFetchID = await FirebaseFirestoreHelper.instance
           .fetchServicesByListIds(serviceIds: serviceIds);
-    }{
+    print("serviceListFetchID length ${serviceListFetchID.length}");
+
+    }else{ 
       serviceListFetchID = [];
     }
+        print("serviceListFetchID length ${serviceListFetchID.length}");
+notifyListeners();
   }
 
   // Fetch appoint Product List by Product id list
@@ -241,6 +246,23 @@ class AppProvider with ChangeNotifier {
     print("update ${selectAppointModel!.appointmentInfo!.appointmentNo}");
     notifyListeners();
   }
+
+void updateServiceTOserviceListFetchID({
+  required List<ServiceModel> serviceList,
+}){
+  serviceListFetchID = serviceList;
+  print("update updateServiceTOserviceListFetchID ${serviceListFetchID.length}");
+  notifyListeners();
+}
+
+void updateProductToProductListWithQty({
+  required Map<ProductModel, int> productMap,
+}){
+  productListWithQty = productMap;
+    print("update updateProductToProductListWithQty ${productListWithQty.length}");
+
+  notifyListeners();
+}
 
   //? Fetch single appoint
 }

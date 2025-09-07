@@ -49,12 +49,15 @@ class EditAppointment extends StatefulWidget {
   final AppointModel appointModel;
   final UserModel userModel;
   final SalonModel salonModel;
+  final bool isDirectBilling;
+
   const EditAppointment({
     super.key,
     required this.index,
     required this.appointModel,
     required this.userModel,
     required this.salonModel,
+    this.isDirectBilling = false,
   });
 
   @override
@@ -75,7 +78,6 @@ class _EditAppointmentState extends State<EditAppointment> {
   TextEditingController _appointmentDateController = TextEditingController();
   TextEditingController _appointmentTimeController =
       TextEditingController(text: "Select Time");
-  // TextEditingController serviceSearchControl = TextEditingController();
   TextEditingController _mobileController = TextEditingController();
   TextEditingController _userNote = TextEditingController();
   SearchController productSearchControl1 = SearchController();
@@ -86,7 +88,6 @@ class _EditAppointmentState extends State<EditAppointment> {
   List<ProductModel> allProductList = [];
 
   bool _showCalender = false;
-  bool _showServiceList = false;
   bool _showTimeContaine = false;
   bool _isLoading = true;
 
@@ -108,12 +109,13 @@ class _EditAppointmentState extends State<EditAppointment> {
     // TODO: implement initState
 
     super.initState();
-    getData();
+    _selectedTimeSlot = GlobalVariable.getCurrentTime();
+
     _initializeTimes();
 
     getSalonSetting();
-
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      getData();
       addBookingServiceToWatchList();
       updateDate();
     });
@@ -154,7 +156,6 @@ class _EditAppointmentState extends State<EditAppointment> {
       List<ServiceModel> fetchedServices = await UserBookingFB.instance
           .getAllServicesFromCategories(appProvider.getSalonInformation.id);
       _nameController.text = widget.userModel.name;
-      // _appointmentDateController.text = widget.appointModel.appointmentInfo!.serviceDate;
       _appointmentDateController.text = DateFormat('dd MMM yyyy')
           .format(widget.appointModel.appointmentInfo!.serviceDate);
       _mobileController.text = widget.userModel.phone.toString();
@@ -164,7 +165,7 @@ class _EditAppointmentState extends State<EditAppointment> {
       }
       _samaySalonSettingModel = await SamayFB.instance.fetchSalonSettingData();
       // Get all Product and assign to allProductList list
-      await productProvider.getListProductPro();
+      await productProvider.getListProductPro(appProvider.getSalonInformation.id);
       allProductList = productProvider.getProductList;
       print("Print all Product ${allProductList.length}");
 
@@ -249,6 +250,8 @@ class _EditAppointmentState extends State<EditAppointment> {
     bookingProvider
         .addServiceListTOServiceList(appProvider.getServiceListFetchID);
     bookingProvider.addProductMapPro(appProvider.getProductListWithQty);
+    print(
+        "appProvider.getProductListWithQty length ${appProvider.getProductListWithQty.length}");
 
     bookingProvider.calculateTotalBookingDuration();
     bookingProvider.calculateSubTotal();
@@ -381,12 +384,10 @@ class _EditAppointmentState extends State<EditAppointment> {
                 padding: EdgeInsets.zero,
                 child: GestureDetector(
                   onTap: () {
-                    if (_showCalender ||
-                        _showServiceList ||
-                        _showTimeContaine == true) {
+                    if (_showCalender || _showTimeContaine == true) {
                       setState(() {
                         _showCalender = false;
-                        _showServiceList = false;
+
                         _showTimeContaine = false;
                       });
                     }
@@ -414,11 +415,9 @@ class _EditAppointmentState extends State<EditAppointment> {
                               GestureDetector(
                                 onTap: () {
                                   if (_showCalender ||
-                                      _showServiceList ||
                                       _showTimeContaine == true) {
                                     setState(() {
                                       _showCalender = false;
-                                      _showServiceList = false;
                                       _showTimeContaine = false;
                                     });
                                   }
@@ -835,58 +834,67 @@ class _EditAppointmentState extends State<EditAppointment> {
   }
 
   SizedBox _timeSelectTextBox() {
+    final isDisable = widget.isDirectBilling;
+
     return SizedBox(
       height: Dimensions.dimensionNo70,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Time",
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: ResponsiveLayout.isMobile(context)
-                  ? Dimensions.dimensionNo14
-                  : Dimensions.dimensionNo18,
-              fontFamily: GoogleFonts.roboto().fontFamily,
-              fontWeight: FontWeight.w500,
-              letterSpacing: 0.90,
-            ),
-          ),
-          SizedBox(
-            height: Dimensions.dimensionNo5,
-          ),
-          SizedBox(
-            height: ResponsiveLayout.isDesktop(context)
-                ? Dimensions.dimensionNo30
-                : Dimensions.dimensionNo40,
-            width: ResponsiveLayout.isMobile(context)
-                ? null
-                : Dimensions.dimensionNo250,
-            child: TextFormField(
-              onTap: () {
-                setState(() {
-                  _showTimeContaine = !_showTimeContaine;
-                  print("Time : $_showTimeContaine");
-                });
-              },
-              cursorHeight: Dimensions.dimensionNo16,
-              style: TextStyle(
-                  fontSize: Dimensions.dimensionNo12,
+      child: Opacity(
+        opacity: isDisable ? 0.5 : 1.0,
+        child: IgnorePointer(
+          ignoring: isDisable,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Time",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: ResponsiveLayout.isMobile(context)
+                      ? Dimensions.dimensionNo14
+                      : Dimensions.dimensionNo18,
                   fontFamily: GoogleFonts.roboto().fontFamily,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black),
-              controller: _appointmentTimeController,
-              decoration: InputDecoration(
-                contentPadding: EdgeInsets.symmetric(
-                    horizontal: Dimensions.dimensionNo10,
-                    vertical: Dimensions.dimensionNo10),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Dimensions.dimensionNo16),
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0.90,
                 ),
               ),
-            ),
+              SizedBox(
+                height: Dimensions.dimensionNo5,
+              ),
+              SizedBox(
+                height: ResponsiveLayout.isDesktop(context)
+                    ? Dimensions.dimensionNo30
+                    : Dimensions.dimensionNo40,
+                width: ResponsiveLayout.isMobile(context)
+                    ? null
+                    : Dimensions.dimensionNo250,
+                child: TextFormField(
+                  onTap: () {
+                    setState(() {
+                      _showTimeContaine = !_showTimeContaine;
+                      print("Time : $_showTimeContaine");
+                    });
+                  },
+                  cursorHeight: Dimensions.dimensionNo16,
+                  style: TextStyle(
+                      fontSize: Dimensions.dimensionNo12,
+                      fontFamily: GoogleFonts.roboto().fontFamily,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
+                  controller: _appointmentTimeController,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: Dimensions.dimensionNo10,
+                        vertical: Dimensions.dimensionNo10),
+                    border: OutlineInputBorder(
+                      borderRadius:
+                          BorderRadius.circular(Dimensions.dimensionNo16),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -1254,6 +1262,8 @@ class _EditAppointmentState extends State<EditAppointment> {
 
           if (_formKey.currentState!.validate()) {
             showLoaderDialog(context);
+            AppProvider appProvider =
+                Provider.of<AppProvider>(context, listen: false);
             // update appoint ent-time to BookingProvider
             DateTime _endTime = DateFormat('hh:mm a')
                 .parse(_selectedTimeSlot!)
@@ -1362,6 +1372,26 @@ class _EditAppointmentState extends State<EditAppointment> {
 
             Navigator.of(context, rootNavigator: true).pop();
             showMessage("Successfully updated the appointment");
+
+            if (updateAppointModel.appointmentInfo?.status ==
+                GlobalVariable.billGenerateAppointState) {
+              if (!GlobalVariable.twoListsEqual(
+                  a: updateAppointModel.serviceBillModel?.serviceListId,
+                  b: widget.appointModel.serviceBillModel?.serviceListId)) {
+                    
+                appProvider.updateServiceTOserviceListFetchID(
+                    serviceList: bookingProvider.getWatchList);
+              }
+
+              if (!GlobalVariable.twoListsEqual(
+                  a: updateAppointModel.productBillModel?.productListIdQty.keys
+                      .toList(),
+                  b: widget.appointModel.productBillModel?.productListIdQty.keys
+                      .toList())) {
+                appProvider.updateProductToProductListWithQty(
+                    productMap: bookingProvider.getBudgetProductQuantityMap);
+              }
+            }
 
             if (await isUpdate) {
               showLoaderDialog(context);

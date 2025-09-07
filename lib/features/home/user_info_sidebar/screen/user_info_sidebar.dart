@@ -6,7 +6,6 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/router.dart';
-import 'package:samay_admin_plan/features/Direct%20Billing/screen/edit_direct_billing.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/screen/edit_appointment.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/widget/single_product_delete_icon_widget.dart';
 import 'package:samay_admin_plan/features/home/user_info_sidebar/widget/infor.dart';
@@ -85,7 +84,7 @@ class _UserInfoSideBarState extends State<UserInfoSideBar> {
     salonModel = appProvider.getSalonInformation;
 
     // Null checks for serviceBillModel and productBillModel
-    if (widget.appointModel.serviceBillModel != null) {
+    if (widget.appointModel.serviceBillModel != null )   {
       // if (widget.appointModel.serviceBillModel != null &&  appProvider.selectAppointModel != null &&  appProvider.selectAppointModel!.orderId != widget.appointModel.orderId  )  {
       await appProvider.fetchServiceListByListId(
           serviceIds: widget.appointModel.serviceBillModel!.serviceListId);

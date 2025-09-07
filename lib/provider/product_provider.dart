@@ -201,12 +201,12 @@ class ProductProvider with ChangeNotifier {
 
 // get List  of product
 
-  Future<void> getListProductPro() async {
+  Future<void> getListProductPro(String salonId) async {
     try {
       final _samayId =
           GlobalVariable.samayCollectionId; // Use the correct variable
 
-      _productList = await ProductFb.instance.getListOfProductFB(_samayId);
+      _productList = await ProductFb.instance.getListOfProductFB(salonId);
       _productList
           .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
       _productFilterList = List.from(_productList)
