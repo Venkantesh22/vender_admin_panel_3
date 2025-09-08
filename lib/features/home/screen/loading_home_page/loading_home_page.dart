@@ -121,7 +121,6 @@ class _LoadingHomePageState extends State<LoadingHomePage> {
             .fetchSettingPro(appProvider.getSalonInformation.id);
       }
 
-      // updateFun();
 
       if (FirebaseAuth.instance.currentUser == null) {
         throw Exception("User is not authenticated.");

@@ -43,7 +43,7 @@ class SamayFB {
                 SamaySalonSettingModel.fromJson(
               salonSettingDoc.data() as Map<String, dynamic>,
             );
-
+            print(samaySalonSettingModel.toJson());
             return samaySalonSettingModel;
           } else {
             print('No documents found in the `salonSetting` collection.');

@@ -11,6 +11,9 @@ class GlobalVariable {
   static const String salon = "Salon";
   static DateTime today = DateTime.now();
 
+  //! Version
+  static String webVersion = "1.0.0.1";
+
 // variable for increment appointment no.
   static String samayCollectionId = '';
   // static String salonCollectionId = 'j5bzQoxDswYJdSLQI3Lw';

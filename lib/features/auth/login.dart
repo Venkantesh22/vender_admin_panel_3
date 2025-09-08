@@ -16,7 +16,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final bool _isLoading = false;
+  // bool _isLoading = false;
 
   @override
   void dispose() {
@@ -25,20 +25,19 @@ class _LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
+  // SamaySalonSettingModel? _samaySalonSettingModel;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: _isLoading ? AppColor.whileColor : AppColor.bgForAuth,
-        body: _isLoading
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : ResponsiveLayout(
-                mobile: logMobileWidget(
-                    context, _emailController, _passwordController),
-                desktop: LogWebWidget(
-                    emailController: _emailController,
-                    passwordController: _passwordController),
-              ));
+      backgroundColor: AppColor.bgForAuth,
+      body: ResponsiveLayout(
+        mobile: logMobileWidget(context, _emailController, _passwordController),
+        desktop: LogWebWidget(
+          emailController: _emailController,
+          passwordController: _passwordController,
+        ),
+      ),
+    );
   }
 }

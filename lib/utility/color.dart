@@ -9,6 +9,7 @@ class AppColor {
   static const sideBarBgColor = Color(0xFFE8E8E8);
   static const grey = Color.fromARGB(255, 207, 205, 205);
   static const orangeColor = Colors.orange;
+  static const Color redColor = Color(0xFFB71C1C);
 
   // Text color
   static const createText = Color(0xFF2E6A50);

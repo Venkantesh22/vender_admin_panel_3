@@ -3,12 +3,15 @@ class SamaySalonSettingModel {
   final String platformFee;
   final int appointmentNo;
   final double gstPer; // New GST percentage field
+  final String version
+;
 
   SamaySalonSettingModel({
     required this.id,
     required this.platformFee,
     required this.appointmentNo,
     required this.gstPer, // Added to constructor
+    required this.version, 
   });
 
   factory SamaySalonSettingModel.fromJson(Map<String, dynamic> json) {
@@ -17,6 +20,7 @@ class SamaySalonSettingModel {
       platformFee: json['platformFee'] as String,
       appointmentNo: json['appointmentNo'] as int,
       gstPer: json['gstPer'] as double, // Added to fromJson
+      version : json['version'] as String,
     );
   }
 
@@ -26,6 +30,7 @@ class SamaySalonSettingModel {
       'platformFee': platformFee,
       'appointmentNo': appointmentNo,
       'gstPer': gstPer, // Added to toJson
+      'version' : version
     };
   }
 
@@ -34,12 +39,14 @@ class SamaySalonSettingModel {
     String? platformFee,
     int? appointmentNo,
     double? gstPer, // Added to copyWith
+    String? version,
   }) {
     return SamaySalonSettingModel(
       id: id ?? this.id,
       platformFee: platformFee ?? this.platformFee,
       appointmentNo: appointmentNo ?? this.appointmentNo,
       gstPer: gstPer ?? this.gstPer, // Added to copyWith
+      version : version ?? this.version,
     );
   }
 }

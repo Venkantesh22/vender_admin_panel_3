@@ -142,6 +142,7 @@ class _LogWebWidgetState extends State<LogWebWidget> {
                           },
                         ),
                   SizedBox(height: Dimensions.dimensionNo20),
+                  Text("version : ${GlobalVariable.webVersion}" ?? ""),
                   InkWell(
                     onTap: () {
                       Routes.instance

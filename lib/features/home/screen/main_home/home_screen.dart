@@ -11,6 +11,7 @@ import 'package:samay_admin_plan/models/salon_form_models/salon_infor_model.dart
 import 'package:samay_admin_plan/models/user_model/user_model.dart';
 import 'package:samay_admin_plan/models/appoint_model/appoint_model.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
+import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
 import 'package:samay_admin_plan/utility/dimension.dart';
 
@@ -69,8 +70,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Row homeWedWidget(SalonModel salonModal) {
+  Widget homeWedWidget(SalonModel salonModal) {
+    BookingProvider bookingProvider  = Provider.of<BookingProvider>(context);
     return Row(
+     
       children: [
         // Left Side: User Booking List
         Expanded(

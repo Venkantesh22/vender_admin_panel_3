@@ -4,6 +4,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/responsive_layout.dart';
 import 'package:samay_admin_plan/constants/router.dart';
 import 'package:samay_admin_plan/features/Calender/screen/calender.dart';
@@ -15,6 +16,7 @@ import 'package:samay_admin_plan/models/user_model/user_model.dart';
 import 'package:samay_admin_plan/models/appoint_model/appoint_model.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
 import 'package:samay_admin_plan/provider/booking_provider.dart';
+import 'package:samay_admin_plan/utility/color.dart';
 import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/add_button.dart';
 
@@ -120,197 +122,9 @@ class _UserListState extends State<UserList> {
     return userListWebWidget(context);
   }
 
-  // Stack userListMobileWidget(BuildContext context) {
-  //   return Stack(
-  //     children: [
-  //       GestureDetector(
-  //         onTap: () {
-  //           setState(() {
-  //             _showCalendar = false;
-  //           });
-  //         },
-  //         child: Column(
-  //           children: [
-  //             Container(
-  //               padding: EdgeInsets.only(
-  //                 left: Dimensions.dimensionNo16,
-  //                 right: Dimensions.dimensionNo16,
-  //                 top: Dimensions.dimensionNo10,
-  //               ),
-  //               child: Row(
-  //                 mainAxisAlignment: MainAxisAlignment.center,
-  //                 children: [
-  //                   SizedBox(width: Dimensions.dimensionNo10),
-
-  //                   // Decrease date button
-  //                   GestureDetector(
-  //                     onTap: _decrementDate,
-  //                     child: Container(
-  //                       decoration: BoxDecoration(
-  //                         color: const Color(0xFF4B4B4B),
-  //                         borderRadius:
-  //                             BorderRadius.circular(Dimensions.dimensionNo5),
-  //                       ),
-  //                       child: const Icon(
-  //                         Icons.arrow_left_sharp,
-  //                         color: Colors.white,
-  //                       ),
-  //                     ),
-  //                   ),
-
-  //                   Padding(
-  //                     padding: EdgeInsets.symmetric(
-  //                         horizontal: Dimensions.dimensionNo10),
-  //                     child: Center(
-  //                       child: Text(
-  //                         _formatDate(widget.date),
-  //                         style: TextStyle(
-  //                           color: Colors.black,
-  //                           fontSize: Dimensions.dimensionNo16,
-  //                           fontWeight: FontWeight.w700,
-  //                         ),
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   // Increase date button
-  //                   GestureDetector(
-  //                     onTap: _incrementDate,
-  //                     child: Container(
-  //                       decoration: BoxDecoration(
-  //                         color: const Color(0xFF4B4B4B),
-  //                         borderRadius:
-  //                             BorderRadius.circular(Dimensions.dimensionNo5),
-  //                       ),
-  //                       child: const Icon(
-  //                         Icons.arrow_right_sharp,
-  //                         color: Colors.white,
-  //                       ),
-  //                     ),
-  //                   ),
-  //                   SizedBox(width: Dimensions.dimensionNo12),
-
-  //                   // Toggle calendar visibility
-  //                   IconButton(
-  //                     onPressed: () {
-  //                       setState(() {
-  //                         _showCalendar = !_showCalendar;
-  //                       });
-  //                     },
-  //                     icon: const Icon(
-  //                       Icons.calendar_month_outlined,
-  //                     ),
-  //                   ),
-  //                   Text(
-  //                     widget.salonModel.name ?? 'Salon Name',
-  //                     overflow: TextOverflow.ellipsis,
-  //                     style: TextStyle(
-  //                         fontWeight: FontWeight.bold,
-  //                         fontSize: Dimensions.dimensionNo16),
-  //                   ),
-  //                   const Spacer(),
-  //                   AddButton(
-  //                     text: "Add Appointment",
-  //                     onTap: () {
-  //                       Routes.instance.push(
-  //                         widget:
-  //                             //  AccountCreateForm(),
-  //                             // SuperCategoryPage(),
-  //                             AddNewAppointment( salonModel: widget.salonModel,),
-  //                         context: context,
-  //                       );
-  //                     },
-  //                   ),
-  //                 ],
-  //               ),
-  //             ),
-  //             const Divider(thickness: 5),
-  //             SizedBox(
-  //               height: Dimensions.dimensionNo16,
-  //             ),
-  //             // Show booking list for the selected date
-  //             _isLoading
-  //                 ? Padding(
-  //                     padding: EdgeInsets.only(top: Dimensions.dimensionNo200),
-  //                     child: const Center(
-  //                       child: CircularProgressIndicator(),
-  //                     ),
-  //                   )
-  //                 : Expanded(
-  //                     child: Consumer<BookingProvider>(
-  //                       builder: (context, bookingProvider, child) {
-  //                         if (bookingProvider.getBookingList.isEmpty) {
-  //                           return const Center(
-  //                             child:
-  //                                 Text('No bookings available for this date.'),
-  //                           );
-  //                         }
-  //                         return ListView.builder(
-  //                           itemCount: bookingProvider.getBookingList.length,
-  //                           itemBuilder: (context, index) {
-  //                             AppointModel order =
-  //                                 bookingProvider.getBookingList[index];
-
-  //                             return FutureBuilder<UserModel>(
-  //                               future: setUser(order),
-  //                               builder: (context, snapshot) {
-  //                                 if (!snapshot.hasData) {
-  //                                   return const Center(
-  //                                     child: CircularProgressIndicator(),
-  //                                   );
-  //                                 }
-  //                                 UserModel user = snapshot.data!;
-  //                                 int no = index + 1;
-
-  //                                 return UserBookingTap(
-  //                                   appointModel: order,
-  //                                   userModel: user,
-  //                                   index: no,
-  //                                   onTap: () {
-  //                                   print("Tapped!");
-  //                                   Provider.of<AppProvider>(context,
-  //                                           listen: false)
-  //                                       .updateSelectAppointModel(order);
-  //                                   widget.onBookingSelected(
-  //                                       order, user, index);
-  //                                   print("User: ${user.name}");
-  //                                 },
-  //                                 );
-  //                               },
-  //                             );
-  //                           },
-  //                         );
-  //                       },
-  //                     ),
-  //                   ),
-  //           ],
-  //         ),
-  //       ),
-  //       if (_showCalendar)
-  //         Positioned(
-  //           left: Dimensions.dimensionNo50,
-  //           top: Dimensions.dimensionNo50,
-  //           child: SizedBox(
-  //             height: Dimensions.dimensionNo450,
-  //             width: Dimensions.dimensionNo360,
-  //             child: CustomCalendar(
-  //               salonModel: widget.salonModel,
-  //               controller: _dateController,
-  //               initialDate: widget.date,
-  //               onDateChanged: (selectedDate) {
-  //                 setState(() {
-  //                   widget.date = selectedDate;
-  //                   _updateDateController();
-  //                   _fetchBookings();
-  //                 });
-  //               },
-  //             ),
-  //           ),
-  //         ),
-  //     ],
-  //   );
-  // }
-
   Stack userListWebWidget(BuildContext context) {
+    BookingProvider bookingProvider = Provider.of<BookingProvider>(context);
+   
     return Stack(
       children: [
         GestureDetector(
@@ -321,6 +135,25 @@ class _UserListState extends State<UserList> {
           },
           child: Column(
             children: [
+              Container(
+                padding:
+                    EdgeInsets.symmetric(horizontal: Dimensions.dimensionNo8),
+                decoration: const BoxDecoration(
+                  color: AppColor.redColor,
+                ),
+                child: bookingProvider.getSamaySalonSettingModel.version !=
+                        GlobalVariable.webVersion
+                    ? Center(
+                        child: Text(
+                          "New Update ${bookingProvider.getSamaySalonSettingModel.version} is available reload a page!",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: Dimensions.dimensionNo10,
+                              overflow: TextOverflow.visible),
+                        ),
+                      )
+                    : const SizedBox(),
+              ),
               Container(
                 padding: ResponsiveLayout.isMobile(context)
                     ? EdgeInsets.only(
@@ -415,7 +248,7 @@ class _UserListState extends State<UserList> {
                       onTap: () {
                         Routes.instance.push(
                           widget:
-                              AddNewAppointment( salonModel: widget.salonModel),
+                              AddNewAppointment(salonModel: widget.salonModel),
                           context: context,
                         );
                       },
@@ -466,14 +299,14 @@ class _UserListState extends State<UserList> {
                                     userModel: user,
                                     index: no,
                                     onTap: () {
-                                    print("Tapped!");
-                                    Provider.of<AppProvider>(context,
-                                            listen: false)
-                                        .updateSelectAppointModel(order);
-                                    widget.onBookingSelected(
-                                        order, user, index);
-                                    print("User: ${user.name}");
-                                  },
+                                      print("Tapped!");
+                                      Provider.of<AppProvider>(context,
+                                              listen: false)
+                                          .updateSelectAppointModel(order);
+                                      widget.onBookingSelected(
+                                          order, user, index);
+                                      print("User: ${user.name}");
+                                    },
                                   );
                                 },
                               );
