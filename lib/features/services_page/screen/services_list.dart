@@ -28,6 +28,7 @@ class ServicesList extends StatefulWidget {
 }
 
 class _ServicesListState extends State<ServicesList> {
+  String? lastServiceCode;
   @override
   Widget build(BuildContext context) {
     ServiceProvider serviceProvider = Provider.of<ServiceProvider>(context);
@@ -135,7 +136,9 @@ class _ServicesListState extends State<ServicesList> {
                               // Add Services
                               Routes.instance.push(
                                 widget: AddServiceForm(
-                                    categoryModel: selectedCategory),
+                                  categoryModel: selectedCategory,
+                                  serviceCode: lastServiceCode,
+                                ),
                                 context: context,
                               );
                             }
@@ -205,7 +208,9 @@ class _ServicesListState extends State<ServicesList> {
                               onTap: () {
                                 Routes.instance.push(
                                   widget: AddServiceForm(
-                                      categoryModel: selectedCategory),
+                                    categoryModel: selectedCategory,
+                                    serviceCode: lastServiceCode,
+                                  ),
                                   context: context,
                                 );
                               },
@@ -243,7 +248,19 @@ class _ServicesListState extends State<ServicesList> {
                     0; // Default to 0 if parsing fails
                 return serviceCodeA.compareTo(serviceCodeB);
               });
+              if (sortedData.length != 0) {
+                lastServiceCode = sortedData.last.serviceCode;
+                lastServiceCode = (int.parse(lastServiceCode!) + 1).toString();
+                if (lastServiceCode!.length == 1) {
+                  lastServiceCode = "000$lastServiceCode";
+                } else if (lastServiceCode!.length == 2) {
+                  lastServiceCode = "00$lastServiceCode";
+                } else if (lastServiceCode!.length == 3) {
+                  lastServiceCode = "0$lastServiceCode";
+                }
+              }
 
+              print("Last Service code : $lastServiceCode");
               return ListView.builder(
                 itemCount: sortedData.length,
                 itemBuilder: (context, index) {

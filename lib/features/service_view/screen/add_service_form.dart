@@ -13,9 +13,11 @@ import 'package:samay_admin_plan/widget/text_box/customtextfield.dart';
 
 class AddServiceForm extends StatefulWidget {
   final CategoryModel categoryModel;
+  final String? serviceCode;
   const AddServiceForm({
     super.key,
     required this.categoryModel,
+    this.serviceCode,
   });
 
   @override
@@ -39,7 +41,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
   // Dropdown options for "service for"
   final List<String> _serviceForList = ["Male", "Female", "Both"];
   String? _serviceFor; // Default selection
-  final bool _loadingSave = false; // Loader state for save button
+   bool loading = false; // Loader state for save button
 
   double discountAmount = 0.0;
 
@@ -47,11 +49,10 @@ class _AddServiceFormState extends State<AddServiceForm> {
   @override
   void initState() {
     super.initState();
-    // Set default value for _serviceFor
-    _serviceFor = _serviceForList.last;
-    // Add listeners to recalculate final price when original price or discount percentage changes.
-    _originalPriceController.addListener(_updateFinalPrice);
-    _discountInPer.addListener(_updateFinalPrice);
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      getData();
+    });
+  
   }
 
   @override
@@ -65,6 +66,27 @@ class _AddServiceFormState extends State<AddServiceForm> {
     _minController.dispose();
     _descriptionController.dispose();
     super.dispose();
+  }
+
+  getData(){
+    setState(() {
+      loading = true;
+    });
+      // Set default value for _serviceFor
+   _serviceFor  = _serviceForList.last;
+    // Add listeners to recalculate final price when original price or discount percentage changes.
+    _originalPriceController.addListener(_updateFinalPrice);
+    _discountInPer.addListener(_updateFinalPrice);
+
+    if(widget.serviceCode != null && widget.serviceCode!.isNotEmpty){
+      _serviceCodeController.text = widget.serviceCode?.trim() ?? '';
+          print("service code in add form : ${_serviceCodeController.text}");
+
+    }
+    setState(() {
+      loading = false;
+    });
+
   }
 
   // Function to update final price based on original price and discount percentage.
@@ -85,15 +107,13 @@ class _AddServiceFormState extends State<AddServiceForm> {
 
   @override
   Widget build(BuildContext context) {
-    // Retrieve providers if needed
-    // final appProvider = Provider.of<AppProvider>(context);
-    // final serviceProvider = Provider.of<ServiceProvider>(context);
-
+  
     return Scaffold(
       backgroundColor: ResponsiveLayout.isMoAndTab(context)
           ? AppColor.bgForAdminCreateSec
           : AppColor.bgForAdminCreateSec,
-      body: SingleChildScrollView(
+      body:  loading ? const Center(child: CircularProgressIndicator(),):
+      SingleChildScrollView(
         child: Container(
           width: ResponsiveLayout.isDesktop(context)
               ? Dimensions.screenWidth / 1.5
@@ -310,10 +330,23 @@ class _AddServiceFormState extends State<AddServiceForm> {
                     double? discountPercentage =
                         double.tryParse(_discountInPer.text);
                     double? finalPrice = double.tryParse(_priceController.text);
-                    int hours = int.tryParse(_hoursController.text) ??
-                        0; // Default to 0 if null or invalid
-                    int? minutes = int.tryParse(_minController.text) ??
-                        0; // Default to 0 if null or invalid
+                    int hours = int.tryParse(_hoursController.text) ?? 0;
+                    int minutes = int.tryParse(_minController.text) ?? 0;
+
+                    // Parse and validate numeric fields for hours and minutes
+                    if ((_hoursController.text.isEmpty ||
+                            _hoursController.text == null) &&
+                        (_minController.text.isEmpty ||
+                            _minController.text == null)) {
+                      hours = 0;
+                      minutes = 0;
+                       showBottomMessageError(
+                          "Please enter time for service duration.",
+                          context);
+
+                      return;
+                    } 
+                  
 
                     if (originalPrice == null ||
                         discountPercentage == null ||
@@ -347,7 +380,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                       );
                       return;
                     }
-                    if (int.parse(_hoursController.text) < 0) {
+                    if (hours < 0) {
                       showBottomMessageError(
                         "Hours cannot be negative.",
                         context,
@@ -370,7 +403,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                         Provider.of<AppProvider>(context, listen: false);
                     final serviceProvider =
                         Provider.of<ServiceProvider>(context, listen: false);
-                    hours != 0 ? minutes = 0 : minutes;
+                    // hours != 0 ? minutes = 0 : minutes;
 
                     // Add new service via provider method
                     await serviceProvider.addSingleServicePro(
@@ -414,8 +447,7 @@ class _AddServiceFormState extends State<AddServiceForm> {
                     Navigator.of(context).pop(); // Close the form screen
                   } catch (e) {
                     debugPrint("Error adding service: ${e.toString()}");
-                    // showBottomMessageError(
-                    //     "Something went wrong please add all fields", context);
+                    
                   } finally {
                     // Ensure loader dialog is dismissed
                     if (Navigator.of(context, rootNavigator: true).canPop()) {

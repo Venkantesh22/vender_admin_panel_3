@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:samay_admin_plan/constants/global_variable.dart';
 import 'package:samay_admin_plan/constants/router.dart';
-import 'package:samay_admin_plan/features/Direct%20Billing/screen/direct_billing.dart';
 import 'package:samay_admin_plan/features/add_new_appointment/screen/add_new_appointment.dart';
 import 'package:samay_admin_plan/features/custom_appbar/widget/appbar_item.dart';
 import 'package:samay_admin_plan/features/home/screen/main_home/home_screen.dart';
@@ -14,11 +13,13 @@ import 'package:samay_admin_plan/features/reports_Section/report_dashboard/repor
 import 'package:samay_admin_plan/features/service_view/screen/super_category.dart';
 import 'package:samay_admin_plan/features/setting/setting_page.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
+import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/provider/calender_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
 import 'package:samay_admin_plan/utility/dimension.dart';
 
 AppBar webAppBar(BuildContext context, AppProvider appProvider) {
+  BookingProvider bookingProvider = Provider.of<BookingProvider>(context, listen: false);
   return AppBar(
     backgroundColor: AppColor.mainColor,
     automaticallyImplyLeading: false,
@@ -155,15 +156,31 @@ AppBar webAppBar(BuildContext context, AppProvider appProvider) {
                   SizedBox(
                     height: Dimensions.dimensionNo5,
                   ),
-                  Text(
-                    'Admin',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: Dimensions.dimensionNo12,
-                      fontFamily: GoogleFonts.roboto().fontFamily,
-                      fontWeight: FontWeight.w400,
-                      height: 0,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Admin',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: Dimensions.dimensionNo12,
+                          fontFamily: GoogleFonts.roboto().fontFamily,
+                          fontWeight: FontWeight.w400,
+                          height: 0,
+                        ),
+                      ),
+                    const   SizedBox(width: 5),
+                      Text(
+                        "version ${GlobalVariable.webVersion}",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: Dimensions.dimensionNo10,
+                          fontFamily: GoogleFonts.roboto().fontFamily,
+                          fontWeight: FontWeight.w400,
+                          height: 0,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
