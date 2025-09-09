@@ -30,10 +30,7 @@ class PriceRow extends StatelessWidget {
                                   text: serviceModel.discountInPer.toString(),
                                   style: TextStyle(
                                     color: AppColor.buttonColor,
-                                    fontSize: ResponsiveLayout.isMobile(context)
-                                        ? Dimensions
-                                            .dimensionNo14 // Smaller font for mobile
-                                        : Dimensions.dimensionNo16,
+                                    fontSize: Dimensions.dimensionNo14,
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
@@ -41,10 +38,10 @@ class PriceRow extends StatelessWidget {
                                   text: "%",
                                   style: TextStyle(
                                     color: AppColor.buttonColor,
-                                    fontSize: ResponsiveLayout.isMobile(context)
-                                        ? Dimensions
+                                    fontSize: 
+                                      Dimensions
                                             .dimensionNo14 // Smaller font for mobile
-                                        : Dimensions.dimensionNo16,
+                                       ,
                                     fontFamily: GoogleFonts.roboto().fontFamily,
                                     fontWeight: FontWeight.bold,
                                   ),
@@ -62,10 +59,10 @@ class PriceRow extends StatelessWidget {
                                   text: '₹ ',
                                   style: TextStyle(
                                     color: Colors.grey,
-                                    fontSize: ResponsiveLayout.isMobile(context)
-                                        ? Dimensions
+                                    fontSize: 
+                                      Dimensions
                                             .dimensionNo14 // Smaller font for mobile
-                                        : Dimensions.dimensionNo16,
+                                       ,
                                     decoration: TextDecoration.lineThrough,
                                   ),
                                 ),
@@ -73,10 +70,10 @@ class PriceRow extends StatelessWidget {
                                   text: serviceModel.originalPrice.toString(),
                                   style: TextStyle(
                                     color: Colors.grey,
-                                    fontSize: ResponsiveLayout.isMobile(context)
-                                        ? Dimensions
+                                    fontSize: 
+                                      Dimensions
                                             .dimensionNo14 // Smaller font for mobile
-                                        : Dimensions.dimensionNo16,
+                                       ,
                                     fontFamily: GoogleFonts.roboto().fontFamily,
                                     fontWeight: FontWeight.w500,
                                     decoration: TextDecoration.lineThrough,
@@ -96,20 +93,20 @@ class PriceRow extends StatelessWidget {
                               text: '₹',
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: ResponsiveLayout.isMobile(context)
-                                    ? Dimensions
+                                fontSize: 
+                                  Dimensions
                                         .dimensionNo14 // Smaller font for mobile
-                                    : Dimensions.dimensionNo16,
+                                   ,
                               ),
                             ),
                             TextSpan(
                               text: serviceModel.price.toString(),
                               style: TextStyle(
                                 color: Colors.black,
-                                fontSize: ResponsiveLayout.isMobile(context)
-                                    ? Dimensions
+                                fontSize: 
+                                  Dimensions
                                         .dimensionNo14 // Smaller font for mobile
-                                    : Dimensions.dimensionNo16,
+                                   ,
                                 fontFamily: GoogleFonts.roboto().fontFamily,
                                 fontWeight: FontWeight.w500,
                               ),
@@ -129,10 +126,10 @@ class PriceRow extends StatelessWidget {
                           text: serviceModel.discountInPer.toString(),
                           style: TextStyle(
                             color: AppColor.buttonColor,
-                            fontSize: ResponsiveLayout.isMobile(context)
-                                ? Dimensions
+                            fontSize: 
+                              Dimensions
                                     .dimensionNo14 // Smaller font for mobile
-                                : Dimensions.dimensionNo16,
+                               ,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -140,10 +137,10 @@ class PriceRow extends StatelessWidget {
                           text: "%",
                           style: TextStyle(
                             color: AppColor.buttonColor,
-                            fontSize: ResponsiveLayout.isMobile(context)
-                                ? Dimensions
+                            fontSize: 
+                              Dimensions
                                     .dimensionNo14 // Smaller font for mobile
-                                : Dimensions.dimensionNo16,
+                               ,
                             fontFamily: GoogleFonts.roboto().fontFamily,
                             fontWeight: FontWeight.bold,
                           ),
@@ -161,10 +158,10 @@ class PriceRow extends StatelessWidget {
                           text: '₹ ',
                           style: TextStyle(
                             color: Colors.grey,
-                            fontSize: ResponsiveLayout.isMobile(context)
-                                ? Dimensions
+                            fontSize: 
+                              Dimensions
                                     .dimensionNo14 // Smaller font for mobile
-                                : Dimensions.dimensionNo16,
+                               ,
                             decoration: TextDecoration.lineThrough,
                           ),
                         ),
@@ -172,10 +169,10 @@ class PriceRow extends StatelessWidget {
                           text: serviceModel.originalPrice.toString(),
                           style: TextStyle(
                             color: Colors.grey,
-                            fontSize: ResponsiveLayout.isMobile(context)
-                                ? Dimensions
+                            fontSize: 
+                              Dimensions
                                     .dimensionNo14 // Smaller font for mobile
-                                : Dimensions.dimensionNo16,
+                               ,
                             fontFamily: GoogleFonts.roboto().fontFamily,
                             fontWeight: FontWeight.w500,
                             decoration: TextDecoration.lineThrough,
@@ -193,20 +190,20 @@ class PriceRow extends StatelessWidget {
                           text: '₹',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: ResponsiveLayout.isMobile(context)
-                                ? Dimensions
+                            fontSize: 
+                              Dimensions
                                     .dimensionNo14 // Smaller font for mobile
-                                : Dimensions.dimensionNo16,
+                               ,
                           ),
                         ),
                         TextSpan(
                           text: serviceModel.price.toString(),
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: ResponsiveLayout.isMobile(context)
-                                ? Dimensions
+                            fontSize: 
+                              Dimensions
                                     .dimensionNo14 // Smaller font for mobile
-                                : Dimensions.dimensionNo16,
+                               ,
                             fontFamily: GoogleFonts.roboto().fontFamily,
                             fontWeight: FontWeight.w500,
                           ),
@@ -223,20 +220,20 @@ class PriceRow extends StatelessWidget {
                       text: '₹',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: ResponsiveLayout.isMobile(context)
-                            ? Dimensions
+                        fontSize: 
+                          Dimensions
                                 .dimensionNo14 // Smaller font for mobile
-                            : Dimensions.dimensionNo16,
+                           ,
                       ),
                     ),
                     TextSpan(
                       text: serviceModel.price.toString(),
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: ResponsiveLayout.isMobile(context)
-                            ? Dimensions
+                        fontSize: 
+                          Dimensions
                                 .dimensionNo14 // Smaller font for mobile
-                            : Dimensions.dimensionNo16,
+                           ,
                         fontFamily: GoogleFonts.roboto().fontFamily,
                         fontWeight: FontWeight.w500,
                       ),

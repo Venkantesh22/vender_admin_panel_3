@@ -7,6 +7,7 @@ import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/utility/color.dart';
 import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/custom_button.dart';
+import 'package:samay_admin_plan/widget/pricerow.dart';
 
 Widget serviceTapAddRemoveButton(
   final ServiceModel serviceModel,
@@ -40,7 +41,7 @@ Widget serviceTapAddRemoveButton(
                   color: AppColor.serviceTapTextColor,
                   fontSize: isMobile
                       ? Dimensions.dimensionNo14
-                      : Dimensions.dimensionNo16,
+                      : Dimensions.dimensionNo14,
                   fontFamily: GoogleFonts.lato().fontFamily,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1,
@@ -92,6 +93,8 @@ Widget serviceTapAddRemoveButton(
                   ),
                 ],
               ),
+              SizedBox(height: 4),
+              PriceRow(serviceModel: serviceModel),
             ],
           ),
         ),
