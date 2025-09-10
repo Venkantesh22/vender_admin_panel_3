@@ -187,7 +187,8 @@ class AppProvider with ChangeNotifier {
       String? uploadImageUrl = await FirebaseStorageHelper.instance
           .updateAdminImage(image, adminModel.image, _adminModel!);
 
-      _adminModel!.image = uploadImageUrl!;
+      _adminModel = _adminModel?.copyWith(image: uploadImageUrl);
+      // _adminModel!.image = uploadImageUrl!;
       await FirebaseFirestore.instance
           .collection("admins")
           .doc(_adminModel!.id)
@@ -209,13 +210,12 @@ class AppProvider with ChangeNotifier {
     if (serviceIds != null && serviceIds.isNotEmpty) {
       serviceListFetchID = await FirebaseFirestoreHelper.instance
           .fetchServicesByListIds(serviceIds: serviceIds);
-    print("serviceListFetchID length ${serviceListFetchID.length}");
-
-    }else{ 
+      print("serviceListFetchID length ${serviceListFetchID.length}");
+    } else {
       serviceListFetchID = [];
     }
-        print("serviceListFetchID length ${serviceListFetchID.length}");
-notifyListeners();
+    print("serviceListFetchID length ${serviceListFetchID.length}");
+    notifyListeners();
   }
 
   // Fetch appoint Product List by Product id list
@@ -247,22 +247,24 @@ notifyListeners();
     notifyListeners();
   }
 
-void updateServiceTOserviceListFetchID({
-  required List<ServiceModel> serviceList,
-}){
-  serviceListFetchID = serviceList;
-  print("update updateServiceTOserviceListFetchID ${serviceListFetchID.length}");
-  notifyListeners();
-}
+  void updateServiceTOserviceListFetchID({
+    required List<ServiceModel> serviceList,
+  }) {
+    serviceListFetchID = serviceList;
+    print(
+        "update updateServiceTOserviceListFetchID ${serviceListFetchID.length}");
+    notifyListeners();
+  }
 
-void updateProductToProductListWithQty({
-  required Map<ProductModel, int> productMap,
-}){
-  productListWithQty = productMap;
-    print("update updateProductToProductListWithQty ${productListWithQty.length}");
+  void updateProductToProductListWithQty({
+    required Map<ProductModel, int> productMap,
+  }) {
+    productListWithQty = productMap;
+    print(
+        "update updateProductToProductListWithQty ${productListWithQty.length}");
 
-  notifyListeners();
-}
+    notifyListeners();
+  }
 
   //? Fetch single appoint
 }

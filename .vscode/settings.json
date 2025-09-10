@@ -3,8 +3,10 @@
         "bookinglist",
         "GSTAMT",
         "infor",
+        "isupdate",
         "ontap",
         "samay",
-        "Vaildater"
+        "Vaildater",
+        "Vaildation"
     ]
 }

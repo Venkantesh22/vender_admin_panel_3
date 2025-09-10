@@ -12,7 +12,7 @@ class GlobalVariable {
   static DateTime today = DateTime.now();
 
   //! Version
-  static String webVersion = "1.0.0.2";
+  static String webVersion = "1.0.0.3";
 
 // variable for increment appointment no.
   static String samayCollectionId = '';

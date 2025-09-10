@@ -1,4 +1,6 @@
 // Placeholder for the "Admin" page
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:typed_data';
 
 import 'package:file_picker/file_picker.dart';
@@ -238,10 +240,19 @@ class _AdminPageState extends State<AdminPage> {
                         text: "Update",
                         ontap: () async {
                           try {
+                            if (_isImageChange == true &&
+                                appProvider.getAdminInformation.image == null &&
+                                appProvider.getAdminInformation.image == "" &&
+                                appProvider.getAdminInformation.image.isEmpty) {
+                              showBottomMessage(
+                                  "Please select profile image", context);
+                                  return;
+                            }
+
                             bool isVaildated = adminUpdateVaildation(
                               _nameController.text,
                               _mobileController.text,
-                              selectedImage!,
+                              // selectedImage,
                             );
 
                             if (isVaildated) {
@@ -251,6 +262,7 @@ class _AdminPageState extends State<AdminPage> {
                                 number:
                                     int.parse(_mobileController.text.trim()),
                               );
+                              print("admin model $adminModelUpdate");
 
                               _isImageChange
                                   ? _isupdate =
@@ -263,7 +275,6 @@ class _AdminPageState extends State<AdminPage> {
                                           image: selectedImage);
 
                               showMessage("Admin Update Successfully add");
-                              // print("Salon ID ${GlobalVariable.salonID}");
 
                               if (_isupdate) {
                                 Routes.instance.push(

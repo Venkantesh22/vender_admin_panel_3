@@ -378,7 +378,8 @@ bool signUpVaildation(
 }
 
 // SignUp Text Field Validation.
-bool adminUpdateVaildation(String name, String phone, Uint8List image) {
+bool adminUpdateVaildation(String name, String phone, 
+) {
   if (name.isEmpty && phone.isEmpty) {
     showMessage("All Fields are empty");
     return false;
@@ -388,9 +389,9 @@ bool adminUpdateVaildation(String name, String phone, Uint8List image) {
   } else if (phone.isEmpty) {
     showMessage("Phone is Empty");
     return false;
-  } else if (image.isEmpty) {
-    showMessage("Images is not select");
-    return false;
+  // } else if (image!.isEmpty) {
+  //   showMessage("Images is not select");
+  //   return false;
   } else if (phone.length != 10) {
     showMessage("Enter 10 digit mobile number.");
     return false;
