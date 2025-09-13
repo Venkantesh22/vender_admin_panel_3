@@ -19,7 +19,6 @@ import 'package:samay_admin_plan/features/product/widget/filter_bar_widget.dart'
 import 'package:samay_admin_plan/features/product/widget/mobile_botton_filter_bar.dart';
 import 'package:samay_admin_plan/models/Product/Product_Model/product_model.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
-import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/provider/product_provider.dart';
 import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/add_button.dart';
@@ -39,8 +38,6 @@ class _ProductScreenState extends State<ProductScreen> {
   bool _isSortAsc = true;
   bool _showFilterBar = false;
 
-  List<ProductModel> _productList = [];
-
   void getData() async {
     try {
       setState(() {
@@ -55,8 +52,8 @@ class _ProductScreenState extends State<ProductScreen> {
             .getListProductPro(appProvider.getSalonInformation.id);
       }
       productProvider.applySearch('');
-      // _productList = productProvider.getProductList;
-      print("Length of Product List: ${_productList.length}");
+      print(
+          "Length of Product List: ${productProvider.getProductFilterSearchList.length}");
     } catch (e) {
       print("Error fetching data: $e");
     } finally {
@@ -76,8 +73,6 @@ class _ProductScreenState extends State<ProductScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ProductProvider productProvider =
-        Provider.of<ProductProvider>(context, listen: false);
     return Scaffold(
       appBar: CustomAppBar(scaffoldKey: _scaffoldKey),
       drawer: const MobileDrawer(),
@@ -108,24 +103,23 @@ class _ProductScreenState extends State<ProductScreen> {
                       : const SizedBox(),
                   Expanded(
                     child: Consumer<ProductProvider>(
-                      builder: (context,productProvider, child) {
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            headingAndButton(context, productProvider),
-                            searchBar(productProvider),
-                            ResponsiveLayout.isMobile(context)
-                                ? rowFilterBarMobile(context, productProvider)
-                                : const SizedBox(),
-                            _isLoading || productProvider.getIsLoading
-                                ? const Center(
-                                    child: CircularProgressIndicator(),
-                                  )
-                                : tableOfProductList(),
-                          ],
-                        );
-                      }
-                    ),
+                        builder: (context, productProvider, child) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          headingAndButton(context, productProvider),
+                          searchBar(productProvider),
+                          ResponsiveLayout.isMobile(context)
+                              ? rowFilterBarMobile(context, productProvider)
+                              : const SizedBox(),
+                          _isLoading
+                              ? const Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : tableOfProductList(),
+                        ],
+                      );
+                    }),
                   ),
                 ],
               )
@@ -138,13 +132,6 @@ class _ProductScreenState extends State<ProductScreen> {
 
   Widget rowFilterBarMobile(
       BuildContext context, ProductProvider productProvider) {
-    final bool isDefaultState =
-        productProvider.getSelectCategoryListFilter.isEmpty &&
-            productProvider.getSelectBrandModelList.isEmpty &&
-            productProvider.getIsVisibleProduct ==
-                true && // assuming default is visible
-            (productProvider.getStockStatusFilter == null ||
-                productProvider.getStockStatusFilter!.isEmpty);
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: EdgeInsets.only(bottom: Dimensions.dimensionNo12),
@@ -372,90 +359,14 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  // Widget tableOfProductList(ProductProvider productProvider) {
-  //   return Consumer<ProductProvider>(
-  //     builder: (context, productProvider, child) {
-  //       return LayoutBuilder(
-  //         builder: (context, constraints) {
-  //           _productList =
-  //               productProvider.getProductFilterSearchList; // use filtered list
-
-  //           if (_productList.isEmpty) {
-  //             return const Center(child: Text("No products found"));
-  //           }
-  //           if (productProvider.getFilterApplyLoading) {
-  //             return const Center(child: CircularProgressIndicator());
-  //           }
-
-  //           // constraints.maxWidth is the available width
-  //           return SingleChildScrollView(
-  //             scrollDirection: Axis.horizontal,
-  //             child: ConstrainedBox(
-  //               // Make its child at least as wide as the viewport
-  //               constraints: BoxConstraints(minWidth: constraints.maxWidth),
-  //               child: Padding(
-  //                 padding: ResponsiveLayout.isMobile(context)
-  //                     ? EdgeInsets.only(
-  //                         right: Dimensions.dimensionNo8,
-  //                         // top: Dimensions.dimensionNo12,
-  //                       )
-  //                     : EdgeInsets.only(
-  //                         top: Dimensions.dimensionNo16,
-  //                         bottom: Dimensions.dimensionNo16,
-  //                         left: Dimensions.dimensionNo16,
-  //                       ),
-  //                 child: Consumer<ProductProvider>(
-  //                   builder: (context, productProvider, childe) {
-  //                     return DataTable(
-  //                       headingRowColor:
-  //                           WidgetStateProperty.all(const Color(0xFFEAEDF2)),
-  //                       dataRowColor: WidgetStateProperty.all(Colors.white),
-  //                       border: TableBorder.all(
-  //                         color: Colors.black,
-  //                         width: 1,
-  //                         borderRadius:
-  //                             BorderRadius.circular(Dimensions.dimensionNo12),
-  //                       ),
-  //                       columns: tableOfProductListColumns(),
-  //                       rows: tableOfProductListCells(productProvider),
-  //                       headingTextStyle: TextStyle(
-  //                         color: const Color(0xFF0F1416),
-  //                         fontSize: Dimensions.dimensionNo14,
-  //                         fontFamily: GoogleFonts.inter().fontFamily,
-  //                         fontWeight: FontWeight.w700,
-  //                         height: 1.5,
-  //                       ),
-  //                       dataTextStyle: TextStyle(
-  //                         color: const Color(0xFF0F1416),
-  //                         fontSize: Dimensions.dimensionNo14,
-  //                         fontFamily: GoogleFonts.inter().fontFamily,
-  //                         fontWeight: FontWeight.w500,
-  //                         height: 1.5,
-  //                       ),
-  //                       columnSpacing: 24,
-  //                       horizontalMargin: 12,
-  //                       dividerThickness: 0.5,
-  //                     );
-  //                   }
-  //                 ),
-  //               ),
-  //             ),
-  //           );
-  //         },
-  //       );
-  //     },
-  //   );
-  // }
   Widget tableOfProductList() {
     return Consumer<ProductProvider>(
       builder: (context, productProvider, child) {
-        final productList = productProvider.getProductFilterSearchList;
-
         if (productProvider.getFilterApplyLoading) {
           return const Center(child: CircularProgressIndicator());
         }
 
-        if (productList.isEmpty) {
+        if (productProvider.getProductFilterSearchList.isEmpty) {
           return const Center(child: Text("No products found"));
         }
 
@@ -485,8 +396,8 @@ class _ProductScreenState extends State<ProductScreen> {
                       borderRadius:
                           BorderRadius.circular(Dimensions.dimensionNo12),
                     ),
-                    columns: tableOfProductListColumns(),
-                    rows: tableOfProductListCells(productProvider, productList),
+                    columns: tableOfProductListColumns(productProvider),
+                    rows: tableOfProductListCells(productProvider),
                     headingTextStyle: TextStyle(
                       color: const Color(0xFF0F1416),
                       fontSize: Dimensions.dimensionNo14,
@@ -514,21 +425,21 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  List<DataColumn> tableOfProductListColumns() {
+  List<DataColumn> tableOfProductListColumns(ProductProvider productProvider) {
     return [
       DataColumn(
         label: productListHeadingText("No."),
-
-        // numeric: true,
       ),
       DataColumn(
           label: productListHeadingText('Product'),
           onSort: (columnIndex, _) {
             setState(() {
               if (_isSortAsc) {
-                _productList.sort((a, b) => a.name.compareTo(b.name));
+                productProvider.getProductFilterSearchList
+                    .sort((a, b) => a.name.compareTo(b.name));
               } else {
-                _productList.sort((a, b) => b.name.compareTo(a.name));
+                productProvider.getProductFilterSearchList
+                    .sort((a, b) => b.name.compareTo(a.name));
               }
 
               _isSortAsc = !_isSortAsc;
@@ -539,45 +450,41 @@ class _ProductScreenState extends State<ProductScreen> {
           onSort: (columnIndex, _) {
             setState(() {
               if (_isSortAsc) {
-                _productList
+                productProvider.getProductFilterSearchList
                     .sort((a, b) => a.discountPrice.compareTo(b.discountPrice));
               } else {
-                _productList
+                productProvider.getProductFilterSearchList
                     .sort((a, b) => b.discountPrice.compareTo(a.discountPrice));
               }
 
               _isSortAsc = !_isSortAsc;
             });
-          }
-          // numeric: true,
-          ),
+          }),
       DataColumn(
           label: productListHeadingText('Stock'),
           onSort: (columnIndex, _) {
             setState(() {
               if (_isSortAsc) {
-                _productList
+                productProvider.getProductFilterSearchList
                     .sort((a, b) => a.stockQuantity.compareTo(b.stockQuantity));
               } else {
-                _productList
+                productProvider.getProductFilterSearchList
                     .sort((a, b) => b.stockQuantity.compareTo(a.stockQuantity));
               }
 
               _isSortAsc = !_isSortAsc;
             });
-          }
-          // numeric: true,
-          ),
+          }),
       DataColumn(
           label: productListHeadingText('Visibility'),
           headingRowAlignment: MainAxisAlignment.center,
           onSort: (columnIndex, _) {
             setState(() {
               if (_isSortAsc) {
-                _productList.sort((a, b) =>
+                productProvider.getProductFilterSearchList.sort((a, b) =>
                     (a.visibility ? 1 : 0).compareTo(b.visibility ? 1 : 0));
               } else {
-                _productList.sort((a, b) =>
+                productProvider.getProductFilterSearchList.sort((a, b) =>
                     (b.visibility ? 1 : 0).compareTo(a.visibility ? 1 : 0));
               }
 
@@ -591,12 +498,13 @@ class _ProductScreenState extends State<ProductScreen> {
     ];
   }
 
-  List<DataRow> tableOfProductListCells(
-      ProductProvider productProvider, List<ProductModel> _productList) {
-    return _productList.asMap().entries.map((entry) {
+  List<DataRow> tableOfProductListCells(ProductProvider productProvider) {
+    return productProvider.getProductFilterSearchList
+        .asMap()
+        .entries
+        .map((entry) {
       int index = entry.key;
       ProductModel product = entry.value;
-      // bool product.visibility = product.visibility;
       return DataRow(
         cells: [
           //1. Sr.no Cell Row
@@ -725,9 +633,6 @@ class _ProductScreenState extends State<ProductScreen> {
                       : showBottomMessage(
                           "Product ${updateProduct.name} hidden  successfully",
                           context);
-                  // setState(() {
-                  //   product.visibility = !product.visibility;
-                  // });
                 } catch (e) {
                   print("Error: In Product screen on Visibility Button: $e ");
                   showBottomMessageError(
@@ -736,7 +641,6 @@ class _ProductScreenState extends State<ProductScreen> {
                 }
               },
               child: Container(
-                // margin: EdgeInsets.all(6),
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
                   color: const Color(0xFFEAEDF2),
