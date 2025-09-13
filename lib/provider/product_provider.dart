@@ -18,6 +18,9 @@ import 'package:samay_admin_plan/models/Product/product_sub_category_model/produ
 class ProductProvider with ChangeNotifier {
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
+  bool _isLoading = false;
+  bool get getIsLoading => _isLoading;
+
 //! --------- BRAND FUNCTION ---------------
 
   List<BrandModel> _brandList = [];
@@ -221,43 +224,90 @@ class ProductProvider with ChangeNotifier {
   Future<void> updateProductPro(
       ProductModel productModel, Uint8List? updateImage) async {
     try {
-      final _samayId =
-          GlobalVariable.samayCollectionId; // Use the correct variable
-      if (updateImage != null) {
+      _isLoading = true;
+      notifyListeners();
+      final _samayId = GlobalVariable.samayCollectionId;
+
+      ProductModel updatedModel = productModel;
+
+      // If image is updated
+      if (updateImage != null && updateImage.isNotEmpty) {
         String? updateImgUrl = await ProductStorageFb.instance
             .updateProductImage(updateImage, productModel.imgUrl, productModel);
 
-        ProductModel updateProductModel = productModel.copyWith(
-          imgUrl: updateImgUrl,
-        );
-
-        await _firebaseFirestore
-            .collection('SalonProduct')
-            .doc(productModel.id)
-            .update(updateProductModel.toJson());
-        // Update the brand in _brandList
-        int index =
-            _productList.indexWhere((e) => e.id == updateProductModel.id);
-        if (index != -1) {
-          _productList[index] = updateProductModel;
-        }
+        updatedModel = productModel.copyWith(imgUrl: updateImgUrl);
       } else {
-        await _firebaseFirestore
-            .collection('SalonProduct')
-            .doc(productModel.id)
-            .update(productModel.toJson());
-        // Update the brand in _brandList
-        int index = _productList.indexWhere((e) => e.id == productModel.id);
-        if (index != -1) {
-          _productList[index] = productModel;
-        }
+        // Create a fresh copy even if the image is not updated
+        updatedModel = productModel;
       }
+
+      // Update Firestore
+      await _firebaseFirestore
+          .collection('SalonProduct')
+          .doc(productModel.id)
+          .update(updatedModel.toJson());
+
+      // Update local list
+      // int index = _productList.indexWhere((e) => e.id == updatedModel.id);
+      // if (index != -1) {
+      //   _productList[index] = updatedModel; // Replace with a NEW instance
+      //   print("model update in list ${updatedModel.visibility}");
+      // }
+
+      _productList.removeWhere((product) => product.id == updatedModel.id);
+      _productList.add(updatedModel);
+      _productList
+          .sort((a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()));
+
+      _isLoading = false;
+      
 
       notifyListeners();
     } catch (e) {
-      print("Error updateProductPro() $e ");
+      print("Error updateProductPro() $e");
     }
   }
+
+  // Future<void> updateProductPro(
+  //     ProductModel productModel, Uint8List? updateImage) async {
+  //   try {
+  //     final _samayId =
+  //         GlobalVariable.samayCollectionId; // Use the correct variable
+  //     if (updateImage != null && updateImage.isNotEmpty ) {
+  //       String? updateImgUrl = await ProductStorageFb.instance
+  //           .updateProductImage(updateImage, productModel.imgUrl, productModel);
+
+  //       ProductModel updateProductModel = productModel.copyWith(
+  //         imgUrl: updateImgUrl,
+  //       );
+
+  //       await _firebaseFirestore
+  //           .collection('SalonProduct')
+  //           .doc(productModel.id)
+  //           .update(updateProductModel.toJson());
+  //       // Update the brand in _brandList
+  //       int index =
+  //           _productList.indexWhere((e) => e.id == updateProductModel.id);
+  //       if (index != -1) {
+  //         _productList[index] = updateProductModel;
+  //       }
+  //     } else {
+  //       await _firebaseFirestore
+  //           .collection('SalonProduct')
+  //           .doc(productModel.id)
+  //           .update(productModel.toJson());
+  //       // Update the brand in _brandList
+  //       int index = _productList.indexWhere((e) => e.id == productModel.id);
+  //       if (index != -1) {
+  //         _productList[index] = productModel;
+  //       }
+  //     }
+
+  //     notifyListeners();
+  //   } catch (e) {
+  //     print("Error updateProductPro() $e ");
+  //   }
+  // }
 
   // delete product by id
   Future<void> deleteProductByIdPro(ProductModel productModel) async {
@@ -598,6 +648,14 @@ class ProductProvider with ChangeNotifier {
     filterApplyLoading = value;
     print("filterApplyLoading :- $filterApplyLoading");
     notifyListeners();
+  }
+
+  void refreshProduct(ProductModel updatedProduct) {
+    final index = _productList.indexWhere((p) => p.id == updatedProduct.id);
+    if (index != -1) {
+      _productList[index] = updatedProduct;
+      notifyListeners();
+    }
   }
 
   //!--------------- SEARCH PRODUCT FUNCTION ---------------

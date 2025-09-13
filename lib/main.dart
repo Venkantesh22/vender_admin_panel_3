@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:samay_admin_plan/constants/mycustomscroller.dart';
 import 'package:samay_admin_plan/constants/theame.dart';
 import 'package:samay_admin_plan/features/home/screen/loading_home_page/loading_home_page.dart';
 import 'package:samay_admin_plan/features/services_page/screen/services_list.dart';
@@ -52,6 +53,8 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Salon Samay',
           theme: themeData,
+                    scrollBehavior: MyCustomScroller(),
+
           home: StreamBuilder(
             stream: FirebaseAuthHelper.instance.getAuthChange,
             builder: (context, snapshot) {
@@ -82,6 +85,7 @@ class MyApp extends StatelessWidget {
             return MaterialPageRoute(
               builder: (context) => const Scaffold(
                 body: Center(child: Text('Page not found')),
+              
               ),
             );
           },

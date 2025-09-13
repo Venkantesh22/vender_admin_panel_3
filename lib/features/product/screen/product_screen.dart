@@ -19,6 +19,7 @@ import 'package:samay_admin_plan/features/product/widget/filter_bar_widget.dart'
 import 'package:samay_admin_plan/features/product/widget/mobile_botton_filter_bar.dart';
 import 'package:samay_admin_plan/models/Product/Product_Model/product_model.dart';
 import 'package:samay_admin_plan/provider/app_provider.dart';
+import 'package:samay_admin_plan/provider/booking_provider.dart';
 import 'package:samay_admin_plan/provider/product_provider.dart';
 import 'package:samay_admin_plan/utility/dimension.dart';
 import 'package:samay_admin_plan/widget/add_button.dart';
@@ -45,11 +46,14 @@ class _ProductScreenState extends State<ProductScreen> {
       setState(() {
         _isLoading = true;
       });
-      AppProvider appProvider = Provider.of<AppProvider>(context, listen: false);
+      AppProvider appProvider =
+          Provider.of<AppProvider>(context, listen: false);
       ProductProvider productProvider =
           Provider.of<ProductProvider>(context, listen: false);
       if (productProvider.getProductList.isEmpty) {
-        await productProvider.getListProductPro(appProvider.getSalonInformation.id);      }
+        await productProvider
+            .getListProductPro(appProvider.getSalonInformation.id);
+      }
       productProvider.applySearch('');
       // _productList = productProvider.getProductList;
       print("Length of Product List: ${_productList.length}");
@@ -103,20 +107,24 @@ class _ProductScreenState extends State<ProductScreen> {
                         })
                       : const SizedBox(),
                   Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        headingAndButton(context, productProvider),
-                        searchBar(productProvider),
-                        ResponsiveLayout.isMobile(context)
-                            ? rowFilterBarMobile(context, productProvider)
-                            : const SizedBox(),
-                        _isLoading
-                            ? const Center(
-                                child: CircularProgressIndicator(),
-                              )
-                            : tableOfProductList(productProvider),
-                      ],
+                    child: Consumer<ProductProvider>(
+                      builder: (context,productProvider, child) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            headingAndButton(context, productProvider),
+                            searchBar(productProvider),
+                            ResponsiveLayout.isMobile(context)
+                                ? rowFilterBarMobile(context, productProvider)
+                                : const SizedBox(),
+                            _isLoading || productProvider.getIsLoading
+                                ? const Center(
+                                    child: CircularProgressIndicator(),
+                                  )
+                                : tableOfProductList(),
+                          ],
+                        );
+                      }
                     ),
                   ),
                 ],
@@ -364,32 +372,103 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  Widget tableOfProductList(ProductProvider productProvider) {
+  // Widget tableOfProductList(ProductProvider productProvider) {
+  //   return Consumer<ProductProvider>(
+  //     builder: (context, productProvider, child) {
+  //       return LayoutBuilder(
+  //         builder: (context, constraints) {
+  //           _productList =
+  //               productProvider.getProductFilterSearchList; // use filtered list
+
+  //           if (_productList.isEmpty) {
+  //             return const Center(child: Text("No products found"));
+  //           }
+  //           if (productProvider.getFilterApplyLoading) {
+  //             return const Center(child: CircularProgressIndicator());
+  //           }
+
+  //           // constraints.maxWidth is the available width
+  //           return SingleChildScrollView(
+  //             scrollDirection: Axis.horizontal,
+  //             child: ConstrainedBox(
+  //               // Make its child at least as wide as the viewport
+  //               constraints: BoxConstraints(minWidth: constraints.maxWidth),
+  //               child: Padding(
+  //                 padding: ResponsiveLayout.isMobile(context)
+  //                     ? EdgeInsets.only(
+  //                         right: Dimensions.dimensionNo8,
+  //                         // top: Dimensions.dimensionNo12,
+  //                       )
+  //                     : EdgeInsets.only(
+  //                         top: Dimensions.dimensionNo16,
+  //                         bottom: Dimensions.dimensionNo16,
+  //                         left: Dimensions.dimensionNo16,
+  //                       ),
+  //                 child: Consumer<ProductProvider>(
+  //                   builder: (context, productProvider, childe) {
+  //                     return DataTable(
+  //                       headingRowColor:
+  //                           WidgetStateProperty.all(const Color(0xFFEAEDF2)),
+  //                       dataRowColor: WidgetStateProperty.all(Colors.white),
+  //                       border: TableBorder.all(
+  //                         color: Colors.black,
+  //                         width: 1,
+  //                         borderRadius:
+  //                             BorderRadius.circular(Dimensions.dimensionNo12),
+  //                       ),
+  //                       columns: tableOfProductListColumns(),
+  //                       rows: tableOfProductListCells(productProvider),
+  //                       headingTextStyle: TextStyle(
+  //                         color: const Color(0xFF0F1416),
+  //                         fontSize: Dimensions.dimensionNo14,
+  //                         fontFamily: GoogleFonts.inter().fontFamily,
+  //                         fontWeight: FontWeight.w700,
+  //                         height: 1.5,
+  //                       ),
+  //                       dataTextStyle: TextStyle(
+  //                         color: const Color(0xFF0F1416),
+  //                         fontSize: Dimensions.dimensionNo14,
+  //                         fontFamily: GoogleFonts.inter().fontFamily,
+  //                         fontWeight: FontWeight.w500,
+  //                         height: 1.5,
+  //                       ),
+  //                       columnSpacing: 24,
+  //                       horizontalMargin: 12,
+  //                       dividerThickness: 0.5,
+  //                     );
+  //                   }
+  //                 ),
+  //               ),
+  //             ),
+  //           );
+  //         },
+  //       );
+  //     },
+  //   );
+  // }
+  Widget tableOfProductList() {
     return Consumer<ProductProvider>(
       builder: (context, productProvider, child) {
+        final productList = productProvider.getProductFilterSearchList;
+
+        if (productProvider.getFilterApplyLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (productList.isEmpty) {
+          return const Center(child: Text("No products found"));
+        }
+
         return LayoutBuilder(
           builder: (context, constraints) {
-            _productList =
-                productProvider.getProductFilterSearchList; // use filtered list
-
-            if (_productList.isEmpty) {
-              return const Center(child: Text("No products found"));
-            }
-            if (productProvider.getFilterApplyLoading) {
-              return const Center(child: CircularProgressIndicator());
-            }
-
-            // constraints.maxWidth is the available width
             return SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: ConstrainedBox(
-                // Make its child at least as wide as the viewport
                 constraints: BoxConstraints(minWidth: constraints.maxWidth),
                 child: Padding(
                   padding: ResponsiveLayout.isMobile(context)
                       ? EdgeInsets.only(
                           right: Dimensions.dimensionNo8,
-                          // top: Dimensions.dimensionNo12,
                         )
                       : EdgeInsets.only(
                           top: Dimensions.dimensionNo16,
@@ -407,7 +486,7 @@ class _ProductScreenState extends State<ProductScreen> {
                           BorderRadius.circular(Dimensions.dimensionNo12),
                     ),
                     columns: tableOfProductListColumns(),
-                    rows: tableOfProductListCells(productProvider),
+                    rows: tableOfProductListCells(productProvider, productList),
                     headingTextStyle: TextStyle(
                       color: const Color(0xFF0F1416),
                       fontSize: Dimensions.dimensionNo14,
@@ -438,10 +517,10 @@ class _ProductScreenState extends State<ProductScreen> {
   List<DataColumn> tableOfProductListColumns() {
     return [
       DataColumn(
-          label: productListHeadingText("No."),
-        
-          // numeric: true,
-          ),
+        label: productListHeadingText("No."),
+
+        // numeric: true,
+      ),
       DataColumn(
           label: productListHeadingText('Product'),
           onSort: (columnIndex, _) {
@@ -512,11 +591,12 @@ class _ProductScreenState extends State<ProductScreen> {
     ];
   }
 
-  List<DataRow> tableOfProductListCells(ProductProvider productProvider) {
+  List<DataRow> tableOfProductListCells(
+      ProductProvider productProvider, List<ProductModel> _productList) {
     return _productList.asMap().entries.map((entry) {
       int index = entry.key;
       ProductModel product = entry.value;
-      bool isVisibility = product.visibility;
+      // bool product.visibility = product.visibility;
       return DataRow(
         cells: [
           //1. Sr.no Cell Row
@@ -631,8 +711,10 @@ class _ProductScreenState extends State<ProductScreen> {
                 try {
                   showLoaderDialog(context);
                   Uint8List? updateImage;
+
                   ProductModel updateProduct =
                       product.copyWith(visibility: !product.visibility);
+
                   await productProvider.updateProductPro(
                       updateProduct, updateImage);
                   Navigator.pop(context);
@@ -643,6 +725,9 @@ class _ProductScreenState extends State<ProductScreen> {
                       : showBottomMessage(
                           "Product ${updateProduct.name} hidden  successfully",
                           context);
+                  // setState(() {
+                  //   product.visibility = !product.visibility;
+                  // });
                 } catch (e) {
                   print("Error: In Product screen on Visibility Button: $e ");
                   showBottomMessageError(
@@ -657,7 +742,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   color: const Color(0xFFEAEDF2),
                   borderRadius: BorderRadius.circular(Dimensions.dimensionNo16),
                   border: Border.all(
-                    color: isVisibility
+                    color: product.visibility
                         ? const Color(0xFF4CAF50)
                         : const Color(0xFFF44336),
                     width: 1,
@@ -668,19 +753,19 @@ class _ProductScreenState extends State<ProductScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Icon(
-                        isVisibility
+                        product.visibility
                             ? Icons.remove_red_eye_outlined
                             : Icons.visibility_off_outlined,
-                        color: isVisibility
+                        color: product.visibility
                             ? const Color(0xFF4CAF50)
                             : const Color(0xFFF44336)),
                     SizedBox(
                       width: Dimensions.dimensionNo10,
                     ),
                     Text(
-                      isVisibility ? "Visible" : "Hidden",
+                      product.visibility ? "Visible" : "Hidden",
                       style: TextStyle(
-                        color: isVisibility
+                        color: product.visibility
                             ? const Color(0xFF4CAF50)
                             : const Color(0xFFF44336),
                         fontSize: Dimensions.dimensionNo12,
@@ -776,6 +861,3 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 }
-
-
-//  color: const Color(0xFFEAEDF2),
